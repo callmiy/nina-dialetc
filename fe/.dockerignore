@@ -1,0 +1,15 @@
+.git
+*Dockerfile*
+*docker-compose*
+**/node_modules
+**/coverage
+**/build
+**/.vim
+**/.netlify
+**/.vscode
+tags
+**/cy
+**/.prettierrc.js
+**/README.md
+.dockerignore
+**/yarn-error.log

@@ -1,0 +1,26 @@
+{
+  "name": "talat",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Mind your purchases, plan your shopping",
+  "repository": "https",
+  "license": "MIT",
+  "author": "Kanmii",
+  "main": "index.js",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "nps"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "4.7.0",
+    "@typescript-eslint/parser": "4.7.0",
+    "eslint": "7.13.0",
+    "eslint-plugin-svelte3": "^2.7.3",
+    "netlify": "^4.9.0",
+    "nps": "^5.10.0",
+    "nps-utils": "^1.7.0",
+    "prettier": "^2.2.0"
+  }
+}

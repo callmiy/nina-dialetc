@@ -1,0 +1,32 @@
+version: "3.4"
+services:
+  fe:
+    build:
+      context: ./fe
+      args:
+        NODE_ENV: "${NODE_ENV}"
+    # without this, react scripts 3.4.1 will not attach to tty
+    stdin_open: true
+    image: "talat-fe-${NODE_ENV}"
+    entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    # depends_on:
+    #   - "api"
+    env_file: "${DOCKER_ENV_FILE}"
+    ports:
+      - "${WEB_PORT}:${WEB_PORT}"
+    volumes:
+      - "./fe:/home/node/web"
+      - "nu_nm:/home/node/web/node_modules/"
+      - "nu_nm_sv:/home/node/web/packages/svelte/node_modules/"
+      - "nu_co_sv:/home/node/web/packages/svelte/coverage/"
+      - "nu_build_sv:/home/node/web/packages/svelte/build/"
+      - "nu_nm_commons:/home/node/web/packages/commons/node_modules/"
+      - "nu_nm_sa:/home/node/web/packages/sapper/node_modules/"
+
+volumes:
+  nu_nm:
+  nu_nm_sv:
+  nu_nm_commons:
+  nu_nm_sa:
+  nu_co_sv:
+  nu_build_sv:

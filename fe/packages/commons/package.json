@@ -1,0 +1,19 @@
+{
+  "name": "@talat/commons",
+  "version": "0.0.0",
+  "description": "Shared package",
+  "repository": "https://",
+  "license": "MIT",
+  "author": "Kanmii",
+  "main": "index.js",
+  "scripts": {
+    "start": "nps"
+  },
+  "devDependencies": {
+    "node-fetch": "^2.6.1",
+    "nps": "^5.10.0",
+    "prettier": "^2.1.2",
+    "shelljs": "^0.8.4",
+    "typescript": "^4.0.5"
+  }
+}
