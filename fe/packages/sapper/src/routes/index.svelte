@@ -1,5 +1,6 @@
 <script>
   import successkid from "images/successkid.jpg";
+  import { stores } from "@sapper/app";
 </script>
 
 <style>

@@ -11,4 +11,4 @@ fi
 # Create react app inotify issue
 echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
 
-yarn start "${FRONT_END_APP_ALIAS}.d"
+yarn start d

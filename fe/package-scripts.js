@@ -2,17 +2,28 @@
 const path = require("path");
 const { includePackage } = require("nps-utils");
 
-const packagesPath = path.resolve(".", "packages");
+const clientApp = process.env.CLIENT_APP;
+const clientAppAlias = process.env.CLIENT_APP_ALIAS || "sa";
+const serverAppAlias = process.env.API_APP_ALIAS;
 
-const deployApp = process.env.FRONT_END_APP;
-const distAbsPath = path.join(packagesPath, `${deployApp}/build`);
+let devAppsCommands = "";
 
-function makePackagePath(packageName) {
-  return path.resolve(packagesPath, packageName, "package-scripts");
+if (serverAppAlias) {
+  devAppsCommands = `"yarn start ${serverAppAlias}.d" `;
 }
+
+devAppsCommands += ` "yarn start ${clientAppAlias}.d" `;
 
 const webUrl = process.env.WEB_URL;
 const isE2E = process.env.IS_E2E === "true";
+
+const packagesPath = path.resolve(".", "packages");
+
+const distAbsPath = path.join(packagesPath, `${clientApp}/build`);
+
+function makePackagePath(packageName) {
+  return path.resolve(packagesPath, packageName, `package-scripts`);
+}
 
 module.exports = {
   scripts: {
@@ -20,23 +31,28 @@ module.exports = {
     cy: includePackage({ path: makePackagePath("cy") }),
     cm: includePackage({ path: makePackagePath("commons") }),
     sa: includePackage({ path: makePackagePath("sapper") }),
+    hp: includePackage({ path: makePackagePath("hapi") }),
+    d: {
+      script: `yarn concurrently ${devAppsCommands}`,
+      description: `start development tasks`,
+    },
     deploy: {
       netlify: `node -e 'require("./package-scripts").netlify()'`,
       l: {
-        script: `yarn start ${deployApp}.build && yarn start ${deployApp}.serve`,
+        script: `yarn start ${clientApp}.build && yarn start ${clientApp}.serve`,
         description: `Test production build locally, manually,
-          serving using 'yarn ${deployApp}.serve'`,
+          serving using 'yarn ${clientApp}.serve'`,
       },
       ler: {
         script: `start-server-and-test \
-          'yarn start ${deployApp}.serve' ${webUrl} \
+          'yarn start ${clientApp}.serve' ${webUrl} \
           'yarn start cy.pr'`,
         description: `local e2e run: start server and test on developer's
         machine: frontend=production`,
       },
       leo: {
         script: `start-server-and-test \
-          'yarn start ${deployApp}.serve' ${webUrl} \
+          'yarn start ${clientApp}.serve' ${webUrl} \
           'yarn start cy.po'`,
         description: `local e2e open: start server and test on developer's
         machine: frontend=production`,
