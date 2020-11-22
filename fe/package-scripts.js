@@ -2,39 +2,53 @@
 const path = require("path");
 const { includePackage } = require("nps-utils");
 
+// Dictionary of appFolder to appAlias
+const appsPathToAliasMap = {
+  commons: "cm",
+  svelte: "sv",
+  sapper: "sa",
+  cy: "cy",
+  hapi: "hp",
+};
+
+// Read environment variables
 const clientApp = process.env.CLIENT_APP;
-const clientAppAlias = process.env.CLIENT_APP_ALIAS || "sa";
-const serverAppAlias = process.env.API_APP_ALIAS;
+const clientAppAlias = appsPathToAliasMap[clientApp];
+const serverApp = process.env.API_APP;
+const webUrl = process.env.WEB_URL;
+const isE2E = process.env.IS_E2E === "true";
 
 let devAppsCommands = "";
 
-if (serverAppAlias) {
-  devAppsCommands = `"yarn start ${serverAppAlias}.d" `;
+if (serverApp) {
+  devAppsCommands = `"yarn start ${appsPathToAliasMap[serverApp]}.d" `;
 }
 
 devAppsCommands += ` "yarn start ${clientAppAlias}.d" `;
-
-const webUrl = process.env.WEB_URL;
-const isE2E = process.env.IS_E2E === "true";
 
 const packagesPath = path.resolve(".", "packages");
 
 const distAbsPath = path.join(packagesPath, `${clientApp}/build`);
 
-function makePackagePath(packageName) {
-  return path.resolve(packagesPath, packageName, `package-scripts`);
-}
+const appScripts = Object.entries(appsPathToAliasMap).reduce(
+  (acc, [name, alias]) => {
+    const packagePath = path.resolve(packagesPath, name, `package-scripts`);
+
+    acc[alias] = includePackage({
+      path: packagePath,
+    });
+
+    return acc;
+  },
+  {}
+);
 
 module.exports = {
   scripts: {
-    sv: includePackage({ path: makePackagePath("svelte") }),
-    cy: includePackage({ path: makePackagePath("cy") }),
-    cm: includePackage({ path: makePackagePath("commons") }),
-    sa: includePackage({ path: makePackagePath("sapper") }),
-    hp: includePackage({ path: makePackagePath("hapi") }),
+    ...appScripts,
     d: {
       script: `yarn concurrently ${devAppsCommands}`,
-      description: `start development tasks`,
+      description: `start development tasks, client, and may be api server`,
     },
     deploy: {
       netlify: `node -e 'require("./package-scripts").netlify()'`,
