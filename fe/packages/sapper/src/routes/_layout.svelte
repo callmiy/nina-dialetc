@@ -4,19 +4,17 @@
   export let segment: string;
 </script>
 
-<style>
-  main {
-    position: relative;
-    max-width: 56em;
-    background-color: white;
-    padding: 2em;
-    margin: 0 auto;
-    box-sizing: border-box;
+<style lang="scss" global>
+  @import "../../../commons/src/styles/globals.scss";
+  @import "../../../commons/src/styles/extensions";
+
+  .main-layout {
+    @extend %main-layout;
   }
 </style>
 
 <Nav {segment} />
 
-<main>
+<div class="main-layout">
   <slot />
-</main>
+</div>

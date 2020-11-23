@@ -1,11 +1,5 @@
 <script>
-  import successkid from "images/successkid.jpg";
-  import { stores } from "@sapper/app";
-  import Item from "@talat/svelte-commons/src/Item/Item.svelte";
+  import ShopItem from "@talat/svelte-commons/src/ShopItem/ShopItem.svelte";
 </script>
 
-<style global>
-  @import "./../styles/globals.scss";
-</style>
-
-<Item name="kanmii" />
+<ShopItem name="kanmii" />

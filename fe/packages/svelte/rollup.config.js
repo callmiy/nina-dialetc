@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import svelte from "rollup-plugin-svelte";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
@@ -46,7 +47,14 @@ export default {
       css: (css) => {
         css.write("bundle.css");
       },
-      preprocess: sveltePreprocess(),
+      preprocess: sveltePreprocess({
+        defaults: {
+          style: "scss",
+        },
+        scss: {
+          renderSync: true,
+        },
+      }),
     }),
 
     // If you have external dependencies installed from
