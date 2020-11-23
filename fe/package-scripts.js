@@ -9,6 +9,7 @@ const appsPathToAliasMap = {
   sapper: "sa",
   cy: "cy",
   hapi: "hp",
+  "svelte-commons": "sc",
 };
 
 // Read environment variables

@@ -4,7 +4,7 @@ const exts = ".ts,.js";
 const babelExts = ` --extensions ${exts} `;
 const babelCompile = ` --only ./src/**,../commons/src/** `;
 const babelRoot = `--root-mode upward`;
-const entry = ` ./src/index.ts `
+const entry = ` ./src/index.ts `;
 
 module.exports = {
   scripts: {

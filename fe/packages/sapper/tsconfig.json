@@ -4,5 +4,5 @@
     "lib": ["DOM", "ES2017", "WebWorker"]
   },
   "exclude": ["node_modules/*", "__sapper__/*", "static/*"],
-  "include": ["src/**/*", "src/node_modules/**/*"]
+  "include": ["src/**/*", "src/node_modules/**/*", "../svelte-commons/src/**/*"]
 }

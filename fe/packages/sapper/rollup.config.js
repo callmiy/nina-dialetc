@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import path from "path";
 import resolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
@@ -34,7 +35,14 @@ export default {
       svelte({
         dev,
         hydratable: true,
-        preprocess: sveltePreprocess(),
+        preprocess: sveltePreprocess({
+          defaults: {
+            style: "scss",
+          },
+          scss: {
+            renderSync: true,
+          },
+        }),
         emitCss: true,
       }),
       url({
@@ -93,7 +101,14 @@ export default {
       svelte({
         generate: "ssr",
         hydratable: true,
-        preprocess: sveltePreprocess(),
+        preprocess: sveltePreprocess({
+          defaults: {
+            style: "scss",
+          },
+          scss: {
+            renderSync: true,
+          },
+        }),
         dev,
       }),
       url({
