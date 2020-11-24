@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const commonScripts = require("../../package-commons-scripts");
 
 const webPort = process.env.WEB_PORT || "";
 
 module.exports = {
   scripts: {
+    ...commonScripts.scripts,
     d: {
       // The HOST=0.0.0.0 environment variable is required to access app
       // running in container. Without this environment variable, sirv will
@@ -22,13 +24,6 @@ module.exports = {
     v: {
       script: `svelte-check`,
       description: `svelte check validate project`,
-    },
-    tc: {
-      default: "tsc --project .",
-    },
-    lint: {
-      script: "eslint . --ext .js,.jsx,.ts,.tsx",
-      description: "eslint lint this project",
     },
     test: {
       default: {

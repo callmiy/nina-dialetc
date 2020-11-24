@@ -2,15 +2,6 @@ module.exports = (api) => {
   const isTest = process.env.NODE_ENV === "test";
   api.cache(!isTest);
 
-  const plugins = [];
-
-  if (isTest) {
-    plugins.push([
-      "@babel/plugin-transform-react-jsx",
-      { runtime: "automatic", importSource: "svelte-jsx" },
-    ]);
-  }
-
   const obj = {
     presets: [
       [
@@ -22,10 +13,11 @@ module.exports = (api) => {
         },
       ],
       "@babel/preset-typescript",
+      [
+        "@babel/preset-react",
+        { runtime: "automatic", importSource: "svelte-jsx" },
+      ],
     ],
-    plugins,
-    // ignore: ["**/*.js"],
-    // exclude: ["**/*.js"],
   };
 
   return obj;

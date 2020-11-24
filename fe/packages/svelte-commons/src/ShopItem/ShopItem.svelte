@@ -1,5 +1,6 @@
 <script lang="ts">
   import ShopBrand from "../ShopBrand/ShopBrand.svelte";
+  import { shopItemBrandNameInputId } from "@talat/commons/src/shop-item-dom";
 
   export let name: string;
   let brandComponentIsActive = false;
@@ -13,7 +14,7 @@
   <ShopBrand bind:isActive={brandComponentIsActive} {name} />
 
   <div class="field-container">
-    <label class="label" for="name">
+    <label class="label" for={shopItemBrandNameInputId}>
       Shop Brand Name
       <span>e.g. edeka</span>
       <span>Select from the dropdown list or click 'Add' to create new shop
@@ -23,7 +24,11 @@
     <div class="field has-addons">
       <div class="control is-expanded">
         <div class="select is-fullwidth">
-          <select id="name" class="input" type="text" bind:value={name}>
+          <select
+            id={shopItemBrandNameInputId}
+            class="input"
+            type="text"
+            bind:value={name}>
             <option value="">---------</option>
             <option value="edeka">Edeka</option>
             <option value="penny">Penny</option>

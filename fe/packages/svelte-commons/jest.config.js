@@ -8,12 +8,12 @@ module.exports = {
   clearMocks: true,
   collectCoverageFrom: ["src/**/*.(ts|svelte|js)", "!src/__tests__/**"],
   coverageDirectory: "coverage",
-  moduleFileExtensions: ["svelte", "ts", "js"],
+  moduleFileExtensions: ["svelte", "ts", "js", "tsx"],
   testEnvironment: "jest-environment-jsdom-sixteen",
-  testRegex: "src/__tests__/.+?\\.test\\.[tj]s$",
+  testRegex: "src/__tests__/.+?\\.test\\.[tj]sx?$",
   transform: {
-    "^.+\\.js$": jestBabelTransform,
-    "^.+\\.ts$": jestBabelTransform,
+    "^.+\\.jsx?$": jestBabelTransform,
+    "^.+\\.tsx?$": jestBabelTransform,
     "^.+\\.svelte$": [
       "svelte-jester",
       {

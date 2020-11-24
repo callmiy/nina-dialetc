@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const commonScripts = require("../../package-commons-scripts");
 
 const webPort = process.env.WEB_PORT || "";
 
 module.exports = {
   scripts: {
+    ...commonScripts.scripts,
     d: {
       // The HOST=0.0.0.0 environment variable is required to access app
       // running in container. Without this environment variable, sirv will

@@ -1,13 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const commonScripts = require("../../package-commons-scripts");
 
 module.exports = {
   scripts: {
-    tc: {
-      default: "tsc --project .",
-    },
-    lint: {
-      script: "eslint . --ext .js,.jsx,.ts,.tsx",
-      description: "eslint lint this project",
-    },
+    ...commonScripts.scripts,
   },
 };
