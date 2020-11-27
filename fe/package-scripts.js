@@ -10,6 +10,7 @@ const appsPathToAliasMap = {
   cy: "cy",
   hapi: "hp",
   "svelte-commons": "sc",
+  knex: "kn",
 };
 
 // Read environment variables
@@ -73,9 +74,13 @@ module.exports = {
         machine: frontend=production`,
       },
     },
-    pretty: {
+    p: {
       script: `prettier --write .`,
       description: "prettify",
+    },
+    s: {
+      script: `sort-package-json ./packages/**/package.json`,
+      description: `Sort package json`,
     },
   },
   netlify() {
