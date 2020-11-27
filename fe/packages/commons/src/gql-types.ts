@@ -5,6 +5,7 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
 } from "graphql";
+import { CountryMapper, OurContext } from "./entity";
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -161,7 +162,7 @@ export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars["String"]>;
-  Country: ResolverTypeWrapper<Country>;
+  Country: ResolverTypeWrapper<CountryMapper>;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
 };
@@ -172,7 +173,7 @@ export type ResolversParentTypes = {
   DateTime: Scalars["DateTime"];
   Query: {};
   String: Scalars["String"];
-  Country: Country;
+  Country: CountryMapper;
   ID: Scalars["ID"];
   Boolean: Scalars["Boolean"];
 };
@@ -188,7 +189,7 @@ export interface DateTimeScalarConfig
 }
 
 export type QueryResolvers<
-  ContextType = any,
+  ContextType = OurContext,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = {
   _?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
@@ -200,7 +201,7 @@ export type QueryResolvers<
 };
 
 export type CountryResolvers<
-  ContextType = any,
+  ContextType = OurContext,
   ParentType extends ResolversParentTypes["Country"] = ResolversParentTypes["Country"]
 > = {
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
@@ -213,7 +214,7 @@ export type CountryResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = any> = {
+export type Resolvers<ContextType = OurContext> = {
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
   Query?: QueryResolvers<ContextType>;
@@ -224,4 +225,4 @@ export type Resolvers<ContextType = any> = {
  * @deprecated
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
-export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+export type IResolvers<ContextType = OurContext> = Resolvers<ContextType>;
