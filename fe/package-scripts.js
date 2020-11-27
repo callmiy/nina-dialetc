@@ -32,17 +32,19 @@ const packagesPath = path.resolve(".", "packages");
 
 const distAbsPath = path.join(packagesPath, `${clientApp}/build`);
 
-const appScripts = Object.entries(appsPathToAliasMap).reduce(
-  (acc, [name, alias]) => {
+const [appScripts, checkCmd] = Object.entries(appsPathToAliasMap).reduce(
+  ([scriptObj, lintTypeCheckCmd], [name, alias]) => {
     const packagePath = path.resolve(packagesPath, name, `package-scripts`);
 
-    acc[alias] = includePackage({
+    scriptObj[alias] = includePackage({
       path: packagePath,
     });
 
-    return acc;
+    lintTypeCheckCmd += ` ${alias}.tc ${alias}.lint`;
+
+    return [scriptObj, lintTypeCheckCmd];
   },
-  {}
+  [{}, "yarn start s p"]
 );
 
 module.exports = {
@@ -81,6 +83,10 @@ module.exports = {
     s: {
       script: `sort-package-json ./packages/**/package.json`,
       description: `Sort package json`,
+    },
+    ca: {
+      script: checkCmd,
+      description: `Sort package.json, prettify, lint and type check all packages`,
     },
   },
   netlify() {
