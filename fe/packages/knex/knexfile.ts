@@ -25,4 +25,4 @@ const config = {
   dbInit,
 };
 
-export default config
+module.exports = config;

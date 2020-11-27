@@ -1,16 +1,17 @@
 import { Server, Request, ResponseToolkit } from "@hapi/hapi";
 import { API_HOST_PATH } from "@talat/commons/src/routes";
+import { setUpApollo } from "./set-up-apollo";
 
 const port = process.env.API_PORT || 3000;
 const host = process.env.API_HOST || "localhost";
 
 const init = async () => {
-  const server = new Server({
+  const appServer = new Server({
     port,
     host,
   });
 
-  server.route({
+  appServer.route({
     method: "GET",
     path: API_HOST_PATH,
     handler: (_request: Request, _h: ResponseToolkit) => {
@@ -18,9 +19,11 @@ const init = async () => {
     },
   });
 
-  await server.start();
+  await setUpApollo(appServer);
 
-  console.log("Server running on %s", server.info.uri);
+  await appServer.start();
+
+  console.log("Server running on %s", appServer.info.uri);
 };
 
 process.on("unhandledRejection", (err) => {

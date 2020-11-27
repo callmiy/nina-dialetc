@@ -1,0 +1,19 @@
+overwrite: true
+schema: "./src/gql/gen.ts"
+require: "ts-node/register/transpile-only"
+documents: null
+generates:
+  ./src/gql-types.ts:
+    plugins:
+      - "typescript"
+      - "typescript-resolvers"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"
+    config:
+      contextType: ./entity#OurContext
+      mappers:
+        Country: ./entity#Country
+      # scalars:
+      #   Date: Date
+      #   DateTime: DateTime

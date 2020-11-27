@@ -33,6 +33,4 @@ export function makeTimestampsColumns(
   ];
 }
 
-export type MAKE_TIMESTAMPS_COLUMNS = ReturnType<
-  typeof makeTimestampsColumns
->;
+export type MAKE_TIMESTAMPS_COLUMNS = ReturnType<typeof makeTimestampsColumns>;

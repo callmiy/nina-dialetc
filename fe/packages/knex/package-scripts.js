@@ -5,6 +5,7 @@ const commonScripts = require("../../package-commons-scripts");
 const { CREATE_DATABASE: createDb, DATABASE_URL: dbUrl } = process.env;
 
 const createDbCmd = `node -e 'require("./package-scripts").cd()'`;
+const knexTsConfig = `TS_NODE_COMPILER_OPTIONS='{"module":"commonjs", "isolatedModules": false}'`;
 
 module.exports = {
   scripts: {
@@ -24,7 +25,7 @@ module.exports = {
         by the next invocation of this script`,
     },
     m: {
-      script: `${createDbCmd} && yarn knex migrate:latest`,
+      script: `${createDbCmd} && ${knexTsConfig} yarn knex migrate:latest`,
     },
     rb: {
       script: `knex migrate:rollback`,
