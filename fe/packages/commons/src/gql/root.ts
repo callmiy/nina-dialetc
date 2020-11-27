@@ -10,4 +10,4 @@ export const root = gql`
   }
 `;
 
-export const rootSchema = [root, countrySchema];
+export const typeDefs = [root, countrySchema];
