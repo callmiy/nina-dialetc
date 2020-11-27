@@ -1,8 +1,7 @@
 <script lang="ts">
   export let status: number;
   export let error: Error;
-
-  const dev = process.env.NODE_ENV === "development";
+  import { IS_DEV as dev } from "@talat/commons/src/env";
 </script>
 
 <style>

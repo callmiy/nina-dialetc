@@ -1,14 +1,11 @@
 import { Server, Request, ResponseToolkit } from "@hapi/hapi";
-import { API_HOST_PATH } from "@talat/commons/src/routes";
+import { API_HOST_PATH, API_PORT, API_HOST } from "@talat/commons/src/envs";
 import { setUpApollo } from "./set-up-apollo";
-
-const port = process.env.API_PORT || 3000;
-const host = process.env.API_HOST || "localhost";
 
 const init = async () => {
   const appServer = new Server({
-    port,
-    host,
+    port: API_PORT,
+    host: API_HOST,
   });
 
   appServer.route({

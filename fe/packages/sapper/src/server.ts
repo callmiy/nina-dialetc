@@ -4,9 +4,7 @@ import compression from "compression";
 import * as sapper from "@sapper/server";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
-
-const { PORT, NODE_ENV } = process.env;
-const dev = NODE_ENV === "development";
+import { PORT, IS_DEV as dev } from "@talat/commons/src/envs";
 
 polka() // You can also use Express
   .use(
