@@ -4,13 +4,28 @@ const { includePackage } = require("nps-utils");
 
 // Dictionary of appFolder to appAlias
 const appsPathToAliasMap = {
-  commons: "cm",
-  svelte: "sv",
-  sapper: "sa",
-  cy: "cy",
-  hapi: "hp",
-  "svelte-commons": "sc",
-  knex: "kn",
+  commons: {
+    alias: "cm",
+  },
+  svelte: {
+    alias: "sv",
+  },
+  sapper: {
+    alias: "sa",
+  },
+  cy: {
+    alias: "cy",
+  },
+  hapi: {
+    alias: "hp",
+  },
+  "svelte-commons": {
+    alias: "sc",
+  },
+  "db-migrations": {
+    alias: "dm",
+    ntc: true,
+  },
 };
 
 // Read environment variables
@@ -33,14 +48,18 @@ const packagesPath = path.resolve(".", "packages");
 const distAbsPath = path.join(packagesPath, `${clientApp}/build`);
 
 const [appScripts, checkCmd] = Object.entries(appsPathToAliasMap).reduce(
-  ([scriptObj, lintTypeCheckCmd], [name, alias]) => {
+  ([scriptObj, lintTypeCheckCmd], [name, { alias, ntc }]) => {
     const packagePath = path.resolve(packagesPath, name, `package-scripts`);
 
     scriptObj[alias] = includePackage({
       path: packagePath,
     });
 
-    lintTypeCheckCmd += ` ${alias}.tc ${alias}.lint`;
+    if (!ntc) {
+      lintTypeCheckCmd += ` ${alias}.tc`;
+    }
+
+    lintTypeCheckCmd += ` ${alias}.lint`;
 
     return [scriptObj, lintTypeCheckCmd];
   },

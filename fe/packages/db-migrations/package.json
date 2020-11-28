@@ -1,0 +1,17 @@
+{
+  "name": "@ta/dm",
+  "version": "0.0.0",
+  "description": "Database migrations for the javascript app",
+  "repository": "https://",
+  "license": "MIT",
+  "author": "Kanmii",
+  "main": "index.js",
+  "scripts": {
+    "start": "nps"
+  },
+  "devDependencies": {
+    "db-migrate": "^0.11.11",
+    "db-migrate-pg": "^1.2.2",
+    "nps": "^5.10.0"
+  }
+}
