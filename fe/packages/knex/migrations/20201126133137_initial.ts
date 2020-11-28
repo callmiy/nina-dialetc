@@ -1,31 +1,77 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Knex from "knex";
 import { Ulid } from "id128";
-import {
-  makeTimestampsColumns,
-  MAKE_TIMESTAMPS_COLUMNS,
-} from "../src/db_utils";
+
+const countriesTableName = "countries";
+const credentialsTableName = 'auths'
 
 export const up = async function (knex: Knex) {
-  const tableName = "countries";
+  const sql = `
+    CREATE OR REPLACE FUNCTION update_updated_at_timestamp()
+    RETURNS TRIGGER AS $$
+    BEGIN
+      NEW.updated_at = timezone('utc'::text, now());
+      RETURN NEW;
+    END;
+    $$ language 'plpgsql';
 
-  let timestampsStmt: MAKE_TIMESTAMPS_COLUMNS = [];
+    -- COUNTRY
 
-  await knex.schema.createTable(tableName, function (table) {
-    table.uuid("id").notNullable().primary();
-    table.string("name", 25).notNullable();
-    table.string("code", 2).unique("countries_code_index").notNullable();
-    table.string("curr_name", 100).notNullable();
-    table.string("curr_code", 3).notNullable();
+    CREATE TABLE ${countriesTableName} (
+      id uuid NOT NULL,
+      name character varying(25) NOT NULL,
+      code character varying(2) NOT NULL,
+      curr_name character varying(100) NOT NULL,
+      curr_code character varying(3) NOT NULL,
+      inserted_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
+      updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+    );
 
-    timestampsStmt = makeTimestampsColumns(knex, table, tableName);
-  });
+    ALTER TABLE ${countriesTableName}
+      ADD CONSTRAINT ${countriesTableName}_pkey PRIMARY KEY (id);
 
-  await knex.schema.alterTable(tableName, function (t) {
-    t.unique(["code", "curr_name"], "countries_code_curr_code_index");
-  });
+    ALTER TABLE ${countriesTableName}
+      ADD CONSTRAINT ${countriesTableName}_code_index UNIQUE (code);
 
-  await Promise.all(timestampsStmt);
+    ALTER TABLE ${countriesTableName}
+      ADD CONSTRAINT ${countriesTableName}_code_curr_code_index UNIQUE (code, curr_code);
+
+    CREATE TRIGGER ${countriesTableName}_update_updated_at_timestamp
+      BEFORE UPDATE
+      ON ${countriesTableName}
+      FOR EACH ROW
+      WHEN (
+       NEW.updated_at = OLD.updated_at
+      )
+      EXECUTE PROCEDURE update_updated_at_timestamp();
+
+
+    -- AUTHS
+
+    CREATE TABLE ${credentialsTableName} (
+      id uuid NOT NULL,
+      email character varying(255) NOT NULL,
+      inserted_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
+      updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+    );
+
+    ALTER TABLE ${credentialsTableName}
+      ADD CONSTRAINT ${credentialsTableName}_pkey PRIMARY KEY (id);
+
+    ALTER TABLE ${credentialsTableName}
+      ADD CONSTRAINT ${credentialsTableName}_email_index UNIQUE (email);
+
+    CREATE TRIGGER ${credentialsTableName}_update_updated_at_timestamp
+      BEFORE UPDATE
+      ON ${credentialsTableName}
+      FOR EACH ROW
+      WHEN (
+       NEW.updated_at = OLD.updated_at
+      )
+      EXECUTE PROCEDURE update_updated_at_timestamp();
+  `;
+
+  await knex.raw(sql);
 
   const data = [
     {
@@ -48,12 +94,17 @@ export const up = async function (knex: Knex) {
   });
 
   try {
-    await knex("countries").insert(data);
+    await knex(countriesTableName).insert(data);
   } catch (error) {
     console.error(error);
   }
 };
 
 export const down = async function (knex: Knex) {
-  await knex.schema.dropTable("countries");
+  const sql = `
+    DROP TABLE ${countriesTableName};
+    DROP TABLE ${credentialsTableName};
+  `;
+
+  await knex.raw(sql);
 };
