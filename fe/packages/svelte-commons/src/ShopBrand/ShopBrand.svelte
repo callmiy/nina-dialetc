@@ -9,11 +9,11 @@
     shopBrandPhoneInputDomId,
     simpleTextErrorCloseId,
     submitId,
-  } from "@talat/commons/src/shop-brand-dom";
+  } from "@ta/cm/src/shop-brand-dom";
   import {
     IS_ACTIVE_CLASS_NAME,
     NOTHING_TO_SAVE_WARNING_MESSAGE,
-  } from "@talat/commons/src/utils";
+  } from "@ta/cm/src/utils";
 
   /* FORM ATTRIBUTES */
   let name: string;

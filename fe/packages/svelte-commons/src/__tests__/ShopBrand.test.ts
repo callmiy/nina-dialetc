@@ -10,9 +10,9 @@ import {
   shopBrandPhoneInputDomId,
   simpleTextErrorCloseId,
   submitId,
-} from "@talat/commons/src/shop-brand-dom";
+} from "@ta/cm/src/shop-brand-dom";
 import { fillField } from "./test_utils";
-import { IS_ACTIVE_CLASS_NAME } from "@talat/commons/src/utils";
+import { IS_ACTIVE_CLASS_NAME } from "@ta/cm/src/utils";
 
 test(`open close component /
       reset form /

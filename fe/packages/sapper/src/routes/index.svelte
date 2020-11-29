@@ -1,5 +1,5 @@
 <script>
-  import ShopItem from "@talat/svelte-commons/src/ShopItem/ShopItem.svelte";
+  import ShopItem from "@ta/sc/src/ShopItem/ShopItem.svelte";
 </script>
 
 <ShopItem name="kanmii" />

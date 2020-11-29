@@ -1,7 +1,7 @@
 <script lang="ts">
   export let status: number;
   export let error: Error;
-  import { IS_DEV as dev } from "@talat/commons/src/envs";
+  import { IS_DEV as dev } from "@ta/cm/src/envs";
 </script>
 
 <style>

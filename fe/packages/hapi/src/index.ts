@@ -1,13 +1,8 @@
 import { Server } from "@hapi/hapi";
-import {
-  API_HOST_PATH,
-  API_PORT,
-  API_HOST,
-  RESET_PATH,
-  IS_E2E_TEST,
-} from "@talat/commons/src/envs";
+import { API_PORT, API_HOST, IS_E2E_TEST } from "@ta/cm/src/envs";
+import { API_HOST_PATH, RESET_PATH } from "@ta/cm/src/constants";
 import { setUpApollo } from "./set-up-apollo";
-import { emptyAuths } from "@talat/commons/src/db/index";
+import { emptyAuths } from "@ta/cm/src/db/index";
 
 const init = async () => {
   const appServer = new Server({

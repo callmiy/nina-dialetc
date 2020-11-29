@@ -1,7 +1,7 @@
 import promise from "bluebird";
 import pgPromise from "pg-promise";
 import { IInitOptions } from "pg-promise";
-import { DATABASE_URL } from "@talat/commons/src/envs";
+import { DATABASE_URL } from "@ta/cm/src/envs";
 import { Diagnostics } from "./diagnostics";
 
 const initOptions: IInitOptions = {

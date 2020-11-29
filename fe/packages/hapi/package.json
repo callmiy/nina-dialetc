@@ -1,5 +1,5 @@
 {
-  "name": "@talat/hapi",
+  "name": "@ta/hp",
   "version": "0.0.0",
   "license": "MIT",
   "main": "index.js",
@@ -19,8 +19,8 @@
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "@hapi/hapi": "^20.0.2",
+    "@ta/cm": "0.0.0",
     "@ta/pp": "0.0.0",
-    "@talat/commons": "0.0.0",
     "apollo-server-hapi": "^2.19.0"
   },
   "devDependencies": {

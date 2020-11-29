@@ -11,12 +11,13 @@ import fs from "fs";
 import path from "path";
 import pgMonitor from "pg-monitor";
 import { IInitOptions } from "pg-promise";
-import { IS_DEV } from "@talat/commons/src/envs";
+import { IS_DEV } from "@ta/cm/src/envs";
+import { LOGS_FOLDER } from "@ta/cm/src/constants";
 
 pgMonitor.setTheme("matrix"); // changing the default theme;
 
 // Log file for database-related errors:
-const logFile = path.resolve("../../../../logs", "db-errors.log");
+const logFile = path.resolve(LOGS_FOLDER, "pg-promise-db-errors.log");
 
 // Below we are logging errors exactly the way they are reported by pg-monitor,
 // which you can tweak any way you like, as parameter 'info' provides all the

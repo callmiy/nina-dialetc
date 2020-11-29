@@ -1,5 +1,5 @@
 {
-  "name": "@talat/svelte-commons",
+  "name": "@ta/sc",
   "version": "0.0.0",
   "repository": "https",
   "license": "MIT",
@@ -17,7 +17,7 @@
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-typescript": "^6.0.0",
-    "@talat/commons": "0.0.0",
+    "@ta/cm": "0.0.0",
     "@testing-library/svelte": "^3.0.0",
     "@tsconfig/svelte": "^1.0.0",
     "@types/jest": "^26.0.15",

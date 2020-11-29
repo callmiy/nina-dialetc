@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { render } from "@testing-library/svelte";
 import ShopItem from "../ShopItem/ShopItem.svelte";
-import { shopItemBrandNameInputId } from "@talat/commons/src/shop-item-dom";
+import { shopItemBrandNameInputId } from "@ta/cm/src/shop-item-dom";
 
 declare let React: any;
 

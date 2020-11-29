@@ -30,12 +30,23 @@ module.exports = (on) => {
       rules: [
         {
           test: /\.ts$/,
-          exclude: [/node_modules/],
+          exclude: /(node_modules)/,
           use: [
             {
               loader: "babel-loader",
               options: {
-                presets: ["@babel/preset-typescript"],
+                presets: [
+                  [
+                    "@babel/preset-env",
+                    {
+                      targets: {
+                        node: "current",
+                      },
+                    },
+                  ],
+                  "@babel/preset-typescript",
+                ],
+                cacheDirectory: true,
               },
             },
           ],

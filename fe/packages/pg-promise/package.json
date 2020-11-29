@@ -15,7 +15,7 @@
     "pg-promise": "^10.8.0"
   },
   "devDependencies": {
-    "@talat/commons": "0.0.0",
+    "@ta/cm": "0.0.0",
     "@types/bluebird": "^3.5.33",
     "@types/node": "^14.14.10",
     "eslint": "^7.14.0",

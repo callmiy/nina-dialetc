@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-import { RESET_PATH } from "@talat/commons/src/envs";
+import { RESET_PATH } from "@ta/cm/src/constants";
 
 const apiUrl = Cypress.env("API_URL") as string;
 

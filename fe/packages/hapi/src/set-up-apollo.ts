@@ -1,9 +1,10 @@
 import { Server } from "@hapi/hapi";
 import { ApolloServer } from "apollo-server-hapi";
-import { typeDefs } from "@talat/commons/src/gql/root";
-import { rootResolvers } from "@talat/commons/src/resolvers/root";
-import { countryResolver } from "@talat/commons/src/resolvers/country";
-import { GRAPHQL_PATH, IS_DEV } from "@talat/commons/src/envs";
+import { typeDefs } from "@ta/cm/src/gql/root";
+import { rootResolvers } from "@ta/cm/src/resolvers/root";
+import { countryResolver } from "@ta/cm/src/resolvers/country";
+import { IS_DEV } from "@ta/cm/src/envs";
+import { GRAPHQL_PATH } from "@ta/cm/src/constants";
 
 export async function setUpApollo(appServer: Server) {
   const apolloServer = new ApolloServer({

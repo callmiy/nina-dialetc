@@ -11,3 +11,4 @@
 *.prettierrc.js*
 *.prettierignore*
 *yarn-error.log*
+*__logs__*

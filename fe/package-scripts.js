@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
+const shelljs = require("shelljs");
 const { includePackage } = require("nps-utils");
 
 // Dictionary of appFolder to appAlias
@@ -24,7 +25,7 @@ const appsMap = {
   },
   "db-migrations": {
     alias: "dm",
-    ntc: true,
+    ntc: true, // no type check
   },
   "pg-promise": {
     alias: "pp",
@@ -39,7 +40,7 @@ const {
   IS_E2E,
 } = process.env;
 
-const clientAppAlias = appsMap[clientApp].alias
+const clientAppAlias = appsMap[clientApp].alias;
 const isE2E = IS_E2E === "true";
 
 let devAppsCommands = "";
@@ -72,6 +73,9 @@ const [appScripts, checkCmd] = Object.entries(appsMap).reduce(
   },
   [{}, "yarn start s p"]
 );
+
+const logFolder = path.resolve(__dirname, "__logs__");
+shelljs.mkdir("-p", logFolder);
 
 module.exports = {
   scripts: {

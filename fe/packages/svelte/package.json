@@ -1,5 +1,5 @@
 {
-  "name": "@talat/svelte",
+  "name": "@ta/sv",
   "version": "0.0.0",
   "repository": "https",
   "license": "MIT",
@@ -17,7 +17,7 @@
     "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
     "@rollup/plugin-typescript": "^6.0.0",
-    "@talat/commons": "0.0.0",
+    "@ta/cm": "0.0.0",
     "@tsconfig/svelte": "^1.0.0",
     "nps": "^5.10.0",
     "prettier": "^2.1.2",

@@ -1,5 +1,5 @@
 {
-  "name": "@talat/sapper",
+  "name": "@ta/sa",
   "version": "0.0.0",
   "description": "The talat app using sapper for frontend",
   "scripts": {
@@ -25,8 +25,8 @@
     "@rollup/plugin-replace": "^2.2.0",
     "@rollup/plugin-typescript": "^6.0.0",
     "@rollup/plugin-url": "^5.0.0",
-    "@talat/commons": "0.0.0",
-    "@talat/svelte-commons": "0.0.0",
+    "@ta/cm": "0.0.0",
+    "@ta/sc": "0.0.0",
     "@tsconfig/svelte": "^1.0.10",
     "@types/compression": "^1.7.0",
     "@types/cookie-parser": "^1.4.2",
