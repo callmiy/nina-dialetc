@@ -16,5 +16,5 @@ fi
 echo -e "\n\nMigrating database"
 wait-until "yarn start dm.mu"
 
-echo -e "\n\n :::::::: Starting App:::::"
+echo -e "\n\n :::::::: Starting App:::::\n\n"
 yarn start d
