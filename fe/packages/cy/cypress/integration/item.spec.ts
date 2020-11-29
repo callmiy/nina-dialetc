@@ -10,6 +10,8 @@ context("Item", () => {
     it("success", () => {
       expect(1).to.eq(1);
       // When we visit the home page
+      cy.visit("/");
+
       // And click the button to create new item
       // Click on 'Add new shop brand' button
       // And fill the brand name field

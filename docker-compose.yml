@@ -33,6 +33,7 @@ services:
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
       - "${API_PORT}:${API_PORT}"
+      - "${SAPPER_RELOAD_PORT}:${SAPPER_RELOAD_PORT}"
     volumes:
       - "./fe:/home/node/web"
       - "nu_nm:/home/node/web/node_modules/"

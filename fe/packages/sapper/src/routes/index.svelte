@@ -1,5 +1,4 @@
-<script>
-  import ShopItem from "@ta/sc/src/ShopItem/ShopItem.svelte";
+<script src="./_index.ts">
 </script>
 
 <ShopItem name="kanmii" />
