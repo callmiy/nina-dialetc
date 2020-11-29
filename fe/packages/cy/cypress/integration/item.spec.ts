@@ -1,4 +1,11 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference*/
+/// <reference path="../support/types.d.ts" />
+
 context("Item", () => {
+  beforeEach(() => {
+    cy.checkoutSession();
+  });
+
   describe("create item", () => {
     it("success", () => {
       expect(1).to.eq(1);

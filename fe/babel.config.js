@@ -18,6 +18,16 @@ module.exports = (api) => {
         { runtime: "automatic", importSource: "svelte-jsx" },
       ],
     ],
+    plugins: [
+      [
+        "@babel/plugin-transform-modules-commonjs",
+        {
+          allowTopLevelThis: true,
+          loose: true,
+          lazy: true,
+        },
+      ],
+    ],
   };
 
   return obj;

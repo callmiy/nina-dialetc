@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { Resolvers } from "../gql-types";
 import { DateResolver, DateTimeResolver } from "graphql-scalars";
 
 export const rootResolvers = {
@@ -8,4 +5,5 @@ export const rootResolvers = {
   DateTime: DateTimeResolver,
 
   Query: {},
-} as Resolvers;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+} as any;

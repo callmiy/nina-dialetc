@@ -17,6 +17,7 @@
     "@graphql-codegen/cli": "1.19.3",
     "@graphql-codegen/typescript": "1.18.1",
     "@graphql-codegen/typescript-resolvers": "1.17.12",
+    "@ta/pp": "0.0.0",
     "node-fetch": "^2.6.1",
     "nps": "^5.10.0",
     "prettier": "^2.1.2",

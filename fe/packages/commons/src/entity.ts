@@ -1,5 +1,7 @@
+import { DatabaseInstance } from "@ta/pp/src/db/db";
+
 export interface OurContext {
-  // connection: Connection;
+  db: DatabaseInstance;
   secret: string;
   // currentUser?: User | null;
 }

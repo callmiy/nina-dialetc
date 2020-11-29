@@ -1,5 +1,22 @@
 version: "3.4"
 services:
+  db:
+    image: postgres:12.2
+    ports:
+      - "${DOCKER_HOST_DATABASE_PORT}:5432"
+    # restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: "${DATABASE_NAME}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - "./docker/data/postgres-${COMPOSE_PROJECT_NAME}:/var/lib/postgresql/data"
+
   fe:
     build:
       context: ./fe
@@ -12,21 +29,37 @@ services:
     # depends_on:
     #   - "api"
     env_file: "${DOCKER_ENV_FILE}"
+    user: "node"
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
+      - "${API_PORT}:${API_PORT}"
     volumes:
       - "./fe:/home/node/web"
       - "nu_nm:/home/node/web/node_modules/"
+      - "nu_netlify:/home/node/web/.netlify/"
+      - "nu_nm_cm:/home/node/web/packages/commons/node_modules/"
+      - "nu_nm_cy:/home/node/web/packages/cy/node_modules/"
+      - "nu_nm_dm:/home/node/web/packages/db-migrations/node_modules/"
+      - "nu_nm_hp:/home/node/web/packages/hapi/node_modules/"
+      - "nu_nm_pp:/home/node/web/packages/pg-promise/node_modules/"
+      - "nu_nm_sa:/home/node/web/packages/sapper/node_modules/"
       - "nu_nm_sv:/home/node/web/packages/svelte/node_modules/"
       - "nu_co_sv:/home/node/web/packages/svelte/coverage/"
       - "nu_build_sv:/home/node/web/packages/svelte/build/"
-      - "nu_nm_commons:/home/node/web/packages/commons/node_modules/"
-      - "nu_nm_sa:/home/node/web/packages/sapper/node_modules/"
+      - "nu_nm_sc:/home/node/web/packages/svelte-commons/node_modules/"
+      - "nu_co_sc:/home/node/web/packages/svelte-commons/coverage/"
 
 volumes:
   nu_nm:
-  nu_nm_sv:
-  nu_nm_commons:
+  nu_netlify:
+  nu_nm_cm:
+  nu_nm_cy:
+  nu_nm_dm:
+  nu_nm_hp:
+  nu_nm_pp:
   nu_nm_sa:
+  nu_nm_sv:
   nu_co_sv:
   nu_build_sv:
+  nu_nm_sc:
+  nu_co_sc:

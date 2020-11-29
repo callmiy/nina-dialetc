@@ -3,7 +3,7 @@ const path = require("path");
 const { includePackage } = require("nps-utils");
 
 // Dictionary of appFolder to appAlias
-const appsPathToAliasMap = {
+const appsMap = {
   commons: {
     alias: "cm",
   },
@@ -26,19 +26,26 @@ const appsPathToAliasMap = {
     alias: "dm",
     ntc: true,
   },
+  "pg-promise": {
+    alias: "pp",
+  },
 };
 
 // Read environment variables
-const clientApp = process.env.CLIENT_APP;
-const clientAppAlias = appsPathToAliasMap[clientApp];
-const serverApp = process.env.API_APP;
-const webUrl = process.env.WEB_URL;
-const isE2E = process.env.IS_E2E === "true";
+const {
+  CLIENT_APP: clientApp,
+  API_APP: apiApp,
+  WEB_URL: webUrl,
+  IS_E2E,
+} = process.env;
+
+const clientAppAlias = appsMap[clientApp].alias
+const isE2E = IS_E2E === "true";
 
 let devAppsCommands = "";
 
-if (serverApp) {
-  devAppsCommands = `"yarn start ${appsPathToAliasMap[serverApp]}.d" `;
+if (apiApp) {
+  devAppsCommands = `"yarn start ${appsMap[apiApp].alias}.d" `;
 }
 
 devAppsCommands += ` "yarn start ${clientAppAlias}.d" `;
@@ -47,7 +54,7 @@ const packagesPath = path.resolve(".", "packages");
 
 const distAbsPath = path.join(packagesPath, `${clientApp}/build`);
 
-const [appScripts, checkCmd] = Object.entries(appsPathToAliasMap).reduce(
+const [appScripts, checkCmd] = Object.entries(appsMap).reduce(
   ([scriptObj, lintTypeCheckCmd], [name, { alias, ntc }]) => {
     const packagePath = path.resolve(packagesPath, name, `package-scripts`);
 

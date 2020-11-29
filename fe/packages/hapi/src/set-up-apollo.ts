@@ -8,10 +8,12 @@ import { GRAPHQL_PATH, IS_DEV } from "@talat/commons/src/envs";
 export async function setUpApollo(appServer: Server) {
   const apolloServer = new ApolloServer({
     typeDefs,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolvers: [rootResolvers as any, countryResolver],
+    resolvers: [rootResolvers, countryResolver],
     introspection: IS_DEV,
     playground: IS_DEV,
+    context: async () => {
+      return {};
+    },
   });
   await apolloServer.applyMiddleware({
     app: appServer,

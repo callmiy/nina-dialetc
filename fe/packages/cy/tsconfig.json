@@ -4,9 +4,5 @@
     "baseUrl": ".",
     "isolatedModules": false
   },
-  "include": [
-    "../../node_modules/cypress",
-    "./cypress/**/*.ts",
-    "../commons/src"
-  ]
+  "include": ["../../node_modules/cypress", "./cypress/**/*.ts"]
 }

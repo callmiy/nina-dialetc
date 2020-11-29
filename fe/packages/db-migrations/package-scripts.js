@@ -3,14 +3,8 @@ const commonScripts = require("../../package-commons-scripts");
 
 const { DATABASE_URL: dbUrl } = process.env;
 
-const [
-  ,
-  user,
-  password,
-  host,
-  port,
-  database,
-] = /:\/\/(.*?):(.*?)@(.*?):(.*?)\/(.*)/u.exec(dbUrl);
+const [, user, password, host, port, database] =
+  /:\/\/(.*?):(.*?)@(.*?):(.*?)\/(.*)/u.exec(dbUrl) || [];
 
 const migrationTableName = ` --migration-table node-db-migrations`;
 
