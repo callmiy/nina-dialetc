@@ -61,9 +61,9 @@
               <select id={shopBrandCountryInputDomId} bind:value={country}>
                 <option value="">----------</option>
 
-                <option value="de">Germany</option>
-
-                <option value="fr">France</option>
+                <option value="de" class={shopBrandNameOptionSelector}>
+                  Germany
+                </option>
               </select>
             </div>
           </div>

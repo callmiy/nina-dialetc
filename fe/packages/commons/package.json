@@ -10,15 +10,17 @@
     "start": "nps"
   },
   "dependencies": {
+    "@apollo/client": "^3.2.9",
     "bulma": "^0.9.1",
+    "cross-fetch": "^3.0.6",
     "graphql-scalars": "^1.5.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "1.19.3",
     "@graphql-codegen/typescript": "1.18.1",
+    "@graphql-codegen/typescript-operations": "^1.17.12",
     "@graphql-codegen/typescript-resolvers": "1.17.12",
     "@ta/pp": "0.0.0",
-    "node-fetch": "^2.6.1",
     "nps": "^5.10.0",
     "prettier": "^2.1.2",
     "sass": "^1.29.0",

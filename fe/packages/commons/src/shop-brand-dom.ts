@@ -1,7 +1,8 @@
-const prefix = "@components/shop-brand";
+const prefix = "components__shop-brand";
 
 export const shopBrandDomId = prefix;
 export const shopBrandNameInputDomId = `${prefix}-name-input`;
+export const shopBrandNameOptionSelector = `js-${prefix}-name-option`;
 export const shopBrandCountryInputDomId = `${prefix}-country-input`;
 export const shopBrandCurrencyInputDomId = `${prefix}-currency-input`;
 export const shopBrandPhoneInputDomId = `${prefix}-phone-input`;

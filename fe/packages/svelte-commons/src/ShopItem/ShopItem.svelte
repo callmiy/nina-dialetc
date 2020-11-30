@@ -21,14 +21,16 @@
             type="text"
             bind:value={name}>
             <option value="">---------</option>
-            <option value="edeka">Edeka</option>
+            <option class={shopItemBrandNameOptionSelector} value="edeka">
+              Edeka
+            </option>
             <option value="penny">Penny</option>
           </select>
         </div>
       </div>
 
       <div class="control" on:click|preventDefault={activateBrandComponent}>
-        <button class="button is-info"> Add </button>
+        <button class="button is-info" id={shopItemAddBrandId}> Add </button>
       </div>
     </div>
   </div>

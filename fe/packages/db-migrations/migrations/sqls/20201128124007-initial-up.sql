@@ -60,3 +60,28 @@ CREATE TRIGGER auths_update_updated_at_timestamp
    NEW.updated_at = OLD.updated_at
   )
   EXECUTE PROCEDURE update_updated_at_timestamp();
+
+INSERT INTO countries
+  (
+    id,
+    name,
+    code,
+    curr_name,
+    curr_code
+  )
+VALUES
+  (
+    '017618D2C667578D7BBA81D33F1307B2',
+    'Germany',
+    'DE',
+    'Euro',
+    'EUR'
+  ),
+  (
+    '017618D4A8268D3412E026EE965874F2',
+    'France',
+    'FR',
+    'Euro',
+    'EUR'
+  )
+;

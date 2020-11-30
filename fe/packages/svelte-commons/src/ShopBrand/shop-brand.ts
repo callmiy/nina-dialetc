@@ -10,6 +10,7 @@ import {
   shopBrandPhoneInputDomId,
   simpleTextErrorCloseId,
   submitId,
+  shopBrandNameOptionSelector,
 } from "@ta/cm/src/shop-brand-dom";
 import {
   IS_ACTIVE_CLASS_NAME,
