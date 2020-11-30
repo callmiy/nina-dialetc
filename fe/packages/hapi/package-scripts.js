@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const path = require("path");
 const commonScripts = require("../../package-commons-scripts");
 
 const exts = ".ts,.js";
 const babelExts = ` --extensions ${exts} `;
 const babelCompile = ` --only ./src/**,../commons/src/**,../pg-promise/src/** `;
-const babelRoot = `--root-mode upward`;
+// const babelRoot = `--root-mode upward`;
+const babelRoot = `--config-file ${path.resolve("../../_babel.config")}`;
 const entry = ` ./src/index.ts `;
 
 module.exports = {

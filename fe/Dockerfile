@@ -37,7 +37,7 @@ COPY --chown=node:node ${PACKAGES_PATH}/cy/package.json ./packages/cy
 COPY --chown=node:node ${PACKAGES_PATH}/db-migrations/package.json ./packages/db-migrations
 COPY --chown=node:node ${PACKAGES_PATH}/hapi/package.json ./packages/hapi
 COPY --chown=node:node ${PACKAGES_PATH}/pg-promise/package.json ./packages/pg-promise
-COPY --chown=node:node ${PACKAGES_PATH}/sapper/package.json ./packages/sapper
+# COPY --chown=node:node ${PACKAGES_PATH}/sapper/package.json ./packages/sapper
 COPY --chown=node:node ${PACKAGES_PATH}/svelte/package.json ./packages/svelte
 COPY --chown=node:node ${PACKAGES_PATH}/svelte-commons/package.json ./packages/svelte-commons
 

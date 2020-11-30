@@ -44,9 +44,9 @@ services:
       - "nu_nm_hp:/home/node/web/packages/hapi/node_modules/"
       - "nu_nm_pp:/home/node/web/packages/pg-promise/node_modules/"
       - "nu_nm_sa:/home/node/web/packages/sapper/node_modules/"
-      - "nu_nm_sv:/home/node/web/packages/svelte/node_modules/"
-      - "nu_co_sv:/home/node/web/packages/svelte/coverage/"
-      - "nu_build_sv:/home/node/web/packages/svelte/build/"
+      # - "nu_nm_sv:/home/node/web/packages/svelte/node_modules/"
+      # - "nu_co_sv:/home/node/web/packages/svelte/coverage/"
+      # - "nu_build_sv:/home/node/web/packages/svelte/build/"
       - "nu_nm_sc:/home/node/web/packages/svelte-commons/node_modules/"
       - "nu_co_sc:/home/node/web/packages/svelte-commons/coverage/"
 
@@ -59,8 +59,8 @@ volumes:
   nu_nm_hp:
   nu_nm_pp:
   nu_nm_sa:
-  nu_nm_sv:
-  nu_co_sv:
-  nu_build_sv:
+  # nu_nm_sv:
+  # nu_co_sv:
+  # nu_build_sv:
   nu_nm_sc:
   nu_co_sc:
