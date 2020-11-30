@@ -1,23 +1,47 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+} from "@apollo/client/core";
 import fetch from "cross-fetch";
-import { GRAPHQL_PATH } from "@ta/cm/src/constants";
+import { GRAPHQL_PATH } from "./constants";
+import { API_URL } from "./envs";
 
-const cache = new InMemoryCache();
+const path = API_URL + GRAPHQL_PATH;
 
-const link = createHttpLink({
-  uri: GRAPHQL_PATH,
-  fetch,
-});
+let client = (undefined as unknown) as ApolloClient<unknown>;
+let cache = (undefined as unknown) as InMemoryCache;
 
-export const apolloClient = new ApolloClient({
-  cache,
-  link,
-  name: "@ta/sa/apollo-client",
-  queryDeduplication: false,
-  ssrMode: typeof window === "undefined" ? true : false,
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: "cache-and-network",
+export function makeApolloClient(
+  { uri }: MakeApolloClientArgs = { uri: path }
+) {
+  if (client) {
+    return client;
+  }
+
+  cache = new InMemoryCache();
+
+  const link = createHttpLink({
+    uri,
+    fetch,
+  });
+
+  client = new ApolloClient({
+    cache,
+    link,
+    name: "@ta/sa/apollo-client",
+    queryDeduplication: false,
+    ssrMode: typeof window === "undefined" ? true : false,
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: "cache-and-network",
+      },
     },
-  },
-});
+  });
+
+  return client;
+}
+
+type MakeApolloClientArgs = {
+  uri?: string;
+};

@@ -1,3 +1,6 @@
+<script lang="ts" src="./shop-brand.module.ts" context="module">
+</script>
+
 <script src="./shop-brand.ts">
 </script>
 

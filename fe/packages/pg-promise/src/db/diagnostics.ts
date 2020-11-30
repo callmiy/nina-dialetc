@@ -12,7 +12,7 @@ import path from "path";
 import pgMonitor from "pg-monitor";
 import { IInitOptions } from "pg-promise";
 import { IS_DEV } from "@ta/cm/src/envs";
-import { LOGS_FOLDER } from "@ta/cm/src/constants";
+import { LOGS_FOLDER } from "@ta/cm/src/constants-server";
 
 pgMonitor.setTheme("matrix"); // changing the default theme;
 

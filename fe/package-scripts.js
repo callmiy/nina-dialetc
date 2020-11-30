@@ -11,9 +11,9 @@ const appsMap = {
   svelte: {
     alias: "sv",
   },
-  sapper: {
-    alias: "sa",
-  },
+  // sapper: {
+  //   alias: "sa",
+  // },
   cy: {
     alias: "cy",
   },
@@ -34,8 +34,8 @@ const appsMap = {
 
 // Read environment variables
 const {
-  CLIENT_APP: clientApp,
-  API_APP: apiApp,
+  CLIENT_APP: clientApp = "svelte",
+  API_APP: apiApp = "svelte",
   WEB_URL: webUrl,
   IS_E2E,
 } = process.env;

@@ -5,6 +5,7 @@ export const {
   PORT,
   IS_E2E,
   DATABASE_URL = "",
+  API_URL = "",
 } = process.env;
 
 export const IS_DEV = NODE_ENV === "development";

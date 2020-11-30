@@ -1,5 +1,4 @@
-<script>
-  import ShopItem from "@ta/sc/src/ShopItem/ShopItem.svelte";
+<script src="./_app.ts">
 </script>
 
 <style lang="scss" global>
@@ -12,5 +11,5 @@
 </style>
 
 <div class="main-layout">
-  <ShopItem name="kanmii" />
+  <ShopItem {name} />
 </div>

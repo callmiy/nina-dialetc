@@ -1,31 +1,18 @@
 {
   "name": "@ta/cm",
   "version": "0.0.0",
-  "description": "Shared package",
-  "repository": "https://",
-  "license": "MIT",
-  "author": "Kanmii",
-  "main": "index.js",
   "scripts": {
     "start": "nps"
   },
   "dependencies": {
-    "@apollo/client": "^3.2.9",
-    "bulma": "^0.9.1",
-    "cross-fetch": "^3.0.6",
-    "graphql-scalars": "^1.5.0"
+    "bulma": "^0.9.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "1.19.3",
-    "@graphql-codegen/typescript": "1.18.1",
-    "@graphql-codegen/typescript-operations": "^1.17.12",
-    "@graphql-codegen/typescript-resolvers": "1.17.12",
-    "@ta/pp": "0.0.0",
+    "@apollo/client": "^3.2.9",
+    "cross-fetch": "^3.0.6",
+    "graphql": "^15.4.0",
     "nps": "^5.10.0",
-    "prettier": "^2.1.2",
-    "sass": "^1.29.0",
-    "shelljs": "^0.8.4",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.5"
+    "tslib": "^2.0.3",
+    "typescript": "^4.1.2"
   }
 }

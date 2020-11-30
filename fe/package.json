@@ -24,6 +24,7 @@
     "nps": "^5.10.0",
     "nps-utils": "^1.7.0",
     "prettier": "^2.2.0",
+    "shelljs": "^0.8.4",
     "sort-package-json": "^1.48.0"
   }
 }

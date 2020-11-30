@@ -1,2 +1,6 @@
-# Local Netlify folder
+.DS_Store
 .netlify
+node_modules
+public/bundle.*
+package-lock.json
+yarn.lock

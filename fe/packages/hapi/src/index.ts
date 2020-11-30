@@ -1,7 +1,7 @@
 import { Server } from "@hapi/hapi";
 import { API_PORT, API_HOST, IS_E2E_TEST } from "@ta/cm/src/envs";
 import { API_HOST_PATH, RESET_PATH } from "@ta/cm/src/constants";
-import { setUpApollo } from "./set-up-apollo";
+import { setUpApollo } from "./apollo-server";
 import { emptyAuths } from "@ta/cm/src/db/index";
 
 const init = async () => {
@@ -10,19 +10,11 @@ const init = async () => {
     host: API_HOST,
   });
 
-  appServer.route({
-    method: "GET",
-    path: API_HOST_PATH,
-    // handler: (_request: Request, _h: ResponseToolkit) => {
-    handler: () => {
-      return "Hello World 40000!";
-    },
-  });
-
   if (IS_E2E_TEST) {
     appServer.route({
       method: "GET",
       path: RESET_PATH,
+      // handler: (_request: Request, _h: ResponseToolkit) => {
       handler: async () => {
         await emptyAuths();
         return "ok";
@@ -34,7 +26,11 @@ const init = async () => {
 
   await appServer.start();
 
-  console.log("Server running on %s", appServer.info.uri + API_HOST_PATH);
+  console.log(
+    "\n\nServer running on %s",
+    appServer.info.uri + API_HOST_PATH,
+    "\n\n"
+  );
 };
 
 process.on("unhandledRejection", (err) => {
