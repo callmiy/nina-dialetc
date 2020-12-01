@@ -10,7 +10,7 @@ export const countrySchema = gql`
   }
 
   extend type Query {
-    listCountries: [Country!]!
+    listCountries: [Country]!
   }
 `;
 
@@ -24,6 +24,6 @@ export const currencySchema = gql`
   }
 
   extend type Query {
-    listCurrencies: [Currency!]!
+    listCurrencies: [Currency]!
   }
 `;

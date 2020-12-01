@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import ShopBrand from "../ShopBrand/ShopBrand.svelte";
-
 import {
   shopItemBrandNameInputId,
   shopItemBrandNameOptionSelector,

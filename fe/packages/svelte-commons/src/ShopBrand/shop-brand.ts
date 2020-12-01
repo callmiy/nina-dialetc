@@ -20,20 +20,20 @@ import {
 } from "@ta/cm/src/utils";
 import { makeApolloClient } from "@ta/cm/src/apollo/client";
 import { listCountriesAndCurrenciesQuery } from "@ta/cm/src/gql/queries";
-import { Query } from "@ta/cm/src/gql/schema-types";
+import { ListCountriesAndCurrencies } from "@ta/cm/src/gql/ops-types";
 
 const apolloClient = makeApolloClient();
-let countriesList: Query["listCountries"];
-let currenciesList: Query["listCurrencies"];
 
-const countriesPromise = apolloClient
-  .query({
+const countriesCurrenciesPromise = apolloClient
+  .query<ListCountriesAndCurrencies>({
     query: listCountriesAndCurrenciesQuery,
   })
   .then((result) => {
     if (result && result.data) {
-      //
+      return result.data;
     }
+
+    return {} as ListCountriesAndCurrencies;
   });
 
 /* FORM ATTRIBUTES */

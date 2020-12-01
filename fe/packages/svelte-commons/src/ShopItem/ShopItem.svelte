@@ -2,7 +2,14 @@
 </script>
 
 <form>
-  <ShopBrand bind:isActive={brandComponentIsActive} {name} />
+  {#if brandComponentIsActive}
+    {#await import('../ShopBrand/ShopBrand.svelte') then c}
+      <svelte:component
+        this={c.default}
+        bind:isActive={brandComponentIsActive}
+        {name} />
+    {/await}
+  {/if}
 
   <div class="field-container">
     <label class="label" for={shopItemBrandNameInputId}>

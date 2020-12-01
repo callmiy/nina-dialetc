@@ -10,7 +10,7 @@
 </style>
 
 <div class="a">
-  <div id={shopBrandDomId} class="modal" class:is-active={isActive}>
+  <div id={shopBrandDomId} class="modal is-active">
     <div class="modal-background" />
 
     <div class="modal-card">
@@ -61,11 +61,11 @@
               <select id={shopBrandCountryInputDomId} bind:value={country}>
                 <option value="">----------</option>
 
-                {#await countriesPromise}
+                {#await countriesCurrenciesPromise}
                   <option value="">----------</option>
-                {:then countriesData}
-                  {#if countriesData && countriesData.data && countriesData.data.listCountries}
-                    {#each countriesData.data.listCountries as { id, country_name } (id)}
+                {:then { listCountries }}
+                  {#if listCountries}
+                    {#each listCountries as { id, country_name } (id)}
                       <option value={id} class={shopBrandCountryOptionSelector}>
                         {country_name}
                       </option>
@@ -87,11 +87,11 @@
               <select id={shopBrandCurrencyInputDomId} bind:value={currency}>
                 <option value="">----------</option>
 
-                {#await countriesPromise}
+                {#await countriesCurrenciesPromise}
                   <option value="">----------</option>
-                {:then countriesData}
-                  {#if countriesData && countriesData.data && countriesData.data.listCurrencies}
-                    {#each countriesData.data.listCurrencies as { id, currency_name, currency_code } (id)}
+                {:then { listCurrencies }}
+                  {#if listCurrencies}
+                    {#each listCurrencies as { id, currency_name, currency_code } (id)}
                       <option
                         value={id}
                         class={shopBrandCurrencyOptionSelector}>

@@ -1,8 +1,7 @@
-import { render } from "@testing-library/svelte";
+import { render, waitFor } from "@testing-library/svelte";
 import ShopBrand from "../ShopBrand/ShopBrand.svelte";
 import {
   shopBrandNameInputDomId,
-  closeShopBrandComponentId,
   shopBrandDomId,
   resetFormBtnId,
   shopBrandCountryInputDomId,
@@ -56,35 +55,33 @@ test(`open close component /
     },
   });
 
-  render(ShopBrand, {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { debug } = render(ShopBrand, {
     props: {
       isActive: true,
     },
   });
 
-  // Component should initially be active
+  // Wait for countries and currencies data to resolve
+  await waitFor(() => true);
+
+  // Component should always be active
   const componentEl = getById(shopBrandDomId);
   expect(componentEl.classList).toContain(IS_ACTIVE_CLASS_NAME);
 
-  // When component is closed from the top
-  await getById(closeShopBrandComponentId).click();
-
-  // Component should not be visible
-  expect(componentEl.classList).not.toContain(IS_ACTIVE_CLASS_NAME);
-
   // When form is completed
   const nameInputEl = getById<HTMLInputElement>(shopBrandNameInputDomId);
-  fillField(nameInputEl, "a");
+  await fillField(nameInputEl, "a");
   expect(nameInputEl.value).toBe("a");
 
   const countryInputEl = getById<HTMLInputElement>(shopBrandCountryInputDomId);
-  fillField(countryInputEl, "a");
+  await fillField(countryInputEl, "a");
   expect(countryInputEl.value).toBe("a");
 
   const currencyInputEl = getById<HTMLInputElement>(
     shopBrandCurrencyInputDomId
   );
-  fillField(currencyInputEl, "c");
+  await fillField(currencyInputEl, "c");
   expect(currencyInputEl.value).toBe("c");
 
   const phoneInputEl = getById<HTMLInputElement>(shopBrandPhoneInputDomId);
