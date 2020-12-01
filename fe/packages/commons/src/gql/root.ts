@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { countrySchema } from "./country";
+import { countrySchema, currencySchema } from "./schemas";
 
 export const root = gql`
   scalar Date
@@ -10,4 +10,4 @@ export const root = gql`
   }
 `;
 
-export const typeDefs = [root, countrySchema];
+export const typeDefs = [root, countrySchema, currencySchema];

@@ -6,7 +6,7 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
 } from "graphql";
-import { CountryMapper, OurContext } from "./entity";
+import { OurContext } from "./entity";
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -30,15 +30,23 @@ export type Query = {
   __typename?: "Query";
   _?: Maybe<Scalars["String"]>;
   listCountries: Array<Country>;
+  listCurrencies: Array<Currency>;
 };
 
 export type Country = {
   __typename?: "Country";
   id: Scalars["ID"];
-  name: Scalars["String"];
-  code: Scalars["String"];
-  curr_name: Scalars["String"];
-  curr_code: Scalars["String"];
+  country_name: Scalars["String"];
+  country_code: Scalars["String"];
+  insertedAt: Scalars["DateTime"];
+  updatedAt: Scalars["DateTime"];
+};
+
+export type Currency = {
+  __typename?: "Currency";
+  id: Scalars["ID"];
+  currency_name: Scalars["String"];
+  currency_code: Scalars["String"];
   insertedAt: Scalars["DateTime"];
   updatedAt: Scalars["DateTime"];
 };
@@ -163,8 +171,9 @@ export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars["String"]>;
-  Country: ResolverTypeWrapper<CountryMapper>;
+  Country: ResolverTypeWrapper<Country>;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
+  Currency: ResolverTypeWrapper<Currency>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
 };
 
@@ -174,8 +183,9 @@ export type ResolversParentTypes = {
   DateTime: Scalars["DateTime"];
   Query: {};
   String: Scalars["String"];
-  Country: CountryMapper;
+  Country: Country;
   ID: Scalars["ID"];
+  Currency: Currency;
   Boolean: Scalars["Boolean"];
 };
 
@@ -199,6 +209,11 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
+  listCurrencies?: Resolver<
+    Array<ResolversTypes["Currency"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
 export type CountryResolvers<
@@ -206,10 +221,20 @@ export type CountryResolvers<
   ParentType extends ResolversParentTypes["Country"] = ResolversParentTypes["Country"]
 > = {
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  curr_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  curr_code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  country_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  country_code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  insertedAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CurrencyResolvers<
+  ContextType = OurContext,
+  ParentType extends ResolversParentTypes["Currency"] = ResolversParentTypes["Currency"]
+> = {
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  currency_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  currency_code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   insertedAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -220,6 +245,7 @@ export type Resolvers<ContextType = OurContext> = {
   DateTime?: GraphQLScalarType;
   Query?: QueryResolvers<ContextType>;
   Country?: CountryResolvers<ContextType>;
+  Currency?: CurrencyResolvers<ContextType>;
 };
 
 /**

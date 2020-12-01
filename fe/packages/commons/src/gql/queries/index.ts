@@ -1,12 +1,16 @@
 import gql from "graphql-tag";
 
-export const listCountriesQuery = gql`
-  query ListCountries {
+export const listCountriesAndCurrenciesQuery = gql`
+  query ListCountriesAndCurrencies {
     listCountries {
       id
-      name
-      curr_name
-      curr_code
+      country_name
+    }
+
+    listCurrencies {
+      id
+      currency_name
+      currency_code
     }
   }
 `;

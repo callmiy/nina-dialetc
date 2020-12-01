@@ -9,9 +9,3 @@ generates:
       - "typescript-resolvers"
     config:
       contextType: ./entity#OurContext
-      mappers:
-        Country: ./entity#CountryMapper
-  ./src/gql-operations-types.ts:
-    plugins:
-      - "typescript"
-      - "typescript-operations"

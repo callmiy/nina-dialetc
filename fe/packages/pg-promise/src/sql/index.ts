@@ -9,6 +9,10 @@ export const countriesSql = {
   list: sql("./list-countries.sql"),
 };
 
+export const currenciesSql = {
+  list: sql("./list-currencies.sql"),
+};
+
 // Helper for linking to external query files;
 function sql(file: string): QueryFile {
   const fullPath: string = path.join(__dirname, file); // generating full path;

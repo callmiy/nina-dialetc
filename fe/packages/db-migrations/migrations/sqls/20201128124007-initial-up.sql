@@ -6,26 +6,29 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
+-- CURRENCY
+
+CREATE TABLE currencies (
+  id uuid NOT NULL
+  ,currency_name character varying(100) NOT NULL
+  ,currency_code character varying(3) NOT NULL
+  ,inserted_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+  ,updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+  ,CONSTRAINT currencies_pkey PRIMARY KEY (id)
+);
+
 -- COUNTRY
 
 CREATE TABLE countries (
-  id uuid NOT NULL,
-  name character varying(25) NOT NULL,
-  code character varying(2) NOT NULL,
-  curr_name character varying(100) NOT NULL,
-  curr_code character varying(3) NOT NULL,
-  inserted_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
-  updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+  id uuid NOT NULL
+  ,country_name character varying(25) NOT NULL
+  ,country_code character varying(2) NOT NULL
+  ,inserted_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+  ,updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+  ,CONSTRAINT countries_pkey PRIMARY KEY (id)
+  ,CONSTRAINT countries_country_code_index UNIQUE (country_code)
 );
 
-ALTER TABLE countries
-  ADD CONSTRAINT countries_pkey PRIMARY KEY (id);
-
-ALTER TABLE countries
-  ADD CONSTRAINT countries_code_index UNIQUE (code);
-
-ALTER TABLE countries
-  ADD CONSTRAINT countries_code_curr_code_index UNIQUE (code, curr_code);
 
 CREATE TRIGGER countries_update_updated_at_timestamp
   BEFORE UPDATE
@@ -36,21 +39,24 @@ CREATE TRIGGER countries_update_updated_at_timestamp
   )
   EXECUTE PROCEDURE update_updated_at_timestamp();
 
+-- CURRENCY + COUNTRY
+
+CREATE TABLE countries_currencies (
+  country_id  uuid REFERENCES countries (id) ON DELETE CASCADE
+  ,currency_id uuid REFERENCES currencies (id) ON DELETE CASCADE
+  ,CONSTRAINT countries_currencies_pkey PRIMARY KEY (country_id, currency_id)
+);
 
 -- AUTHS
 
 CREATE TABLE auths (
-  id uuid NOT NULL,
-  email character varying(255) NOT NULL,
-  inserted_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
-  updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+  id uuid NOT NULL
+  ,email character varying(255) NOT NULL
+  ,inserted_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+  ,updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+  ,CONSTRAINT auths_pkey PRIMARY KEY (id)
+  ,CONSTRAINT auths_email_index UNIQUE (email)
 );
-
-ALTER TABLE auths
-  ADD CONSTRAINT auths_pkey PRIMARY KEY (id);
-
-ALTER TABLE auths
-  ADD CONSTRAINT auths_email_index UNIQUE (email);
 
 CREATE TRIGGER auths_update_updated_at_timestamp
   BEFORE UPDATE
@@ -61,27 +67,50 @@ CREATE TRIGGER auths_update_updated_at_timestamp
   )
   EXECUTE PROCEDURE update_updated_at_timestamp();
 
-INSERT INTO countries
+INSERT INTO currencies
   (
-    id,
-    name,
-    code,
-    curr_name,
-    curr_code
+    id
+    ,currency_name
+    ,currency_code
   )
 VALUES
   (
-    '017618D2C667578D7BBA81D33F1307B2',
-    'Germany',
-    'DE',
-    'Euro',
-    'EUR'
-  ),
-  (
-    '017618D4A8268D3412E026EE965874F2',
-    'France',
-    'FR',
-    'Euro',
-    'EUR'
+    '01761BD1CBE47E7C8B789DD46D2899DD'
+    ,'Euro'
+    ,'EUR'
   )
 ;
+
+INSERT INTO countries
+  (
+    id
+    ,country_name
+    ,country_code
+  )
+VALUES
+  (
+    '017618D2C667578D7BBA81D33F1307B2'
+    ,'Germany'
+    ,'DE'
+  ),
+  (
+    '017618D4A8268D3412E026EE965874F2'
+    ,'France'
+    ,'FR'
+  )
+;
+
+INSERT INTO countries_currencies
+  (
+    country_id
+    ,currency_id
+  )
+VALUES
+  (
+    '017618D2C667578D7BBA81D33F1307B2'
+    ,'01761BD1CBE47E7C8B789DD46D2899DD'
+  ),
+  (
+    '017618D4A8268D3412E026EE965874F2'
+    ,'01761BD1CBE47E7C8B789DD46D2899DD'
+  )

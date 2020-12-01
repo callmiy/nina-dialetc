@@ -62,17 +62,15 @@
                 <option value="">----------</option>
 
                 {#await countriesPromise}
-                  <p>...waiting</p>
+                  <option value="">----------</option>
                 {:then countriesData}
                   {#if countriesData.data && countriesData.data.listCountries}
-                    {#each countriesData.data.listCountries as { id, name } (id)}
+                    {#each countriesData.data.listCountries as { id, country_name } (id)}
                       <option value={id} class={shopBrandNameOptionSelector}>
-                        {name}
+                        {country_name}
                       </option>
                     {/each}
                   {/if}
-                {:catch error}
-                  <p style="color: red">{error.message}</p>
                 {/await}
               </select>
             </div>
@@ -89,9 +87,18 @@
               <select id={shopBrandCurrencyInputDomId} bind:value={currency}>
                 <option value="">----------</option>
 
-                <option value="eur">EUR</option>
-
-                <option value="usd">USD</option>
+                {#await countriesPromise}
+                  <option value="">----------</option>
+                {:then countriesData}
+                  {#if countriesData.data && countriesData.data.listCurrencies}
+                    {#each countriesData.data.listCurrencies as { id, currency_name, currency_code } (id)}
+                      <option value={id} class={shopBrandNameOptionSelector}>
+                        {currency_name}:
+                        {currency_code}
+                      </option>
+                    {/each}
+                  {/if}
+                {/await}
               </select>
             </div>
           </div>

@@ -17,12 +17,12 @@ import {
   NOTHING_TO_SAVE_WARNING_MESSAGE,
 } from "@ta/cm/src/utils";
 import { makeApolloClient } from "@ta/cm/src/apollo/client";
-import { listCountriesQuery } from "@ta/cm/src/gql/queries";
+import { listCountriesAndCurrenciesQuery } from "@ta/cm/src/gql/queries";
 
 const apolloClient = makeApolloClient();
 
 const countriesPromise = apolloClient.query({
-  query: listCountriesQuery,
+  query: listCountriesAndCurrenciesQuery,
 });
 
 /* FORM ATTRIBUTES */
