@@ -3,7 +3,8 @@ import { listCountries } from "../db";
 export const countryResolver = {
   Query: {
     listCountries: async () => {
-      return await listCountries();
+      const data = await listCountries();
+      return data;
     },
   },
 };

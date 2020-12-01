@@ -4,8 +4,9 @@ import {
   InMemoryCache,
 } from "@apollo/client/core";
 import fetch from "cross-fetch";
-import { GRAPHQL_PATH } from "./constants";
-import { API_URL } from "./envs";
+import { GRAPHQL_PATH } from "../constants";
+import { API_URL } from "../envs";
+import { middlewareErrorLink, middlewareLoggerLink } from "./middlewares";
 
 const path = API_URL + GRAPHQL_PATH;
 
@@ -21,15 +22,17 @@ export function makeApolloClient(
 
   cache = new InMemoryCache();
 
-  const link = createHttpLink({
+  let link = createHttpLink({
     uri,
     fetch,
   });
 
+  link = middlewareErrorLink(link);
+  link = middlewareLoggerLink(link);
+
   client = new ApolloClient({
     cache,
     link,
-    name: "@ta/sa/apollo-client",
     queryDeduplication: false,
     ssrMode: typeof window === "undefined" ? true : false,
     defaultOptions: {

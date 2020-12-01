@@ -8,6 +8,12 @@ const init = async () => {
   const appServer = new Server({
     port: API_PORT,
     host: API_HOST,
+    routes: {
+      cors: {
+        origin: ["*"], // an array of origins or 'ignore'
+        // headers: ["Authorization"],
+      },
+    },
   });
 
   if (IS_E2E_TEST) {

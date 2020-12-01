@@ -16,6 +16,14 @@ import {
   IS_ACTIVE_CLASS_NAME,
   NOTHING_TO_SAVE_WARNING_MESSAGE,
 } from "@ta/cm/src/utils";
+import { makeApolloClient } from "@ta/cm/src/apollo/client";
+import { listCountriesQuery } from "@ta/cm/src/gql/queries";
+
+const apolloClient = makeApolloClient();
+
+const countriesPromise = apolloClient.query({
+  query: listCountriesQuery,
+});
 
 /* FORM ATTRIBUTES */
 let name: string;

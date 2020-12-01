@@ -1,6 +1,3 @@
-<script lang="ts" src="./shop-brand.module.ts" context="module">
-</script>
-
 <script src="./shop-brand.ts">
 </script>
 
@@ -64,9 +61,19 @@
               <select id={shopBrandCountryInputDomId} bind:value={country}>
                 <option value="">----------</option>
 
-                <option value="de" class={shopBrandNameOptionSelector}>
-                  Germany
-                </option>
+                {#await countriesPromise}
+                  <p>...waiting</p>
+                {:then countriesData}
+                  {#if countriesData.data && countriesData.data.listCountries}
+                    {#each countriesData.data.listCountries as { id, name } (id)}
+                      <option value={id} class={shopBrandNameOptionSelector}>
+                        {name}
+                      </option>
+                    {/each}
+                  {/if}
+                {:catch error}
+                  <p style="color: red">{error.message}</p>
+                {/await}
               </select>
             </div>
           </div>

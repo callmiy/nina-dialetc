@@ -16,10 +16,11 @@ export async function setUpApollo(appServer: Server) {
       return {};
     },
   });
+
   await apolloServer.applyMiddleware({
     app: appServer,
     path: GRAPHQL_PATH,
   });
 
-  await apolloServer.installSubscriptionHandlers(appServer.listener);
+  // await apolloServer.installSubscriptionHandlers(appServer.listener);
 }
