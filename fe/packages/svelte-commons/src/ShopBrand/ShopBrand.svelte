@@ -66,7 +66,7 @@
                 {:then countriesData}
                   {#if countriesData.data && countriesData.data.listCountries}
                     {#each countriesData.data.listCountries as { id, country_name } (id)}
-                      <option value={id} class={shopBrandNameOptionSelector}>
+                      <option value={id} class={shopBrandCountryOptionSelector}>
                         {country_name}
                       </option>
                     {/each}
@@ -92,9 +92,8 @@
                 {:then countriesData}
                   {#if countriesData.data && countriesData.data.listCurrencies}
                     {#each countriesData.data.listCurrencies as { id, currency_name, currency_code } (id)}
-                      <option value={id} class={shopBrandNameOptionSelector}>
-                        {currency_name}:
-                        {currency_code}
+                      <option value={id} class={shopBrandCurrencyOptionSelector}>
+                        {currency_name}: {currency_code}
                       </option>
                     {/each}
                   {/if}

@@ -2,12 +2,22 @@
 /// <reference path="../support/types.d.ts" />
 
 import { shopItemAddBrandId } from "@ta/cm/src/shop-item-dom";
-import { shopBrandNameInputDomId } from "@ta/cm/src/shop-brand-dom";
+import {
+  shopBrandNameInputDomId,
+  shopBrandCountryInputDomId,
+  shopBrandCountryOptionSelector,
+  shopBrandCurrencyOptionSelector,
+  shopBrandCurrencyInputDomId,
+  shopBrandPhoneInputDomId,
+  submitId,
+} from "@ta/cm/src/shop-brand-dom";
 
 context("Item", () => {
   beforeEach(() => {
     cy.checkoutSession();
   });
+
+  const brandName1 = "Edeka";
 
   describe("create item", () => {
     it("success", () => {
@@ -17,16 +27,32 @@ context("Item", () => {
 
       // When we click the button to create new item
 
-      // Click on 'Add new shop brand' button
+      // When we click on 'Add new shop brand' button
       cy.get("#" + shopItemAddBrandId).click();
 
-      // And fill the brand name field
-      cy.get("#" + shopBrandNameInputDomId).type("Edeka");
+      // When we fill the brand name field
+      cy.get("#" + shopBrandNameInputDomId).type(brandName1);
 
-      // And fill the country field
-      // And fill the currency field
-      // And fill telephone field
-      // And click 'Finish Add' shop brand
+      // When we select a country
+      cy.get("." + shopBrandCountryOptionSelector)
+        .first()
+        .then((e) => {
+          cy.get("#" + shopBrandCountryInputDomId).select(e.val() as string);
+        });
+
+      // When we select a currency
+      cy.get("." + shopBrandCurrencyOptionSelector)
+        .first()
+        .then((el) => {
+          cy.get("#" + shopBrandCurrencyInputDomId).select(el.val() as string);
+        });
+
+      // We fill telephone field
+      cy.get("#" + shopBrandPhoneInputDomId).type("012345677");
+
+      // We click submit button
+      cy.get("#" + submitId).click();
+
       // And click 'Add shop location' button
       // And fill street name and number field
       // And fill postcode field

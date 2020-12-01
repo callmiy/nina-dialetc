@@ -11,6 +11,8 @@ import {
   simpleTextErrorCloseId,
   submitId,
   shopBrandNameOptionSelector,
+  shopBrandCountryOptionSelector,
+  shopBrandCurrencyOptionSelector,
 } from "@ta/cm/src/shop-brand-dom";
 import {
   IS_ACTIVE_CLASS_NAME,
