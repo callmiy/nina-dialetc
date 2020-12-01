@@ -13,10 +13,49 @@ import {
 } from "@ta/cm/src/shop-brand-dom";
 import { fillField } from "./test_utils";
 import { IS_ACTIVE_CLASS_NAME } from "@ta/cm/src/utils";
+import { makeApolloClient } from "@ta/cm/src/apollo/client";
+
+jest.mock("@ta/cm/src/apollo/client");
+const mockApolloQueryFn = jest.fn();
+const mockMakeApolloClient = makeApolloClient as jest.Mock;
+
+jest.mock("@ta/cm/src/gql/queries");
+
+beforeEach(() => {
+  mockMakeApolloClient.mockReturnValue({
+    query: mockApolloQueryFn,
+  });
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
+});
 
 test(`open close component /
       reset form /
       submit empty form`, async () => {
+  mockApolloQueryFn.mockResolvedValue({
+    data: {
+      listCountries: [
+        {
+          id: "a",
+          country_name: "Germany",
+        },
+        {
+          id: "b",
+          country_name: "France",
+        },
+      ],
+      listCurrencies: [
+        {
+          id: "c",
+          currency_name: "Euro",
+          currency_code: "EUR",
+        },
+      ],
+    },
+  });
+
   render(ShopBrand, {
     props: {
       isActive: true,
@@ -39,14 +78,14 @@ test(`open close component /
   expect(nameInputEl.value).toBe("a");
 
   const countryInputEl = getById<HTMLInputElement>(shopBrandCountryInputDomId);
-  fillField(countryInputEl, "de");
-  expect(countryInputEl.value).toBe("de");
+  fillField(countryInputEl, "a");
+  expect(countryInputEl.value).toBe("a");
 
   const currencyInputEl = getById<HTMLInputElement>(
     shopBrandCurrencyInputDomId
   );
-  fillField(currencyInputEl, "eur");
-  expect(currencyInputEl.value).toBe("eur");
+  fillField(currencyInputEl, "c");
+  expect(currencyInputEl.value).toBe("c");
 
   const phoneInputEl = getById<HTMLInputElement>(shopBrandPhoneInputDomId);
   fillField(phoneInputEl, "aa");
