@@ -30,8 +30,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test(`open close component /
-      reset form /
+test(`reset form /
       submit empty form`, async () => {
   mockApolloQueryFn.mockResolvedValue({
     data: {
@@ -106,10 +105,10 @@ test(`open close component /
   await submitEl.click();
 
   // Warning notification is visible
-  const closeSimpleTextNotification = getById(simpleTextErrorCloseId);
+  expect(getById(simpleTextErrorCloseId)).not.toBeNull();
 
   // When reset button is clicked
-  await closeSimpleTextNotification.click();
+  await resetEl.click();
 
   // Warning notification should not visible
   expect(getById(simpleTextErrorCloseId)).toBeNull();

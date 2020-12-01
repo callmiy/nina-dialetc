@@ -11,5 +11,5 @@
 </style>
 
 <div class="main-layout">
-  <ShopItem {name} />
+  <ShopItem name="{name}" />
 </div>

@@ -49,25 +49,26 @@ export let isActive = false;
 
 /* CALLBACKS */
 
-const closeComponentCb = () => {
+function closeComponentCb() {
   isActive = false;
-};
+}
 
-const resetFormCb = () => {
+function resetFormCb() {
   name = "";
   country = "";
   currency = "";
   phone = "";
-};
+  clearSimpletextErrorCb();
+}
 
-const submitFormCb = () => {
+function submitFormCb() {
   const formEmpty = !name && !country && !currency && !phone;
 
   if (formEmpty) {
     simpleTextError = NOTHING_TO_SAVE_WARNING_MESSAGE;
     simpleTextErrorClass = "is-warning";
   }
-};
+}
 
 function clearSimpletextErrorCb() {
   simpleTextError = "";
