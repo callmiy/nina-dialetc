@@ -3,9 +3,9 @@ schema: "./src/gql/gen.ts"
 require: "ts-node/register/transpile-only"
 documents: null
 generates:
-  ./src/gql-schema-types.ts:
+  ./src/gql/schema-types.ts:
     plugins:
       - "typescript"
       - "typescript-resolvers"
     config:
-      contextType: ./entity#OurContext
+      contextType: ../entity#OurContext

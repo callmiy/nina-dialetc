@@ -20,7 +20,7 @@ import {
 } from "@ta/cm/src/utils";
 import { makeApolloClient } from "@ta/cm/src/apollo/client";
 import { listCountriesAndCurrenciesQuery } from "@ta/cm/src/gql/queries";
-import { Query } from "@ta/cm/src/gql-schema-types";
+import { Query } from "@ta/cm/src/gql/schema-types";
 
 const apolloClient = makeApolloClient();
 let countriesList: Query["listCountries"];

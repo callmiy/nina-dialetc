@@ -64,7 +64,7 @@ const [appScripts, checkCmd] = Object.entries(appsMap).reduce(
     });
 
     if (!ntc) {
-      // lintTypeCheckCmd += ` ${alias}.tc`;
+      lintTypeCheckCmd += ` ${alias}.tc`;
     }
 
     lintTypeCheckCmd += ` ${alias}.lint`;

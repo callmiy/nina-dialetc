@@ -1,4 +1,7 @@
 {
   "extends": "../../_tsconfig.json",
+  "compilerOptions": {
+    "types": ["svelte"]
+  },
   "include": ["./src/**/*"]
 }
