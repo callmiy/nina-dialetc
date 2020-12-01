@@ -2,11 +2,14 @@
 
 import {
   shopBrandNameInputDomId,
+  shopBrandNameErrorDomId,
   closeShopBrandComponentId,
   resetFormBtnId,
   shopBrandDomId,
   shopBrandCountryInputDomId,
+  shopBrandCountryErrorDomId,
   shopBrandCurrencyInputDomId,
+  shopBrandCurrencyErrorDomId,
   shopBrandPhoneInputDomId,
   simpleTextErrorCloseId,
   submitId,
@@ -21,6 +24,7 @@ import {
 import { makeApolloClient } from "@ta/cm/src/apollo/client";
 import { listCountriesAndCurrenciesQuery } from "@ta/cm/src/gql/queries";
 import { ListCountriesAndCurrencies } from "@ta/cm/src/gql/ops-types";
+import FormCtrlError from "../FormCtrlError/FormCtrlError.svelte";
 
 const apolloClient = makeApolloClient();
 
@@ -36,10 +40,16 @@ const countriesCurrenciesPromise = apolloClient
     return {} as ListCountriesAndCurrencies;
   });
 
-/* FORM ATTRIBUTES */
-let name: string;
+/* FORM ATTRIBUTES AND ERROR VARIABLES */
+let name = "";
+let nameError: string;
+
 let country = "";
+let countryError: string;
+
 let currency = "";
+let currencyError: string;
+
 let phone = "";
 
 let simpleTextError = "";
@@ -67,6 +77,11 @@ function submitFormCb() {
   if (formEmpty) {
     simpleTextError = NOTHING_TO_SAVE_WARNING_MESSAGE;
     simpleTextErrorClass = "is-warning";
+    return;
+  }
+
+  if (name.length < 3) {
+    nameError = "shop brand name is compulsory field";
   }
 }
 

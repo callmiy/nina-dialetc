@@ -14,7 +14,7 @@ module.exports = {
     },
     test: {
       default: {
-        script: `jest --runInBand --watch`,
+        script: `NODE_ENV=test jest --runInBand --watch`,
       },
       t: {
         script: `jest --runInBand`,

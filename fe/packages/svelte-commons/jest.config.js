@@ -23,9 +23,11 @@ module.exports = {
   },
   watchPathIgnorePatterns: [
     "<rootDir>/node_modules*",
-    "<rootDir>/package.json",
+    "<rootDir>/package\\.json",
+    "<rootDir>/package-scripts\\.js",
     "<rootDir>/jest\\.config\\.js",
     "<rootDir>/rollup\\.config\\.js",
+    "<rootDir>/svelte\\.config\\.js",
     "<rootDir>/coverage/",
     "<rootDir>/tsconfig\\.json/",
   ],

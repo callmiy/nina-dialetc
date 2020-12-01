@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const sveltePreprocess = require("svelte-preprocess");
+const { scss, typescript, replace } = require("svelte-preprocess");
 
 const scssConfig = {
   includePaths: ["node_modules", "src"],
@@ -8,11 +8,10 @@ const scssConfig = {
 };
 
 module.exports = {
-  preprocess: sveltePreprocess({
-    typescript: {
-      // skips type checking, except in production
-      transpileOnly: process.env.NODE_ENV !== "production",
-    },
-    scss: scssConfig,
-  }),
+  preprocess: [
+    // strip style tag
+    replace([[/<!--[^]*?-->|<style(\s[^]*?)?(?:>([^]*?)<\/style>|\/>)/gi, ""]]),
+    typescript(),
+    scss(scssConfig),
+  ],
 };

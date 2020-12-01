@@ -1,8 +1,8 @@
 /* istanbul ignore file */
 import { fireEvent } from "@testing-library/svelte";
 
-export function fillField(element: Element, value: string) {
-  fireEvent.change(element, {
+export async function fillField(element: Element, value: string) {
+  await fireEvent.change(element, {
     target: { value },
   });
 }
