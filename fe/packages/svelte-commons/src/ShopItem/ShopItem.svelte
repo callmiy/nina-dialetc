@@ -7,7 +7,7 @@
       <svelte:component
         this="{c.default}"
         bind:isActive="{brandComponentIsActive}"
-        name="{name}"
+        onSubmit="{onSubmitShopBrand}"
       />
     {/await}
   {/if}
@@ -27,13 +27,20 @@
             id="{shopItemBrandNameInputId}"
             class="input"
             type="text"
-            bind:value="{name}"
+            bind:value="{brandName}"
           >
-            <option value="">---------</option>
-            <option class="{shopItemBrandNameOptionSelector}" value="edeka">
-              Edeka
+            <option value="" class="{shopItemBrandNameOptionSelector}">
+              ---------
             </option>
-            <option value="penny">Penny</option>
+
+            {#if brandName}
+              <option
+                class="{shopItemBrandNameOptionSelector}"
+                value="{brandName}"
+              >
+                {brandName}
+              </option>
+            {/if}
           </select>
         </div>
       </div>

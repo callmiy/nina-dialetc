@@ -24,8 +24,18 @@ import {
 } from "@ta/cm/src/utils";
 import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
 import FormCtrlError from "../FormCtrlError/FormCtrlError.svelte";
+import {
+  ListCountriesAndCurrencies_listCountries,
+  ListCountriesAndCurrencies_listCurrencies,
+  ListCountriesAndCurrencies,
+} from "@ta/cm/src/gql/ops-types";
 
-const countriesCurrenciesPromise = getCountriesCurrencies();
+let countriesAndCurrencies: ListCountriesAndCurrencies;
+
+const countriesCurrenciesPromise = getCountriesCurrencies().then((d) => {
+  countriesAndCurrencies = d;
+  return d;
+});
 
 /* FORM ATTRIBUTES AND ERROR VARIABLES */
 let name = "";
@@ -42,7 +52,9 @@ let phone = "";
 let simpleTextError = "";
 let simpleTextErrorClass = "";
 
-export let isActive = false;
+/* PROPS */
+export let isActive: Props["isActive"] = false;
+export let onSubmit: Props["onSubmit"];
 
 /* CALLBACKS */
 
@@ -93,6 +105,24 @@ function submitFormCb() {
   if (hasError) {
     simpleTextError = FORM_CONTAINS_ERRORS_MESSAGE;
     simpleTextErrorClass = "is-danger";
+    return;
+  }
+
+  const countryData = countriesAndCurrencies.listCountries.find(
+    (d) => d.id === country
+  ) as ListCountriesAndCurrencies_listCountries;
+
+  const currencyData = countriesAndCurrencies.listCurrencies.find(
+    (d) => d.id === currency
+  ) as ListCountriesAndCurrencies_listCurrencies;
+
+  if (onSubmit) {
+    onSubmit({
+      name,
+      country: countryData,
+      currency: currencyData,
+      phone: phone || null,
+    });
   }
 }
 
@@ -100,3 +130,15 @@ function clearSimpletextErrorCb() {
   simpleTextError = "";
   simpleTextErrorClass = "";
 }
+
+export type ShopBrandValues = {
+  name: string;
+  country: ListCountriesAndCurrencies_listCountries;
+  currency: ListCountriesAndCurrencies_listCurrencies;
+  phone?: string | null;
+};
+
+export type Props = {
+  isActive: boolean;
+  onSubmit?: (values: ShopBrandValues) => void;
+};

@@ -12,5 +12,13 @@ module.exports = {
       `,
       description: "eslint lint this project",
     },
+    p: {
+      script: `prettier --write .`,
+      description: "prettify",
+    },
+    s: {
+      script: `sort-package-json package.json`,
+      description: `Sort package json`,
+    },
   },
 };

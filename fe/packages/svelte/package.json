@@ -8,6 +8,10 @@
   "scripts": {
     "start": "nps"
   },
+  "prettier": {
+    "svelteBracketNewLine": true,
+    "svelteStrictMode": true
+  },
   "devDependencies": {
     "@babel/preset-env": "7.12.7",
     "@babel/preset-typescript": "7.12.7",
@@ -19,7 +23,7 @@
     "mini-css-extract-plugin": "0.6.0",
     "nps": "5.10.0",
     "prettier": "2.1.2",
-    "prettier-plugin-svelte": "1.4.1",
+    "prettier-plugin-svelte": "1.4.0",
     "sass": "1.29.0",
     "serve": "11.0.0",
     "style-loader": "0.23.1",

@@ -12,7 +12,7 @@ jest.mock("../ShopBrand/ShopBrand.svelte", () => {
 
 test("it renders `ShopItem` component", () => {
   render(ShopItem, {
-    props: { name: "me" },
+    props: {},
   });
 
   const elm = document.getElementById(shopItemBrandNameInputId) as HTMLElement;
