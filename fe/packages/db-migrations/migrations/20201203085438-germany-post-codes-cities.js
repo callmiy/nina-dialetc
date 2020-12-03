@@ -7,11 +7,7 @@ var fs = require("fs");
 var path = require("path");
 var Promise;
 
-const insertSqlFn = require("../germany-post-codes-cities").fetchGermanyPostalCodesCities();
-// .then((x) => {
-//   console.log(x);
-//   return x;
-// });
+const insertSqlFn = require("../post-codes").fetchGermanyPostalCodesCities();
 
 /**
  * We receive the dbmigrate dependency from dbmigrate initially.
