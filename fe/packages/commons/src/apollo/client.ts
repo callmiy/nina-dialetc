@@ -7,6 +7,8 @@ import fetch from "cross-fetch";
 import { GRAPHQL_PATH } from "../constants";
 import { API_URL } from "../envs";
 import { middlewareErrorLink, middlewareLoggerLink } from "./middlewares";
+import { listCountriesAndCurrenciesQuery } from "../gql/queries";
+import { ListCountriesAndCurrencies } from "../gql/ops-types";
 
 const path = API_URL + GRAPHQL_PATH;
 
@@ -43,6 +45,22 @@ export function makeApolloClient(
   });
 
   return client;
+}
+
+export function getCountriesCurrencies() {
+  const client = makeApolloClient();
+
+  return client
+    .query<ListCountriesAndCurrencies>({
+      query: listCountriesAndCurrenciesQuery,
+    })
+    .then((result) => {
+      if (result && result.data) {
+        return result.data;
+      }
+
+      return {} as ListCountriesAndCurrencies;
+    });
 }
 
 type MakeApolloClientArgs = {

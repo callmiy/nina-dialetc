@@ -15,19 +15,12 @@ import {
 } from "@ta/cm/src/shop-brand-dom";
 import { fillField } from "./test_utils";
 import { IS_ACTIVE_CLASS_NAME } from "@ta/cm/src/utils";
-import { makeApolloClient } from "@ta/cm/src/apollo/client";
+import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
 
 jest.mock("@ta/cm/src/apollo/client");
-const mockApolloQueryFn = jest.fn();
-const mockMakeApolloClient = makeApolloClient as jest.Mock;
+const mockGetCountriesCurrencies = getCountriesCurrencies as jest.Mock;
 
 jest.mock("@ta/cm/src/gql/queries");
-
-beforeEach(() => {
-  mockMakeApolloClient.mockReturnValue({
-    query: mockApolloQueryFn,
-  });
-});
 
 afterEach(() => {
   jest.resetAllMocks();
@@ -35,7 +28,7 @@ afterEach(() => {
 
 it(`reset form /
     submit empty form`, async () => {
-  mockApolloQueryFn.mockResolvedValue({
+  mockGetCountriesCurrencies.mockResolvedValue({
     data: {
       listCountries: [
         {
@@ -117,7 +110,7 @@ it(`country-currency fetch fails /
       brand name too short /
       currency and country empty /
       close error notification`, async () => {
-  mockApolloQueryFn.mockResolvedValue(new Error("a"));
+  mockGetCountriesCurrencies.mockResolvedValue(new Error("a"));
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { debug } = render(ShopBrand, {

@@ -22,24 +22,10 @@ import {
   NOTHING_TO_SAVE_WARNING_MESSAGE,
   FORM_CONTAINS_ERRORS_MESSAGE,
 } from "@ta/cm/src/utils";
-import { makeApolloClient } from "@ta/cm/src/apollo/client";
-import { listCountriesAndCurrenciesQuery } from "@ta/cm/src/gql/queries";
-import { ListCountriesAndCurrencies } from "@ta/cm/src/gql/ops-types";
+import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
 import FormCtrlError from "../FormCtrlError/FormCtrlError.svelte";
 
-const apolloClient = makeApolloClient();
-
-const countriesCurrenciesPromise = apolloClient
-  .query<ListCountriesAndCurrencies>({
-    query: listCountriesAndCurrenciesQuery,
-  })
-  .then((result) => {
-    if (result && result.data) {
-      return result.data;
-    }
-
-    return {} as ListCountriesAndCurrencies;
-  });
+const countriesCurrenciesPromise = getCountriesCurrencies();
 
 /* FORM ATTRIBUTES AND ERROR VARIABLES */
 let name = "";
