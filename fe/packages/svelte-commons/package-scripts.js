@@ -1,5 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require("path");
 const commonScripts = require("../../package-commons-scripts");
+
+const svelteConfigFilePath = path.resolve(__dirname, "./svelte.config");
+const svelteTransform = `-r ../commons/src/test-utils/transform-svelte`;
 
 module.exports = {
   scripts: {
@@ -18,6 +21,13 @@ module.exports = {
       },
       t: {
         script: `jest --runInBand`,
+      },
+    },
+    u: {
+      default: {
+        script: `SVELTE_CONFIG_PATH=${svelteConfigFilePath} \
+          uvu ./src/-tests- -r ts-node/register ${svelteTransform} \
+          `,
       },
     },
   },

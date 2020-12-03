@@ -37,30 +37,30 @@ services:
     volumes:
       - "./fe:/home/node/web"
       - "nu_nm:/home/node/web/node_modules/"
-      - "nu_netlify:/home/node/web/.netlify/"
+      - "nu_nt:/home/node/web/.netlify/"
       - "nu_nm_cm:/home/node/web/packages/commons/node_modules/"
       - "nu_nm_cy:/home/node/web/packages/cy/node_modules/"
       - "nu_nm_dm:/home/node/web/packages/db-migrations/node_modules/"
       - "nu_nm_hp:/home/node/web/packages/hapi/node_modules/"
       - "nu_nm_pp:/home/node/web/packages/pg-promise/node_modules/"
-      - "nu_nm_sa:/home/node/web/packages/sapper/node_modules/"
-      # - "nu_nm_sv:/home/node/web/packages/svelte/node_modules/"
-      # - "nu_co_sv:/home/node/web/packages/svelte/coverage/"
-      # - "nu_build_sv:/home/node/web/packages/svelte/build/"
+      # - "nu_nm_sa:/home/node/web/packages/sapper/node_modules/"
+      - "nu_nm_sv:/home/node/web/packages/svelte/node_modules/"
+      - "nu_co_sv:/home/node/web/packages/svelte/coverage/"
+      - "nu_bd_sv:/home/node/web/packages/svelte/build/"
       - "nu_nm_sc:/home/node/web/packages/svelte-commons/node_modules/"
       - "nu_co_sc:/home/node/web/packages/svelte-commons/coverage/"
 
 volumes:
   nu_nm:
-  nu_netlify:
+  nu_nt:
   nu_nm_cm:
   nu_nm_cy:
   nu_nm_dm:
   nu_nm_hp:
   nu_nm_pp:
-  nu_nm_sa:
-  # nu_nm_sv:
-  # nu_co_sv:
-  # nu_build_sv:
+  # nu_nm_sa:
+  nu_nm_sv:
+  nu_co_sv:
+  nu_bd_sv:
   nu_nm_sc:
   nu_co_sc:

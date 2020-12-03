@@ -30,6 +30,7 @@
           <div
             class:notification="{true}"
             class:is-warning="{simpleTextErrorClass === 'is-warning'}"
+            class:is-danger="{simpleTextErrorClass === 'is-danger'}"
           >
             <button
               class="delete"
@@ -55,6 +56,10 @@
               bind:value="{name}"
             />
           </div>
+
+          {#if nameError}
+            <FormCtrlError error="{nameError}" />
+          {/if}
         </div>
 
         <div class="field">
@@ -84,6 +89,10 @@
                 {/await}
               </select>
             </div>
+
+            {#if countryError}
+              <FormCtrlError error="{countryError}" />
+            {/if}
           </div>
         </div>
 
@@ -118,6 +127,10 @@
                 {/await}
               </select>
             </div>
+
+            {#if currencyError}
+              <FormCtrlError error="{currencyError}" />
+            {/if}
           </div>
         </div>
 

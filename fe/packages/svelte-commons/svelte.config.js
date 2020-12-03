@@ -1,17 +1,14 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+// const { typescript, replace } = require("svelte-preprocess");
+const sveltePreprocessor = require("svelte-preprocess");
 
-const { scss, typescript, replace } = require("svelte-preprocess");
-
-const scssConfig = {
-  includePaths: ["node_modules", "src"],
-  implementation: require("sass"),
-};
+// module.exports = {
+//   preprocess: [
+//     // strip style tag
+//     replace([[/<!--[^]*?-->|<style(\s[^]*?)?(?:>([^]*?)<\/style>|\/>)/gi, ""]]),
+//     typescript(),
+//   ],
+// };
 
 module.exports = {
-  preprocess: [
-    // strip style tag
-    replace([[/<!--[^]*?-->|<style(\s[^]*?)?(?:>([^]*?)<\/style>|\/>)/gi, ""]]),
-    typescript(),
-    scss(scssConfig),
-  ],
+  preprocess: sveltePreprocessor(),
 };

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
 const path = require("path");
 
 const jestBabelTransform = path.resolve(__dirname, "./jestBabelTransform.js");

@@ -14,18 +14,19 @@
     "start": "nps"
   },
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
+    "@babel/plugin-transform-modules-commonjs": "7.12.1",
     "@typescript-eslint/eslint-plugin": "4.7.0",
     "@typescript-eslint/parser": "4.7.0",
-    "concurrently": "^5.3.0",
+    "concurrently": "5.3.0",
     "eslint": "7.13.0",
-    "eslint-plugin-svelte3": "^2.7.3",
-    "netlify": "^4.9.0",
-    "nps": "^5.10.0",
-    "nps-utils": "^1.7.0",
-    "prettier": "^2.2.0",
-    "shelljs": "^0.8.4",
-    "sort-package-json": "^1.48.0"
+    "eslint-plugin-svelte3": "2.7.3",
+    "netlify": "4.9.0",
+    "nps": "5.10.0",
+    "nps-utils": "1.7.0",
+    "prettier": "2.2.0",
+    "prettier-plugin-svelte": "1.4.1",
+    "shelljs": "0.8.4",
+    "sort-package-json": "1.48.0"
   },
   "prettier": {
     "svelteStrictMode": true,

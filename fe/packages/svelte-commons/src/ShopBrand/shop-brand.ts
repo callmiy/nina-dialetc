@@ -20,6 +20,7 @@ import {
 import {
   IS_ACTIVE_CLASS_NAME,
   NOTHING_TO_SAVE_WARNING_MESSAGE,
+  FORM_CONTAINS_ERRORS_MESSAGE,
 } from "@ta/cm/src/utils";
 import { makeApolloClient } from "@ta/cm/src/apollo/client";
 import { listCountriesAndCurrenciesQuery } from "@ta/cm/src/gql/queries";
@@ -65,8 +66,14 @@ function closeComponentCb() {
 
 function resetFormCb() {
   name = "";
+  nameError = "";
+
   country = "";
+  countryError = "";
+
   currency = "";
+  currencyError = "";
+
   phone = "";
   clearSimpletextErrorCb();
 }
@@ -80,8 +87,26 @@ function submitFormCb() {
     return;
   }
 
+  let hasError = false;
+
   if (name.length < 3) {
     nameError = "shop brand name is compulsory field";
+    hasError = true;
+  }
+
+  if (country.length === 0) {
+    countryError = "Pick a country from the dropdown";
+    hasError = true;
+  }
+
+  if (currency.length === 0) {
+    currencyError = "Pick a currency from the dropdown";
+    hasError = true;
+  }
+
+  if (hasError) {
+    simpleTextError = FORM_CONTAINS_ERRORS_MESSAGE;
+    simpleTextErrorClass = "is-danger";
   }
 }
 

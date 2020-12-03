@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const commonScripts = require("../../package-commons-scripts");
 
 const { DATABASE_URL: dbUrl } = process.env;

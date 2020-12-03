@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const commonScripts = require("../../package-commons-scripts");
 
 const tsConfig = `TS_NODE_COMPILER_OPTIONS='{"module":"commonjs", "isolatedModules": false}'`;

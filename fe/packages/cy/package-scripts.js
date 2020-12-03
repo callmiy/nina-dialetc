@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
 const {
   CYPRESS_BROWSER: browser,
   API_URL: apiUrl,
