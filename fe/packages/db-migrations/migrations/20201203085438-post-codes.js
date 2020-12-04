@@ -24,7 +24,7 @@ exports.up = function (db) {
   var filePath = path.join(
     __dirname,
     "sqls",
-    "20201203085438-germany-post-codes-cities-up.sql"
+    "20201203085438-post-codes-up.sql"
   );
   return new Promise(function (resolve, reject) {
     fs.readFile(filePath, { encoding: "utf-8" }, function (err, data) {
@@ -50,7 +50,7 @@ exports.down = function (db) {
   var filePath = path.join(
     __dirname,
     "sqls",
-    "20201203085438-germany-post-codes-cities-down.sql"
+    "20201203085438-post-codes-down.sql"
   );
   return new Promise(function (resolve, reject) {
     fs.readFile(filePath, { encoding: "utf-8" }, function (err, data) {
