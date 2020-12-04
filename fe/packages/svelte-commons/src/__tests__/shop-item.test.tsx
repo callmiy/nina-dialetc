@@ -1,10 +1,10 @@
 import { render } from "@testing-library/svelte";
-import ShopItem from "../ShopItem/ShopItem.svelte";
-import { shopItemBrandNameInputId } from "@ta/cm/src/shop-item-dom";
+import ShopItem from "../components/shop-item.svelte";
+import { shopItemBrandNameInputId } from "@ta/cm/src/selectors";
 
 declare let React: any;
 
-jest.mock("../ShopBrand/ShopBrand.svelte", () => {
+jest.mock("../components/brand.svelte", () => {
   return {
     default: <div id="john">aa</div>,
   };

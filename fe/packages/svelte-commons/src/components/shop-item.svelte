@@ -1,9 +1,9 @@
-<script src="./shop-item.ts">
+<script src="./_shop-item.ts">
 </script>
 
 <form>
   {#if brandComponentIsActive}
-    {#await import('../ShopBrand/ShopBrand.svelte') then c}
+    {#await import('./brand.svelte') then c}
       <svelte:component
         this="{c.default}"
         bind:isActive="{brandComponentIsActive}"

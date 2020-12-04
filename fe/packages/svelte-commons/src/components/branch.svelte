@@ -10,7 +10,7 @@
 </style>
 
 <div class="a">
-  <div id="{shopBrandDomId}" class="modal is-active">
+  <div id="{brandDomId}" class="modal is-active">
     <div class="modal-background"></div>
 
     <div class="modal-card">
@@ -20,34 +20,33 @@
         <button
           class="delete"
           aria-label="close"
-          id="{closeShopBrandComponentId}"
+          id="{closeBrandComponentId}"
           on:click|preventDefault="{closeComponentCb}"
         ></button>
       </header>
 
       <section class="modal-card-body">
-        {#if simpleTextError}
+        {#if notificationText}
           <div
             class:notification="{true}"
-            class:is-warning="{simpleTextErrorClass === 'is-warning'}"
-            class:is-danger="{simpleTextErrorClass === 'is-danger'}"
+            class:is-warning="{notificationTextClass === 'is-warning'}"
+            class:is-danger="{notificationTextClass === 'is-danger'}"
           >
             <button
               class="delete"
-              id="{simpleTextErrorCloseId}"
               on:click|preventDefault="{clearSimpletextErrorCb}"
             ></button>
 
-            {simpleTextError}
+            {notificationText}
           </div>
         {/if}
 
         <div class="field">
-          <label class="label" for="{shopBrandCurrencyInputDomId}">Post Code</label>
+          <label class="label" for="{brandCurrencyInputDomId}">Post Code</label>
 
           <div class="control">
             <input
-              id="{shopBrandCurrencyInputDomId}"
+              id="{brandCurrencyInputDomId}"
               class="input"
               type="text"
               bind:value="{postCode}"
@@ -60,11 +59,11 @@
         </div>
 
         <div class="field">
-          <label class="label" for="{shopBrandCountryInputDomId}">City</label>
+          <label class="label" for="{brandCountryInputDomId}">City</label>
 
           <div class="control">
             <input
-              id="{shopBrandCountryInputDomId}"
+              id="{brandCountryInputDomId}"
               class="input"
               type="text"
               bind:value="{city}"
@@ -77,11 +76,11 @@
         </div>
 
         <div class="field">
-          <label class="label" for="{shopBrandNameInputDomId}"> Street </label>
+          <label class="label" for="{brandNameInputDomId}"> Street </label>
 
           <div class="control">
             <input
-              id="{shopBrandNameInputDomId}"
+              id="{brandNameInputDomId}"
               class="input"
               type="text"
               bind:value="{street}"
@@ -94,13 +93,13 @@
         </div>
 
         <div class="field">
-          <label class="label" for="{shopBrandPhoneInputDomId}">
+          <label class="label" for="{brandPhoneInputDomId}">
             Branch Alias
           </label>
 
           <div class="control">
             <input
-              id="{shopBrandPhoneInputDomId}"
+              id="{brandPhoneInputDomId}"
               class="input"
               type="text"
               bind:value="{branchAlias}"

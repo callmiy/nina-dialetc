@@ -1,18 +1,18 @@
 import { render, waitFor } from "@testing-library/svelte";
-import ShopBrand from "../ShopBrand/ShopBrand.svelte";
+import ShopBrand from "../components/brand.svelte";
 import {
-  shopBrandNameInputDomId,
-  shopBrandNameErrorDomId,
-  shopBrandDomId,
+  brandNameInputDomId,
+  brandNameErrorDomId,
+  brandDomId,
   resetFormBtnId,
-  shopBrandCountryInputDomId,
-  shopBrandCountryErrorDomId,
-  shopBrandCurrencyInputDomId,
-  shopBrandCurrencyErrorDomId,
-  shopBrandPhoneInputDomId,
-  simpleTextErrorCloseId,
-  submitId,
-} from "@ta/cm/src/shop-brand-dom";
+  brandCountryInputDomId,
+  brandCountryErrorDomId,
+  brandCurrencyInputDomId,
+  brandCurrencyErrorDomId,
+  brandPhoneInputDomId,
+  submitBrandId,
+  notificationTextCloseId,
+} from "@ta/cm/src/dom";
 import { fillField } from "./test_utils";
 import { IS_ACTIVE_CLASS_NAME } from "@ta/cm/src/utils";
 import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
@@ -61,21 +61,19 @@ it(`reset form /
   await waitFor(() => true);
 
   // When form is completed
-  const nameInputEl = getById<HTMLInputElement>(shopBrandNameInputDomId);
+  const nameInputEl = getById<HTMLInputElement>(brandNameInputDomId);
   await fillField(nameInputEl, "a");
   expect(nameInputEl.value).toBe("a");
 
-  const countryInputEl = getById<HTMLInputElement>(shopBrandCountryInputDomId);
+  const countryInputEl = getById<HTMLInputElement>(brandCountryInputDomId);
   await fillField(countryInputEl, "a");
   expect(countryInputEl.value).toBe("a");
 
-  const currencyInputEl = getById<HTMLInputElement>(
-    shopBrandCurrencyInputDomId
-  );
+  const currencyInputEl = getById<HTMLInputElement>(brandCurrencyInputDomId);
   await fillField(currencyInputEl, "c");
   expect(currencyInputEl.value).toBe("c");
 
-  const phoneInputEl = getById<HTMLInputElement>(shopBrandPhoneInputDomId);
+  const phoneInputEl = getById<HTMLInputElement>(brandPhoneInputDomId);
   await fillField(phoneInputEl, "a");
   expect(phoneInputEl.value).toBe("a");
 
@@ -90,20 +88,20 @@ it(`reset form /
   // expect(phoneInputEl.value).toBe("");
 
   // Warning notification that form empty should not visible
-  expect(getById(simpleTextErrorCloseId)).toBeNull();
+  expect(getById(notificationTextCloseId)).toBeNull();
 
   // When empty form is submitted
-  const submitEl = getById(submitId);
+  const submitEl = getById(submitBrandId);
   await submitEl.click();
 
   // Warning notification is visible
-  expect(getById(simpleTextErrorCloseId)).not.toBeNull();
+  expect(getById(notificationTextCloseId)).not.toBeNull();
 
   // When reset button is clicked
   await resetEl.click();
 
   // Warning notification should not visible
-  expect(getById(simpleTextErrorCloseId)).toBeNull();
+  expect(getById(notificationTextCloseId)).toBeNull();
 });
 
 it(`country-currency fetch fails /
@@ -121,36 +119,36 @@ it(`country-currency fetch fails /
   await waitFor(() => true);
 
   // Component should always be active
-  const componentEl = getById(shopBrandDomId);
+  const componentEl = getById(brandDomId);
   expect(componentEl.classList).toContain(IS_ACTIVE_CLASS_NAME);
 
   // When we fill shop brand name incorrectly (too short)
-  const nameInputEl = getById<HTMLInputElement>(shopBrandNameInputDomId);
+  const nameInputEl = getById<HTMLInputElement>(brandNameInputDomId);
   await fillField(nameInputEl, "a");
 
   // Brand name field error should not be visible
-  expect(getById(shopBrandNameErrorDomId)).toBeNull();
+  expect(getById(brandNameErrorDomId)).toBeNull();
 
   // Country field error should not be visible
-  expect(getById(shopBrandCountryErrorDomId)).toBeNull();
+  expect(getById(brandCountryErrorDomId)).toBeNull();
 
   // Currency field error should not be visible
-  expect(getById(shopBrandCurrencyErrorDomId)).toBeNull();
+  expect(getById(brandCurrencyErrorDomId)).toBeNull();
 
   // General form error should not be visible
-  expect(getById(simpleTextErrorCloseId)).toBeNull();
+  expect(getById(notificationTextCloseId)).toBeNull();
 
-  const submitEl = getById(submitId);
+  const submitEl = getById(submitBrandId);
   await submitEl.click();
 
   // Brand name field error should be visible (too short)
-  expect(getById(shopBrandNameErrorDomId)).not.toBeNull();
+  expect(getById(brandNameErrorDomId)).not.toBeNull();
 
   // Country field error should be visible (empty)
-  expect(getById(shopBrandCountryErrorDomId)).not.toBeNull();
+  expect(getById(brandCountryErrorDomId)).not.toBeNull();
 
   // Currency field error should be visible (empty)
-  expect(getById(shopBrandCurrencyErrorDomId)).not.toBeNull();
+  expect(getById(brandCurrencyErrorDomId)).not.toBeNull();
 });
 
 function getById<T extends HTMLElement = HTMLElement>(domId: string) {

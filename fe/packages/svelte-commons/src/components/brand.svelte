@@ -1,4 +1,4 @@
-<script src="./shop-brand.ts">
+<script src="./_brand.ts">
 </script>
 
 <style lang="scss">
@@ -10,7 +10,7 @@
 </style>
 
 <div class="a">
-  <div id="{shopBrandDomId}" class="modal is-active">
+  <div id="{brandDomId}" class="modal is-active">
     <div class="modal-background"></div>
 
     <div class="modal-card">
@@ -20,37 +20,31 @@
         <button
           class="delete"
           aria-label="close"
-          id="{closeShopBrandComponentId}"
+          id="{closeBrandComponentId}"
           on:click|preventDefault="{closeComponentCb}"
         ></button>
       </header>
 
       <section class="modal-card-body">
-        {#if simpleTextError}
-          <div
-            class:notification="{true}"
-            class:is-warning="{simpleTextErrorClass === 'is-warning'}"
-            class:is-danger="{simpleTextErrorClass === 'is-danger'}"
-          >
-            <button
-              class="delete"
-              id="{simpleTextErrorCloseId}"
-              on:click|preventDefault="{clearSimpletextErrorCb}"
-            ></button>
-
-            {simpleTextError}
-          </div>
+        {#if notificationText}
+          <Notification
+            closeId="{notificationTextCloseId}"
+            isWarning="{notificationTextClass === 'is-warning'}"
+            isDanger="{notificationTextClass === 'is-danger'}"
+            onClose="{clearSimpletextErrorCb}"
+            text="{notificationText}"
+          />
         {/if}
 
         <div class="field">
-          <label class="label" for="{shopBrandNameInputDomId}">
+          <label class="label" for="{brandNameInputDomId}">
             Shop brand name
             <span>e.g. "edeka"</span>
           </label>
 
           <div class="control">
             <input
-              id="{shopBrandNameInputDomId}"
+              id="{brandNameInputDomId}"
               class="input"
               type="text"
               bind:value="{name}"
@@ -65,12 +59,12 @@
         <div class="field">
           <label
             class="label"
-            for="{shopBrandCountryInputDomId}"
+            for="{brandCountryInputDomId}"
           >Country</label>
 
           <div class="control">
             <div class="select is-fullwidth">
-              <select id="{shopBrandCountryInputDomId}" bind:value="{country}">
+              <select id="{brandCountryInputDomId}" bind:value="{country}">
                 <option value="">----------</option>
 
                 {#await countriesCurrenciesPromise}
@@ -80,7 +74,7 @@
                     {#each listCountries as { id, country_name } (id)}
                       <option
                         value="{id}"
-                        class="{shopBrandCountryOptionSelector}"
+                        class="{brandCountryOptionSelector}"
                       >
                         {country_name}
                       </option>
@@ -99,13 +93,13 @@
         <div class="field">
           <label
             class="label"
-            for="{shopBrandCurrencyInputDomId}"
+            for="{brandCurrencyInputDomId}"
           >Currency</label>
 
           <div class="control">
             <div class="select is-fullwidth">
               <select
-                id="{shopBrandCurrencyInputDomId}"
+                id="{brandCurrencyInputDomId}"
                 bind:value="{currency}"
               >
                 <option value="">----------</option>
@@ -117,7 +111,7 @@
                     {#each listCurrencies as { id, currency_name, currency_code } (id)}
                       <option
                         value="{id}"
-                        class="{shopBrandCurrencyOptionSelector}"
+                        class="{brandCurrencyOptionSelector}"
                       >
                         {currency_name}:
                         {currency_code}
@@ -135,13 +129,13 @@
         </div>
 
         <div class="field">
-          <label class="label" for="{shopBrandPhoneInputDomId}">
+          <label class="label" for="{brandPhoneInputDomId}">
             Telephone
           </label>
 
           <div class="control">
             <input
-              id="{shopBrandPhoneInputDomId}"
+              id="{brandPhoneInputDomId}"
               class="input"
               type="text"
               bind:value="{phone}"
@@ -152,7 +146,7 @@
 
       <footer class="modal-card-foot">
         <button
-          id="{submitId}"
+          id="{submitBrandId}"
           class="button is-success"
           on:click|preventDefault="{submitFormCb}"
         >

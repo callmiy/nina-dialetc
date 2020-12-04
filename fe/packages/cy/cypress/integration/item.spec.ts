@@ -1,23 +1,18 @@
-/* eslint-disable @typescript-eslint/triple-slash-reference*/
-/// <reference path="../support/types.d.ts" />
-
 import {
   shopItemAddBrandId,
   shopItemBrandNameInputId,
   shopItemBrandNameOptionSelector,
-} from "@ta/cm/src/shop-item-dom";
-import {
-  shopBrandNameInputDomId,
-  shopBrandCountryInputDomId,
-  shopBrandCountryOptionSelector,
-  shopBrandCurrencyOptionSelector,
-  shopBrandCurrencyInputDomId,
-  shopBrandPhoneInputDomId,
-  submitId,
+  brandNameInputDomId,
+  brandCountryInputDomId,
+  brandCountryOptionSelector,
+  brandCurrencyOptionSelector,
+  brandCurrencyInputDomId,
+  brandPhoneInputDomId,
+  submitBrandId,
   resetFormBtnId,
-  simpleTextErrorCloseId,
-} from "@ta/cm/src/shop-brand-dom";
-import { formCtrlErrorSelector } from "@ta/cm/src/dom";
+  formCtrlErrorSelector,
+  notificationTextCloseId,
+} from "@ta/cm/src/selectors";
 
 context("Item", () => {
   beforeEach(() => {
@@ -38,32 +33,32 @@ context("Item", () => {
       cy.get("#" + shopItemAddBrandId).click();
 
       // When we fill the brand name field
-      cy.get("#" + shopBrandNameInputDomId)
+      cy.get("#" + brandNameInputDomId)
         .as("nameEl")
         .type(brandName1);
 
       // When we select a country
-      cy.get("." + shopBrandCountryOptionSelector)
+      cy.get("." + brandCountryOptionSelector)
         .first()
         .as("countryOptionEl")
         .then((e) => {
-          cy.get("#" + shopBrandCountryInputDomId)
+          cy.get("#" + brandCountryInputDomId)
             .as("countryEl")
             .select(e.val() as string);
         });
 
       // When we select a currency
-      cy.get("." + shopBrandCurrencyOptionSelector)
+      cy.get("." + brandCurrencyOptionSelector)
         .first()
         .as("currencyOptionEl")
         .then((el) => {
-          cy.get("#" + shopBrandCurrencyInputDomId)
+          cy.get("#" + brandCurrencyInputDomId)
             .as("currencyEl")
             .select(el.val() as string);
         });
 
       // We fill telephone field
-      cy.get("#" + shopBrandPhoneInputDomId)
+      cy.get("#" + brandPhoneInputDomId)
         .as("phoneEl")
         .type("012345677");
 
@@ -81,27 +76,27 @@ context("Item", () => {
         cy.get("@phoneEl").should("have.value", "");
 
         // Warning notification should not be visible
-        cy.get("#" + simpleTextErrorCloseId).should("not.exist");
+        cy.get("#" + notificationTextCloseId).should("not.exist");
 
         // We click submit button on empty form
-        cy.get("#" + submitId)
+        cy.get("#" + submitBrandId)
           .as("submitEl")
           .click();
 
         // Warning notification should be visible.
         // We dismiss warning notification
-        cy.get("#" + simpleTextErrorCloseId)
+        cy.get("#" + notificationTextCloseId)
           // .should("have.class", "is-warning")
           .click();
 
         // Warning notification should not be visible
-        cy.get("#" + simpleTextErrorCloseId).should("not.exist");
+        cy.get("#" + notificationTextCloseId).should("not.exist");
 
         // We fill name field with name that is too short
         cy.get("@nameEl").type("a");
 
         // Error notification should not be visible
-        cy.get("#" + simpleTextErrorCloseId).should("not.exist");
+        cy.get("#" + notificationTextCloseId).should("not.exist");
 
         // Field errors should not be visible
         cy.get("." + formCtrlErrorSelector).should("not.exist");
@@ -110,7 +105,7 @@ context("Item", () => {
         cy.get("@submitEl").click();
 
         // Error notification should be visible.
-        cy.get("#" + simpleTextErrorCloseId).should("exist");
+        cy.get("#" + notificationTextCloseId).should("exist");
 
         // Field errors should be visible (for name, country and currency)
         cy.get("." + formCtrlErrorSelector).should("have.length", 3);
@@ -119,7 +114,7 @@ context("Item", () => {
         cy.get("@resetEl").click();
 
         // Error notification should not be visible
-        cy.get("#" + simpleTextErrorCloseId).should("not.exist");
+        cy.get("#" + notificationTextCloseId).should("not.exist");
 
         // Field errors should not be visible
         cy.get("." + formCtrlErrorSelector).should("not.exist");
@@ -165,7 +160,7 @@ context("Item", () => {
       cy.get("@submitEl").click();
 
       // New ShopBrand UI should not be visible
-      cy.get("#" + shopBrandNameInputDomId).should("not.exist");
+      cy.get("#" + brandNameInputDomId).should("not.exist");
 
       // ShopItem brandName should be brand name input
       cy.get("@itemName").should("have.value", brandName1);

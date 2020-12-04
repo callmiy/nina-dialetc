@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formCtrlErrorSelector } from "@ta/cm/src/dom";
+  import { formCtrlErrorSelector } from "@ta/cm/src/selectors";
 
   export let error: string = "";
   export let id: string = "";

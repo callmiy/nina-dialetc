@@ -1,22 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import {
-  shopBrandNameInputDomId,
-  shopBrandNameErrorDomId,
-  closeShopBrandComponentId,
+  brandNameInputDomId,
+  brandNameErrorDomId,
+  closeBrandComponentId,
   resetFormBtnId,
-  shopBrandDomId,
-  shopBrandCountryInputDomId,
-  shopBrandCountryErrorDomId,
-  shopBrandCurrencyInputDomId,
-  shopBrandCurrencyErrorDomId,
-  shopBrandPhoneInputDomId,
-  simpleTextErrorCloseId,
-  submitId,
-  shopBrandNameOptionSelector,
-  shopBrandCountryOptionSelector,
-  shopBrandCurrencyOptionSelector,
-} from "@ta/cm/src/shop-brand-dom";
+  brandDomId,
+  brandCountryInputDomId,
+  brandCountryErrorDomId,
+  brandCurrencyInputDomId,
+  brandCurrencyErrorDomId,
+  brandPhoneInputDomId,
+  submitBrandId,
+  brandNameOptionSelector,
+  brandCountryOptionSelector,
+  brandCurrencyOptionSelector,
+} from "@ta/cm/src/selectors";
 import {
   IS_ACTIVE_CLASS_NAME,
   NOTHING_TO_SAVE_WARNING_MESSAGE,
@@ -38,19 +37,19 @@ const countriesCurrenciesPromise = getCountriesCurrencies().then((d) => {
 });
 
 /* FORM ATTRIBUTES AND ERROR VARIABLES */
-let city = "";
-let cityError: string;
-
 let postCode = "";
 let postCodeError: string;
+
+let city = "";
+let cityError: string;
 
 let street = "";
 let streetError: string;
 
 let branchAlias = "";
 
-let simpleTextError = "";
-let simpleTextErrorClass = "";
+let notificationText = "";
+let notificationTextClass = "";
 
 /* PROPS */
 export let isActive: Props["isActive"] = false;
@@ -80,8 +79,8 @@ function submitFormCb() {
   const formEmpty = !street && !city && !postCode && !branchAlias;
 
   if (formEmpty) {
-    simpleTextError = NOTHING_TO_SAVE_WARNING_MESSAGE;
-    simpleTextErrorClass = "is-warning";
+    notificationText = NOTHING_TO_SAVE_WARNING_MESSAGE;
+    notificationTextClass = "is-warning";
     return;
   }
 
@@ -103,8 +102,8 @@ function submitFormCb() {
   }
 
   if (hasError) {
-    simpleTextError = FORM_CONTAINS_ERRORS_MESSAGE;
-    simpleTextErrorClass = "is-danger";
+    notificationText = FORM_CONTAINS_ERRORS_MESSAGE;
+    notificationTextClass = "is-danger";
     return;
   }
 
@@ -127,11 +126,11 @@ function submitFormCb() {
 }
 
 function clearSimpletextErrorCb() {
-  simpleTextError = "";
-  simpleTextErrorClass = "";
+  notificationText = "";
+  notificationTextClass = "";
 }
 
-export type ShopBrandValues = {
+export type BrandValues = {
   street: string;
   city: ListCountriesAndCurrencies_listCountries;
   postCode: ListCountriesAndCurrencies_listCurrencies;
@@ -140,5 +139,5 @@ export type ShopBrandValues = {
 
 export type Props = {
   isActive: boolean;
-  onSubmit?: (values: ShopBrandValues) => void;
+  onSubmit?: (values: BrandValues) => void;
 };

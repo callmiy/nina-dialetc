@@ -1,34 +1,33 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import {
-  shopBrandNameInputDomId,
-  shopBrandNameErrorDomId,
-  closeShopBrandComponentId,
+  brandNameInputDomId,
+  brandNameErrorDomId,
+  closeBrandComponentId,
   resetFormBtnId,
-  shopBrandDomId,
-  shopBrandCountryInputDomId,
-  shopBrandCountryErrorDomId,
-  shopBrandCurrencyInputDomId,
-  shopBrandCurrencyErrorDomId,
-  shopBrandPhoneInputDomId,
-  simpleTextErrorCloseId,
-  submitId,
-  shopBrandNameOptionSelector,
-  shopBrandCountryOptionSelector,
-  shopBrandCurrencyOptionSelector,
-} from "@ta/cm/src/shop-brand-dom";
+  brandDomId,
+  brandCountryInputDomId,
+  brandCountryErrorDomId,
+  brandCurrencyInputDomId,
+  brandCurrencyErrorDomId,
+  brandPhoneInputDomId,
+  submitBrandId,
+  brandNameOptionSelector,
+  brandCountryOptionSelector,
+  brandCurrencyOptionSelector,
+  notificationTextCloseId,
+} from "@ta/cm/src/selectors";
 import {
   IS_ACTIVE_CLASS_NAME,
   NOTHING_TO_SAVE_WARNING_MESSAGE,
   FORM_CONTAINS_ERRORS_MESSAGE,
 } from "@ta/cm/src/utils";
 import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
-import FormCtrlError from "../FormCtrlError/FormCtrlError.svelte";
+import FormCtrlError from "./form-ctrl-error.svelte";
 import {
   ListCountriesAndCurrencies_listCountries,
   ListCountriesAndCurrencies_listCurrencies,
   ListCountriesAndCurrencies,
 } from "@ta/cm/src/gql/ops-types";
+import Notification from "./notification.svelte";
 
 let countriesAndCurrencies: ListCountriesAndCurrencies;
 
@@ -49,8 +48,8 @@ let currencyError: string;
 
 let phone = "";
 
-let simpleTextError = "";
-let simpleTextErrorClass = "";
+let notificationText = "";
+let notificationTextClass = "";
 
 /* PROPS */
 export let isActive: Props["isActive"] = false;
@@ -80,8 +79,8 @@ function submitFormCb() {
   const formEmpty = !name && !country && !currency && !phone;
 
   if (formEmpty) {
-    simpleTextError = NOTHING_TO_SAVE_WARNING_MESSAGE;
-    simpleTextErrorClass = "is-warning";
+    notificationText = NOTHING_TO_SAVE_WARNING_MESSAGE;
+    notificationTextClass = "is-warning";
     return;
   }
 
@@ -103,8 +102,8 @@ function submitFormCb() {
   }
 
   if (hasError) {
-    simpleTextError = FORM_CONTAINS_ERRORS_MESSAGE;
-    simpleTextErrorClass = "is-danger";
+    notificationText = FORM_CONTAINS_ERRORS_MESSAGE;
+    notificationTextClass = "is-danger";
     return;
   }
 
@@ -127,11 +126,11 @@ function submitFormCb() {
 }
 
 function clearSimpletextErrorCb() {
-  simpleTextError = "";
-  simpleTextErrorClass = "";
+  notificationText = "";
+  notificationTextClass = "";
 }
 
-export type ShopBrandValues = {
+export type BrandValues = {
   name: string;
   country: ListCountriesAndCurrencies_listCountries;
   currency: ListCountriesAndCurrencies_listCurrencies;
@@ -140,5 +139,5 @@ export type ShopBrandValues = {
 
 export type Props = {
   isActive: boolean;
-  onSubmit?: (values: ShopBrandValues) => void;
+  onSubmit?: (values: BrandValues) => void;
 };
