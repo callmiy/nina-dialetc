@@ -7,4 +7,9 @@ export const countryResolver = {
       return data;
     },
   },
+  Country: {
+    post_codes: () => {
+      return [];
+    },
+  },
 };

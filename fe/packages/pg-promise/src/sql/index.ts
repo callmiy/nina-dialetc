@@ -13,6 +13,14 @@ export const currenciesSql = {
   list: sql("./list-currencies.sql"),
 };
 
+export const testUtilsSqls = {
+  empty: sql(`./reset-tests.sql`),
+};
+
+export const postCodesSql = {
+  codesForCountries: sql(`./post-codes-for-countries.sql`),
+};
+
 // Helper for linking to external query files;
 function sql(file: string): QueryFile {
   const fullPath: string = path.join(__dirname, file); // generating full path;

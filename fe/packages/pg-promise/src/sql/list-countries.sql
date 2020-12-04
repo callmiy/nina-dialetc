@@ -1,1 +1,9 @@
-SELECT * FROM countries;
+SELECT
+  id
+  ,country_name
+  ,country_code
+FROM
+  countries
+AS
+  c
+;

@@ -1,0 +1,2 @@
+TRUNCATE auths CASCADE;
+TRUNCATE countries CASCADE;

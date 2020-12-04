@@ -48,7 +48,7 @@ pgMonitor.setLog((msg, info) => {
 
   if (!IS_DEV) {
     // If it is not a DEV environment:
-    info.display = false; // display nothing;
+    // info.display = false; // display nothing;
   }
 });
 

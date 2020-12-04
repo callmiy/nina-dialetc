@@ -7,6 +7,7 @@ export const countrySchema = gql`
     country_code: String!
     insertedAt: DateTime!
     updatedAt: DateTime!
+    post_codes: [String]!
   }
 
   extend type Query {
