@@ -42,7 +42,6 @@ function processData(data, indices, cid, rowStart) {
     }
 
     if (!next) {
-      acc += ";";
       break;
     }
 
@@ -50,6 +49,11 @@ function processData(data, indices, cid, rowStart) {
   }
 
   return acc;
+}
+
+function singleQuote(d) {
+  return d.replace(/'/g, "''");
+  // return d
 }
 
 function toSql(city, postCode, state, cid) {
@@ -70,8 +74,8 @@ function toSql(city, postCode, state, cid) {
   (
     '${id}'
     ,'${postCode}'
-    ,'${city}'
-    ,'${state}'
+    ,'${singleQuote(city)}'
+    ,'${singleQuote(state)}'
     ,'${cid}'
   )`;
 }

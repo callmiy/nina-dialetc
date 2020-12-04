@@ -4,76 +4,56 @@ const fetch = require("cross-fetch");
 const processor = require.resolve("./spawn-post-codes");
 
 function fetchGermanyPostalCodesCities() {
-  const deUrl =
-    "https://raw.githubusercontent.com/humpangle/germany-post-codes-cities/master/germany-post-code-city.csv";
+  const promises = [
+    {
+      uri:
+        "https://raw.githubusercontent.com/humpangle/germany-post-codes-cities/master/germany-post-code-city.csv",
+      cid: "017618D2C667578D7BBA81D33F1307B2",
+      // (city, postCode, state)
+      indices: "[1, 2, 3]",
+      delimiter: ",",
+      start: 1,
+    },
+    {
+      uri:
+        "https://raw.githubusercontent.com/humpangle/germany-post-codes-cities/master/france.txt",
+      cid: "017618D4A8268D3412E026EE965874F2",
+      indices: "[2, 1, 3]",
+      delimiter: "",
+      start: 0,
+    },
+  ].map(({ uri, cid, delimiter, indices, start }) => {
+    return new Promise((resolve) => {
+      fetch(uri)
+        .then((fetchResult) => fetchResult.text())
+        .then((text) => {
+          // text = text.body
+          try {
+            const parentProcess = child_process.fork(processor, {
+              env: {
+                cid,
+                indices,
+                start,
+                delimiter,
+              },
+            });
 
-  const frUrl =
-    "https://raw.githubusercontent.com/humpangle/germany-post-codes-cities/master/france.txt";
+            parentProcess.on("message", (msg) => {
+              parentProcess.send("-1");
+              resolve(msg);
+            });
 
-  const dePromise = new Promise((resolve) => {
-    fetch(deUrl)
-      .then((fetchResult) => fetchResult.text())
-      .then((text) => {
-        // text = text.body
-        try {
-          const data1 = child_process.fork(processor, ["a"], {
-            env: {
-              cid: "017618D2C667578D7BBA81D33F1307B2",
-              // (city, postCode, state)
-              indices: "[1, 2, 3]",
-              start: 1,
-            },
-          });
-
-          data1.on("message", (msg) => {
-            data1.send("-1");
-            resolve(msg);
-          });
-
-          data1.send(text);
-        } catch (e) {
+            parentProcess.send(text);
+          } catch (e) {
+            resolve("");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
           resolve("");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        resolve("");
-      });
+        });
+    });
   });
-
-  const frPromise = Promise.resolve("");
-
-  //new Promise((resolve) => {
-  //fetch(frUrl)
-  //  .then((fetchResult) => fetchResult.text())
-  //  .then((text) => {
-  //    // text = text.body
-  //    try {
-  //      const data1 = child_process.fork(processor, {
-  //        env: {
-  //          cid: "017618D4A8268D3412E026EE965874F2",
-  //          // (city, postCode, state)
-  //          indices: "[2, 1, 3]",
-  //          delimiter: "",
-  //        },
-  //      });
-
-  //      data1.on("message", (msg) => {
-  //        //
-  //        data1.send("-1");
-  //        resolve(msg);
-  //      });
-
-  //      data1.send(text);
-  //    } catch (e) {
-  //      resolve("");
-  //    }
-  //  })
-  //  .catch((error) => {
-  //    console.error(error);
-  //    resolve("");
-  //  });
-  //});
 
   const insertStmt = `
   INSERT INTO post_codes
@@ -84,18 +64,23 @@ function fetchGermanyPostalCodesCities() {
       ,state
       ,country_id
     )
-  VALUES `;
+  VALUES`;
 
-  return Promise.all([dePromise, frPromise]).then(([de, fr]) => {
+  return Promise.all(promises).then(([first, ...others]) => {
     let acc = "";
 
-    if (de) {
-      acc += insertStmt + de;
+    if (first) {
+      acc += insertStmt + first;
     }
 
-    if (fr) {
-      acc += "\n" + fr;
-    }
+    others.forEach((other) => {
+      if (other) {
+        acc += "," + other;
+      }
+    });
+
+    acc = acc ? acc + ";" : "";
+
     return acc;
   });
 }
