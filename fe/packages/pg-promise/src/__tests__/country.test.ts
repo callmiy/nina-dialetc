@@ -1,119 +1,97 @@
-import { listCountries, listPostCodesForCountries } from "../api/country";
-import { db, Connection } from "../db/db";
+import { listCountries, listPostCodesFromCountriesIds } from "../api/country";
+import { Connection, DatabaseInstance } from "../db/types";
 import { IConnected } from "pg-promise";
-import { testUtilsSqls } from "../sql";
+import { resetDbForTest, cleanUpDbAfterTest } from "../api/utils";
+import {
+  testDbConnection,
+  germanyData,
+  franceData,
+  createCountriesInsertSql,
+  createPostCodesInsertSql,
+  insertGermanyValueSql,
+  insertFranceValueSql,
+  insertGermanPostCodeValueSql,
+  insertFrancePostCodeValueSql,
+} from "@ta/cm/src/__tests__/utils";
 
 let conn: Connection;
 
 beforeEach(async () => {
-  conn = await db.connect();
-  await conn.query("BEGIN");
-  await conn.none(testUtilsSqls.empty);
+  const result = await testDbConnection();
+  conn = result.conn;
+  await resetDbForTest(conn);
 });
 
 afterEach(async () => {
-  if (conn) {
-    await conn.query("ROLLBACK");
-    conn.done();
-  }
+  await cleanUpDbAfterTest(conn);
 });
 
-const germanyId = "01ERQBPCE3XM3SXQ9E11JTV9HS";
-const germanUid = "01762EBB31C3ED079EDD2E0865ADA639";
-const germanPostCodeUuid = "01762E3FB066E1FF103A9FC11494467A";
-const germanPostCodeUlid = "01ERQ3ZC36W7ZH0EMZR4A98HKT";
+const {
+  uuidCompressed: deUuid,
+  postCodeUlid: dePostCodeUlid,
+  ulid: deUlid,
+} = germanyData;
+const {
+  uuidCompressed: frUuid,
+  postCodeUlid: frPostCodeUlid,
+  ulid: frUlid,
+} = franceData;
 
-const franceId = "01ERQBPBTXASJR2KJWP8QVNPKB";
-const franceUid = "01762EBB2F5D5665814E5CB22FBADA6B";
-const francePostCodeUuid = "01762E3F9189C3FF5AFC0FAB8EB43405";
-const francePostCodeUlid = "01ERQ3Z4C9RFZNNZ0FNE7B8D05";
+describe("", () => {
+  it("lists countries", async () => {
+    const countries = await listCountries(conn);
+    expect(countries).toEqual([]);
 
-it("lists countries", async () => {
-  const countries = await listCountries(conn);
-  expect(countries).toEqual([]);
+    await createCountries();
+    const expected = await listCountries(conn);
+    expect(expected).toHaveLength(2);
+  });
 
-  await createCountries();
-  const expected = await listCountries(conn);
-  expect(expected).toHaveLength(2);
-});
+  it("lists countries and post codes", async () => {
+    await createCountries();
+    await createPostCodes();
 
-it("lists countries and post codes", async () => {
-  await createCountries();
-  await createPostCodes();
+    const countriesIds = [deUlid, frUlid];
 
-  const countriesIds = [germanyId, franceId];
+    const actual = await listPostCodesFromCountriesIds(conn, countriesIds);
 
-  const actual = await listPostCodesForCountries(conn, countriesIds);
+    const expected = [
+      [
+        {
+          id: dePostCodeUlid,
+          country_id: deUlid,
+          post_code: "09126",
+          city: "Chemnitz",
+          state: "Saxony",
+        },
+      ],
+      [
+        {
+          id: frPostCodeUlid,
+          country_id: frUlid,
+          post_code: "1234 abc",
+          state: "Paris",
+          city: "Paris",
+        },
+      ],
+    ];
 
-  const expected = [
-    {
-      id: germanPostCodeUlid,
-      country_id: germanyId,
-      post_code: "09126",
-      city: "Chemnitz",
-      state: "Saxony",
-    },
-    {
-      id: francePostCodeUlid,
-      country_id: franceId,
-      post_code: "1234 abc",
-      state: "Paris",
-      city: "Paris",
-    },
-  ];
-
-  expect(actual).toEqual(expected);
+    expect(actual).toEqual(expected);
+  });
 });
 
 async function createPostCodes() {
-  const sql = `
-  INSERT INTO post_codes
-    (
-      id
-      ,post_code
-      ,city
-      ,state
-      ,country_id
-    )
-  VALUES
-    (
-      '${francePostCodeUuid}'
-      ,'1234 abc'
-      ,'Paris'
-      ,'Paris'
-      ,'${franceUid}'
-    )
-  ,(
-      '${germanPostCodeUuid}'
-      ,'09126'
-      ,'Chemnitz'
-      ,'Saxony'
-      ,'${germanUid}'
-    )
-  `;
+  const sql = `${createPostCodesInsertSql}
+    ${insertGermanPostCodeValueSql}
+    ,${insertFrancePostCodeValueSql};`;
+
   await conn.none(sql);
 }
 
 async function createCountries() {
-  const sql = `
-    INSERT INTO
-      countries
-      (
-        id
-        ,country_name
-        ,country_code
-      )
-    VALUES
-      (
-        '${germanUid}'
-        ,'Germany'
-        ,'DE'
-      )
-      ,(
-        '${franceUid}'
-        ,'France'
-        ,'FR'
-      )
-    `;
+  const sql = ` ${createCountriesInsertSql}
+    ${insertGermanyValueSql}
+    ,${insertFranceValueSql};`;
+
   await conn.none(sql);
 }

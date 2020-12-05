@@ -8,4 +8,4 @@ generates:
       - "typescript"
       - "typescript-resolvers"
     config:
-      contextType: ../entity#OurContext
+      contextType: ../types/db#ServerContext

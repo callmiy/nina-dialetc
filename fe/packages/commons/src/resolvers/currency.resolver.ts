@@ -1,9 +1,10 @@
 import { listCurrencies } from "../db";
+import { Resolvers } from "../gql/schema-types";
 
-export const currencyResolver = {
+export const currencyResolver: Resolvers = {
   Query: {
-    listCurrencies: async () => {
-      const data = await listCurrencies();
+    listCurrencies: async (_, __, { db }) => {
+      const data = await listCurrencies(db);
       return data;
     },
   },

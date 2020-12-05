@@ -5,6 +5,13 @@ export const listCountriesAndCurrenciesQuery = gql`
     listCountries {
       id
       country_name
+      post_codes {
+        id
+        post_code
+        city
+        state
+        country_id
+      }
     }
 
     listCurrencies {

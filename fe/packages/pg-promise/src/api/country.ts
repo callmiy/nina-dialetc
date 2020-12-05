@@ -1,31 +1,26 @@
-import { Ulid, Uuid6 } from "id128";
-import { DbArg } from "../db/db";
+import { DbArg } from "../db/types";
 import { countriesSql, postCodesSql } from "../sql";
-
-export function fromUlidToUid(ulidId: string) {
-  const bytes = Ulid.fromCanonical(ulidId).bytes;
-  return Uuid6.construct(bytes).toCanonical();
-}
-
-export function fromUuidToUlid(uuid: string) {
-  const bytes = Uuid6.fromCanonical(uuid).bytes;
-  return Ulid.construct(bytes).toCanonical();
-}
+import { fromUlidToUid, fromUuidToUlid } from "@ta/cm/src/db/ulid-uuid";
 
 export async function listCountries(db: DbArg) {
-  return await db.any(countriesSql.list);
+  const list = await db.any(countriesSql.list);
+  return list.map((d) => {
+    const { id } = d;
+    d.id = fromUuidToUlid(id);
+    return d;
+  });
 }
 
-export async function listPostCodesForCountries(
+export async function listPostCodesFromCountriesIds(
   db: DbArg,
-  countriesUlidIds: string[]
+  countriesUlid: readonly string[]
 ) {
-  const countriesIdsUuid = countriesUlidIds.map((id) => {
+  const countriesUuid = countriesUlid.map((id) => {
     return fromUlidToUid(id);
   });
 
   const postCodes = await db.any(postCodesSql.codesForCountries, [
-    countriesIdsUuid,
+    countriesUuid,
   ]);
 
   const countriesIdsToPostCodesMap = postCodes.reduce((acc, data) => {
@@ -34,11 +29,13 @@ export async function listPostCodesForCountries(
     const countryUlid = fromUuidToUlid(countryUuid);
     data.id = ulidId;
     data.country_id = countryUlid;
-    acc[countryUlid] = data;
+    const list = acc[countryUlid] || [];
+    list.push(data);
+    acc[countryUlid] = list;
     return acc;
   }, {});
 
-  return countriesUlidIds.map((countryUlidId) => {
+  return countriesUlid.map((countryUlidId) => {
     const postCodesForCountry = countriesIdsToPostCodesMap[countryUlidId];
     return postCodesForCountry;
   });

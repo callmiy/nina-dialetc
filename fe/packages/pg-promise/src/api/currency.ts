@@ -1,6 +1,6 @@
-import { db } from "../db/db";
 import { currenciesSql } from "../sql";
+import { DbArg } from "../db/types";
 
-export async function listCurrencies() {
-  return await db.many(currenciesSql.list);
+export async function listCurrencies(db: DbArg) {
+  return await db.any(currenciesSql.list);
 }
