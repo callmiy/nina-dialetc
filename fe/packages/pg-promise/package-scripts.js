@@ -5,7 +5,7 @@ module.exports = {
     ...commonScripts.scripts,
     test: {
       default: {
-        script: `NODE_ENV=test jest --runInBand --watchAll`,
+        script: `DEBUG_PG_PROMISE=true NODE_ENV=test jest --runInBand --watchAll`,
         description: `Run tests in watch mode`,
       },
       t: {

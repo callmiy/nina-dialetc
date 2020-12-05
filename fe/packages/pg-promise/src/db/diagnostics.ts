@@ -11,7 +11,7 @@ import fs from "fs";
 import path from "path";
 import pgMonitor from "pg-monitor";
 import { IInitOptions } from "pg-promise";
-import { IS_DEV } from "@ta/cm/src/envs";
+import { IS_DEV, DEBUG_PG_PROMISE } from "@ta/cm/src/envs";
 import { LOGS_FOLDER } from "@ta/cm/src/constants-server";
 
 pgMonitor.setTheme("matrix"); // changing the default theme;
@@ -31,7 +31,15 @@ pgMonitor.setLog((msg, info) => {
   // And the check below is for DEV environment only, as we want to log
   // errors only, or else the file will grow out of proportion in no time.
 
-  if (info.event === "error") {
+  if (DEBUG_PG_PROMISE) {
+    let logText = os.EOL + msg; // line break + next error message;
+    if (info.time) {
+      // If it is a new error being reported,
+      // and not an additional error line;
+      logText = os.EOL + logText; // add another line break in front;
+    }
+    fs.appendFileSync(logFile, logText); // add error handling as required;
+  } else if (info.event === "error") {
     let logText = os.EOL + msg; // line break + next error message;
     if (info.time) {
       // If it is a new error being reported,
@@ -48,7 +56,7 @@ pgMonitor.setLog((msg, info) => {
 
   if (!IS_DEV) {
     // If it is not a DEV environment:
-    // info.display = false; // display nothing;
+    info.display = false; // display nothing;
   }
 });
 
