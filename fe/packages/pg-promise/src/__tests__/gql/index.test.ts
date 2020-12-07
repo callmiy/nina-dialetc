@@ -4,11 +4,8 @@ import {
   germanyData,
   franceData,
   createCountriesInsertSql,
-  createPostCodesInsertSql,
   insertGermanyValueSql,
   insertFranceValueSql,
-  insertGermanPostCodeValueSql,
-  insertFrancePostCodeValueSql,
 } from "@ta/cm/src/__tests__/utils";
 import { Connection } from "@ta/cm/src/types/db";
 import { cleanUpDbAfterTest, resetDbForTest } from "../../api/utils";
@@ -29,13 +26,12 @@ afterEach(async () => {
 
 describe("", () => {
   it("lists countries and their post codes", async () => {
-    const sql = ` ${createCountriesInsertSql}
-    ${insertGermanyValueSql}
-    ,${insertFranceValueSql};
-
-    ${createPostCodesInsertSql}
-    ${insertGermanPostCodeValueSql}
-    ,${insertFrancePostCodeValueSql}; `;
+    const sql = `
+      ${createCountriesInsertSql}
+      ${insertGermanyValueSql}
+      ,${insertFranceValueSql}
+      ;
+    `;
 
     conn.none(sql);
 
@@ -44,47 +40,19 @@ describe("", () => {
       query: listCountriesAndCurrenciesQuery,
     });
 
-    const {
-      uuidCompressed: deUuid,
-      postCodeUlid: dePostCodeUlid,
-      ulid: deUlid,
-      name: deName,
-    } = germanyData;
+    const { uuidCompressed: deUuid, ulid: deUlid, name: deName } = germanyData;
 
-    const {
-      uuidCompressed: frUuid,
-      postCodeUlid: frPostCodeUlid,
-      ulid: frUlid,
-      name: frName,
-    } = franceData;
+    const { uuidCompressed: frUuid, ulid: frUlid, name: frName } = franceData;
 
     expect(data).toEqual({
       listCountries: [
         {
           id: deUlid,
           country_name: deName,
-          post_codes: [
-            {
-              id: dePostCodeUlid,
-              post_code: "09126",
-              city: "Chemnitz",
-              state: "Saxony",
-              country_id: deUlid,
-            },
-          ],
         },
         {
           id: frUlid,
           country_name: frName,
-          post_codes: [
-            {
-              id: frPostCodeUlid,
-              post_code: "1234 abc",
-              city: "Paris",
-              state: "Paris",
-              country_id: frUlid,
-            },
-          ],
         },
       ],
       listCurrencies: [],
