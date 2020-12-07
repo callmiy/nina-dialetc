@@ -1,9 +1,18 @@
 import { PaginationInput } from "../gql/schema-types";
 
 const maxFn = Math.max;
+
 export const LAST_WITHOUT_BEFORE_ERROR =
   "You must supply a `numRecords` (total number of records) option if using `last` without `before`";
 
+export const FIRST_LAST_UNDEFINED_ERROR =
+  "You must either supply 'first' or 'last'";
+
+/**
+ * `dataOrFn`: If function is provided, the limit given as arg to the function
+ * will be one more than the limit requested. Thus if data returned is more
+ * than the i=limit requested (by 1) we know there is more data to fetch
+*/
 export function generateRelayConnection<T>(
   dataOrFn: T[] | ((args: DataFnArgs) => T[]),
   paginationArgs: PaginationInput,
@@ -12,27 +21,35 @@ export function generateRelayConnection<T>(
   const [offset, limit] = getOffsetAndLimit(paginationArgs, opts);
   let slicedData: T[];
   let data: T[];
+  let hasNextPage = false;
 
   if (Array.isArray(dataOrFn)) {
     data = dataOrFn;
     slicedData = data.slice(offset, limit + offset);
+    const count = opts.numRecords || data.length;
+    hasNextPage = count > offset + limit;
   } else {
+    // We will fetch one more than is required so we can determine if there
+    // are more records i.e. hasNextPage
+    const limitPlusOne = limit + 1;
+
     data = dataOrFn({
       offset,
-      limit,
+      limit: limitPlusOne,
     });
 
-    slicedData = data;
+    slicedData = data.slice(0, limit);
+    const count = data.length;
+    hasNextPage = count > limit;
   }
 
   const [edges, first, last] = buildCursors(slicedData, offset);
-  const count = opts.numRecords || data.length;
 
   const pageInfo = {
     startCursor: first,
     endCursor: last,
     hasPreviousPage: offset > 0,
-    hasNextPage: count > offset + limit,
+    hasNextPage,
   };
 
   return {
@@ -43,9 +60,12 @@ export function generateRelayConnection<T>(
 
 export function getOffsetAndLimit(
   paginationArgs: PaginationInput,
-  opts: PaginationOpts = {}
+  opts?: PaginationOpts
 ) {
-  const { max, numRecords } = opts;
+  const { max, numRecords } =
+    opts ||
+    // istanbul ignore next:
+    {};
   let offset = getOffset(paginationArgs);
   const [limit, direction] = getLimitAndDirection(paginationArgs, max);
 
@@ -92,12 +112,13 @@ export function getOffset({ before, after }: PaginationInput) {
   try {
     if (before) {
       const offset = cursorToOffset(before);
-      return maxFn(offset, 0);
+      return isNaN(offset) ? 0 : maxFn(offset, 0);
     } else if (after) {
       const offset = cursorToOffset(after);
-      return offset + 1;
+      return isNaN(offset) ? 0 : offset + 1;
     }
   } catch (error) {
+    // istanbul ignore next:
     if (!(error instanceof CursorToOffsetError)) {
       throw error;
     }
@@ -120,7 +141,7 @@ export function getLimitAndDirection(
     limit = last;
     direction = "b";
   } else {
-    throw new Error("You must either supply 'first' or 'last'");
+    throw new Error(FIRST_LAST_UNDEFINED_ERROR);
   }
 
   // if limit is more than max, we want to return only the maximum entries
@@ -141,11 +162,9 @@ export function offsetToCursor(offset: number | string) {
 
 export function cursorToOffset(cursor: string) {
   try {
-    const [, offset] = Buffer.from(cursor, "base64")
-      .toString("utf8")
-      .split(":");
-
-    return +offset;
+    const [, val] = Buffer.from(cursor, "base64").toString("utf8").split(":");
+    const offset = +val;
+    return offset;
   } catch (error) {
     throw new CursorToOffsetError(
       "Invalid cursor provided as 'before' or 'after' pagination argument"
@@ -163,7 +182,7 @@ function buildCursors<T>(
 ): [Edge<T>[], string | null, string | null];
 function buildCursors(
   items: any[],
-  offset = 0
+  offset: number
 ): [any, string | null, string | null] {
   const len = items.length;
 

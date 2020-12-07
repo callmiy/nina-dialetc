@@ -28,6 +28,10 @@ module.exports = {
         script: `NODE_ENV=test jest test --runInBand`,
         description: `Jest test but do not watch`,
       },
+      c: {
+        script: `NODE_ENV=test jest test --runInBand --coverage`,
+        description: `Jest test coverage but do not watch`,
+      },
     },
   },
   fetchGqlTypes() {
