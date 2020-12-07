@@ -1,12 +1,37 @@
 import { listCountries } from "../db";
-import { Resolvers } from "../gql/schema-types";
+import { Resolvers, ResolversTypes } from "../gql/schema-types";
+import { relayConnectionFromDataGetter } from "../pagination";
 
 export const countryResolver: Resolvers = {
   Query: {
     listCountries: async (_, { paginationInput }, { db }) => {
-      console.log(paginationInput);
-      const data = await listCountries(db, paginationInput);
-      return data;
+      const connection = await relayConnectionFromDataGetter(
+        async ({ limit, offset }) => {
+          const data = await listCountries(db, {
+            offset,
+            limit,
+          });
+
+          return data;
+        },
+        paginationInput
+      );
+
+      return connection as ResolversTypes["CountryConnection"];
+    },
+  },
+  Country: {
+    countryName: (parent) => {
+      return parent.country_name;
+    },
+    countryCode: (parent) => {
+      return parent.country_code;
+    },
+    insertedAt: (parent) => {
+      return parent.inserted_at;
+    },
+    updatedAt: (parent) => {
+      return parent.updated_at;
     },
   },
 };

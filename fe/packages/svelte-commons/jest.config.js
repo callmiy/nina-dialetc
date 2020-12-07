@@ -1,6 +1,9 @@
 const path = require("path");
 
-const jestBabelTransform = path.resolve(__dirname, "./jestBabelTransform.js");
+const jestBabelTransform = path.resolve(
+  __dirname,
+  "../../jestBabelTransform.js"
+);
 
 module.exports = {
   clearMocks: true,

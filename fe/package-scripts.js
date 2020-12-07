@@ -117,6 +117,11 @@ module.exports = {
       script: checkCmd,
       description: `Sort package.json, prettify, lint and type check all packages`,
     },
+    tests: {
+      default: {
+        script: `NODE_ENV=test jest --watchAll --runInBand`,
+      },
+    },
   },
   netlify() {
     const NetlifyApi = require("netlify");

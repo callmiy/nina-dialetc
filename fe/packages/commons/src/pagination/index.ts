@@ -12,36 +12,51 @@ export const FIRST_LAST_UNDEFINED_ERROR =
  * `dataOrFn`: If function is provided, the limit given as arg to the function
  * will be one more than the limit requested. Thus if data returned is more
  * than the i=limit requested (by 1) we know there is more data to fetch
-*/
-export function generateRelayConnection<T>(
-  dataOrFn: T[] | ((args: DataFnArgs) => T[]),
+ */
+
+export async function relayConnectionFromDataGetter<T>(
+  dataGetterFn: (args: DataFnArgs) => T[] | Promise<T[]>,
   paginationArgs: PaginationInput,
   opts: PaginationOpts = {}
 ) {
   const [offset, limit] = getOffsetAndLimit(paginationArgs, opts);
-  let slicedData: T[];
-  let data: T[];
-  let hasNextPage = false;
 
-  if (Array.isArray(dataOrFn)) {
-    data = dataOrFn;
-    slicedData = data.slice(offset, limit + offset);
-    const count = opts.numRecords || data.length;
-    hasNextPage = count > offset + limit;
-  } else {
-    // We will fetch one more than is required so we can determine if there
-    // are more records i.e. hasNextPage
-    const limitPlusOne = limit + 1;
+  const limitPlusOne = limit + 1;
 
-    data = dataOrFn({
-      offset,
-      limit: limitPlusOne,
-    });
+  const data = await dataGetterFn({
+    offset,
+    limit: limitPlusOne,
+  });
 
-    slicedData = data.slice(0, limit);
-    const count = data.length;
-    hasNextPage = count > limit;
-  }
+  const slicedData = data.slice(0, limit);
+  const count = data.length;
+  const hasNextPage = count > limit;
+
+  const [edges, first, last] = buildCursors(slicedData, offset);
+
+  const pageInfo = {
+    startCursor: first,
+    endCursor: last,
+    hasPreviousPage: offset > 0,
+    hasNextPage,
+  };
+
+  return {
+    pageInfo,
+    edges,
+  };
+}
+
+export function relayConnectionFromList<T>(
+  data: T[],
+  paginationArgs: PaginationInput,
+  opts: PaginationOpts = {}
+) {
+  const [offset, limit] = getOffsetAndLimit(paginationArgs, opts);
+
+  const slicedData = data.slice(offset, limit + offset);
+  const count = opts.numRecords || data.length;
+  const hasNextPage = count > offset + limit;
 
   const [edges, first, last] = buildCursors(slicedData, offset);
 

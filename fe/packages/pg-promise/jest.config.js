@@ -6,6 +6,8 @@ const jestBabelTransform = path.resolve(
 );
 
 module.exports = {
+  displayName: "@ta/pg-promise",
+  // projects: ["<rootDir>/../commons/jest.config.js", "<rootDir>/jest.config.js"],
   clearMocks: true,
   collectCoverageFrom: ["src/**/*.(ts|js)", "!src/__tests__/**"],
   coverageDirectory: "coverage",

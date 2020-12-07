@@ -1,13 +1,22 @@
 import { DbArg } from "../db/types";
 import { countriesSql, postCodesSql } from "../sql";
 import { fromUlidToUid, fromUuidToUlid } from "@ta/cm/src/db/ulid-uuid";
-import { PaginationInput } from "@ta/cm/src/gql/schema-types";
+import { CountryEntity } from "@ta/cm/src/types";
 
 export async function listCountries(
   db: DbArg,
-  paginationInput: PaginationInput
+  {
+    limit,
+    offset,
+  }: {
+    limit: number;
+    offset: number;
+  } = {
+    offset: 0,
+    limit: 20,
+  }
 ) {
-  const list = await db.any(countriesSql.list);
+  const list = await db.any<CountryEntity>(countriesSql.list, [limit, offset]);
   return list.map((d) => {
     const { id } = d;
     d.id = fromUuidToUlid(id);

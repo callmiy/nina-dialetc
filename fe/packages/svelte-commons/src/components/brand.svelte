@@ -67,10 +67,10 @@
                 {#await countriesCurrenciesPromise}
                   <option value="">----------</option>
                 {:then { listCountries }}
-                  {#if listCountries}
-                    {#each listCountries as { id, country_name } (id)}
+                  {#if listCountries && listCountries.edges}
+                    {#each listCountries.edges as { node: { id, countryName } } (id)}
                       <option value="{id}" class="{brandCountryOptionSelector}">
-                        {country_name}
+                        {countryName}
                       </option>
                     {/each}
                   {/if}
@@ -96,13 +96,13 @@
                   <option value="">----------</option>
                 {:then { listCurrencies }}
                   {#if listCurrencies}
-                    {#each listCurrencies as { id, currency_name, currency_code } (id)}
+                    {#each listCurrencies as { id, currencyName, currencyCode } (id)}
                       <option
                         value="{id}"
                         class="{brandCurrencyOptionSelector}"
                       >
-                        {currency_name}:
-                        {currency_code}
+                        {currencyName}:
+                        {currencyCode}
                       </option>
                     {/each}
                   {/if}

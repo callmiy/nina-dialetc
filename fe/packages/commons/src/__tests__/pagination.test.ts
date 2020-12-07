@@ -1,5 +1,6 @@
 import {
-  generateRelayConnection,
+  relayConnectionFromList,
+  relayConnectionFromDataGetter,
   offsetToCursor,
   LAST_WITHOUT_BEFORE_ERROR,
   FIRST_LAST_UNDEFINED_ERROR,
@@ -19,13 +20,13 @@ describe("pagination tests", () => {
       };
 
       expect(() => {
-        generateRelayConnection(data, {});
+        relayConnectionFromList(data, {});
       }).toThrow(FIRST_LAST_UNDEFINED_ERROR);
     });
 
     it(`paginate forward
       empty data`, () => {
-      const result = generateRelayConnection([], { first: 1 });
+      const result = relayConnectionFromList([], { first: 1 });
 
       expect(result).toEqual({
         pageInfo: {
@@ -40,7 +41,7 @@ describe("pagination tests", () => {
 
     it(`invalid cursor throws error
           negative numRecords`, () => {
-      const result = generateRelayConnection(
+      const result = relayConnectionFromList(
         data,
         {
           last: 1,
@@ -68,7 +69,7 @@ describe("pagination tests", () => {
     });
 
     it(`invalid cursor makes offset NAN does not fetch`, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         last: 1,
         before: "a",
       });
@@ -85,7 +86,7 @@ describe("pagination tests", () => {
     });
 
     it(`invalid cursor makes offset NAN but fetches`, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         first: 1,
         after: "a",
       });
@@ -109,7 +110,7 @@ describe("pagination tests", () => {
     it(`first = 1
       after undefined cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         first: 1,
       });
 
@@ -132,7 +133,7 @@ describe("pagination tests", () => {
     it(`first = 1
       after 0th cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         first: 1,
         after: cursor0,
       });
@@ -156,7 +157,7 @@ describe("pagination tests", () => {
     it(`first = 1
       after 1th cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         first: 1,
         after: cursor1,
       });
@@ -180,7 +181,7 @@ describe("pagination tests", () => {
     it(`first = 2
       after undefined cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         first: 2,
       });
 
@@ -207,7 +208,7 @@ describe("pagination tests", () => {
     it(`first = 2
       after 0th cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         first: 2,
         after: cursor0,
       });
@@ -235,7 +236,7 @@ describe("pagination tests", () => {
     it(`first = 3
       after undefined cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         first: 3,
       });
 
@@ -266,7 +267,7 @@ describe("pagination tests", () => {
     it(`first = 3
       after 0th cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         first: 3,
         after: cursor0,
       });
@@ -294,7 +295,7 @@ describe("pagination tests", () => {
     it(`first = 3
       after 1th cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         first: 3,
         after: cursor1,
       });
@@ -323,14 +324,14 @@ describe("pagination tests", () => {
       };
 
       expect(() => {
-        generateRelayConnection(data, { last: 1 });
+        relayConnectionFromList(data, { last: 1 });
       }).toThrow(LAST_WITHOUT_BEFORE_ERROR);
     });
 
     it(`last = 1
       before 2th cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         last: 1,
         before: cursor2,
       });
@@ -354,7 +355,7 @@ describe("pagination tests", () => {
     it(`last = 1
       before 1th cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         last: 1,
         before: cursor1,
       });
@@ -378,7 +379,7 @@ describe("pagination tests", () => {
     it(`last = 1
       before 0th cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         last: 1,
         before: cursor0,
       });
@@ -397,7 +398,7 @@ describe("pagination tests", () => {
     it(`last = 2
       before 2th cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         last: 2,
         before: cursor2,
       });
@@ -425,7 +426,7 @@ describe("pagination tests", () => {
     it(`last = 2
       before 1th cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         last: 2,
         before: cursor1,
       });
@@ -449,7 +450,7 @@ describe("pagination tests", () => {
     it(`last = 2
       before 0th cursor
     `, () => {
-      const result = generateRelayConnection(data, {
+      const result = relayConnectionFromList(data, {
         last: 2,
         before: cursor0,
       });
@@ -485,8 +486,8 @@ describe("pagination tests", () => {
       [4, {}],
     ];
 
-    it(`hasNextPage and no maximum`, () => {
-      const result = generateRelayConnection(() => data, {
+    it(`hasNextPage and no maximum`, async () => {
+      const result = await relayConnectionFromDataGetter(() => data, {
         first: 2,
         after: cursor0,
       });
@@ -513,8 +514,8 @@ describe("pagination tests", () => {
       });
     });
 
-    it(`has no next page because maximum specified`, () => {
-      const result = generateRelayConnection(
+    it(`has no next page because maximum specified`, async () => {
+      const result = await relayConnectionFromDataGetter(
         () => data,
         {
           first: 2,

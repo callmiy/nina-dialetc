@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from "@apollo/client/core";
 
 export const typeDefs = gql`
   scalar Date
@@ -6,16 +6,16 @@ export const typeDefs = gql`
 
   type Country {
     id: ID!
-    country_name: String!
-    country_code: String!
+    countryName: String!
+    countryCode: String!
     insertedAt: DateTime!
     updatedAt: DateTime!
   }
 
   type Currency {
     id: ID!
-    currency_name: String!
-    currency_code: String!
+    currencyName: String!
+    currencyCode: String!
     insertedAt: DateTime!
     updatedAt: DateTime!
   }
@@ -28,8 +28,8 @@ export const typeDefs = gql`
   }
 
   type PageInfo {
-    startCursor: String!
-    endCursor: String!
+    startCursor: String
+    endCursor: String
     hasPreviousPage: Boolean!
     hasNextPage: Boolean!
   }
@@ -40,12 +40,12 @@ export const typeDefs = gql`
   }
 
   type CountryConnection {
-    entries: [CountryEdge]!
+    edges: [CountryEdge]!
     pageInfo: PageInfo!
   }
 
   type Query {
-    listCountries(paginationInput: PaginationInput!): [Country]!
+    listCountries(paginationInput: PaginationInput!): CountryConnection!
     listCurrencies: [Currency]!
   }
 `;

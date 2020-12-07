@@ -20,11 +20,12 @@ import {
 import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
 import FormCtrlError from "./form-ctrl-error.svelte";
 import {
-  ListCountriesAndCurrencies_listCountries,
-  ListCountriesAndCurrencies_listCurrencies,
   ListCountriesAndCurrencies,
+  CurrencyFragment,
+  CountryFragment,
 } from "@ta/cm/src/gql/ops-types";
 import Notification from "./notification.svelte";
+import { CountryEdge } from "@ta/cm/src/gql/schema-types";
 
 let countriesAndCurrencies: ListCountriesAndCurrencies;
 
@@ -104,13 +105,18 @@ function submitFormCb() {
     return;
   }
 
-  const countryData = countriesAndCurrencies.listCountries.find(
-    (d) => d.id === country
-  ) as ListCountriesAndCurrencies_listCountries;
+  const countryData = countriesAndCurrencies.listCountries.edges.find((e) => {
+    const edge = e as CountryEdge;
+    const node = edge.node as CountryFragment
 
-  const currencyData = countriesAndCurrencies.listCurrencies.find(
-    (d) => d.id === currency
-  ) as ListCountriesAndCurrencies_listCurrencies;
+    return node.id === country;
+  })?.node as CountryFragment
+
+  const currencyData = countriesAndCurrencies.listCurrencies.find((d) => {
+    const data = d as CurrencyFragment;
+
+    return data.id === currency;
+  }) as CurrencyFragment;
 
   if (onSubmit) {
     onSubmit({
@@ -129,8 +135,8 @@ function clearSimpletextErrorCb() {
 
 export type BrandValues = {
   name: string;
-  country: ListCountriesAndCurrencies_listCountries;
-  currency: ListCountriesAndCurrencies_listCurrencies;
+  country: CountryFragment;
+  currency: CurrencyFragment;
   phone?: string | null;
 };
 

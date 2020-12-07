@@ -16,20 +16,7 @@ import {
   NOTHING_TO_SAVE_WARNING_MESSAGE,
   FORM_CONTAINS_ERRORS_MESSAGE,
 } from "@ta/cm/src/utils";
-import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
 import FormCtrlError from "./form-ctrl-error.svelte";
-import {
-  ListCountriesAndCurrencies_listCountries,
-  ListCountriesAndCurrencies_listCurrencies,
-  ListCountriesAndCurrencies,
-} from "@ta/cm/src/gql/ops-types";
-
-let countriesAndCurrencies: ListCountriesAndCurrencies;
-
-const countriesCurrenciesPromise = getCountriesCurrencies().then((d) => {
-  countriesAndCurrencies = d;
-  return d;
-});
 
 /* FORM ATTRIBUTES AND ERROR VARIABLES */
 let postCode = "";
@@ -102,19 +89,11 @@ function submitFormCb() {
     return;
   }
 
-  const countryData = countriesAndCurrencies.listCountries.find(
-    (d) => d.id === city
-  ) as ListCountriesAndCurrencies_listCountries;
-
-  const currencyData = countriesAndCurrencies.listCurrencies.find(
-    (d) => d.id === postCode
-  ) as ListCountriesAndCurrencies_listCurrencies;
-
   if (onSubmit) {
     onSubmit({
       street,
-      city: countryData,
-      postCode: currencyData,
+      city,
+      postCode,
       branchAlias: branchAlias || null,
     });
   }
@@ -127,8 +106,8 @@ function clearSimpletextErrorCb() {
 
 export type BrandValues = {
   street: string;
-  city: ListCountriesAndCurrencies_listCountries;
-  postCode: ListCountriesAndCurrencies_listCurrencies;
+  city: string;
+  postCode: string;
   branchAlias?: string | null;
 };
 

@@ -9,3 +9,6 @@ generates:
       - "typescript-resolvers"
     config:
       contextType: ../types/db#ServerContext
+      mappers:
+        Country: ../types#CountryEntity
+        Currency: ../types#CurrencyEntity

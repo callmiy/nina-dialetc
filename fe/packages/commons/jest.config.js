@@ -6,6 +6,7 @@ const jestBabelTransform = path.resolve(
 );
 
 module.exports = {
+  displayName: "@ta/commons",
   clearMocks: true,
   collectCoverageFrom: ["src/**/*.(ts|js)", "!src/__tests__/**"],
   coverageDirectory: "coverage",

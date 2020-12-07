@@ -8,7 +8,10 @@ import { GRAPHQL_PATH } from "../constants";
 import { API_URL } from "../envs";
 import { middlewareErrorLink, middlewareLoggerLink } from "./middlewares";
 import { listCountriesAndCurrenciesQuery } from "../gql/queries";
-import { ListCountriesAndCurrencies } from "../gql/ops-types";
+import {
+  ListCountriesAndCurrencies,
+  ListCountriesAndCurrenciesVariables,
+} from "../gql/ops-types";
 
 const path = API_URL + GRAPHQL_PATH;
 
@@ -51,8 +54,13 @@ export function getCountriesCurrencies() {
   const client = makeApolloClient();
 
   return client
-    .query<ListCountriesAndCurrencies>({
+    .query<ListCountriesAndCurrencies, ListCountriesAndCurrenciesVariables>({
       query: listCountriesAndCurrenciesQuery,
+      variables: {
+        countriesPaginationInput: {
+          first: 20,
+        },
+      },
     })
     .then((result) => {
       if (result && result.data) {
