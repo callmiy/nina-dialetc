@@ -1,20 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import {
-  brandNameInputDomId,
+  branchCityInputId,
+  branchStreetInputId,
   brandNameErrorDomId,
   closeBrandComponentId,
-  resetFormBtnId,
+  branchResetId,
   brandDomId,
-  brandCountryInputDomId,
-  brandCountryErrorDomId,
-  brandCurrencyInputDomId,
-  brandCurrencyErrorDomId,
-  brandPhoneInputDomId,
-  submitBrandId,
-  brandNameOptionSelector,
-  brandCountryOptionSelector,
-  brandCurrencyOptionSelector,
+  branchPostCodeInputId,
+  branchAliasInputId,
+  branchSubmitId,
+  branchPostCodeOptionSelector,
+  branchCityOptionSelector,
 } from "@ta/cm/src/selectors";
 import {
   IS_ACTIVE_CLASS_NAME,
@@ -22,7 +17,7 @@ import {
   FORM_CONTAINS_ERRORS_MESSAGE,
 } from "@ta/cm/src/utils";
 import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
-import FormCtrlError from "../FormCtrlError/FormCtrlError.svelte";
+import FormCtrlError from "./form-ctrl-error.svelte";
 import {
   ListCountriesAndCurrencies_listCountries,
   ListCountriesAndCurrencies_listCurrencies,
@@ -76,7 +71,7 @@ function resetFormCb() {
 }
 
 function submitFormCb() {
-  const formEmpty = !street && !city && !postCode && !branchAlias;
+  const formEmpty = !street && !city && !postCode;
 
   if (formEmpty) {
     notificationText = NOTHING_TO_SAVE_WARNING_MESSAGE;
@@ -87,7 +82,7 @@ function submitFormCb() {
   let hasError = false;
 
   if (street.length < 3) {
-    streetError = "shop brand name is compulsory field";
+    streetError = "Street is compulsory field";
     hasError = true;
   }
 

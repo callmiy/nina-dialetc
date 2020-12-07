@@ -12,6 +12,14 @@ import {
   resetFormBtnId,
   formCtrlErrorSelector,
   notificationTextCloseId,
+
+  // BRANCH /////////////////////////////////////////////////////////////////
+  shopItemAddBranchId,
+  branchPostCodeOptionSelector,
+  branchPostCodeInputId,
+  branchCityOptionSelector,
+  branchCityInputId,
+  branchStreetInputId,
 } from "@ta/cm/src/selectors";
 
 context("Item", () => {
@@ -28,6 +36,8 @@ context("Item", () => {
       cy.visit("/");
 
       // When we click the button to create new item
+
+      // BRAND ///////////////////////////////////////////////////////////////
 
       // When we click on 'Add new shop brand' button
       cy.get("#" + shopItemAddBrandId).click();
@@ -164,6 +174,36 @@ context("Item", () => {
 
       // ShopItem brandName should be brand name input
       cy.get("@itemName").should("have.value", brandName1);
+
+      // BRANCH ////////////////////////////////////////////////////////////////
+
+      // When we click on 'Add new branch' button
+      cy.get("#" + shopItemAddBranchId).click();
+
+      // When we select a postcode
+      cy.get("." + branchPostCodeOptionSelector)
+        .first()
+        .as("postCodeOptionEl")
+        .then((e) => {
+          cy.get("#" + branchPostCodeInputId)
+            .as("postCodeEl")
+            .select(e.val() as string);
+        });
+
+      // When we select a city
+      cy.get("." + branchCityOptionSelector)
+        .first()
+        .as("cityOptionEl")
+        .then((e) => {
+          cy.get("#" + branchCityInputId)
+            .as("cityEl")
+            .select(e.val() as string);
+        });
+
+      // When we fill street name and number field
+      cy.get("#" + branchStreetInputId)
+        .as("streetEl")
+        .type(brandName1);
 
       // And click 'Save changes' button
       // And fill street name and number field

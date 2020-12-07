@@ -35,8 +35,10 @@ export async function listPostCodesFromCountriesIds(
     return acc;
   }, {});
 
-  return countriesUlid.map((countryUlidId) => {
+  const data = countriesUlid.map((countryUlidId) => {
     const postCodesForCountry = countriesIdsToPostCodesMap[countryUlidId];
     return postCodesForCountry;
   });
+
+  return data;
 }

@@ -7,8 +7,11 @@ export const notificationTextCloseId = `close-notification`;
 const shopItemPrefix = "components__shop-item";
 
 export const shopItemBrandNameInputId = `${shopItemPrefix}-brand-name-input`;
-export const shopItemBrandNameOptionSelector = `js-${shopItemPrefix}-brand-name-option`;
+export const shopItemBranchInputId = `${shopItemPrefix}-branch-input`;
+export const shopItemBrandNameOptionSelector = `js-${shopItemPrefix}-brandoption`;
+export const shopItemBranchNameOptionSelector = `js-${shopItemPrefix}-branch-option`;
 export const shopItemAddBrandId = `${shopItemPrefix}-add-brand`;
+export const shopItemAddBranchId = `${shopItemPrefix}-add-branch`;
 
 // SHOP BRAND /////////////////////////////////////////////////////////////////
 
@@ -30,9 +33,18 @@ export const submitBrandId = `${brandDomId}-submit`;
 // SHOP BRANCH /////////////////////////////////////////////////////////////////
 
 export const branchDomId = "components__shop-branch";
+
 export const branchPostCodeInputId = `${branchDomId}-post-code`;
 export const branchPostCodeErrorId = `${branchDomId}-post-code-error`;
+export const branchPostCodeOptionSelector = `js-${branchDomId}-post-code-option`;
+
 export const branchCityInputId = `${branchDomId}-city-input`;
 export const branchCityErrorId = `${branchDomId}-city-error`;
+export const branchCityOptionSelector = `js-${branchDomId}-city-option`;
+
 export const branchStreetInputId = `${branchDomId}-street-input`;
+
 export const branchAliasInputId = `${branchDomId}-branch-alias-input`;
+
+export const branchSubmitId = `${branchDomId}-submit`;
+export const branchResetId = `${branchDomId}-reset-form`;

@@ -12,7 +12,7 @@ import {
   brandPhoneInputDomId,
   submitBrandId,
   notificationTextCloseId,
-} from "@ta/cm/src/dom";
+} from "@ta/cm/src/selectors";
 import { fillField } from "./test_utils";
 import { IS_ACTIVE_CLASS_NAME } from "@ta/cm/src/utils";
 import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";

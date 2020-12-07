@@ -32,6 +32,20 @@ export const typeDefs = gql`
     updatedAt: DateTime!
   }
 
+  type PaginationInput {
+    first: Int
+    last: Int
+    before: String
+    after: String
+  }
+
+  type PageInfo {
+    startCursor: String!
+    endCursor: String!
+    hasPreviousPage: Boolean!
+    hasNextPage: Boolean!
+  }
+
   type Query {
     listCountries: [Country]!
     listCurrencies: [Currency]!

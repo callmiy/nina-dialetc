@@ -2,20 +2,41 @@ import {
   shopItemBrandNameInputId,
   shopItemBrandNameOptionSelector,
   shopItemAddBrandId,
+  shopItemBranchInputId,
+  shopItemBranchNameOptionSelector,
+  shopItemAddBranchId,
 } from "@ta/cm/src/selectors";
 import { Props as BrandProps } from "./_brand";
 
+// BRAND ///////////////////////////////////////////////////////////////////////
+
 let brandName = "";
-let brandComponentIsActive = false;
+let brandIsActive = false;
 
-// CALLBACKS /////////////////////////////////////////////////////////////////
-
-function activateBrandComponent() {
-  brandComponentIsActive = true;
+function activateBrandCb() {
+  branchIsActive = false;
+  brandIsActive = true;
 }
 
-const onSubmitShopBrand: BrandProps["onSubmit"] = (values) => {
+const onSubmitBrand: BrandProps["onSubmit"] = (values) => {
   brandName = values.name;
   console.log(values);
-  brandComponentIsActive = false;
+  brandIsActive = false;
 };
+
+// BRANCH ///////////////////////////////////////////////////////////////////////
+
+let branchIsActive = false;
+let branchName = "";
+
+function activateBranchCb() {
+  branchName = "";
+  brandIsActive = false;
+  branchIsActive = true;
+}
+
+function onSubmitBranch() {
+  branchIsActive = false;
+}
+
+// CALLBACKS /////////////////////////////////////////////////////////////////

@@ -1,5 +1,5 @@
 import { ApolloServer } from "apollo-server-hapi";
-import { typeDefs } from "../gql/root";
+import { typeDefs } from "../gql/schema";
 import { resolvers } from "../resolvers/root";
 import { ServerContext } from "../types/db";
 import dataLoaders from "../data-loaders";

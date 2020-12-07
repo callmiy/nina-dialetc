@@ -6,6 +6,7 @@ export const {
   IS_E2E,
   DATABASE_URL = "",
   API_URL = "",
+  DEBUG_PG: DEBUG_PG_PROMISE,
 } = process.env;
 
 export const IS_DEV = NODE_ENV === "development";

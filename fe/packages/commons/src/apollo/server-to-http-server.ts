@@ -1,6 +1,6 @@
 import { Server } from "@hapi/hapi";
 import { makeApolloServer } from "./server";
-import { db } from "../db";
+import { db } from "../db/db";
 import { GRAPHQL_PATH } from "../constants";
 import { IS_DEV } from "../envs";
 

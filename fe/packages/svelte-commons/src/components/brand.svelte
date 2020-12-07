@@ -56,11 +56,8 @@
           {/if}
         </div>
 
-        <div class="field">
-          <label
-            class="label"
-            for="{brandCountryInputDomId}"
-          >Country</label>
+        <div class="field country-field">
+          <label class="label" for="{brandCountryInputDomId}">Country</label>
 
           <div class="control">
             <div class="select is-fullwidth">
@@ -72,10 +69,7 @@
                 {:then { listCountries }}
                   {#if listCountries}
                     {#each listCountries as { id, country_name } (id)}
-                      <option
-                        value="{id}"
-                        class="{brandCountryOptionSelector}"
-                      >
+                      <option value="{id}" class="{brandCountryOptionSelector}">
                         {country_name}
                       </option>
                     {/each}
@@ -90,18 +84,12 @@
           </div>
         </div>
 
-        <div class="field">
-          <label
-            class="label"
-            for="{brandCurrencyInputDomId}"
-          >Currency</label>
+        <div class="field currency-field">
+          <label class="label" for="{brandCurrencyInputDomId}">Currency</label>
 
           <div class="control">
             <div class="select is-fullwidth">
-              <select
-                id="{brandCurrencyInputDomId}"
-                bind:value="{currency}"
-              >
+              <select id="{brandCurrencyInputDomId}" bind:value="{currency}">
                 <option value="">----------</option>
 
                 {#await countriesCurrenciesPromise}
@@ -129,9 +117,7 @@
         </div>
 
         <div class="field">
-          <label class="label" for="{brandPhoneInputDomId}">
-            Telephone
-          </label>
+          <label class="label" for="{brandPhoneInputDomId}"> Telephone </label>
 
           <div class="control">
             <input

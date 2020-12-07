@@ -1,11 +1,13 @@
 import { createTestClient } from "apollo-server-testing";
 import { makeApolloServer } from "../apollo/server";
 import { DbArg } from "../types/db";
+import { makeDb } from "@ta/pp/src/db/db";
 
 // DB CONNECTION FOR TEST /////////////////////////////////////////////////////
 
+const key = {};
 export async function testDbConnection() {
-  const { db } = require("../db");
+  const { db } = makeDb(key);
   const conn = await db.connect();
   return { conn };
 }
@@ -61,6 +63,70 @@ export const insertGermanPostCodeValueSql = `
   ,'${germanyData.uuidCompressed}'
 )
 `;
+
+const germanPosCode1 = {
+  ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
+  uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
+  postCode: "1234",
+  city: "Daa",
+  state: "Tii",
+};
+
+const germanPosCode2 = {
+  ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
+  uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
+  postCode: "4567",
+  city: "Laa",
+  state: "Haa",
+};
+
+const germanPosCode3 = {
+  ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
+  uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
+  postCode: "7869",
+  city: "Kiy",
+  state: "Moy",
+};
+
+const germanPosCode4 = {
+  ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
+  uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
+  postCode: "4356",
+  city: "Mmm",
+  state: "Xcv",
+};
+
+const francePosCode1 = {
+  ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
+  uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
+  postCode: "1234 abc",
+  city: "Paris",
+  state: "Essex",
+};
+
+const francePosCode2 = {
+  ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
+  uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
+  postCode: "4567",
+  city: "Jar",
+  state: "Hit",
+};
+
+const francePosCode3 = {
+  ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
+  uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
+  postCode: "9801",
+  city: "Hil",
+  state: "See",
+};
+
+const francePosCode4 = {
+  ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
+  uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
+  postCode: "1112",
+  city: "Met",
+  state: "Gee",
+};
 
 export const insertFrancePostCodeValueSql = `
 (

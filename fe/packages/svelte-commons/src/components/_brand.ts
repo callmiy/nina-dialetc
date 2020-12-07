@@ -1,13 +1,10 @@
 import {
   brandNameInputDomId,
-  brandNameErrorDomId,
   closeBrandComponentId,
   resetFormBtnId,
   brandDomId,
   brandCountryInputDomId,
-  brandCountryErrorDomId,
   brandCurrencyInputDomId,
-  brandCurrencyErrorDomId,
   brandPhoneInputDomId,
   submitBrandId,
   brandNameOptionSelector,
