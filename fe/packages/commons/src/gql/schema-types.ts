@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import {
   GraphQLResolveInfo,
   GraphQLScalarType,
@@ -32,7 +30,6 @@ export type Country = {
   country_code: Scalars["String"];
   insertedAt: Scalars["DateTime"];
   updatedAt: Scalars["DateTime"];
-  post_codes: Array<Maybe<PostCode>>;
 };
 
 export type Currency = {
@@ -44,16 +41,32 @@ export type Currency = {
   updatedAt: Scalars["DateTime"];
 };
 
-export type PostCode = {
-  __typename?: "PostCode";
-  id: Scalars["ID"];
-  post_code: Scalars["String"];
-  city: Scalars["String"];
-  state: Scalars["String"];
-  country_id: Scalars["ID"];
-  country?: Maybe<Country>;
-  insertedAt: Scalars["DateTime"];
-  updatedAt: Scalars["DateTime"];
+export type PaginationInput = {
+  __typename?: "PaginationInput";
+  first?: Maybe<Scalars["Int"]>;
+  last?: Maybe<Scalars["Int"]>;
+  before?: Maybe<Scalars["String"]>;
+  after?: Maybe<Scalars["String"]>;
+};
+
+export type PageInfo = {
+  __typename?: "PageInfo";
+  startCursor: Scalars["String"];
+  endCursor: Scalars["String"];
+  hasPreviousPage: Scalars["Boolean"];
+  hasNextPage: Scalars["Boolean"];
+};
+
+export type CountryConnectionEntry = {
+  __typename?: "CountryConnectionEntry";
+  node: Country;
+  cursor: Scalars["String"];
+};
+
+export type CountryConnection = {
+  __typename?: "CountryConnection";
+  entries: Array<Maybe<CountryConnectionEntry>>;
+  pageInfo: PageInfo;
 };
 
 export type Query = {
@@ -184,9 +197,13 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars["ID"]>;
   String: ResolverTypeWrapper<Scalars["String"]>;
   Currency: ResolverTypeWrapper<Currency>;
-  PostCode: ResolverTypeWrapper<PostCode>;
-  Query: ResolverTypeWrapper<{}>;
+  PaginationInput: ResolverTypeWrapper<PaginationInput>;
+  Int: ResolverTypeWrapper<Scalars["Int"]>;
+  PageInfo: ResolverTypeWrapper<PageInfo>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
+  CountryConnectionEntry: ResolverTypeWrapper<CountryConnectionEntry>;
+  CountryConnection: ResolverTypeWrapper<CountryConnection>;
+  Query: ResolverTypeWrapper<{}>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -197,9 +214,13 @@ export type ResolversParentTypes = {
   ID: Scalars["ID"];
   String: Scalars["String"];
   Currency: Currency;
-  PostCode: PostCode;
-  Query: {};
+  PaginationInput: PaginationInput;
+  Int: Scalars["Int"];
+  PageInfo: PageInfo;
   Boolean: Scalars["Boolean"];
+  CountryConnectionEntry: CountryConnectionEntry;
+  CountryConnection: CountryConnection;
+  Query: {};
 };
 
 export interface DateScalarConfig
@@ -221,11 +242,6 @@ export type CountryResolvers<
   country_code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   insertedAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
-  post_codes?: Resolver<
-    Array<Maybe<ResolversTypes["PostCode"]>>,
-    ParentType,
-    ContextType
-  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -241,18 +257,51 @@ export type CurrencyResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PostCodeResolvers<
+export type PaginationInputResolvers<
   ContextType = ServerContext,
-  ParentType extends ResolversParentTypes["PostCode"] = ResolversParentTypes["PostCode"]
+  ParentType extends ResolversParentTypes["PaginationInput"] = ResolversParentTypes["PaginationInput"]
 > = {
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  post_code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  city?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  state?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  country_id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  country?: Resolver<Maybe<ResolversTypes["Country"]>, ParentType, ContextType>;
-  insertedAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  first?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  last?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  before?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  after?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PageInfoResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["PageInfo"] = ResolversParentTypes["PageInfo"]
+> = {
+  startCursor?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  endCursor?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  hasPreviousPage?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  hasNextPage?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CountryConnectionEntryResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["CountryConnectionEntry"] = ResolversParentTypes["CountryConnectionEntry"]
+> = {
+  node?: Resolver<ResolversTypes["Country"], ParentType, ContextType>;
+  cursor?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CountryConnectionResolvers<
+  ContextType = ServerContext,
+  ParentType extends ResolversParentTypes["CountryConnection"] = ResolversParentTypes["CountryConnection"]
+> = {
+  entries?: Resolver<
+    Array<Maybe<ResolversTypes["CountryConnectionEntry"]>>,
+    ParentType,
+    ContextType
+  >;
+  pageInfo?: Resolver<ResolversTypes["PageInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -277,7 +326,10 @@ export type Resolvers<ContextType = ServerContext> = {
   DateTime?: GraphQLScalarType;
   Country?: CountryResolvers<ContextType>;
   Currency?: CurrencyResolvers<ContextType>;
-  PostCode?: PostCodeResolvers<ContextType>;
+  PaginationInput?: PaginationInputResolvers<ContextType>;
+  PageInfo?: PageInfoResolvers<ContextType>;
+  CountryConnectionEntry?: CountryConnectionEntryResolvers<ContextType>;
+  CountryConnection?: CountryConnectionResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };
 

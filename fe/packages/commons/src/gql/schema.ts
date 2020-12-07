@@ -10,24 +10,12 @@ export const typeDefs = gql`
     country_code: String!
     insertedAt: DateTime!
     updatedAt: DateTime!
-    post_codes: [PostCode]
   }
 
   type Currency {
     id: ID!
     currency_name: String!
     currency_code: String!
-    insertedAt: DateTime!
-    updatedAt: DateTime!
-  }
-
-  type PostCode {
-    id: ID!
-    post_code: String!
-    city: String!
-    state: String!
-    country_id: ID!
-    country: Country
     insertedAt: DateTime!
     updatedAt: DateTime!
   }
@@ -44,6 +32,16 @@ export const typeDefs = gql`
     endCursor: String!
     hasPreviousPage: Boolean!
     hasNextPage: Boolean!
+  }
+
+  type CountryEdge {
+    node: Country!
+    cursor: String!
+  }
+
+  type CountryConnection {
+    entries: [CountryEdge]!
+    pageInfo: PageInfo!
   }
 
   type Query {
