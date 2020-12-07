@@ -12,6 +12,10 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
   { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
   { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = {
+  [X in Exclude<keyof T, K>]?: T[X];
+} &
+  { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -42,7 +46,6 @@ export type Currency = {
 };
 
 export type PaginationInput = {
-  __typename?: "PaginationInput";
   first?: Maybe<Scalars["Int"]>;
   last?: Maybe<Scalars["Int"]>;
   before?: Maybe<Scalars["String"]>;
@@ -57,15 +60,15 @@ export type PageInfo = {
   hasNextPage: Scalars["Boolean"];
 };
 
-export type CountryConnectionEntry = {
-  __typename?: "CountryConnectionEntry";
+export type CountryEdge = {
+  __typename?: "CountryEdge";
   node: Country;
   cursor: Scalars["String"];
 };
 
 export type CountryConnection = {
   __typename?: "CountryConnection";
-  entries: Array<Maybe<CountryConnectionEntry>>;
+  entries: Array<Maybe<CountryEdge>>;
   pageInfo: PageInfo;
 };
 
@@ -73,6 +76,10 @@ export type Query = {
   __typename?: "Query";
   listCountries: Array<Maybe<Country>>;
   listCurrencies: Array<Maybe<Currency>>;
+};
+
+export type QueryListCountriesArgs = {
+  paginationInput: PaginationInput;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -197,11 +204,11 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars["ID"]>;
   String: ResolverTypeWrapper<Scalars["String"]>;
   Currency: ResolverTypeWrapper<Currency>;
-  PaginationInput: ResolverTypeWrapper<PaginationInput>;
+  PaginationInput: PaginationInput;
   Int: ResolverTypeWrapper<Scalars["Int"]>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
-  CountryConnectionEntry: ResolverTypeWrapper<CountryConnectionEntry>;
+  CountryEdge: ResolverTypeWrapper<CountryEdge>;
   CountryConnection: ResolverTypeWrapper<CountryConnection>;
   Query: ResolverTypeWrapper<{}>;
 };
@@ -218,7 +225,7 @@ export type ResolversParentTypes = {
   Int: Scalars["Int"];
   PageInfo: PageInfo;
   Boolean: Scalars["Boolean"];
-  CountryConnectionEntry: CountryConnectionEntry;
+  CountryEdge: CountryEdge;
   CountryConnection: CountryConnection;
   Query: {};
 };
@@ -257,17 +264,6 @@ export type CurrencyResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginationInputResolvers<
-  ContextType = ServerContext,
-  ParentType extends ResolversParentTypes["PaginationInput"] = ResolversParentTypes["PaginationInput"]
-> = {
-  first?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
-  last?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
-  before?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  after?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type PageInfoResolvers<
   ContextType = ServerContext,
   ParentType extends ResolversParentTypes["PageInfo"] = ResolversParentTypes["PageInfo"]
@@ -283,9 +279,9 @@ export type PageInfoResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CountryConnectionEntryResolvers<
+export type CountryEdgeResolvers<
   ContextType = ServerContext,
-  ParentType extends ResolversParentTypes["CountryConnectionEntry"] = ResolversParentTypes["CountryConnectionEntry"]
+  ParentType extends ResolversParentTypes["CountryEdge"] = ResolversParentTypes["CountryEdge"]
 > = {
   node?: Resolver<ResolversTypes["Country"], ParentType, ContextType>;
   cursor?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -297,7 +293,7 @@ export type CountryConnectionResolvers<
   ParentType extends ResolversParentTypes["CountryConnection"] = ResolversParentTypes["CountryConnection"]
 > = {
   entries?: Resolver<
-    Array<Maybe<ResolversTypes["CountryConnectionEntry"]>>,
+    Array<Maybe<ResolversTypes["CountryEdge"]>>,
     ParentType,
     ContextType
   >;
@@ -312,7 +308,8 @@ export type QueryResolvers<
   listCountries?: Resolver<
     Array<Maybe<ResolversTypes["Country"]>>,
     ParentType,
-    ContextType
+    ContextType,
+    RequireFields<QueryListCountriesArgs, "paginationInput">
   >;
   listCurrencies?: Resolver<
     Array<Maybe<ResolversTypes["Currency"]>>,
@@ -326,9 +323,8 @@ export type Resolvers<ContextType = ServerContext> = {
   DateTime?: GraphQLScalarType;
   Country?: CountryResolvers<ContextType>;
   Currency?: CurrencyResolvers<ContextType>;
-  PaginationInput?: PaginationInputResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
-  CountryConnectionEntry?: CountryConnectionEntryResolvers<ContextType>;
+  CountryEdge?: CountryEdgeResolvers<ContextType>;
   CountryConnection?: CountryConnectionResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };

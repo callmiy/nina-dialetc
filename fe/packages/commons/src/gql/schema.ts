@@ -20,7 +20,7 @@ export const typeDefs = gql`
     updatedAt: DateTime!
   }
 
-  type PaginationInput {
+  input PaginationInput {
     first: Int
     last: Int
     before: String
@@ -45,7 +45,7 @@ export const typeDefs = gql`
   }
 
   type Query {
-    listCountries: [Country]!
+    listCountries(paginationInput: PaginationInput!): [Country]!
     listCurrencies: [Currency]!
   }
 `;

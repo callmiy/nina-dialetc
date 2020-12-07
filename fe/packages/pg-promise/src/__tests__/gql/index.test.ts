@@ -11,6 +11,10 @@ import { Connection } from "@ta/cm/src/types/db";
 import { cleanUpDbAfterTest, resetDbForTest } from "../../api/utils";
 import { listCountriesAndCurrenciesQuery } from "@ta/cm/src/gql/queries";
 import { listCountries } from "@ta/cm/src/db";
+import {
+  ListCountriesAndCurrenciesVariables,
+  ListCountriesAndCurrencies,
+} from "@ta/cm/src/gql/ops-types";
 
 let conn: Connection;
 
@@ -36,8 +40,16 @@ describe("", () => {
     conn.none(sql);
 
     const { query, server } = makeApolloServerAndClient({ db: conn });
-    const { data } = await query({
+    const { data } = await query<
+      ListCountriesAndCurrencies,
+      ListCountriesAndCurrenciesVariables
+    >({
       query: listCountriesAndCurrenciesQuery,
+      variables: {
+        countriesPaginationInput: {
+          first: 1,
+        },
+      },
     });
 
     const { uuidCompressed: deUuid, ulid: deUlid, name: deName } = germanyData;
@@ -45,16 +57,30 @@ describe("", () => {
     const { uuidCompressed: frUuid, ulid: frUlid, name: frName } = franceData;
 
     expect(data).toEqual({
-      listCountries: [
-        {
-          id: deUlid,
-          country_name: deName,
+      listCountries: {
+        edges: [
+          {
+            node: {
+              id: deUlid,
+              country_name: deName,
+            },
+            cursor: "",
+          },
+          {
+            node: {
+              id: frUlid,
+              country_name: frName,
+            },
+            cursor: "",
+          },
+        ],
+        pageInfo: {
+          hasPreviousPage: false,
+          hasNextPage: true,
+          startCursor: "",
+          endCursor: "",
         },
-        {
-          id: frUlid,
-          country_name: frName,
-        },
-      ],
+      },
       listCurrencies: [],
     });
   });

@@ -21,8 +21,12 @@ export interface ListCountriesAndCurrencies_listCurrencies {
 }
 
 export interface ListCountriesAndCurrencies {
-  listCountries: ListCountriesAndCurrencies_listCountries[];
-  listCurrencies: ListCountriesAndCurrencies_listCurrencies[];
+  listCountries: (ListCountriesAndCurrencies_listCountries | null)[];
+  listCurrencies: (ListCountriesAndCurrencies_listCurrencies | null)[];
+}
+
+export interface ListCountriesAndCurrenciesVariables {
+  countriesPaginationInput: PaginationInput;
 }
 
 /* tslint:disable */
@@ -33,6 +37,13 @@ export interface ListCountriesAndCurrencies {
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+export interface PaginationInput {
+  first?: number | null;
+  last?: number | null;
+  before?: string | null;
+  after?: string | null;
+}
 
 //==============================================================
 // END Enums and Input Objects

@@ -19,6 +19,16 @@ module.exports = {
       script: `node -e 'require("./package-scripts").fetchGqlTypes()'`,
       description: `Generate client graphql typescript types`,
     },
+    test: {
+      default: {
+        script: `NODE_ENV=test jest test --watch --runInBand`,
+        description: `Jest test watch`,
+      },
+      t: {
+        script: `NODE_ENV=test jest test --runInBand`,
+        description: `Jest test but do not watch`,
+      },
+    },
   },
   fetchGqlTypes() {
     const fetch = require("cross-fetch");

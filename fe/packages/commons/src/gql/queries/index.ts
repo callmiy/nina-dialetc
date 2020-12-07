@@ -1,8 +1,10 @@
 import { gql } from "@apollo/client/core";
 
 export const listCountriesAndCurrenciesQuery = gql`
-  query ListCountriesAndCurrencies {
-    listCountries {
+  query ListCountriesAndCurrencies(
+    $countriesPaginationInput: PaginationInput!
+  ) {
+    listCountries(paginationInput: $countriesPaginationInput) {
       id
       country_name
     }
