@@ -1,6 +1,12 @@
 <script src="./_shop-item.ts">
 </script>
 
+<style lang="scss">
+  .field-container + .field-container {
+    margin-top: 25px;
+  }
+</style>
+
 <form>
   {#if brandIsActive}
     {#await import('../brand/brand.svelte') then c}
