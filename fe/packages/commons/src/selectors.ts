@@ -1,6 +1,5 @@
 export const formCtrlErrorSelector = "js-form__control-error";
 export const notificationSelector = "js-notification";
-export const notificationTextCloseId = `close-notification`;
 
 // SHOP ITEM /////////////////////////////////////////////////////////////////
 
@@ -29,6 +28,7 @@ export const brandPhoneInputDomId = `${brandDomId}-phone-input`;
 export const closeBrandComponentId = `${brandDomId}-close-component`;
 export const resetFormBtnId = `${brandDomId}-reset-form`;
 export const submitBrandId = `${brandDomId}-submit`;
+export const brandNotificationTextCloseId = `${brandDomId}-close-notification`;
 
 // SHOP BRANCH /////////////////////////////////////////////////////////////////
 
@@ -40,11 +40,12 @@ export const branchPostCodeOptionSelector = `js-${branchDomId}-post-code-option`
 
 export const branchCityInputId = `${branchDomId}-city-input`;
 export const branchCityErrorId = `${branchDomId}-city-error`;
-export const branchCityOptionSelector = `js-${branchDomId}-city-option`;
 
 export const branchStreetInputId = `${branchDomId}-street-input`;
+export const branchStreetErrorId = `${branchDomId}-street-error`;
 
 export const branchAliasInputId = `${branchDomId}-branch-alias-input`;
 
 export const branchSubmitId = `${branchDomId}-submit`;
 export const branchResetId = `${branchDomId}-reset-form`;
+export const branchNotificationTextCloseId = `${branchDomId}-close-notification`;

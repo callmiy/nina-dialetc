@@ -3,7 +3,7 @@
 
 <form>
   {#if brandIsActive}
-    {#await import('./brand.svelte') then c}
+    {#await import('../brand/brand.svelte') then c}
       <svelte:component
         this="{c.default}"
         bind:isActive="{brandIsActive}"
@@ -11,7 +11,7 @@
       />
     {/await}
   {:else if branchIsActive}
-    {#await import('./branch.svelte') then c}
+    {#await import('../branch/branch.svelte') then c}
       <svelte:component
         this="{c.default}"
         bind:isActive="{branchIsActive}"
@@ -73,18 +73,18 @@
             id="{shopItemBranchInputId}"
             class="input"
             type="text"
-            bind:value="{branchName}"
+            bind:value="{brandDisplayValue}"
           >
             <option value="" class="{shopItemBranchNameOptionSelector}">
               ---------
             </option>
 
-            {#if branchName}
+            {#if brandDisplayValue}
               <option
                 class="{shopItemBranchNameOptionSelector}"
-                value="{branchName}"
+                value="{brandDisplayValue}"
               >
-                {branchName}
+                {brandDisplayValue}
               </option>
             {/if}
           </select>

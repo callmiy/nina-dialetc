@@ -2,7 +2,7 @@
 </script>
 
 <style lang="scss">
-  @import "../../../commons/src/styles/extensions";
+  @import "../../../../commons/src/styles/extensions";
 
   .branch {
     @extend %modal;
@@ -27,22 +27,17 @@
 
       <section class="modal-card-body">
         {#if notificationText}
-          <div
-            class:notification="{true}"
-            class:is-warning="{notificationTextClass === 'is-warning'}"
-            class:is-danger="{notificationTextClass === 'is-danger'}"
-          >
-            <button
-              class="delete"
-              on:click|preventDefault="{clearSimpletextErrorCb}"
-            ></button>
-
-            {notificationText}
-          </div>
+          <Notification
+            closeId="{branchNotificationTextCloseId}"
+            isWarning="{notificationTextClass === 'is-warning'}"
+            isDanger="{notificationTextClass === 'is-danger'}"
+            onClose="{clearSimpletextErrorCb}"
+            text="{notificationText}"
+          />
         {/if}
 
         <div class="field post-code-field">
-          <label class="label" for="{branchPostCodeInputId}">Select post code</label>
+          <label class="label" for="{branchPostCodeInputId}">Post code</label>
 
           <div class="control">
             <input
@@ -54,12 +49,15 @@
           </div>
 
           {#if postCodeError}
-            <FormCtrlError error="{postCodeError}" />
+            <FormCtrlError
+              error="{postCodeError}"
+              id="{branchPostCodeErrorId}"
+            />
           {/if}
         </div>
 
         <div class="field city-field">
-          <label class="label" for="{branchCityInputId}">Select city</label>
+          <label class="label" for="{branchCityInputId}">City</label>
 
           <div class="control">
             <input
@@ -71,7 +69,7 @@
           </div>
 
           {#if cityError}
-            <FormCtrlError error="{cityError}" />
+            <FormCtrlError error="{cityError}" id="{branchCityErrorId}" />
           {/if}
         </div>
 
@@ -90,7 +88,7 @@
           </div>
 
           {#if streetError}
-            <FormCtrlError error="{streetError}" />
+            <FormCtrlError error="{streetError}" id="{branchStreetErrorId}" />
           {/if}
         </div>
 

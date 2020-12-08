@@ -11,7 +11,7 @@ import {
   brandCurrencyErrorDomId,
   brandPhoneInputDomId,
   submitBrandId,
-  notificationTextCloseId,
+  brandNotificationTextCloseId,
 } from "@ta/cm/src/selectors";
 import { fillField } from "./test_utils";
 import { IS_ACTIVE_CLASS_NAME } from "@ta/cm/src/utils";
@@ -88,20 +88,20 @@ it(`reset form /
   // expect(phoneInputEl.value).toBe("");
 
   // Warning notification that form empty should not visible
-  expect(getById(notificationTextCloseId)).toBeNull();
+  expect(getById(brandNotificationTextCloseId)).toBeNull();
 
   // When empty form is submitted
   const submitEl = getById(submitBrandId);
   await submitEl.click();
 
   // Warning notification is visible
-  expect(getById(notificationTextCloseId)).not.toBeNull();
+  expect(getById(brandNotificationTextCloseId)).not.toBeNull();
 
   // When reset button is clicked
   await resetEl.click();
 
   // Warning notification should not visible
-  expect(getById(notificationTextCloseId)).toBeNull();
+  expect(getById(brandNotificationTextCloseId)).toBeNull();
 });
 
 it(`country-currency fetch fails /
@@ -136,7 +136,7 @@ it(`country-currency fetch fails /
   expect(getById(brandCurrencyErrorDomId)).toBeNull();
 
   // General form error should not be visible
-  expect(getById(notificationTextCloseId)).toBeNull();
+  expect(getById(brandNotificationTextCloseId)).toBeNull();
 
   const submitEl = getById(submitBrandId);
   await submitEl.click();

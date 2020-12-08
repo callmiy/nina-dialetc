@@ -37,7 +37,7 @@
       }
     },
     {
-      "files": ["**/components/_*.ts"],
+      "files": ["**/components/**/_*.ts"],
       "rules": {
         "@typescript-eslint/no-unused-vars": "off"
       }

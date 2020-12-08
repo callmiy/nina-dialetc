@@ -10,7 +10,7 @@ import {
   brandNameOptionSelector,
   brandCountryOptionSelector,
   brandCurrencyOptionSelector,
-  notificationTextCloseId,
+  brandNotificationTextCloseId,
 } from "@ta/cm/src/selectors";
 import {
   IS_ACTIVE_CLASS_NAME,
@@ -18,13 +18,13 @@ import {
   FORM_CONTAINS_ERRORS_MESSAGE,
 } from "@ta/cm/src/utils";
 import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
-import FormCtrlError from "./form-ctrl-error.svelte";
+import FormCtrlError from "../form-ctrl-error.svelte";
 import {
   ListCountriesAndCurrencies,
   CurrencyFragment,
   CountryFragment,
 } from "@ta/cm/src/gql/ops-types";
-import Notification from "./notification.svelte";
+import Notification from "../notification.svelte";
 import { CountryEdge } from "@ta/cm/src/gql/schema-types";
 
 let countriesAndCurrencies: ListCountriesAndCurrencies;

@@ -9,14 +9,21 @@ import {
   branchAliasInputId,
   branchSubmitId,
   branchPostCodeOptionSelector,
-  branchCityOptionSelector,
+  branchNotificationTextCloseId,
+  branchPostCodeErrorId,
+  branchCityErrorId,
+  branchStreetErrorId,
 } from "@ta/cm/src/selectors";
 import {
   IS_ACTIVE_CLASS_NAME,
   NOTHING_TO_SAVE_WARNING_MESSAGE,
   FORM_CONTAINS_ERRORS_MESSAGE,
 } from "@ta/cm/src/utils";
-import FormCtrlError from "./form-ctrl-error.svelte";
+
+import FormCtrlError from "../form-ctrl-error.svelte";
+import Notification from "../notification.svelte";
+
+import { BranchValues } from "./branch-utils";
 
 /* FORM ATTRIBUTES AND ERROR VARIABLES */
 let postCode = "";
@@ -58,6 +65,11 @@ function resetFormCb() {
 }
 
 function submitFormCb() {
+  postCode = postCode.trim();
+  street = street.trim();
+  city = city.trim();
+  branchAlias = branchAlias.trim();
+
   const formEmpty = !street && !city && !postCode;
 
   if (formEmpty) {
@@ -67,19 +79,22 @@ function submitFormCb() {
   }
 
   let hasError = false;
+  postCodeError = "";
+  streetError = "";
+  cityError = "";
 
-  if (street.length < 3) {
+  if (postCode.length < 3) {
+    postCodeError = "Post code is a compulsory field";
+    hasError = true;
+  }
+
+  if (street.length < 4) {
     streetError = "Street is compulsory field";
     hasError = true;
   }
 
-  if (city.length === 0) {
-    cityError = "Pick a city from the dropdown";
-    hasError = true;
-  }
-
-  if (postCode.length === 0) {
-    postCodeError = "Pick a postCode from the dropdown";
+  if (city.length < 2) {
+    cityError = "City is a compulsory field";
     hasError = true;
   }
 
@@ -104,14 +119,7 @@ function clearSimpletextErrorCb() {
   notificationTextClass = "";
 }
 
-export type BrandValues = {
-  street: string;
-  city: string;
-  postCode: string;
-  branchAlias?: string | null;
-};
-
 export type Props = {
   isActive: boolean;
-  onSubmit?: (values: BrandValues) => void;
+  onSubmit?: (values: BranchValues) => void;
 };

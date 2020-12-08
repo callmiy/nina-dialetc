@@ -2,7 +2,7 @@
 </script>
 
 <style lang="scss">
-  @import "../../../commons/src/styles/extensions";
+  @import "../../../../commons/src/styles/extensions";
 
   .a {
     @extend %modal;
@@ -28,7 +28,7 @@
       <section class="modal-card-body">
         {#if notificationText}
           <Notification
-            closeId="{notificationTextCloseId}"
+            closeId="{brandNotificationTextCloseId}"
             isWarning="{notificationTextClass === 'is-warning'}"
             isDanger="{notificationTextClass === 'is-danger'}"
             onClose="{clearSimpletextErrorCb}"

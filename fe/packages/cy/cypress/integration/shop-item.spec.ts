@@ -1,7 +1,11 @@
 import {
+  shopItemBranchNameOptionSelector,
+  shopItemBranchInputId,
   shopItemAddBrandId,
   shopItemBrandNameInputId,
   shopItemBrandNameOptionSelector,
+
+  // BRAND FORM ////////////////////////////////////////////////////////////
   brandNameInputDomId,
   brandCountryInputDomId,
   brandCountryOptionSelector,
@@ -11,16 +15,23 @@ import {
   submitBrandId,
   resetFormBtnId,
   formCtrlErrorSelector,
-  notificationTextCloseId,
+  brandNotificationTextCloseId,
 
   // BRANCH /////////////////////////////////////////////////////////////////
+  brandDomId,
   shopItemAddBranchId,
-  branchPostCodeOptionSelector,
   branchPostCodeInputId,
-  branchCityOptionSelector,
   branchCityInputId,
   branchStreetInputId,
+  branchAliasInputId,
+  branchResetId,
+  branchSubmitId,
+  branchNotificationTextCloseId,
+  branchPostCodeErrorId,
+  branchCityErrorId,
+  branchStreetErrorId,
 } from "@ta/cm/src/selectors";
+import { getBranchDisplayName } from "@ta/sc/src/components/shop-item/shop-item-utils";
 
 context("Item", () => {
   beforeEach(() => {
@@ -28,6 +39,15 @@ context("Item", () => {
   });
 
   const brandName1 = "Edeka";
+
+  const postCodeInvalid1 = "12";
+  const cityInvalid1 = "a";
+  const streetInvalid1 = "abc";
+
+  const postCode1 = "1234";
+  const city1 = "Par";
+  const street1 = "55 Williams straße, König, Bayern";
+  const alias1 = "könig";
 
   describe("create item", () => {
     it("success", () => {
@@ -86,7 +106,7 @@ context("Item", () => {
         cy.get("@phoneEl").should("have.value", "");
 
         // Warning notification should not be visible
-        cy.get("#" + notificationTextCloseId).should("not.exist");
+        cy.get("#" + brandNotificationTextCloseId).should("not.exist");
 
         // We click submit button on empty form
         cy.get("#" + submitBrandId)
@@ -95,18 +115,18 @@ context("Item", () => {
 
         // Warning notification should be visible.
         // We dismiss warning notification
-        cy.get("#" + notificationTextCloseId)
+        cy.get("#" + brandNotificationTextCloseId)
           // .should("have.class", "is-warning")
           .click();
 
         // Warning notification should not be visible
-        cy.get("#" + notificationTextCloseId).should("not.exist");
+        cy.get("#" + brandNotificationTextCloseId).should("not.exist");
 
         // We fill name field with name that is too short
         cy.get("@nameEl").type("a");
 
         // Error notification should not be visible
-        cy.get("#" + notificationTextCloseId).should("not.exist");
+        cy.get("#" + brandNotificationTextCloseId).should("not.exist");
 
         // Field errors should not be visible
         cy.get("." + formCtrlErrorSelector).should("not.exist");
@@ -115,7 +135,7 @@ context("Item", () => {
         cy.get("@submitEl").click();
 
         // Error notification should be visible.
-        cy.get("#" + notificationTextCloseId).should("exist");
+        cy.get("#" + brandNotificationTextCloseId).should("exist");
 
         // Field errors should be visible (for name, country and currency)
         cy.get("." + formCtrlErrorSelector).should("have.length", 3);
@@ -124,7 +144,7 @@ context("Item", () => {
         cy.get("@resetEl").click();
 
         // Error notification should not be visible
-        cy.get("#" + notificationTextCloseId).should("not.exist");
+        cy.get("#" + brandNotificationTextCloseId).should("not.exist");
 
         // Field errors should not be visible
         cy.get("." + formCtrlErrorSelector).should("not.exist");
@@ -166,7 +186,7 @@ context("Item", () => {
         ////////////////// END :TODO: ///////////////////////////
       }
 
-      // We click submit button on valid form
+      // We click submit button on valid brand form
       cy.get("@submitEl").click();
 
       // New ShopBrand UI should not be visible
@@ -180,30 +200,123 @@ context("Item", () => {
       // When we click on 'Add new branch' button
       cy.get("#" + shopItemAddBranchId).click();
 
-      // When we select a postcode
-      cy.get("." + branchPostCodeOptionSelector)
-        .first()
-        .as("postCodeOptionEl")
-        .then((e) => {
-          cy.get("#" + branchPostCodeInputId)
-            .as("postCodeEl")
-            .select(e.val() as string);
+      // ShopItem branch field should be empty
+      cy.get("#" + shopItemBranchInputId)
+        .as("shopBranch")
+        .should("have.value", "")
+        .within(() => {
+          cy.get("." + shopItemBranchNameOptionSelector).should(
+            "have.length",
+            1
+          );
         });
 
-      // When we select a city
-      cy.get("." + branchCityOptionSelector)
-        .first()
-        .as("cityOptionEl")
-        .then((e) => {
-          cy.get("#" + branchCityInputId)
-            .as("cityEl")
-            .select(e.val() as string);
-        });
+      cy.get("#" + brandDomId).within(() => {
+        // When we complete post code field with invalid data
+        cy.get("#" + branchPostCodeInputId)
+          .as("postCodeEl")
+          .type(postCodeInvalid1);
 
-      // When we fill street name and number field
-      cy.get("#" + branchStreetInputId)
-        .as("streetEl")
-        .type(brandName1);
+        // post code value should be visible
+        cy.get("@postCodeEl").should("have.value", postCodeInvalid1);
+
+        // Post code field error should not be visible
+        cy.get("#" + branchPostCodeErrorId).should("not.exist");
+
+        // When we complete city field with invalid data
+        cy.get("#" + branchCityInputId)
+          .as("cityEl")
+          .type(cityInvalid1);
+
+        // City value should be visible
+        cy.get("@cityEl").should("have.value", cityInvalid1);
+
+        // City field error should not be visible
+        cy.get("#" + branchCityErrorId).should("not.exist");
+
+        // When we fill street name and number field with invalid data
+        cy.get("#" + branchStreetInputId)
+          .as("streetEl")
+          .type(streetInvalid1);
+
+        // Street value should be visible
+        cy.get("@streetEl").should("have.value", streetInvalid1);
+
+        // Street field error should be visible
+        cy.get("#" + branchStreetErrorId).should("not.exist");
+
+        // Branch notification UI should not be visible
+        cy.get("#" + branchNotificationTextCloseId).should("not.exist");
+
+        // When we submit the form
+        cy.get("#" + branchSubmitId)
+          .as("branchSubmitEl")
+          .click();
+
+        // Branch form field errors should be visible
+        cy.get("#" + branchPostCodeErrorId).should("exist");
+        cy.get("#" + branchCityErrorId).should("exist");
+        cy.get("#" + branchStreetErrorId).should("exist");
+
+        // Branch notification UI should be visible
+        cy.get("#" + branchNotificationTextCloseId).should("exist");
+
+        // When we fill branch alias
+        cy.get("#" + branchAliasInputId)
+          .as("aliasEl")
+          .type(alias1);
+
+        // When new branch form is reset
+        cy.get("#" + branchResetId)
+          .as("branchResetEl")
+          .click();
+
+        // Form fields should be cleared of their values
+        cy.get("@postCodeEl").should("have.value", "");
+        cy.get("@cityEl").should("have.value", "");
+        cy.get("@streetEl").should("have.value", "");
+        cy.get("@aliasEl").should("have.value", "");
+
+        // Branch form field errors should not be visible
+        cy.get("#" + branchStreetErrorId).should("not.exist");
+        cy.get("#" + branchCityErrorId).should("not.exist");
+        cy.get("#" + branchStreetErrorId).should("not.exist");
+
+        // Branch notification UI should not be visible
+        cy.get("#" + branchNotificationTextCloseId).should("not.exist");
+
+        // When empty branch form is submitted
+        cy.get("@branchSubmitEl").click();
+
+        // Branch notification UI should be visible
+        cy.get("#" + branchNotificationTextCloseId).should("exist");
+
+        // Branch form field errors should not be visible
+        cy.get("#" + branchStreetErrorId).should("not.exist");
+        cy.get("#" + branchCityErrorId).should("not.exist");
+        cy.get("#" + branchStreetErrorId).should("not.exist");
+
+        // When form fields are completed with valid data
+        cy.get("@postCodeEl").type(postCode1);
+        cy.get("@cityEl").type(city1);
+        cy.get("@streetEl").type(street1);
+        cy.get("@aliasEl").type(alias1);
+
+        // When we submit valid branch form
+        cy.get("@branchSubmitEl").click();
+
+        // Branch form should no longer be visible
+        cy.get("#" + branchPostCodeInputId).should("not.exist");
+      });
+
+      // ShopItem branch name should be branch street, city and post code
+      const branchName = getBranchDisplayName({
+        postCode: postCode1,
+        street: street1,
+        city: city1,
+      });
+
+      cy.get("@shopBranch").should("have.value", branchName);
 
       // And click 'Save changes' button
       // And fill street name and number field

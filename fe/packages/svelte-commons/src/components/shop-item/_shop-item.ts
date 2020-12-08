@@ -6,7 +6,10 @@ import {
   shopItemBranchNameOptionSelector,
   shopItemAddBranchId,
 } from "@ta/cm/src/selectors";
-import { Props as BrandProps } from "./_brand";
+
+import { Props as BrandProps } from "../brand/_brand";
+import { BranchValues } from "../branch/branch-utils";
+import { getBranchDisplayName } from "./shop-item-utils";
 
 // BRAND ///////////////////////////////////////////////////////////////////////
 
@@ -27,15 +30,15 @@ const onSubmitBrand: BrandProps["onSubmit"] = (values) => {
 // BRANCH ///////////////////////////////////////////////////////////////////////
 
 let branchIsActive = false;
-let branchName = "";
+let brandDisplayValue = "";
 
 function activateBranchCb() {
-  branchName = "";
   brandIsActive = false;
   branchIsActive = true;
 }
 
-function onSubmitBranch() {
+function onSubmitBranch(data: BranchValues) {
+  brandDisplayValue = getBranchDisplayName(data);
   branchIsActive = false;
 }
 

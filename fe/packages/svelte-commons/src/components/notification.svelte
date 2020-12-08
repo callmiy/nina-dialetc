@@ -1,8 +1,5 @@
 <script lang="ts">
-  import {
-    notificationSelector,
-    notificationTextCloseId,
-  } from "@ta/cm/src/selectors";
+  import { notificationSelector } from "@ta/cm/src/selectors";
 
   /// PROPS /////////////////////////////////
   export let text: string = "";
@@ -10,22 +7,22 @@
   export let isWarning = false;
   export let isDanger = false;
   export let componentId = "";
-  export let closeId = notificationTextCloseId;
+  export let closeId = "";
 
-  let className = "";
+  let notificationTypeClassName = "";
 
   $: {
     if (isWarning) {
-      className = "is-warning";
+      notificationTypeClassName = "is-warning";
     } else if (isDanger) {
-      className = "is-danger";
+      notificationTypeClassName = "is-danger";
     }
   }
 </script>
 
 <div
   id="{componentId}"
-  class="{`notification ${className} ${notificationSelector}`}"
+  class="{`notification ${notificationTypeClassName} ${notificationSelector}`}"
 >
   {#if onClose}
     <button

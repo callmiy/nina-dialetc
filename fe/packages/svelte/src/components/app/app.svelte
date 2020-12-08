@@ -2,8 +2,8 @@
 </script>
 
 <style lang="scss" global>
-  @import "../../commons/src/styles/globals.scss";
-  @import "../../commons/src/styles/extensions";
+  @import "../../../../commons/src/styles/globals.scss";
+  @import "../../../../commons/src/styles/extensions";
 
   .main-layout {
     @extend %main-layout;
