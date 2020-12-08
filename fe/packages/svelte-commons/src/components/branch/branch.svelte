@@ -92,7 +92,7 @@
           {/if}
         </div>
 
-        <div class="field">
+        <div class="field branch-alias-field">
           <label class="label" for="{branchAliasInputId}"> Branch Alias </label>
 
           <div class="control">
