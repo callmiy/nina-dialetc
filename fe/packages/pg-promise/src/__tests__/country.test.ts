@@ -1,6 +1,5 @@
-import { listCountries, listPostCodesFromCountriesIds } from "../api/country";
+import { listCountries } from "../api/country";
 import { Connection, DatabaseInstance } from "../db/types";
-import { IConnected } from "pg-promise";
 import { resetDbForTest, cleanUpDbAfterTest } from "../api/utils";
 import {
   testDbConnection,

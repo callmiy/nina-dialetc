@@ -167,10 +167,18 @@ export const insertFranceValueSql = `
 
 export const currencyEuroData = {
   ulid: "01ERDX3JZ4FSY8PY4XTHPJH6EX",
-  uuid: "01761BD1CBE47E7C8B789DD46D2899DD",
-  currencyName: "Euro",
-  currencyCode: "EUR",
+  uuidCompressed: "01761BD1CBE47E7C8B789DD46D2899DD",
+  name: "Euro",
+  code: "EUR",
 };
+
+export const insertEuroValueSql = `
+(
+  '${currencyEuroData.uuidCompressed}'
+  ,'${currencyEuroData.name}'
+  ,'${currencyEuroData.code}'
+)
+`;
 
 export const createCurrenciesInsertSql = `
 INSERT INTO

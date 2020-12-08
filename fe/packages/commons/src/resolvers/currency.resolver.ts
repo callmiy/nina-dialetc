@@ -8,4 +8,18 @@ export const currencyResolver: Resolvers = {
       return data;
     },
   },
+  Currency: {
+    currencyName: (parent) => {
+      return parent.currency_name;
+    },
+    currencyCode: (parent) => {
+      return parent.currency_code;
+    },
+    insertedAt: (parent) => {
+      return parent.inserted_at;
+    },
+    updatedAt: (parent) => {
+      return parent.updated_at;
+    },
+  },
 };

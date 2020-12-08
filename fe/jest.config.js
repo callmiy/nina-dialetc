@@ -9,9 +9,7 @@ const appsMap = {
 const projects = [];
 
 TEST_APPS.split(",").forEach((app) => {
-  if (app) {
-    projects.push(appsMap[app]);
-  }
+  projects.push(appsMap[app]);
 });
 
 module.exports = {

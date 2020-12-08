@@ -107,10 +107,10 @@ function submitFormCb() {
 
   const countryData = countriesAndCurrencies.listCountries.edges.find((e) => {
     const edge = e as CountryEdge;
-    const node = edge.node as CountryFragment
+    const node = edge.node as CountryFragment;
 
     return node.id === country;
-  })?.node as CountryFragment
+  })?.node as CountryFragment;
 
   const currencyData = countriesAndCurrencies.listCurrencies.find((d) => {
     const data = d as CurrencyFragment;

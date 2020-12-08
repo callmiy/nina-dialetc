@@ -6,6 +6,9 @@ import {
   createCountriesInsertSql,
   insertGermanyValueSql,
   insertFranceValueSql,
+  createCurrenciesInsertSql,
+  currencyEuroData,
+  insertEuroValueSql,
 } from "@ta/cm/src/__tests__/utils";
 import { Connection } from "@ta/cm/src/types/db";
 import { cleanUpDbAfterTest, resetDbForTest } from "../../api/utils";
@@ -35,9 +38,21 @@ describe("", () => {
       ${insertGermanyValueSql}
       ,${insertFranceValueSql}
       ;
+
+      ${createCurrenciesInsertSql}
+      ${insertEuroValueSql}
+      ;
     `;
 
     conn.none(sql);
+
+    const currencyFromDb = [
+      {
+        id: currencyEuroData.ulid,
+        currencyName: currencyEuroData.name,
+        currencyCode: currencyEuroData.code,
+      },
+    ];
 
     const { query, server } = makeApolloServerAndClient({ db: conn });
 
@@ -129,7 +144,7 @@ describe("", () => {
           endCursor: null,
         },
       },
-      listCurrencies: [],
+      listCurrencies: currencyFromDb,
     });
 
     // backwards 1 R1 //////////////////////////////////////////////////
@@ -187,7 +202,7 @@ describe("", () => {
           endCursor: null,
         },
       },
-      listCurrencies: [],
+      listCurrencies: currencyFromDb,
     });
 
     // forward 1 R1=2 //////////////////////////////////////////////////
