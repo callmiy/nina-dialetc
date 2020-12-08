@@ -44,7 +44,7 @@ export const branchCityErrorId = `${branchDomId}-city-error`;
 export const branchStreetInputId = `${branchDomId}-street-input`;
 export const branchStreetErrorId = `${branchDomId}-street-error`;
 
-export const branchAliasInputId = `${branchDomId}-branch-alias-input`;
+export const branchAliasInputId = `${branchDomId}-alias-input`;
 
 export const branchSubmitId = `${branchDomId}-submit`;
 export const branchResetId = `${branchDomId}-reset-form`;
