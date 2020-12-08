@@ -9,3 +9,8 @@ export function fromUuidToUlid(uuid: string) {
   const bytes = Uuid6.fromCanonical(uuid).bytes;
   return Ulid.construct(bytes).toCanonical();
 }
+
+export function newUlid() {
+  const id = Ulid.generate().toCanonical();
+  return id;
+}

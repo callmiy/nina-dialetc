@@ -41,20 +41,17 @@
             id="{shopItemBrandNameInputId}"
             class="input"
             type="text"
-            bind:value="{brandName}"
+            bind:value="{brandId}"
           >
             <option value="" class="{shopItemBrandNameOptionSelector}">
               ---------
             </option>
 
-            {#if brandName}
-              <option
-                class="{shopItemBrandNameOptionSelector}"
-                value="{brandName}"
-              >
-                {brandName}
+            {#each brandOptions as { name: nameOption, id } (id)}
+              <option class="{shopItemBrandNameOptionSelector}" value="{id}">
+                {nameOption}
               </option>
-            {/if}
+            {/each}
           </select>
         </div>
       </div>
@@ -79,20 +76,17 @@
             id="{shopItemBranchInputId}"
             class="input"
             type="text"
-            bind:value="{brandDisplayValue}"
+            bind:value="{branchId}"
           >
             <option value="" class="{shopItemBranchNameOptionSelector}">
               ---------
             </option>
 
-            {#if brandDisplayValue}
-              <option
-                class="{shopItemBranchNameOptionSelector}"
-                value="{brandDisplayValue}"
-              >
-                {brandDisplayValue}
+            {#each branchOptions as { id, displayName } (id)}
+              <option class="{shopItemBranchNameOptionSelector}" value="{id}">
+                {displayName}
               </option>
-            {/if}
+            {/each}
           </select>
         </div>
       </div>

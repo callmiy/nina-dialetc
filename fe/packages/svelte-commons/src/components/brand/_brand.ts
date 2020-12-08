@@ -26,6 +26,7 @@ import {
 } from "@ta/cm/src/gql/ops-types";
 import Notification from "../notification.svelte";
 import { CountryEdge } from "@ta/cm/src/gql/schema-types";
+import { newUlid } from "@ta/cm/src/db/ulid-uuid";
 
 let countriesAndCurrencies: ListCountriesAndCurrencies;
 
@@ -120,6 +121,7 @@ function submitFormCb() {
 
   if (onSubmit) {
     onSubmit({
+      id: newUlid(),
       name,
       country: countryData,
       currency: currencyData,
@@ -134,6 +136,7 @@ function clearSimpletextErrorCb() {
 }
 
 export type BrandValues = {
+  id: string;
   name: string;
   country: CountryFragment;
   currency: CurrencyFragment;

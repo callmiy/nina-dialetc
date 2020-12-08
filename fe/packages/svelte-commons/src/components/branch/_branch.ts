@@ -20,6 +20,7 @@ import {
   NOTHING_TO_SAVE_WARNING_MESSAGE,
   FORM_CONTAINS_ERRORS_MESSAGE,
 } from "@ta/cm/src/utils";
+import { newUlid } from "@ta/cm/src/db/ulid-uuid";
 
 import FormCtrlError from "../form-ctrl-error.svelte";
 import Notification from "../notification.svelte";
@@ -110,6 +111,7 @@ function submitFormCb() {
 
   if (onSubmit) {
     onSubmit({
+      id: newUlid(),
       street,
       city,
       postCode,

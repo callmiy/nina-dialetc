@@ -1,4 +1,5 @@
 export type BranchValues = {
+  id: string;
   postCode: string;
   street: string;
   city: string;

@@ -195,7 +195,13 @@ context("Item", () => {
       cy.get("#" + brandNameInputDomId).should("not.exist");
 
       // ShopItem brandName should be brand name input
-      cy.get("@itemName").should("have.value", brandName1);
+      cy.get("@itemName").within(() => {
+        cy.get("option:checked")
+          .as("brandName1optionEl")
+          .then((e) => {
+            expect(e.text().trim()).to.eq(brandName1);
+          });
+      });
 
       // BRANCH ////////////////////////////////////////////////////////////////
 
@@ -204,7 +210,7 @@ context("Item", () => {
 
       // ShopItem branch field should be empty
       cy.get("#" + shopItemBranchInputId)
-        .as("shopBranch")
+        .as("shopBranchEl")
         .should("have.value", "")
         .within(() => {
           cy.get("." + shopItemBranchNameOptionSelector).should(
@@ -336,7 +342,14 @@ context("Item", () => {
         city: city1,
       });
 
-      cy.get("@shopBranch").should("have.value", branchName);
+      cy.get("@shopBranchEl")
+        .within(() => {
+          cy.get("option:checked")
+            .as("branchName1optionEl")
+            .then((e) => {
+              expect(e.text().trim()).to.eq(branchName);
+            });
+        });
 
       // And click 'Save changes' button
       // And fill street name and number field
@@ -353,6 +366,84 @@ context("Item", () => {
       // And complete two comments for item
       // And add a second item with different currency
       // And submit the form
+    });
+
+    it("Shop brand select elements should not clear on another selection", () => {
+      // When we visit the home page
+      cy.visit("/");
+
+      // When we click on 'Add new shop brand' button
+      cy.get("#" + shopItemAddBrandId).click();
+
+      // When we fill the brand name field
+      cy.get("#" + brandNameInputDomId)
+        .as("nameEl")
+        .type(brandName1);
+
+      // When we select a country
+      cy.get("." + brandCountryOptionSelector)
+        .first()
+        .as("countryOptionEl")
+        .then((e) => {
+          cy.get("#" + brandCountryInputDomId)
+            .as("countryEl")
+            .select(e.val() as string);
+        });
+
+      // When we select a currency
+      cy.get("." + brandCurrencyOptionSelector)
+        .first()
+        .as("currencyOptionEl")
+        .then((el) => {
+          cy.get("#" + brandCurrencyInputDomId)
+            .as("currencyEl")
+            .select(el.val() as string);
+        });
+
+      // We fill telephone field
+      cy.get("#" + brandPhoneInputDomId)
+        .as("phoneEl")
+        .type("012345677");
+
+      // We click submit button on empty form
+      cy.get("#" + submitBrandId)
+        .as("submitEl")
+        .click();
+
+      // ShopItem brandName should be brand name input
+      cy.get("#" + shopItemBrandNameInputId)
+        .as("itemName")
+        .within(() => {
+          cy.get("option:checked")
+            .as("brandName1optionEl")
+            .then((e) => {
+              expect(e.text().trim()).to.eq(brandName1);
+            });
+
+          // And brand name select element should contain 2 items
+          cy.get("." + shopItemBrandNameOptionSelector)
+            .as("brandNameOptions")
+            .should("have.length", 2);
+        });
+
+      // When we change brandName selection to empty string
+      cy.get("@itemName").select("");
+
+      // The value of the select should change to the empty string
+      cy.get("@itemName").should("have.value", "");
+
+      // There should still be 2 brandNameOptions to choose from
+      cy.get("@brandNameOptions").should("have.length", 2);
+
+      // When a non empty string is selected
+      cy.get("@itemName").select(brandName1);
+
+      // The value should no longer be the empty string
+      cy.get("@brandName1optionEl").then((e) => {
+        cy.get("@itemName").should("have.value", e.val());
+      });
+
+      //
     });
   });
 });

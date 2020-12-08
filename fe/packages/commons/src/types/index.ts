@@ -1,4 +1,5 @@
 export type Await<T> = T extends PromiseLike<infer U> ? U : T;
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type CountryEntity = {
   id: string;
