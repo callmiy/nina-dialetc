@@ -13,6 +13,7 @@ import {
   branchPostCodeErrorId,
   branchCityErrorId,
   branchStreetErrorId,
+  branchPhoneInputId,
 } from "@ta/cm/src/selectors";
 import {
   IS_ACTIVE_CLASS_NAME,
@@ -36,6 +37,7 @@ let street = "";
 let streetError: string;
 
 let branchAlias = "";
+let phone = "";
 
 let notificationText = "";
 let notificationTextClass = "";
@@ -61,6 +63,7 @@ function resetFormCb() {
   postCodeError = "";
 
   branchAlias = "";
+  phone = "";
   clearSimpletextErrorCb();
 }
 
@@ -69,8 +72,9 @@ function submitFormCb() {
   street = street.trim();
   city = city.trim();
   branchAlias = branchAlias.trim();
+  phone = phone.trim();
 
-  const formEmpty = !street && !city && !postCode;
+  const formEmpty = !street && !city && !postCode && !branchAlias && !phone;
 
   if (formEmpty) {
     notificationText = NOTHING_TO_SAVE_WARNING_MESSAGE;
@@ -110,6 +114,7 @@ function submitFormCb() {
       city,
       postCode,
       branchAlias: branchAlias || null,
+      phone: phone || null,
     });
   }
 }

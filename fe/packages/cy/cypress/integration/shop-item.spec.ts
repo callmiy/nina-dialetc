@@ -30,6 +30,7 @@ import {
   branchPostCodeErrorId,
   branchCityErrorId,
   branchStreetErrorId,
+  branchPhoneInputId,
 } from "@ta/cm/src/selectors";
 import { getBranchDisplayName } from "@ta/sc/src/components/shop-item/shop-item-utils";
 
@@ -48,6 +49,7 @@ context("Item", () => {
   const city1 = "Par";
   const street1 = "55 Williams straße, König, Bayern";
   const alias1 = "könig";
+  const branchPhone1 = "844940";
 
   describe("create item", () => {
     it("success", () => {
@@ -266,6 +268,11 @@ context("Item", () => {
           .as("aliasEl")
           .type(alias1);
 
+        // When we fill branch phone
+        cy.get("#" + branchPhoneInputId)
+          .as("branchPhoneEl")
+          .type(branchPhone1);
+
         // When new branch form is reset
         cy.get("#" + branchResetId)
           .as("branchResetEl")
@@ -276,6 +283,7 @@ context("Item", () => {
         cy.get("@cityEl").should("have.value", "");
         cy.get("@streetEl").should("have.value", "");
         cy.get("@aliasEl").should("have.value", "");
+        cy.get("@branchPhoneEl").should("have.value", "");
 
         // Branch form field errors should not be visible
         cy.get("#" + branchStreetErrorId).should("not.exist");
@@ -296,11 +304,23 @@ context("Item", () => {
         cy.get("#" + branchCityErrorId).should("not.exist");
         cy.get("#" + branchStreetErrorId).should("not.exist");
 
+        // When branch alias field has some input
+        cy.get("@aliasEl").type("a");
+
+        // When branchForm is submitted
+        cy.get("@branchSubmitEl").click();
+
+        // branchForm field errors should be visible
+        cy.get("#" + branchStreetErrorId).should("exist");
+        cy.get("#" + branchCityErrorId).should("exist");
+        cy.get("#" + branchStreetErrorId).should("exist");
+
         // When form fields are completed with valid data
         cy.get("@postCodeEl").type(postCode1);
         cy.get("@cityEl").type(city1);
         cy.get("@streetEl").type(street1);
         cy.get("@aliasEl").type(alias1);
+        cy.get("@branchPhoneEl").type(branchPhone1);
 
         // When we submit valid branch form
         cy.get("@branchSubmitEl").click();

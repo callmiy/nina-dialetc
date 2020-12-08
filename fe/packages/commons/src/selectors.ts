@@ -45,6 +45,7 @@ export const branchStreetInputId = `${branchDomId}-street-input`;
 export const branchStreetErrorId = `${branchDomId}-street-error`;
 
 export const branchAliasInputId = `${branchDomId}-alias-input`;
+export const branchPhoneInputId = `${branchDomId}-phone-input`;
 
 export const branchSubmitId = `${branchDomId}-submit`;
 export const branchResetId = `${branchDomId}-reset-form`;

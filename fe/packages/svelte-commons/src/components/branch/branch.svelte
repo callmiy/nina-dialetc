@@ -104,6 +104,19 @@
             />
           </div>
         </div>
+
+        <div class="field branch-phone">
+          <label class="label" for="{branchPhoneInputId}"> Phone </label>
+
+          <div class="control">
+            <input
+              id="{branchPhoneInputId}"
+              class="input"
+              type="text"
+              bind:value="{phone}"
+            />
+          </div>
+        </div>
       </section>
 
       <footer class="modal-card-foot">

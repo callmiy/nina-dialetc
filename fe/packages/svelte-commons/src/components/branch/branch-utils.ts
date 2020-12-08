@@ -3,5 +3,5 @@ export type BranchValues = {
   street: string;
   city: string;
   branchAlias?: string | null;
+  phone?: string | null;
 };
-
