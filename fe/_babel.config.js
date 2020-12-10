@@ -14,13 +14,6 @@ module.exports = (api) => {
     "@babel/preset-typescript",
   ];
 
-  if (isTest) {
-    presets.push([
-      "@babel/preset-react",
-      { runtime: "automatic", importSource: "svelte-jsx" },
-    ]);
-  }
-
   const obj = {
     presets,
     plugins: [

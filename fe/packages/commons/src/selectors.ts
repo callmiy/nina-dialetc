@@ -9,6 +9,7 @@ export const shopItemBrandNameInputId = `${shopItemPrefix}-brand-name-input`;
 export const shopItemBranchInputId = `${shopItemPrefix}-branch-input`;
 export const shopItemBrandNameOptionSelector = `js-${shopItemPrefix}-brandoption`;
 export const shopItemBranchNameOptionSelector = `js-${shopItemPrefix}-branch-option`;
+export const shopItemAddBrandLabelHelpId = `js-${shopItemPrefix}-add-brand-label-help`;
 export const shopItemAddBrandId = `${shopItemPrefix}-add-brand`;
 export const shopItemAddBranchId = `${shopItemPrefix}-add-branch`;
 

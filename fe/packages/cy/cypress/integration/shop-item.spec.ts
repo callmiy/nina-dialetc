@@ -32,11 +32,7 @@ import {
   branchStreetErrorId,
   branchPhoneInputId,
 } from "@ta/cm/src/selectors";
-import {
-  getBranchDisplayName,
-  EDIT_SHOP_BRAND_LABEL_TEXT,
-  ADD_SHOP_BRAND_LABEL_TEXT,
-} from "@ta/sc/src/components/shop-item/shop-item-utils";
+import { getBranchDisplayName } from "@ta/sc/src/components/shop-item/shop-item-utils";
 
 context("Item", () => {
   beforeEach(() => {
@@ -447,64 +443,5 @@ context("Item", () => {
 
       //
     });
-
-    it("edits currently selected shop brand", () => {
-      // When we visit the home page
-      cy.visit("/");
-
-      // ShopBrand trigger button should have text 'add'
-      // When we click on 'Add new shop brand' button
-      cy.get("#" + shopItemAddBrandId)
-        .should("have.text", ADD_SHOP_BRAND_LABEL_TEXT)
-        .click();
-
-      // When we create a shop brand
-      createShopBrand();
-
-      // We click submit button on brandForm
-      cy.get("#" + submitBrandId)
-        .as("submitEl")
-        .click();
-
-      // ShopBrand trigger button should have text 'edit'
-      cy.get("#" + shopItemAddBrandId).should(
-        "have.text",
-        EDIT_SHOP_BRAND_LABEL_TEXT
-      );
-
-      //
-    });
   });
-
-  function createShopBrand() {
-    // When we fill the brand name field
-    cy.get("#" + brandNameInputDomId)
-      .as("nameEl")
-      .type(brandName1);
-
-    // When we select a country
-    cy.get("." + brandCountryOptionSelector)
-      .first()
-      .as("countryOptionEl")
-      .then((e) => {
-        cy.get("#" + brandCountryInputDomId)
-          .as("countryEl")
-          .select(e.val() as string);
-      });
-
-    // When we select a currency
-    cy.get("." + brandCurrencyOptionSelector)
-      .first()
-      .as("currencyOptionEl")
-      .then((el) => {
-        cy.get("#" + brandCurrencyInputDomId)
-          .as("currencyEl")
-          .select(el.val() as string);
-      });
-
-    // We fill telephone field
-    cy.get("#" + brandPhoneInputDomId)
-      .as("phoneEl")
-      .type("012345677");
-  }
 });

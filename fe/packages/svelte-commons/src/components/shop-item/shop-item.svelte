@@ -6,6 +6,7 @@
     shopItemBranchInputId,
     shopItemBranchNameOptionSelector,
     shopItemAddBranchId,
+    shopItemAddBrandLabelHelpId,
   } from "@ta/cm/src/selectors";
 
   import { Props as BrandProps, BrandValues } from "../brand/brand-utils";
@@ -142,7 +143,10 @@
 
       {#if !brandId}<span class="label-example">e.g. Edeka</span>{/if}
 
-      <span class="label-help-text">{brandLabelHelp}</span>
+      <span
+        class="label-help-text"
+        id="{shopItemAddBrandLabelHelpId}"
+      >{brandLabelHelp}</span>
     </label>
 
     <div class="field has-addons">
