@@ -1,10 +1,8 @@
 import { listCountries } from "../api/country";
-import { Connection, DatabaseInstance } from "../db/types";
+import { Connection } from "../db/types";
 import { resetDbForTest, cleanUpDbAfterTest } from "../api/utils";
 import {
   testDbConnection,
-  germanyData,
-  franceData,
   createCountriesInsertSql,
   insertGermanyValueSql,
   insertFranceValueSql,
@@ -13,8 +11,8 @@ import {
 let conn: Connection;
 
 beforeEach(async () => {
-  const result = await testDbConnection();
-  conn = result.conn;
+  const db = await testDbConnection();
+  conn = db.conn;
   await resetDbForTest(conn);
 });
 
@@ -22,19 +20,8 @@ afterEach(async () => {
   await cleanUpDbAfterTest(conn);
 });
 
-const {
-  uuidCompressed: deUuid,
-  postCodeUlid: dePostCodeUlid,
-  ulid: deUlid,
-} = germanyData;
-const {
-  uuidCompressed: frUuid,
-  postCodeUlid: frPostCodeUlid,
-  ulid: frUlid,
-} = franceData;
-
 describe("", () => {
-  it("lists countries", async () => {
+  fit("lists countries", async () => {
     const countries = await listCountries(conn);
     expect(countries).toEqual([]);
 

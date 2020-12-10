@@ -1,5 +1,5 @@
 import { listCurrencies } from "@ta/cm/src/db";
-import { Connection, DatabaseInstance } from "../db/types";
+import { Connection } from "../db/types";
 import { resetDbForTest, cleanUpDbAfterTest } from "../api/utils";
 import {
   testDbConnection,

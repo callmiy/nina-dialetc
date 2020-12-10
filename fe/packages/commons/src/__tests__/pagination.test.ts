@@ -15,10 +15,6 @@ describe("pagination tests", () => {
     const data = [1, 2, 3];
 
     it(`no cursors should throw`, () => {
-      const dataFn = () => {
-        return [];
-      };
-
       expect(() => {
         relayConnectionFromList(data, {});
       }).toThrow(FIRST_LAST_UNDEFINED_ERROR);
@@ -319,10 +315,6 @@ describe("pagination tests", () => {
     it(`last = n
       before undefined cursor should throw
     `, () => {
-      const dataFn = () => {
-        return [];
-      };
-
       expect(() => {
         relayConnectionFromList(data, { last: 1 });
       }).toThrow(LAST_WITHOUT_BEFORE_ERROR);

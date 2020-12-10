@@ -13,7 +13,6 @@ import {
 import { Connection } from "@ta/cm/src/types/db";
 import { cleanUpDbAfterTest, resetDbForTest } from "../../api/utils";
 import { listCountriesAndCurrenciesQuery } from "@ta/cm/src/gql/queries";
-import { listCountries } from "@ta/cm/src/db";
 import {
   ListCountriesAndCurrenciesVariables,
   ListCountriesAndCurrencies,
@@ -54,7 +53,7 @@ describe("", () => {
       },
     ];
 
-    const { query, server } = makeApolloServerAndClient({ db: conn });
+    const { query } = makeApolloServerAndClient({ db: conn });
 
     const result = await query<
       ListCountriesAndCurrencies,
@@ -68,9 +67,9 @@ describe("", () => {
       },
     });
 
-    const { uuidCompressed: deUuid, ulid: deUlid, name: deName } = germanyData;
+    const { ulid: deUlid, name: deName } = germanyData;
 
-    const { uuidCompressed: frUuid, ulid: frUlid, name: frName } = franceData;
+    const { ulid: frUlid, name: frName } = franceData;
 
     const dataF1R1 = result.data?.listCountries;
     const edgeF1R1 = dataF1R1?.edges[0];

@@ -64,7 +64,7 @@ export const insertGermanPostCodeValueSql = `
 )
 `;
 
-const germanPosCode1 = {
+export const germanPosCode1 = {
   ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
   uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
   postCode: "1234",
@@ -72,7 +72,7 @@ const germanPosCode1 = {
   state: "Tii",
 };
 
-const germanPosCode2 = {
+export const germanPosCode2 = {
   ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
   uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
   postCode: "4567",
@@ -80,7 +80,7 @@ const germanPosCode2 = {
   state: "Haa",
 };
 
-const germanPosCode3 = {
+export const germanPosCode3 = {
   ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
   uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
   postCode: "7869",
@@ -88,7 +88,7 @@ const germanPosCode3 = {
   state: "Moy",
 };
 
-const germanPosCode4 = {
+export const germanPosCode4 = {
   ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
   uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
   postCode: "4356",
@@ -96,7 +96,7 @@ const germanPosCode4 = {
   state: "Xcv",
 };
 
-const francePosCode1 = {
+export const francePosCode1 = {
   ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
   uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
   postCode: "1234 abc",
@@ -104,7 +104,7 @@ const francePosCode1 = {
   state: "Essex",
 };
 
-const francePosCode2 = {
+export const francePosCode2 = {
   ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
   uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
   postCode: "4567",
@@ -112,7 +112,7 @@ const francePosCode2 = {
   state: "Hit",
 };
 
-const francePosCode3 = {
+export const francePosCode3 = {
   ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
   uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
   postCode: "9801",
@@ -120,7 +120,7 @@ const francePosCode3 = {
   state: "See",
 };
 
-const francePosCode4 = {
+export const francePosCode4 = {
   ulid: "01ERQ3ZC36W7ZH0EMZR4A98HKT",
   uuid: "01762E3F9189C3FF5AFC0FAB8EB43405",
   postCode: "1112",
