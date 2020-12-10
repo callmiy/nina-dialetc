@@ -57,7 +57,6 @@ context("Item", () => {
 
   describe("create item", () => {
     it("success", () => {
-      expect(1).to.eq(1);
       // When we visit the home page
       cy.visit("/");
 
