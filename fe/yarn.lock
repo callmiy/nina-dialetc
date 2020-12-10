@@ -13416,10 +13416,9 @@ svelte-hyperscript@^1.1.1:
     "@babel/runtime-corejs3" "^7.10.3"
     core-js "^3.6.5"
 
-svelte-jester@1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/svelte-jester/-/svelte-jester-1.1.5.tgz#05a2ac2e0639d13501f3bd43a355e5400d56ef23"
-  integrity sha512-evidPi5i8u9+rBavsvuU7OrMwsXHQd0sCpdF8XlGW6bPuijBW2A5q+bXkiEYh1xaQlDXGuikkopOLrVJYS4pug==
+"svelte-jester@https://github.com/kanmii/svelte-jester.git#svelte-config-path":
+  version "1.2.0"
+  resolved "https://github.com/kanmii/svelte-jester.git#540e986bf5bb0bf40eea72056cc5aea62e09f233"
   dependencies:
     cosmiconfig "^6.0.0"
 
