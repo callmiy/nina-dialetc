@@ -9,6 +9,7 @@ import {
   shopItemAddBranchId,
   shopItemAddBranchLabelHelpId,
   shopItemBrandNameInputId,
+  shopItemBranchInputId,
 } from "@ta/cm/src/selectors";
 import { getById } from "@ta/cm/src/__tests__/utils-dom";
 import mockBrand from "./mocks/brand.mock.svelte";
@@ -23,7 +24,7 @@ import {
   EDIT_SHOP_BRANCH_LABEL_TEXT,
   EDIT_SHOP_BRANCH_LABEL_HELP_TEXT,
 } from "../components/shop-item/shop-item-utils";
-import { brandSubmitValue1 } from "./mocks/mock-utils";
+import { brandSubmitValue1, branchSubmitVal1 } from "./mocks/mock-utils";
 
 jest.mock("../components/lazies/brand.lazy", () => {
   return {
@@ -73,6 +74,13 @@ describe("Shop Item", () => {
     // Submitted brand should be selected
     expect(brandNameInputEl.value).toBe(brandSubmitValue1.id);
 
+    // Thee should be two brand name options to select from
+    const brandOptionsEls = brandNameInputEl.querySelectorAll("option");
+    expect(brandOptionsEls.length).toBe(2);
+
+    // First brand option should be empty
+    expect((brandOptionsEls.item(0) as HTMLOptionElement).value).toBe("");
+
     // Brand button's label have text 'edit'
     expect(addBrandEl.textContent).toEqual(EDIT_SHOP_BRAND_LABEL_TEXT);
     expect(addBrandHelpEl.textContent).toBe(EDIT_SHOP_BRAND_LABEL_HELP_TEXT);
@@ -86,9 +94,23 @@ describe("Shop Item", () => {
     // When add branch button is clicked
     await addBranchEl.click();
 
+    // No brand should have been selected
+    const branchNameInputEl = getById<HTMLSelectElement>(shopItemBranchInputId);
+    expect(branchNameInputEl.value).toBe("");
+
     // When a branch is submitted
     const branchEl = getById("branch-submit-1");
     await branchEl.click();
+
+    // Submitted brand should be selected
+    expect(branchNameInputEl.value).toBe(branchSubmitVal1.id);
+
+    // Thee should be two brand name options to select from
+    const branchOptionsEls = branchNameInputEl.querySelectorAll("option");
+    expect(branchOptionsEls.length).toBe(2);
+
+    // First brand option should be empty
+    expect((branchOptionsEls.item(0) as HTMLOptionElement).value).toBe("");
 
     // Add brand button's label have text 'edit'
     expect(addBranchEl.textContent).toEqual(EDIT_SHOP_BRANCH_LABEL_TEXT);
