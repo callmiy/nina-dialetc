@@ -21,7 +21,7 @@ import {
   getById,
   fillFieldChange,
 } from "@ta/cm/src/__tests__/utils-dom";
-import { IS_ACTIVE_CLASS_NAME } from "@ta/cm/src/utils";
+import { IS_ACTIVE_CLASS_NAME } from "@ta/cm/src/constants";
 import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
 import { ListCountriesAndCurrencies } from "@ta/cm/src/gql/ops-types";
 

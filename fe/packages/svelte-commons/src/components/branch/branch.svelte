@@ -20,7 +20,7 @@
     IS_ACTIVE_CLASS_NAME,
     NOTHING_TO_SAVE_WARNING_MESSAGE,
     FORM_CONTAINS_ERRORS_MESSAGE,
-  } from "@ta/cm/src/utils";
+  } from "@ta/cm/src/constants";
   import { newUlid } from "@ta/cm/src/db/ulid-uuid";
 
   import FormCtrlError from "../form-ctrl-error.svelte";

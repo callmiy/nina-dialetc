@@ -19,7 +19,7 @@
     IS_ACTIVE_CLASS_NAME,
     NOTHING_TO_SAVE_WARNING_MESSAGE,
     FORM_CONTAINS_ERRORS_MESSAGE,
-  } from "@ta/cm/src/utils";
+  } from "@ta/cm/src/constants";
   import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
   import FormCtrlError from "../form-ctrl-error.svelte";
   import {
