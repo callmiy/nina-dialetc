@@ -7,6 +7,7 @@
     shopItemBranchNameOptionSelector,
     shopItemAddBranchId,
     shopItemAddBrandLabelHelpId,
+    shopItemAddBranchLabelHelpId,
   } from "@ta/cm/src/selectors";
 
   import { Props as BrandProps, BrandValues } from "../brand/brand-utils";
@@ -17,6 +18,10 @@
     ADD_SHOP_BRAND_LABEL_HELP_TEXT,
     EDIT_SHOP_BRAND_LABEL_TEXT,
     EDIT_SHOP_BRAND_LABEL_HELP_TEXT,
+    ADD_SHOP_BRANCH_LABEL_TEXT,
+    ADD_SHOP_BRANCH_LABEL_HELP_TEXT,
+    EDIT_SHOP_BRANCH_LABEL_TEXT,
+    EDIT_SHOP_BRANCH_LABEL_HELP_TEXT,
   } from "./shop-item-utils";
   import { getBrandComponent } from "../lazies/brand.lazy";
   import { getBranchComponent } from "../lazies/branch.lazy";
@@ -66,6 +71,19 @@
   let branchIsActive = false;
   let branchOptions: BranchValuesWithDisplayName[] = [];
   let branchId = "";
+
+  let branchLabelText = ADD_SHOP_BRANCH_LABEL_TEXT;
+  let branchLabelHelp = ADD_SHOP_BRANCH_LABEL_HELP_TEXT;
+
+  $: {
+    if (branchId) {
+      branchLabelHelp = EDIT_SHOP_BRANCH_LABEL_HELP_TEXT;
+      branchLabelText = EDIT_SHOP_BRANCH_LABEL_TEXT;
+    } else {
+      branchLabelHelp = ADD_SHOP_BRANCH_LABEL_HELP_TEXT;
+      branchLabelText = ADD_SHOP_BRANCH_LABEL_TEXT;
+    }
+  }
 
   function activateBranchCb() {
     brandIsActive = false;
@@ -182,8 +200,13 @@
   <div class="field-container branch">
     <label class="label" for="{shopItemBranchInputId}">
       Branch
-      <span>e.g. konig</span>
-      <span>Select from the dropdown list or click 'Add' to create new branch</span>
+
+      {#if branchId}<span>e.g. konig</span>{/if}
+
+      <span
+        class="label-help-text"
+        id="{shopItemAddBranchLabelHelpId}"
+      >{branchLabelHelp}</span>
     </label>
 
     <div class="field has-addons">
@@ -209,7 +232,9 @@
       </div>
 
       <div class="control" on:click|preventDefault="{activateBranchCb}">
-        <button class="button is-info" id="{shopItemAddBranchId}"> Add </button>
+        <button class="button is-info" id="{shopItemAddBranchId}">
+          {branchLabelText}
+        </button>
       </div>
     </div>
   </div>
