@@ -1,4 +1,4 @@
-const { TEST_APPS = "" } = process.env;
+const { test_apps = "" } = process.env;
 
 const appsMap = {
   cm: "<rootDir>/packages/commons/jest.config.js",
@@ -8,7 +8,7 @@ const appsMap = {
 
 const projects = [];
 
-TEST_APPS.split(",").forEach((app) => {
+test_apps.split(",").forEach((app) => {
   projects.push(appsMap[app]);
 });
 

@@ -8,3 +8,11 @@ export function getBranchDisplayName({
 }: Omit<BranchValues, "id">) {
   return `${street}, ${postCode}, ${city}`;
 }
+
+export const ADD_SHOP_BRAND_LABEL_TEXT = "Add";
+
+export const ADD_SHOP_BRAND_LABEL_HELP_TEXT = `Select from the dropdown list or click '${ADD_SHOP_BRAND_LABEL_TEXT}' to create new shop brand`;
+
+export const EDIT_SHOP_BRAND_LABEL_TEXT = "Edit";
+
+export const EDIT_SHOP_BRAND_LABEL_HELP_TEXT = `Click on '${EDIT_SHOP_BRAND_LABEL_TEXT}' button to modify currently selected brand`;

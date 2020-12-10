@@ -13,10 +13,11 @@ module.exports = {
     },
     test: {
       default: {
-        script: `NODE_ENV=test jest --runInBand --watch`,
+        script: `jest --clear-cache \
+          && NODE_ENV=test jest --runInBand --watch`,
       },
       t: {
-        script: `jest --runInBand`,
+        script: `jest --clear-cache && jest --runInBand`,
       },
     },
   },

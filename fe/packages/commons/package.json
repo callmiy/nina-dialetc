@@ -21,6 +21,7 @@
     "@graphql-codegen/typescript": "1.18.1",
     "@graphql-codegen/typescript-resolvers": "1.17.12",
     "@ta/pp": "0.0.0",
+    "@testing-library/svelte": "3.0.0",
     "apollo": "2.31.1",
     "apollo-server-testing": "2.19.0",
     "nps": "5.10.0",

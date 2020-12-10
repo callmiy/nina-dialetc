@@ -1,35 +1,20 @@
-const path = require("path");
+const _config = require("../../_jest.config");
 
-const jestBabelTransform = path.resolve(
-  __dirname,
-  "../../jestBabelTransform.js"
-);
+const { debug } = process.env;
 
-module.exports = {
-  clearMocks: true,
-  collectCoverageFrom: ["src/**/*.(ts|svelte|js)", "!src/__tests__/**"],
-  coverageDirectory: "coverage",
-  moduleFileExtensions: ["svelte", "ts", "js", "tsx"],
-  testEnvironment: "jest-environment-jsdom-sixteen",
-  testRegex: "src/__tests__/.+?\\.test\\.[tj]sx?$",
-  transform: {
-    "^.+\\.jsx?$": jestBabelTransform,
-    "^.+\\.tsx?$": jestBabelTransform,
-    "^.+\\.svelte$": [
-      "svelte-jester",
-      {
-        preprocess: true,
-      },
-    ],
-  },
-  watchPathIgnorePatterns: [
-    "<rootDir>/node_modules*",
-    "<rootDir>/package\\.json",
-    "<rootDir>/package-scripts\\.js",
-    "<rootDir>/jest\\.config\\.js",
-    "<rootDir>/rollup\\.config\\.js",
-    "<rootDir>/svelte\\.config\\.js",
-    "<rootDir>/coverage/",
-    "<rootDir>/tsconfig\\.json/",
-  ],
+const config = {
+  ..._config,
+  displayName: "@ta/svelte-commons",
 };
+
+config.transform["^.+\\.svelte$"] = [
+  "svelte-jester",
+  {
+    preprocess: true,
+    debug: !!debug,
+  },
+];
+
+config.moduleFileExtensions.push("svelte");
+
+module.exports = config;

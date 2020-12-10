@@ -110,7 +110,8 @@ module.exports = {
       description: "prettify",
     },
     s: {
-      script: `sort-package-json ./packages/**/package.json`,
+      script: `sort-package-json ./package.json \
+          && sort-package-json ./packages/**/package.json`,
       description: `Sort package json`,
     },
     ca: {

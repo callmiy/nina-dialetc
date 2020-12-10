@@ -1,25 +1,135 @@
-<script src="./_shop-item.ts">
+<script lang="ts">
+  import {
+    shopItemBrandNameInputId,
+    shopItemBrandNameOptionSelector,
+    shopItemAddBrandId,
+    shopItemBranchInputId,
+    shopItemBranchNameOptionSelector,
+    shopItemAddBranchId,
+  } from "@ta/cm/src/selectors";
+
+  import { Props as BrandProps, BrandValues } from "../brand/brand-utils";
+  import { BranchValues } from "../branch/branch-utils";
+  import {
+    getBranchDisplayName,
+    ADD_SHOP_BRAND_LABEL_TEXT,
+    ADD_SHOP_BRAND_LABEL_HELP_TEXT,
+    EDIT_SHOP_BRAND_LABEL_TEXT,
+    EDIT_SHOP_BRAND_LABEL_HELP_TEXT,
+  } from "./shop-item-utils";
+  import { getBrandComponent } from "../lazies/brand.lazy";
+  import { getBranchComponent } from "../lazies/branch.lazy";
+
+  // BRAND ///////////////////////////////////////////////////////////////////////
+
+  let brandId = "";
+  let brandOptions: BrandValues[] = [];
+  let brandIsActive = false;
+  let brandLabelText = ADD_SHOP_BRAND_LABEL_TEXT;
+  let brandLabelHelp = ADD_SHOP_BRAND_LABEL_HELP_TEXT;
+
+  $: {
+    if (brandId) {
+      brandLabelHelp = EDIT_SHOP_BRAND_LABEL_HELP_TEXT;
+      brandLabelText = EDIT_SHOP_BRAND_LABEL_TEXT;
+    } else {
+      brandLabelHelp = ADD_SHOP_BRAND_LABEL_HELP_TEXT;
+      brandLabelText = ADD_SHOP_BRAND_LABEL_TEXT;
+    }
+  }
+
+  function activateBrandCb() {
+    branchIsActive = false;
+    brandIsActive = true;
+  }
+
+  const onSubmitBrand: BrandProps["onSubmit"] = (values) => {
+    brandIsActive = false;
+
+    const { id: maybeNewId } = values;
+    brandId = maybeNewId;
+
+    const options: BrandValues[] = [values];
+
+    brandOptions.forEach((b) => {
+      if (b.id !== maybeNewId) {
+        options.push(b);
+      }
+    });
+
+    brandOptions = options;
+  };
+
+  // BRANCH ///////////////////////////////////////////////////////////////////////
+
+  let branchIsActive = false;
+  let branchOptions: BranchValuesWithDisplayName[] = [];
+  let branchId = "";
+
+  function activateBranchCb() {
+    brandIsActive = false;
+    branchIsActive = true;
+  }
+
+  function onSubmitBranch(data: BranchValues) {
+    branchIsActive = false;
+
+    const { id: maybeNewId } = data;
+    branchId = maybeNewId;
+    (data as BranchValuesWithDisplayName).displayName = getBranchDisplayName(
+      data
+    );
+
+    const options: BranchValuesWithDisplayName[] = [
+      data as BranchValuesWithDisplayName,
+    ];
+
+    branchOptions.forEach((b) => {
+      if (b.id !== maybeNewId) {
+        options.push(b);
+      }
+    });
+
+    branchOptions = options;
+  }
+
+  // CALLBACKS /////////////////////////////////////////////////////////////////
+
+  type BranchValuesWithDisplayName = BranchValues & {
+    displayName: string;
+  };
 </script>
 
 <style lang="scss">
   .field-container + .field-container {
     margin-top: 25px;
   }
+
+  .label-help-text {
+    display: block;
+    font-weight: 400;
+    font-size: 0.85em;
+  }
+
+  .label-example {
+    font-weight: 300;
+    font-size: 0.9em;
+  }
 </style>
 
 <form>
   {#if brandIsActive}
-    {#await import('../brand/brand.svelte') then c}
+    {#await getBrandComponent() then c}
       <svelte:component
-        this="{c.default}"
+        this="{c}"
         bind:isActive="{brandIsActive}"
         onSubmit="{onSubmitBrand}"
       />
     {/await}
   {:else if branchIsActive}
-    {#await import('../branch/branch.svelte') then c}
+    {#await getBranchComponent() then c}
       <svelte:component
-        this="{c.default}"
+        this="{c}"
         bind:isActive="{branchIsActive}"
         onSubmit="{onSubmitBranch}"
       />
@@ -29,9 +139,10 @@
   <div class="field-container brand">
     <label class="label" for="{shopItemBrandNameInputId}">
       Shop Brand
-      <span>e.g. edeka</span>
-      <span>Select from the dropdown list or click 'Add' to create new shop
-        brand</span>
+
+      {#if !brandId}<span class="label-example">e.g. Edeka</span>{/if}
+
+      <span class="label-help-text">{brandLabelHelp}</span>
     </label>
 
     <div class="field has-addons">
@@ -57,7 +168,9 @@
       </div>
 
       <div class="control" on:click|preventDefault="{activateBrandCb}">
-        <button class="button is-info" id="{shopItemAddBrandId}"> Add </button>
+        <button class="button is-info" id="{shopItemAddBrandId}">
+          {brandLabelText}
+        </button>
       </div>
     </div>
   </div>

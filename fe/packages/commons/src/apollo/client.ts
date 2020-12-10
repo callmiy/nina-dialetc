@@ -50,25 +50,26 @@ export function makeApolloClient(
   return client;
 }
 
-export function getCountriesCurrencies() {
+export async function getCountriesCurrencies() {
   const client = makeApolloClient();
 
-  return client
-    .query<ListCountriesAndCurrencies, ListCountriesAndCurrenciesVariables>({
+  try {
+    const { data } = await client.query<
+      ListCountriesAndCurrencies,
+      ListCountriesAndCurrenciesVariables
+    >({
       query: listCountriesAndCurrenciesQuery,
       variables: {
         countriesPaginationInput: {
           first: 20,
         },
       },
-    })
-    .then((result) => {
-      if (result && result.data) {
-        return result.data;
-      }
-
-      return {} as ListCountriesAndCurrencies;
     });
+
+    return data || ({} as ListCountriesAndCurrencies);
+  } catch (error) {
+    return {} as ListCountriesAndCurrencies;
+  }
 }
 
 type MakeApolloClientArgs = {
