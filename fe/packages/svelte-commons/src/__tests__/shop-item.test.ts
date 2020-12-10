@@ -39,7 +39,7 @@ jest.mock("../components/lazies/branch.lazy", () => {
   };
 });
 
-it("changes brand/branch buttons labels and help texts", async () => {
+it(`changes brand/branch buttons labels and help texts`, async () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { debug } = render(ShopItem);
 
