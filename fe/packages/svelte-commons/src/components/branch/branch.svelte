@@ -23,7 +23,7 @@
   } from "@ta/cm/src/constants";
   import { newUlid } from "@ta/cm/src/db/ulid-uuid";
 
-  import FormCtrlError from "../form-ctrl-error.svelte";
+  import FormCtrlMsg from "../form-ctrl-msg.svelte";
   import Notification from "../notification.svelte";
 
   import { BranchValues } from "./branch-utils";
@@ -181,7 +181,7 @@
           </div>
 
           {#if postCodeError}
-            <FormCtrlError
+            <FormCtrlMsg
               error="{postCodeError}"
               id="{branchPostCodeErrorId}"
             />
@@ -201,7 +201,7 @@
           </div>
 
           {#if cityError}
-            <FormCtrlError error="{cityError}" id="{branchCityErrorId}" />
+            <FormCtrlMsg error="{cityError}" id="{branchCityErrorId}" />
           {/if}
         </div>
 
@@ -220,7 +220,7 @@
           </div>
 
           {#if streetError}
-            <FormCtrlError error="{streetError}" id="{branchStreetErrorId}" />
+            <FormCtrlMsg error="{streetError}" id="{branchStreetErrorId}" />
           {/if}
         </div>
 

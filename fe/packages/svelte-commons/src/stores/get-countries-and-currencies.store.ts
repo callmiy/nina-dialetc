@@ -1,11 +1,27 @@
 import { writable } from "svelte/store";
 import { getCountriesCurrencies } from "@ta/cm/src/apollo/apollo-utils";
 import { CountriesState, CurrenciesState } from "@ta/cm/src/types";
-import { LOADING_STATE } from "@ta/cm/src/constants";
+import {
+  LOADING_STATE,
+  CURRENCIES_LOADING_MSG,
+  COUNTRIES_LOADING_MSG,
+} from "@ta/cm/src/constants";
 
-export const countriesStore = writable<CountriesState>(LOADING_STATE);
+const initialCountriesState = {
+  ...LOADING_STATE,
+  msg: COUNTRIES_LOADING_MSG,
+};
 
-export const currenciesStore = writable<CurrenciesState>(LOADING_STATE);
+export const countriesStore = writable<CountriesState>(initialCountriesState);
+
+const initialCurrenciesState = {
+  ...LOADING_STATE,
+  msg: CURRENCIES_LOADING_MSG,
+};
+
+export const currenciesStore = writable<CurrenciesState>(
+  initialCurrenciesState
+);
 
 export async function getCountriesCurrenciesStore() {
   const result = await getCountriesCurrencies();
@@ -19,4 +35,10 @@ export async function getCountriesCurrenciesStore() {
     countriesStore.set(result);
     currenciesStore.set(result);
   }
+}
+
+// used to reset the stores during tests :TODO: find a better way
+export function resetCountriesCurrenciesStore() {
+  countriesStore.set(initialCountriesState);
+  currenciesStore.set(initialCurrenciesState);
 }

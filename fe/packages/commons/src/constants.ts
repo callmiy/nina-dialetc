@@ -17,6 +17,10 @@ const checkNetworkConn =
 
 export const COUNTRIES_FETCHING_FAILED = `Attempt to fetch countries data failed${checkNetworkConn}`;
 
+export const COUNTRIES_LOADING_MSG = "Loading countries data...";
+
+export const CURRENCIES_LOADING_MSG = "Loading currencies data...";
+
 export const CURRENCIES_FETCHING_FAILED = `Attempt to fetch currencies data failed${checkNetworkConn}`;
 
 export const DATA_FETCHING_FAILED = `Data fetching failed${checkNetworkConn}`;
@@ -84,4 +88,5 @@ export const StateValue = {
 
 export const LOADING_STATE: LoadingState = {
   value: StateValue.loading,
+  msg: "",
 };

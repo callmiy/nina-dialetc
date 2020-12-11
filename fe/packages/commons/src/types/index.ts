@@ -58,4 +58,5 @@ export type StringErrorState = {
 
 export type LoadingState = {
   value: LoadingVal;
+  msg: string;
 };

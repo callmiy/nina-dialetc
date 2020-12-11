@@ -1,4 +1,5 @@
 export const formCtrlErrorSelector = "js-form__control-error";
+export const formCtrlInfoSelector = "js-form__control-info";
 export const notificationSelector = "js-notification";
 
 // SHOP ITEM /////////////////////////////////////////////////////////////////
@@ -22,10 +23,10 @@ export const brandNameErrorDomId = `${brandDomId}-name-error`;
 export const brandNameOptionSelector = `js-${brandDomId}-name-option`;
 export const brandCountryInputDomId = `${brandDomId}-country-input`;
 export const brandCountryOptionSelector = `js-${brandDomId}-country-option`;
-export const brandCountryErrorDomId = `${brandDomId}-country-error`;
+export const brandCountryMsgDomId = `${brandDomId}-country-error`;
 export const brandCurrencyInputDomId = `${brandDomId}-currency-input`;
 export const brandCurrencyOptionSelector = `${brandDomId}-currency-option`;
-export const brandCurrencyErrorDomId = `${brandDomId}-currency-error`;
+export const brandCurrencyMsgDomId = `${brandDomId}-currency-error`;
 export const brandPhoneInputDomId = `${brandDomId}-phone-input`;
 export const closeBrandComponentId = `${brandDomId}-close-component`;
 export const resetFormBtnId = `${brandDomId}-reset-form`;

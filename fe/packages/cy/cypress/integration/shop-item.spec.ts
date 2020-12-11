@@ -66,6 +66,7 @@ context("Item", () => {
       // When we fill the brand name field
       cy.get("#" + brandNameInputDomId)
         .as("nameEl")
+        .should("be.enabled")
         .type(brandName1);
 
       // When we select a country

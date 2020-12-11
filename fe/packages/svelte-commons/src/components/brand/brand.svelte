@@ -12,8 +12,8 @@
     brandCurrencyOptionSelector,
     brandNotificationTextCloseId,
     brandNameErrorDomId,
-    brandCountryErrorDomId,
-    brandCurrencyErrorDomId,
+    brandCountryMsgDomId,
+    brandCurrencyMsgDomId,
   } from "@ta/cm/src/selectors";
   import {
     IS_ACTIVE_CLASS_NAME,
@@ -25,9 +25,10 @@
     currenciesStore,
     countriesStore,
   } from "../../stores/get-countries-and-currencies.store";
-  import FormCtrlError from "../form-ctrl-error.svelte";
+  import FormCtrlMsg from "../form-ctrl-msg.svelte";
   import { CurrencyFragment, CountryFragment } from "@ta/cm/src/gql/ops-types";
   import Notification from "../notification.svelte";
+  import Spinner from "../spinner.svelte";
   import { newUlid } from "@ta/cm/src/db/ulid-uuid";
   import { Props } from "./brand-utils";
   import { StateValue } from "@ta/cm/src/constants";
@@ -48,6 +49,28 @@
 
   let notificationText = "";
   let notificationTextClass = "";
+
+  let fetchLoadingFlag = false;
+  let fetchErrorFlag = false;
+
+  $: {
+    if (
+      $currenciesStore.value === StateValue.loading ||
+      $countriesStore.value === StateValue.loading
+    ) {
+      fetchLoadingFlag = true;
+      fetchErrorFlag = false;
+    } else if (
+      $currenciesStore.value === StateValue.errors ||
+      $countriesStore.value === StateValue.errors
+    ) {
+      fetchLoadingFlag = false;
+      fetchErrorFlag = true;
+    } else {
+      fetchLoadingFlag = false;
+      fetchErrorFlag = false;
+    }
+  }
 
   /* PROPS */
   export let isActive: Props["isActive"] = false;
@@ -134,27 +157,36 @@
 <style lang="scss">
   @import "../../../../commons/src/styles/extensions";
 
-  .a {
+  .modal {
     @extend %modal;
+  }
+
+  .brand-loading-container {
+    display: flex;
+
+    :global(.brand-spinner) {
+      top: -3px;
+      margin-left: 35px;
+    }
   }
 </style>
 
-<div class="a">
-  <div id="{brandDomId}" class="modal is-active">
-    <div class="modal-background"></div>
+<div id="{brandDomId}" class="modal is-active">
+  <div class="modal-background"></div>
 
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">New Shop Brand</p>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">New Shop Brand</p>
 
-        <button
-          class="delete"
-          aria-label="close"
-          id="{closeBrandComponentId}"
-          on:click|preventDefault="{closeComponentCb}"
-        ></button>
-      </header>
+      <button
+        class="delete"
+        aria-label="close"
+        id="{closeBrandComponentId}"
+        on:click|preventDefault="{closeComponentCb}"
+      ></button>
+    </header>
 
+    <fieldset disabled="{fetchErrorFlag || fetchLoadingFlag}">
       <section class="modal-card-body">
         {#if notificationText}
           <Notification
@@ -182,7 +214,7 @@
           </div>
 
           {#if nameError}
-            <FormCtrlError error="{nameError}" id="{brandNameErrorDomId}" />
+            <FormCtrlMsg error="{nameError}" id="{brandNameErrorDomId}" />
           {/if}
         </div>
 
@@ -205,9 +237,20 @@
             </div>
 
             {#if countryError}
-              <FormCtrlError
-                error="{countryError}"
-                id="{brandCountryErrorDomId}"
+              <FormCtrlMsg error="{countryError}" id="{brandCountryMsgDomId}" />
+            {:else if $countriesStore.value === StateValue.loading}
+              <div class="brand-loading-container">
+                <FormCtrlMsg
+                  info="{$countriesStore.msg}"
+                  id="{brandCountryMsgDomId}"
+                />
+
+                <Spinner class="brand-spinner" />
+              </div>
+            {:else if $countriesStore.value === StateValue.error}
+              <FormCtrlMsg
+                error="{$countriesStore.error}"
+                id="{brandCountryMsgDomId}"
               />
             {/if}
           </div>
@@ -233,9 +276,23 @@
             </div>
 
             {#if currencyError}
-              <FormCtrlError
+              <FormCtrlMsg
                 error="{currencyError}"
-                id="{brandCurrencyErrorDomId}"
+                id="{brandCurrencyMsgDomId}"
+              />
+            {:else if $currenciesStore.value === StateValue.loading}
+              <div class="brand-loading-container">
+                <FormCtrlMsg
+                  info="{$currenciesStore.msg}"
+                  id="{brandCurrencyMsgDomId}"
+                />
+
+                <Spinner class="brand-spinner" />
+              </div>
+            {:else if $currenciesStore.value === StateValue.error}
+              <FormCtrlMsg
+                error="{$currenciesStore.error}"
+                id="{brandCurrencyMsgDomId}"
               />
             {/if}
           </div>
@@ -270,6 +327,6 @@
           on:click|preventDefault="{resetFormCb}"
         >Reset</button>
       </footer>
-    </div>
+    </fieldset>
   </div>
 </div>

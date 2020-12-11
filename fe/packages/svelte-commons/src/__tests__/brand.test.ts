@@ -9,9 +9,9 @@ import {
   brandDomId,
   resetFormBtnId,
   brandCountryInputDomId,
-  brandCountryErrorDomId,
+  brandCountryMsgDomId,
   brandCurrencyInputDomId,
-  brandCurrencyErrorDomId,
+  brandCurrencyMsgDomId,
   brandPhoneInputDomId,
   submitBrandId,
   brandNotificationTextCloseId,
@@ -21,11 +21,17 @@ import {
   getById,
   fillFieldChange,
 } from "@ta/cm/src/__tests__/utils-dom";
-import { IS_ACTIVE_CLASS_NAME, StateValue } from "@ta/cm/src/constants";
+import {
+  IS_ACTIVE_CLASS_NAME,
+  StateValue,
+  CURRENCIES_LOADING_MSG,
+  COUNTRIES_LOADING_MSG,
+} from "@ta/cm/src/constants";
 import {
   getCountriesCurrencies,
   GetCountriesCurrencies,
 } from "@ta/cm/src/apollo/apollo-utils";
+import { resetCountriesCurrenciesStore } from "../stores/get-countries-and-currencies.store";
 
 let mockId = 0;
 jest.mock("@ta/cm/src/db/ulid-uuid", () => ({
@@ -36,8 +42,9 @@ jest.mock("@ta/cm/src/apollo/apollo-utils");
 const mockGetCountriesCurrencies = getCountriesCurrencies as jest.Mock;
 
 afterEach(() => {
-  jest.resetAllMocks();
+  jest.clearAllMocks();
   cleanup();
+  resetCountriesCurrenciesStore();
 });
 
 describe("brand tests", () => {
@@ -77,7 +84,7 @@ describe("brand tests", () => {
     ] as GetCountriesCurrencies);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { debug } = render(ShopBrand, {
+    const { debug, container } = render(ShopBrand, {
       props: {
         isActive: true,
         onSubmit: undefined,
@@ -130,9 +137,41 @@ describe("brand tests", () => {
 
     // Warning notification should not visible
     expect(getById(brandNotificationTextCloseId)).toBeNull();
+
+    // The form should not be disabled
+    const fieldsetEl = container.querySelector(
+      "fieldset"
+    ) as HTMLFieldSetElement;
+    expect(fieldsetEl.disabled).toBe(false);
   });
 
-  it(`country-currency fetch fails /
+  it(`currencies and countries loading`, async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { debug, container } = render(ShopBrand, {
+      props: {
+        onSubmit: undefined,
+      },
+    });
+
+    // Wait for countries and currencies data to resolve
+    await waitFor(() => true);
+
+    // Country field should indicate loading
+    const countryLoadingEl = getById(brandCountryMsgDomId);
+    expect(countryLoadingEl.textContent).toBe(COUNTRIES_LOADING_MSG);
+
+    // Currency field error should indicate loading
+    const currencyLoadingEl = getById(brandCurrencyMsgDomId);
+    expect(currencyLoadingEl.textContent).toBe(CURRENCIES_LOADING_MSG);
+
+    // The form should be disabled
+    const fieldsetEl = container.querySelector(
+      "fieldset"
+    ) as HTMLFieldSetElement;
+    expect(fieldsetEl.disabled).toBe(true);
+  });
+
+  xit(`country-currency fetch fails /
       brand name too short /
       currency and country empty /
       close error notification`, async () => {
@@ -160,10 +199,10 @@ describe("brand tests", () => {
     expect(getById(brandNameErrorDomId)).toBeNull();
 
     // Country field error should not be visible
-    expect(getById(brandCountryErrorDomId)).toBeNull();
+    expect(getById(brandCountryMsgDomId)).toBeNull();
 
     // Currency field error should not be visible
-    expect(getById(brandCurrencyErrorDomId)).toBeNull();
+    expect(getById(brandCurrencyMsgDomId)).toBeNull();
 
     // General form error should not be visible
     expect(getById(brandNotificationTextCloseId)).toBeNull();
@@ -175,9 +214,9 @@ describe("brand tests", () => {
     expect(getById(brandNameErrorDomId)).not.toBeNull();
 
     // Country field error should be visible (empty)
-    expect(getById(brandCountryErrorDomId)).not.toBeNull();
+    expect(getById(brandCountryMsgDomId)).not.toBeNull();
 
     // Currency field error should be visible (empty)
-    expect(getById(brandCurrencyErrorDomId)).not.toBeNull();
+    expect(getById(brandCurrencyMsgDomId)).not.toBeNull();
   });
 });
