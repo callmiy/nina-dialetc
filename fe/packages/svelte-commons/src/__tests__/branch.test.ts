@@ -20,6 +20,7 @@ import {
   branchResetId,
 } from "@ta/cm/src/selectors";
 import { fillFieldInput, getById } from "@ta/cm/src/__tests__/utils-dom";
+import { branchSubmitVal1 } from "./mocks/mock-utils";
 
 let mockId = 0;
 jest.mock("@ta/cm/src/db/ulid-uuid", () => ({
@@ -160,5 +161,47 @@ describe("Shop branch", () => {
 
     // There should not be any notification
     expect(getById(branchNotificationTextCloseId)).toBeNull();
+  });
+
+  it("submits valid form", async () => {
+    const mockOnSubmit = jest.fn();
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { debug } = render(Branch, {
+      props: {
+        onSubmit: mockOnSubmit,
+      },
+    });
+
+    // When post code field is completed with invalid input
+    const postCodeEl = getById<HTMLInputElement>(branchPostCodeInputId);
+    await fillFieldInput(postCodeEl, branchSubmitVal1.postCode);
+
+    // When city field is completed with invalid input
+    const cityEl = getById<HTMLInputElement>(branchCityInputId);
+    await fillFieldInput(cityEl, branchSubmitVal1.city);
+
+    // When street field is completed with invalid input
+    const streetEl = getById<HTMLInputElement>(branchStreetInputId);
+    await fillFieldInput(streetEl, branchSubmitVal1.street);
+
+    // When alias field is completed
+    const aliasEl = getById<HTMLInputElement>(branchAliasInputId);
+    await fillFieldInput(aliasEl, branchSubmitVal1.branchAlias);
+
+    // When phone field is completed
+    const phoneEl = getById<HTMLInputElement>(branchPhoneInputId);
+    await fillFieldInput(phoneEl, branchSubmitVal1.phone);
+
+    expect(mockOnSubmit).not.toBeCalled();
+
+    // When form is submitted
+    await getById(branchSubmitId).click();
+
+    // Form data should be passed to parent
+    expect(mockOnSubmit).toBeCalledWith({
+      ...branchSubmitVal1,
+      id: 1,
+    });
   });
 });

@@ -10,4 +10,6 @@ export const branchSubmitVal1 = {
   street: "str1",
   city: "ci1",
   postCode: "pc1",
+  branchAlias: "a",
+  phone: "p",
 };
