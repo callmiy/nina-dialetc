@@ -2,14 +2,14 @@
  * @jest-environment jest-environment-jsdom-sixteen
  */
 import { render, cleanup } from "@testing-library/svelte";
-import ShopItem from "../components/shop-item/shop-item.svelte";
+import Shopping from "../components/shopping/shopping.svelte";
 import {
-  shopItemAddBrandLabelHelpId,
-  shopItemAddBrandId,
-  shopItemAddBranchId,
-  shopItemAddBranchLabelHelpId,
-  shopItemBrandNameInputId,
-  shopItemBranchInputId,
+  shoppingAddBrandLabelHelpId,
+  shoppingAddBrandId,
+  shoppingAddBranchId,
+  shoppingAddBranchLabelHelpId,
+  shoppingBrandNameInputId,
+  shoppingBranchInputId,
 } from "@ta/cm/src/selectors";
 import { getById } from "@ta/cm/src/__tests__/utils-dom";
 import mockBrand from "./mocks/brand.mock.svelte";
@@ -23,7 +23,7 @@ import {
   ADD_SHOP_BRANCH_LABEL_HELP_TEXT,
   EDIT_SHOP_BRANCH_LABEL_TEXT,
   EDIT_SHOP_BRANCH_LABEL_HELP_TEXT,
-} from "../components/shop-item/shop-item-utils";
+} from "../components/shopping/shopping-utils";
 import { brandSubmitValue1, branchSubmitVal1 } from "./mocks/mock-utils";
 
 jest.mock("../components/lazies/brand.lazy", () => {
@@ -47,14 +47,14 @@ beforeEach(() => {
   cleanup();
 });
 
-describe("Shop Item", () => {
+describe("Shopping", () => {
   it(`changes brand/branch buttons labels and help texts`, async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { debug } = render(ShopItem);
+    const { debug } = render(Shopping);
 
     // Add brand button label should have text 'Add'
-    const addBrandEl = getById(shopItemAddBrandId);
-    const addBrandHelpEl = getById(shopItemAddBrandLabelHelpId);
+    const addBrandEl = getById(shoppingAddBrandId);
+    const addBrandHelpEl = getById(shoppingAddBrandLabelHelpId);
     expect(addBrandEl.textContent).toEqual(ADD_SHOP_BRAND_LABEL_TEXT);
     expect(addBrandHelpEl.textContent).toBe(ADD_SHOP_BRAND_LABEL_HELP_TEXT);
 
@@ -63,7 +63,7 @@ describe("Shop Item", () => {
 
     // No brand should have been selected
     const brandNameInputEl = getById<HTMLSelectElement>(
-      shopItemBrandNameInputId
+      shoppingBrandNameInputId
     );
     expect(brandNameInputEl.value).toBe("");
 
@@ -86,8 +86,8 @@ describe("Shop Item", () => {
     expect(addBrandHelpEl.textContent).toBe(EDIT_SHOP_BRAND_LABEL_HELP_TEXT);
 
     // Add branch button label should have text 'Add'
-    const addBranchEl = getById(shopItemAddBranchId);
-    const addBranchHelpEl = getById(shopItemAddBranchLabelHelpId);
+    const addBranchEl = getById(shoppingAddBranchId);
+    const addBranchHelpEl = getById(shoppingAddBranchLabelHelpId);
     expect(addBranchEl.textContent).toEqual(ADD_SHOP_BRANCH_LABEL_TEXT);
     expect(addBranchHelpEl.textContent).toBe(ADD_SHOP_BRANCH_LABEL_HELP_TEXT);
 
@@ -95,7 +95,7 @@ describe("Shop Item", () => {
     await addBranchEl.click();
 
     // No brand should have been selected
-    const branchNameInputEl = getById<HTMLSelectElement>(shopItemBranchInputId);
+    const branchNameInputEl = getById<HTMLSelectElement>(shoppingBranchInputId);
     expect(branchNameInputEl.value).toBe("");
 
     // When a branch is submitted

@@ -1,9 +1,9 @@
 import {
-  shopItemBranchNameOptionSelector,
-  shopItemBranchInputId,
-  shopItemAddBrandId,
-  shopItemBrandNameInputId,
-  shopItemBrandNameOptionSelector,
+  shoppingBranchNameOptionSelector,
+  shoppingBranchInputId,
+  shoppingAddBrandId,
+  shoppingBrandNameInputId,
+  shoppingBrandNameOptionSelector,
 
   // BRAND FORM ////////////////////////////////////////////////////////////
   brandNameInputDomId,
@@ -17,7 +17,7 @@ import {
 
   // BRANCH /////////////////////////////////////////////////////////////////
   branchDomId,
-  shopItemAddBranchId,
+  shoppingAddBranchId,
   branchPostCodeInputId,
   branchCityInputId,
   branchStreetInputId,
@@ -25,7 +25,7 @@ import {
   branchSubmitId,
   branchPhoneInputId,
 } from "@ta/cm/src/selectors";
-import { getBranchDisplayName } from "@ta/sc/src/components/shop-item/shop-item-utils";
+import { getBranchDisplayName } from "@ta/sc/src/components/shopping/shopping-utils";
 
 context("Item", () => {
   beforeEach(() => {
@@ -50,14 +50,14 @@ context("Item", () => {
       // BRAND ///////////////////////////////////////////////////////////////
 
       // When we click on 'Add new shop brand' button
-      cy.get("#" + shopItemAddBrandId).click();
+      cy.get("#" + shoppingAddBrandId).click();
 
       // ShopItem brand name field should be empty
-      cy.get("#" + shopItemBrandNameInputId)
+      cy.get("#" + shoppingBrandNameInputId)
         .as("itemName")
         .should("have.value", "")
         .within(() => {
-          cy.get("." + shopItemBrandNameOptionSelector).should(
+          cy.get("." + shoppingBrandNameOptionSelector).should(
             "have.length",
             1
           );
@@ -114,14 +114,14 @@ context("Item", () => {
       // BRANCH ////////////////////////////////////////////////////////////////
 
       // When we click on 'Add new branch' button
-      cy.get("#" + shopItemAddBranchId).click();
+      cy.get("#" + shoppingAddBranchId).click();
 
       // ShopItem branch field should be empty
-      cy.get("#" + shopItemBranchInputId)
+      cy.get("#" + shoppingBranchInputId)
         .as("shopBranchEl")
         .should("have.value", "")
         .within(() => {
-          cy.get("." + shopItemBranchNameOptionSelector).should(
+          cy.get("." + shoppingBranchNameOptionSelector).should(
             "have.length",
             1
           );

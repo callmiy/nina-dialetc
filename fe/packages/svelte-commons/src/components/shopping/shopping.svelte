@@ -1,13 +1,13 @@
 <script lang="ts">
   import {
-    shopItemBrandNameInputId,
-    shopItemBrandNameOptionSelector,
-    shopItemAddBrandId,
-    shopItemBranchInputId,
-    shopItemBranchNameOptionSelector,
-    shopItemAddBranchId,
-    shopItemAddBrandLabelHelpId,
-    shopItemAddBranchLabelHelpId,
+    shoppingBrandNameInputId,
+    shoppingBrandNameOptionSelector,
+    shoppingAddBrandId,
+    shoppingBranchInputId,
+    shoppingBranchNameOptionSelector,
+    shoppingAddBranchId,
+    shoppingAddBrandLabelHelpId,
+    shoppingAddBranchLabelHelpId,
   } from "@ta/cm/src/selectors";
 
   import { Props as BrandProps, BrandValues } from "../brand/brand-utils";
@@ -22,7 +22,7 @@
     ADD_SHOP_BRANCH_LABEL_HELP_TEXT,
     EDIT_SHOP_BRANCH_LABEL_TEXT,
     EDIT_SHOP_BRANCH_LABEL_HELP_TEXT,
-  } from "./shop-item-utils";
+  } from "./shopping-utils";
   import { getBrandComponent } from "../lazies/brand.lazy";
   import { getBranchComponent } from "../lazies/branch.lazy";
 
@@ -156,14 +156,14 @@
   {/if}
 
   <div class="field-container brand">
-    <label class="label" for="{shopItemBrandNameInputId}">
+    <label class="label" for="{shoppingBrandNameInputId}">
       Shop Brand
 
       {#if !brandId}<span class="label-example">e.g. Edeka</span>{/if}
 
       <span
         class="label-help-text"
-        id="{shopItemAddBrandLabelHelpId}"
+        id="{shoppingAddBrandLabelHelpId}"
       >{brandLabelHelp}</span>
     </label>
 
@@ -171,17 +171,17 @@
       <div class="control is-expanded">
         <div class="select is-fullwidth">
           <select
-            id="{shopItemBrandNameInputId}"
+            id="{shoppingBrandNameInputId}"
             class="input"
             type="text"
             bind:value="{brandId}"
           >
-            <option value="" class="{shopItemBrandNameOptionSelector}">
+            <option value="" class="{shoppingBrandNameOptionSelector}">
               ---------
             </option>
 
             {#each brandOptions as { name: nameOption, id } (id)}
-              <option class="{shopItemBrandNameOptionSelector}" value="{id}">
+              <option class="{shoppingBrandNameOptionSelector}" value="{id}">
                 {nameOption}
               </option>
             {/each}
@@ -190,7 +190,7 @@
       </div>
 
       <div class="control" on:click|preventDefault="{activateBrandCb}">
-        <button class="button is-info" id="{shopItemAddBrandId}">
+        <button class="button is-info" id="{shoppingAddBrandId}">
           {brandLabelText}
         </button>
       </div>
@@ -198,14 +198,14 @@
   </div>
 
   <div class="field-container branch">
-    <label class="label" for="{shopItemBranchInputId}">
+    <label class="label" for="{shoppingBranchInputId}">
       Branch
 
       {#if branchId}<span>e.g. konig</span>{/if}
 
       <span
         class="label-help-text"
-        id="{shopItemAddBranchLabelHelpId}"
+        id="{shoppingAddBranchLabelHelpId}"
       >{branchLabelHelp}</span>
     </label>
 
@@ -213,17 +213,17 @@
       <div class="control is-expanded">
         <div class="select is-fullwidth">
           <select
-            id="{shopItemBranchInputId}"
+            id="{shoppingBranchInputId}"
             class="input"
             type="text"
             bind:value="{branchId}"
           >
-            <option value="" class="{shopItemBranchNameOptionSelector}">
+            <option value="" class="{shoppingBranchNameOptionSelector}">
               ---------
             </option>
 
             {#each branchOptions as { id, displayName } (id)}
-              <option class="{shopItemBranchNameOptionSelector}" value="{id}">
+              <option class="{shoppingBranchNameOptionSelector}" value="{id}">
                 {displayName}
               </option>
             {/each}
@@ -232,7 +232,7 @@
       </div>
 
       <div class="control" on:click|preventDefault="{activateBranchCb}">
-        <button class="button is-info" id="{shopItemAddBranchId}">
+        <button class="button is-info" id="{shoppingAddBranchId}">
           {branchLabelText}
         </button>
       </div>

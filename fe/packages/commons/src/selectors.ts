@@ -2,18 +2,18 @@ export const formCtrlErrorSelector = "js-form__control-error";
 export const formCtrlInfoSelector = "js-form__control-info";
 export const notificationSelector = "js-notification";
 
-// SHOP ITEM /////////////////////////////////////////////////////////////////
+// SHOPPING /////////////////////////////////////////////////////////////////
 
-const shopItemPrefix = "components__shop-item";
+const shoppingPrefix = "components__shopping";
 
-export const shopItemBrandNameInputId = `${shopItemPrefix}-brand-name-input`;
-export const shopItemBranchInputId = `${shopItemPrefix}-branch-input`;
-export const shopItemBrandNameOptionSelector = `js-${shopItemPrefix}-brandoption`;
-export const shopItemBranchNameOptionSelector = `js-${shopItemPrefix}-branch-option`;
-export const shopItemAddBrandLabelHelpId = `js-${shopItemPrefix}-add-brand-label-help`;
-export const shopItemAddBranchLabelHelpId = `js-${shopItemPrefix}-add-branch-label-help`;
-export const shopItemAddBrandId = `${shopItemPrefix}-add-brand`;
-export const shopItemAddBranchId = `${shopItemPrefix}-add-branch`;
+export const shoppingBrandNameInputId = `${shoppingPrefix}-brand-name-input`;
+export const shoppingBranchInputId = `${shoppingPrefix}-branch-input`;
+export const shoppingBrandNameOptionSelector = `js-${shoppingPrefix}-brandoption`;
+export const shoppingBranchNameOptionSelector = `js-${shoppingPrefix}-branch-option`;
+export const shoppingAddBrandLabelHelpId = `js-${shoppingPrefix}-add-brand-label-help`;
+export const shoppingAddBranchLabelHelpId = `js-${shoppingPrefix}-add-branch-label-help`;
+export const shoppingAddBrandId = `${shoppingPrefix}-add-brand`;
+export const shoppingAddBranchId = `${shoppingPrefix}-add-branch`;
 
 // SHOP BRAND /////////////////////////////////////////////////////////////////
 

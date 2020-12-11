@@ -1,4 +1,5 @@
-<script src="./_app.ts">
+<script lang="ts">
+  import Shopping from "@ta/sc/src/components/shopping/shopping.svelte";
 </script>
 
 <style lang="scss" global>
@@ -11,5 +12,5 @@
 </style>
 
 <div class="main-layout">
-  <ShopItem />
+  <Shopping />
 </div>
