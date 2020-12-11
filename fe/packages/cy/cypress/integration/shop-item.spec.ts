@@ -13,9 +13,7 @@ import {
   brandCurrencyInputDomId,
   brandPhoneInputDomId,
   submitBrandId,
-  resetFormBtnId,
-  formCtrlErrorSelector,
-  brandNotificationTextCloseId,
+  brandDomId,
 
   // BRANCH /////////////////////////////////////////////////////////////////
   branchDomId,
@@ -24,12 +22,7 @@ import {
   branchCityInputId,
   branchStreetInputId,
   branchAliasInputId,
-  branchResetId,
   branchSubmitId,
-  branchNotificationTextCloseId,
-  branchPostCodeErrorId,
-  branchCityErrorId,
-  branchStreetErrorId,
   branchPhoneInputId,
 } from "@ta/cm/src/selectors";
 import { getBranchDisplayName } from "@ta/sc/src/components/shop-item/shop-item-utils";
@@ -40,10 +33,6 @@ context("Item", () => {
   });
 
   const brandName1 = "Edeka";
-
-  const postCodeInvalid1 = "12";
-  const cityInvalid1 = "a";
-  const streetInvalid1 = "abc";
 
   const postCode1 = "1234";
   const city1 = "Par";
@@ -63,136 +52,55 @@ context("Item", () => {
       // When we click on 'Add new shop brand' button
       cy.get("#" + shopItemAddBrandId).click();
 
-      // When we fill the brand name field
-      cy.get("#" + brandNameInputDomId)
-        .as("nameEl")
-        .should("be.enabled")
-        .type(brandName1);
-
-      // When we select a country
-      cy.get("." + brandCountryOptionSelector)
-        .first()
-        .as("countryOptionEl")
-        .then((e) => {
-          cy.get("#" + brandCountryInputDomId)
-            .as("countryEl")
-            .select(e.val() as string);
+      // ShopItem brand name field should be empty
+      cy.get("#" + shopItemBrandNameInputId)
+        .as("itemName")
+        .should("have.value", "")
+        .within(() => {
+          cy.get("." + shopItemBrandNameOptionSelector).should(
+            "have.length",
+            1
+          );
         });
 
-      // When we select a currency
-      cy.get("." + brandCurrencyOptionSelector)
-        .first()
-        .as("currencyOptionEl")
-        .then((el) => {
-          cy.get("#" + brandCurrencyInputDomId)
-            .as("currencyEl")
-            .select(el.val() as string);
-        });
+      cy.get("#" + brandDomId).within(() => {
+        // When we fill the brand name field
+        cy.get("#" + brandNameInputDomId)
+          .as("nameEl")
+          .should("be.enabled")
+          .type(brandName1);
 
-      // We fill telephone field
-      cy.get("#" + brandPhoneInputDomId)
-        .as("phoneEl")
-        .type("012345677");
-
-      {
-        /////////// :TODO: remove: integration test /////////////
-        // We click reset button.
-        cy.get("#" + resetFormBtnId)
-          .as("resetEl")
-          .click();
-
-        // Form elements should clear
-        cy.get("@nameEl").should("have.value", "");
-        cy.get("@countryEl").should("have.value", "");
-        cy.get("@currencyEl").should("have.value", "");
-        cy.get("@phoneEl").should("have.value", "");
-
-        // Warning notification should not be visible
-        cy.get("#" + brandNotificationTextCloseId).should("not.exist");
-
-        // We click submit button on empty form
-        cy.get("#" + submitBrandId)
-          .as("submitEl")
-          .click();
-
-        // Warning notification should be visible.
-        // We dismiss warning notification
-        cy.get("#" + brandNotificationTextCloseId)
-          // .should("have.class", "is-warning")
-          .click();
-
-        // Warning notification should not be visible
-        cy.get("#" + brandNotificationTextCloseId).should("not.exist");
-
-        // We fill name field with name that is too short
-        cy.get("@nameEl").type("a");
-
-        // Error notification should not be visible
-        cy.get("#" + brandNotificationTextCloseId).should("not.exist");
-
-        // Field errors should not be visible
-        cy.get("." + formCtrlErrorSelector).should("not.exist");
-
-        // We click submit button on form with invalid data
-        cy.get("@submitEl").click();
-
-        // Error notification should be visible.
-        cy.get("#" + brandNotificationTextCloseId).should("exist");
-
-        // Field errors should be visible (for name, country and currency)
-        cy.get("." + formCtrlErrorSelector).should("have.length", 3);
-
-        // We click reset button.
-        cy.get("@resetEl").click();
-
-        // Error notification should not be visible
-        cy.get("#" + brandNotificationTextCloseId).should("not.exist");
-
-        // Field errors should not be visible
-        cy.get("." + formCtrlErrorSelector).should("not.exist");
-
-        // When we select a country and currency
-        cy.get("@countryOptionEl").then((e) => {
-          cy.get("@countryEl").select(e.val() as string);
-        });
-
-        cy.get("@currencyOptionEl").then((el) => {
-          cy.get("@currencyEl").select(el.val() as string);
-        });
-
-        // Field errors should not be visible
-        cy.get("." + formCtrlErrorSelector).should("not.exist");
-
-        // We click submit button on form with invalid data (name is empty)
-        cy.get("@submitEl").click();
-
-        // Field errors should be visible (for name)
-        cy.get("." + formCtrlErrorSelector).should("have.length", 1);
-
-        // We fill name field correctly
-        cy.get("@nameEl").type(brandName1);
-
-        // We fill telephone field
-        cy.get("@phoneEl").type("012345677");
-
-        // ShopItem name field should be empty
-        cy.get("#" + shopItemBrandNameInputId)
-          .as("itemName")
-          .should("have.value", "")
-          .within(() => {
-            cy.get("." + shopItemBrandNameOptionSelector).should(
-              "have.length",
-              1
-            );
+        // When we select a country
+        cy.get("." + brandCountryOptionSelector)
+          .first()
+          .as("countryOptionEl")
+          .then((e) => {
+            cy.get("#" + brandCountryInputDomId)
+              .as("countryEl")
+              .select(e.val() as string);
           });
-        ////////////////// END :TODO: ///////////////////////////
-      }
 
-      // We click submit button on valid brand form
-      cy.get("@submitEl").click();
+        // When we select a currency
+        cy.get("." + brandCurrencyOptionSelector)
+          .first()
+          .as("currencyOptionEl")
+          .then((el) => {
+            cy.get("#" + brandCurrencyInputDomId)
+              .as("currencyEl")
+              .select(el.val() as string);
+          });
 
-      // New ShopBrand UI should not be visible
-      cy.get("#" + brandNameInputDomId).should("not.exist");
+        // When we fill telephone field
+        cy.get("#" + brandPhoneInputDomId)
+          .as("phoneEl")
+          .type("012345677");
+
+        // When we click submit button on valid brand form
+        cy.get("#" + submitBrandId).click();
+
+        // New ShopBrand UI should not be visible
+        cy.get("#" + brandNameInputDomId).should("not.exist");
+      });
 
       // ShopItem brandName should be brand name input
       cy.get("@itemName").within(() => {
@@ -220,116 +128,15 @@ context("Item", () => {
         });
 
       cy.get("#" + branchDomId).within(() => {
-        // When we complete post code field with invalid data
-        cy.get("#" + branchPostCodeInputId)
-          .as("postCodeEl")
-          .type(postCodeInvalid1);
-
-        // post code value should be visible
-        cy.get("@postCodeEl").should("have.value", postCodeInvalid1);
-
-        // Post code field error should not be visible
-        cy.get("#" + branchPostCodeErrorId).should("not.exist");
-
-        // When we complete city field with invalid data
-        cy.get("#" + branchCityInputId)
-          .as("cityEl")
-          .type(cityInvalid1);
-
-        // City value should be visible
-        cy.get("@cityEl").should("have.value", cityInvalid1);
-
-        // City field error should not be visible
-        cy.get("#" + branchCityErrorId).should("not.exist");
-
-        // When we fill street name and number field with invalid data
-        cy.get("#" + branchStreetInputId)
-          .as("streetEl")
-          .type(streetInvalid1);
-
-        // Street value should be visible
-        cy.get("@streetEl").should("have.value", streetInvalid1);
-
-        // Street field error should be visible
-        cy.get("#" + branchStreetErrorId).should("not.exist");
-
-        // Branch notification UI should not be visible
-        cy.get("#" + branchNotificationTextCloseId).should("not.exist");
-
-        // When we submit the form
-        cy.get("#" + branchSubmitId)
-          .as("branchSubmitEl")
-          .click();
-
-        // Branch form field errors should be visible
-        cy.get("#" + branchPostCodeErrorId).should("exist");
-        cy.get("#" + branchCityErrorId).should("exist");
-        cy.get("#" + branchStreetErrorId).should("exist");
-
-        // Branch notification UI should be visible
-        cy.get("#" + branchNotificationTextCloseId).should("exist");
-
-        // When we fill branch alias
-        cy.get("#" + branchAliasInputId)
-          .as("aliasEl")
-          .type(alias1);
-
-        // When we fill branch phone
-        cy.get("#" + branchPhoneInputId)
-          .as("branchPhoneEl")
-          .type(branchPhone1);
-
-        // When new branch form is reset
-        cy.get("#" + branchResetId)
-          .as("branchResetEl")
-          .click();
-
-        // Form fields should be cleared of their values
-        cy.get("@postCodeEl").should("have.value", "");
-        cy.get("@cityEl").should("have.value", "");
-        cy.get("@streetEl").should("have.value", "");
-        cy.get("@aliasEl").should("have.value", "");
-        cy.get("@branchPhoneEl").should("have.value", "");
-
-        // Branch form field errors should not be visible
-        cy.get("#" + branchStreetErrorId).should("not.exist");
-        cy.get("#" + branchCityErrorId).should("not.exist");
-        cy.get("#" + branchStreetErrorId).should("not.exist");
-
-        // Branch notification UI should not be visible
-        cy.get("#" + branchNotificationTextCloseId).should("not.exist");
-
-        // When empty branch form is submitted
-        cy.get("@branchSubmitEl").click();
-
-        // Branch notification UI should be visible
-        cy.get("#" + branchNotificationTextCloseId).should("exist");
-
-        // Branch form field errors should not be visible
-        cy.get("#" + branchStreetErrorId).should("not.exist");
-        cy.get("#" + branchCityErrorId).should("not.exist");
-        cy.get("#" + branchStreetErrorId).should("not.exist");
-
-        // When branch alias field has some input
-        cy.get("@aliasEl").type("a");
-
-        // When branchForm is submitted
-        cy.get("@branchSubmitEl").click();
-
-        // branchForm field errors should be visible
-        cy.get("#" + branchStreetErrorId).should("exist");
-        cy.get("#" + branchCityErrorId).should("exist");
-        cy.get("#" + branchStreetErrorId).should("exist");
-
         // When form fields are completed with valid data
-        cy.get("@postCodeEl").type(postCode1);
-        cy.get("@cityEl").type(city1);
-        cy.get("@streetEl").type(street1);
-        cy.get("@aliasEl").type(alias1);
-        cy.get("@branchPhoneEl").type(branchPhone1);
+        cy.get("#" + branchPostCodeInputId).type(postCode1);
+        cy.get("#" + branchCityInputId).type(city1);
+        cy.get("#" + branchStreetInputId).type(street1);
+        cy.get("#" + branchAliasInputId).type(alias1);
+        cy.get("#" + branchPhoneInputId).type(branchPhone1);
 
         // When we submit valid branch form
-        cy.get("@branchSubmitEl").click();
+        cy.get("#" + branchSubmitId).click();
 
         // Branch form should no longer be visible
         cy.get("#" + branchPostCodeInputId).should("not.exist");
@@ -349,22 +156,6 @@ context("Item", () => {
             expect(e.text().trim()).to.eq(branchName);
           });
       });
-
-      // And click 'Save changes' button
-      // And fill street name and number field
-      // And fill postcode field
-      // And fill state field
-      // And fill city field
-      // And fill shop alias field
-      // And click 'Finish Add shop location'
-      // And click 'Add new item' button
-      // And fill item name field
-      // And fill item price
-      // And fill item tags field
-      // And uploaded item image
-      // And complete two comments for item
-      // And add a second item with different currency
-      // And submit the form
     });
   });
 });
