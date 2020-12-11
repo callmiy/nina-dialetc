@@ -18,7 +18,7 @@ import {
   brandNotificationTextCloseId,
 
   // BRANCH /////////////////////////////////////////////////////////////////
-  brandDomId,
+  branchDomId,
   shopItemAddBranchId,
   branchPostCodeInputId,
   branchCityInputId,
@@ -219,7 +219,7 @@ context("Item", () => {
           );
         });
 
-      cy.get("#" + brandDomId).within(() => {
+      cy.get("#" + branchDomId).within(() => {
         // When we complete post code field with invalid data
         cy.get("#" + branchPostCodeInputId)
           .as("postCodeEl")

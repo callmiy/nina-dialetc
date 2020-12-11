@@ -5,7 +5,7 @@
     brandNameErrorDomId,
     closeBrandComponentId,
     branchResetId,
-    brandDomId,
+    branchDomId,
     branchPostCodeInputId,
     branchAliasInputId,
     branchSubmitId,
@@ -142,7 +142,7 @@
 </style>
 
 <div class="branch">
-  <div id="{brandDomId}" class="modal is-active">
+  <div id="{branchDomId}" class="modal is-active">
     <div class="modal-background"></div>
 
     <div class="modal-card">
