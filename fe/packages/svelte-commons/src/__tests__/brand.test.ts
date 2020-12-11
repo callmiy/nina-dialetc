@@ -27,6 +27,11 @@ import {
   GetCountriesCurrencies,
 } from "@ta/cm/src/apollo/apollo-utils";
 
+let mockId = 0;
+jest.mock("@ta/cm/src/db/ulid-uuid", () => ({
+  newUlid: () => ++mockId,
+}));
+
 jest.mock("@ta/cm/src/apollo/apollo-utils");
 const mockGetCountriesCurrencies = getCountriesCurrencies as jest.Mock;
 
