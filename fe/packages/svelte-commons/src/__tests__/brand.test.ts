@@ -2,7 +2,7 @@
  * @jest-environment jest-environment-jsdom-sixteen
  */
 import { render, waitFor, cleanup } from "@testing-library/svelte";
-import ShopBrand from "../components/brand/brand.svelte";
+import Brand from "../components/brand/brand.svelte";
 import {
   brandNameInputDomId,
   brandNameErrorDomId,
@@ -88,7 +88,7 @@ describe("brand tests", () => {
     mockGetCountriesCurrencies.mockResolvedValue(countriesCurrencies);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { debug, container } = render(ShopBrand, {
+    const { debug, container } = render(Brand, {
       props: {
         isActive: true,
         onSubmit: undefined,
@@ -158,7 +158,7 @@ describe("brand tests", () => {
 
   it(`currencies and countries loading`, async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { debug, container } = render(ShopBrand, {
+    const { debug, container } = render(Brand, {
       props: {
         onSubmit: undefined,
       },
@@ -188,7 +188,7 @@ describe("brand tests", () => {
     mockGetCountriesCurrencies.mockResolvedValue(countriesCurrencies);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { debug } = render(ShopBrand, {
+    const { debug } = render(Brand, {
       props: {
         onSubmit: undefined,
       },
