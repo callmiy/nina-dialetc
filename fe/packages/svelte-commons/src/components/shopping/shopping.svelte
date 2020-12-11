@@ -8,6 +8,10 @@
     shoppingAddBranchId,
     shoppingAddBrandLabelHelpId,
     shoppingAddBranchLabelHelpId,
+    shoppingAddItemId,
+    shoppingItemInputId,
+    shoppingAddItemLabelHelpId,
+    shoppingItemOptionSelector,
   } from "@ta/cm/src/selectors";
 
   import { Props as BrandProps, BrandValues } from "../brand/brand-utils";
@@ -22,9 +26,14 @@
     ADD_SHOP_BRANCH_LABEL_HELP_TEXT,
     EDIT_SHOP_BRANCH_LABEL_TEXT,
     EDIT_SHOP_BRANCH_LABEL_HELP_TEXT,
+    ADD_SHOPPING_ITEM_LABEL_TEXT,
+    ADD_SHOPPING_ITEM_LABEL_HELP_TEXT,
+    EDIT_SHOPPING_ITEM_LABEL_TEXT,
+    EDIT_SHOPPING_ITEM_LABEL_HELP_TEXT,
   } from "./shopping-utils";
   import { getBrandComponent } from "../lazies/brand.lazy";
   import { getBranchComponent } from "../lazies/branch.lazy";
+  import { getShopItemComponent } from "../lazies/shop-item.lazy";
 
   // BRAND ///////////////////////////////////////////////////////////////////////
 
@@ -42,11 +51,6 @@
       brandLabelHelp = ADD_SHOP_BRAND_LABEL_HELP_TEXT;
       brandLabelText = ADD_SHOP_BRAND_LABEL_TEXT;
     }
-  }
-
-  function activateBrandCb() {
-    branchIsActive = false;
-    brandIsActive = true;
   }
 
   const onSubmitBrand: BrandProps["onSubmit"] = (values) => {
@@ -85,11 +89,6 @@
     }
   }
 
-  function activateBranchCb() {
-    brandIsActive = false;
-    branchIsActive = true;
-  }
-
   function onSubmitBranch(data: BranchValues) {
     branchIsActive = false;
 
@@ -112,7 +111,47 @@
     branchOptions = options;
   }
 
+  function onSubmitItem() {
+    itemIsActive = false;
+  }
+
+  // SHOPPING ITEM ////////////////////////////////////////////////////////////
+  let itemIsActive = false;
+  let itemId = "";
+  let itemOptions = []; // type
+
+  let itemLabelText = ADD_SHOPPING_ITEM_LABEL_TEXT;
+  let itemLabelHelp = ADD_SHOPPING_ITEM_LABEL_HELP_TEXT;
+
+  $: {
+    if (itemId) {
+      itemLabelHelp = EDIT_SHOP_BRANCH_LABEL_HELP_TEXT;
+      itemLabelText = EDIT_SHOP_BRANCH_LABEL_TEXT;
+    } else {
+      itemLabelHelp = ADD_SHOPPING_ITEM_LABEL_HELP_TEXT;
+      itemLabelText = ADD_SHOPPING_ITEM_LABEL_TEXT;
+    }
+  }
+
   // CALLBACKS /////////////////////////////////////////////////////////////////
+
+  function activateBrandCb() {
+    brandIsActive = true;
+    branchIsActive = false;
+    itemIsActive = false;
+  }
+
+  function activateBranchCb() {
+    brandIsActive = false;
+    branchIsActive = true;
+    itemIsActive = false;
+  }
+
+  function activateItemCb() {
+    itemIsActive = true;
+    brandIsActive = false;
+    branchIsActive = false;
+  }
 
   type BranchValuesWithDisplayName = BranchValues & {
     displayName: string;
@@ -151,6 +190,14 @@
         this="{c}"
         bind:isActive="{branchIsActive}"
         onSubmit="{onSubmitBranch}"
+      />
+    {/await}
+  {:else if itemIsActive}
+    {#await getShopItemComponent() then c}
+      <svelte:component
+        this="{c}"
+        bind:isActive="{itemIsActive}"
+        onSubmit="{onSubmitItem}"
       />
     {/await}
   {/if}
@@ -234,6 +281,48 @@
       <div class="control" on:click|preventDefault="{activateBranchCb}">
         <button class="button is-info" id="{shoppingAddBranchId}">
           {branchLabelText}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-container shopping-item">
+    <label class="label" for="{shoppingItemInputId}">
+      Shopping Item
+
+      {#if itemId}<span>e.g. Penny rice</span>{/if}
+
+      <span
+        class="label-help-text"
+        id="{shoppingAddItemLabelHelpId}"
+      >{itemLabelHelp}</span>
+    </label>
+
+    <div class="field has-addons">
+      <div class="control is-expanded">
+        <div class="select is-fullwidth">
+          <select
+            id="{shoppingItemInputId}"
+            class="input"
+            type="text"
+            bind:value="{itemId}"
+          >
+            <option value="" class="{shoppingItemOptionSelector}">
+              ---------
+            </option>
+
+            {#each itemOptions as { id, displayName } (id)}
+              <option class="{shoppingItemOptionSelector}" value="{id}">
+                {displayName}
+              </option>
+            {/each}
+          </select>
+        </div>
+      </div>
+
+      <div class="control" on:click|preventDefault="{activateItemCb}">
+        <button class="button is-info" id="{shoppingAddItemId}">
+          {itemLabelText}
         </button>
       </div>
     </div>

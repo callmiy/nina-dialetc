@@ -13,3 +13,18 @@ export const branchSubmitVal1 = {
   branchAlias: "a",
   phone: "p",
 };
+
+export const shopItemVal = {
+  id: "siId1",
+  name: "water",
+  tags: [
+    {
+      id: "siTId1",
+      tag: "tg1",
+    },
+    {
+      id: "siTId2",
+      tag: "tg2",
+    },
+  ],
+};

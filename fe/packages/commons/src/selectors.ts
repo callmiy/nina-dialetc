@@ -8,12 +8,16 @@ const shoppingPrefix = "components__shopping";
 
 export const shoppingBrandNameInputId = `${shoppingPrefix}-brand-name-input`;
 export const shoppingBranchInputId = `${shoppingPrefix}-branch-input`;
+export const shoppingItemInputId = `${shoppingPrefix}-item-input`;
 export const shoppingBrandNameOptionSelector = `js-${shoppingPrefix}-brandoption`;
 export const shoppingBranchNameOptionSelector = `js-${shoppingPrefix}-branch-option`;
+export const shoppingItemOptionSelector = `js-${shoppingPrefix}-item-option`;
 export const shoppingAddBrandLabelHelpId = `js-${shoppingPrefix}-add-brand-label-help`;
 export const shoppingAddBranchLabelHelpId = `js-${shoppingPrefix}-add-branch-label-help`;
+export const shoppingAddItemLabelHelpId = `js-${shoppingPrefix}-add-item-label-help`;
 export const shoppingAddBrandId = `${shoppingPrefix}-add-brand`;
 export const shoppingAddBranchId = `${shoppingPrefix}-add-branch`;
+export const shoppingAddItemId = `${shoppingPrefix}-add-item`;
 
 // SHOP BRAND /////////////////////////////////////////////////////////////////
 
@@ -57,3 +61,14 @@ export const branchNotificationTextCloseId = `${branchDomId}-close-notification`
 export const WARNING_NOTIFICATION_CLASS_NAME = "is-warning";
 export const ERROR_NOTIFICATION_CLASS_NAME = "is-danger";
 export const INFO_NOTIFICATION_CLASS_NAME = "is-info";
+
+// SHOPPING ITEM //////////////////////////////////////////////////////////////
+export const shopItemDomId = "components__shop-item";
+export const closeShopItemComponent = `${shopItemDomId}-close-shop-item-component`;
+export const shopItemCloseNotificationId = `${shopItemDomId}-close-notification`;
+export const shopItemSpecificNameInputDomId = `${shopItemDomId}-specific-name-input`;
+export const shopItemSpecificNameErrorId = `${shopItemDomId}-specific-name-error`;
+export const shopItemSubmitId = `${shopItemDomId}-submit`;
+export const shopItemResetId = `${shopItemDomId}-reset`;
+export const shopItemGenericNameInputDomId = `${shopItemDomId}-generic-name-input`;
+export const shopItemTagsInputDomId = `${shopItemDomId}-tags-input`;

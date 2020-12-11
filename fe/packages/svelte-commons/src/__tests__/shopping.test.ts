@@ -14,6 +14,7 @@ import {
 import { getById } from "@ta/cm/src/__tests__/utils-dom";
 import mockBrand from "./mocks/brand.mock.svelte";
 import mockBranch from "./mocks/branch.mock.svelte";
+import mockShopItem from "./mocks/shop-item.mock.svelte";
 import {
   ADD_SHOP_BRAND_LABEL_TEXT,
   ADD_SHOP_BRAND_LABEL_HELP_TEXT,
@@ -38,6 +39,14 @@ jest.mock("../components/lazies/branch.lazy", () => {
   return {
     getBranchComponent: () => {
       return mockBranch;
+    },
+  };
+});
+
+jest.mock("../components/lazies/shop-item.lazy", () => {
+  return {
+    getBrandComponent: () => {
+      return mockShopItem;
     },
   };
 });
