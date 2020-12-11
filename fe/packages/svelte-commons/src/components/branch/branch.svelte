@@ -47,7 +47,7 @@
   let notificationTextClass = "";
 
   /* PROPS */
-  export let isActive: Props["isActive"] = false;
+  export let isActive: Props["isActive"] = true;
   export let onSubmit: Props["onSubmit"];
 
   /* CALLBACKS */
@@ -138,133 +138,137 @@
 <style lang="scss">
   @import "../../../../commons/src/styles/extensions";
 
-  .branch {
+  .modal {
     @extend %modal;
   }
 </style>
 
-<div class="branch">
-  <div id="{branchDomId}" class="modal is-active">
-    <div class="modal-background"></div>
+<div
+  id="{branchDomId}"
+  class:modal="{true}"
+  class:shop-branch="{true}"
+  class:is-active="{true}"
+  class:test-is-active="{isActive}"
+>
+  <div class="modal-background"></div>
 
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">New Shop Branch/Location</p>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">New Shop Branch/Location</p>
 
-        <button
-          class="delete"
-          aria-label="close"
-          id="{closeBrandComponentId}"
-          on:click|preventDefault="{closeComponentCb}"
-        ></button>
-      </header>
+      <button
+        class="delete"
+        aria-label="close"
+        id="{closeBrandComponentId}"
+        on:click|preventDefault="{closeComponentCb}"
+      ></button>
+    </header>
 
-      <section class="modal-card-body">
-        {#if notificationText}
-          <Notification
-            closeId="{branchNotificationTextCloseId}"
-            isWarning="{notificationTextClass === WARNING_NOTIFICATION_CLASS_NAME }"
-            isDanger="{notificationTextClass === ERROR_NOTIFICATION_CLASS_NAME }"
-            onClose="{clearSimpletextErrorCb}"
-            text="{notificationText}"
+    <section class="modal-card-body">
+      {#if notificationText}
+        <Notification
+          closeId="{branchNotificationTextCloseId}"
+          isWarning="{notificationTextClass === WARNING_NOTIFICATION_CLASS_NAME}"
+          isDanger="{notificationTextClass === ERROR_NOTIFICATION_CLASS_NAME}"
+          onClose="{clearSimpletextErrorCb}"
+          text="{notificationText}"
+        />
+      {/if}
+
+      <div class="field post-code-field">
+        <label class="label" for="{branchPostCodeInputId}">Post code</label>
+
+        <div class="control">
+          <input
+            id="{branchPostCodeInputId}"
+            class="input"
+            type="text"
+            bind:value="{postCode}"
           />
+        </div>
+
+        {#if postCodeError}
+          <FormCtrlMsg error="{postCodeError}" id="{branchPostCodeErrorId}" />
         {/if}
+      </div>
 
-        <div class="field post-code-field">
-          <label class="label" for="{branchPostCodeInputId}">Post code</label>
+      <div class="field city-field">
+        <label class="label" for="{branchCityInputId}">City</label>
 
-          <div class="control">
-            <input
-              id="{branchPostCodeInputId}"
-              class="input"
-              type="text"
-              bind:value="{postCode}"
-            />
-          </div>
-
-          {#if postCodeError}
-            <FormCtrlMsg error="{postCodeError}" id="{branchPostCodeErrorId}" />
-          {/if}
+        <div class="control">
+          <input
+            id="{branchCityInputId}"
+            class="input"
+            type="text"
+            bind:value="{city}"
+          />
         </div>
 
-        <div class="field city-field">
-          <label class="label" for="{branchCityInputId}">City</label>
+        {#if cityError}
+          <FormCtrlMsg error="{cityError}" id="{branchCityErrorId}" />
+        {/if}
+      </div>
 
-          <div class="control">
-            <input
-              id="{branchCityInputId}"
-              class="input"
-              type="text"
-              bind:value="{city}"
-            />
-          </div>
+      <div class="field street-field">
+        <label class="label" for="{branchStreetInputId}">
+          Street name and number
+        </label>
 
-          {#if cityError}
-            <FormCtrlMsg error="{cityError}" id="{branchCityErrorId}" />
-          {/if}
+        <div class="control">
+          <input
+            id="{branchStreetInputId}"
+            class="input"
+            type="text"
+            bind:value="{street}"
+          />
         </div>
 
-        <div class="field street-field">
-          <label class="label" for="{branchStreetInputId}">
-            Street name and number
-          </label>
+        {#if streetError}
+          <FormCtrlMsg error="{streetError}" id="{branchStreetErrorId}" />
+        {/if}
+      </div>
 
-          <div class="control">
-            <input
-              id="{branchStreetInputId}"
-              class="input"
-              type="text"
-              bind:value="{street}"
-            />
-          </div>
+      <div class="field branch-alias-field">
+        <label class="label" for="{branchAliasInputId}"> Branch Alias </label>
 
-          {#if streetError}
-            <FormCtrlMsg error="{streetError}" id="{branchStreetErrorId}" />
-          {/if}
+        <div class="control">
+          <input
+            id="{branchAliasInputId}"
+            class="input"
+            type="text"
+            bind:value="{branchAlias}"
+          />
         </div>
+      </div>
 
-        <div class="field branch-alias-field">
-          <label class="label" for="{branchAliasInputId}"> Branch Alias </label>
+      <div class="field branch-phone">
+        <label class="label" for="{branchPhoneInputId}"> Phone </label>
 
-          <div class="control">
-            <input
-              id="{branchAliasInputId}"
-              class="input"
-              type="text"
-              bind:value="{branchAlias}"
-            />
-          </div>
+        <div class="control">
+          <input
+            id="{branchPhoneInputId}"
+            class="input"
+            type="text"
+            bind:value="{phone}"
+          />
         </div>
+      </div>
+    </section>
 
-        <div class="field branch-phone">
-          <label class="label" for="{branchPhoneInputId}"> Phone </label>
+    <footer class="modal-card-foot">
+      <button
+        id="{branchSubmitId}"
+        class="button is-success"
+        on:click|preventDefault="{submitFormCb}"
+      >
+        Save changes
+      </button>
 
-          <div class="control">
-            <input
-              id="{branchPhoneInputId}"
-              class="input"
-              type="text"
-              bind:value="{phone}"
-            />
-          </div>
-        </div>
-      </section>
-
-      <footer class="modal-card-foot">
-        <button
-          id="{branchSubmitId}"
-          class="button is-success"
-          on:click|preventDefault="{submitFormCb}"
-        >
-          Save changes
-        </button>
-
-        <button
-          class="{`button ${WARNING_NOTIFICATION_CLASS_NAME}`}"
-          id="{branchResetId}"
-          on:click|preventDefault="{resetFormCb}"
-        >Reset</button>
-      </footer>
-    </div>
+      <button
+        class="{`button ${WARNING_NOTIFICATION_CLASS_NAME}`}"
+        id="{branchResetId}"
+        on:click|preventDefault="{resetFormCb}"
+      >Reset</button>
+    </footer>
   </div>
 </div>
