@@ -24,6 +24,16 @@ import {
   branchAliasInputId,
   branchSubmitId,
   branchPhoneInputId,
+
+  // SHOP ITEM //////////////////////////////////////////////////////////////
+  shopItemDomId,
+  shoppingAddItemId,
+  shoppingItemInputId,
+  shoppingItemOptionSelector,
+  shopItemSpecificNameInputDomId,
+  shopItemGenericNameInputDomId,
+  shopItemTagsInputDomId,
+  shopItemSubmitId,
 } from "@ta/cm/src/selectors";
 import { getBranchDisplayName } from "@ta/sc/src/components/shopping/shopping-utils";
 
@@ -40,6 +50,10 @@ context("Item", () => {
   const alias1 = "könig";
   const branchPhone1 = "844940";
 
+  const itemSpecificName = "Penny rice";
+  const itemGenericName = "rice";
+  const itemTags = "rice,cheap penny chemnitz";
+
   describe("create item", () => {
     it("success", () => {
       // When we visit the home page
@@ -52,7 +66,7 @@ context("Item", () => {
       // When we click on 'Add new shop brand' button
       cy.get("#" + shoppingAddBrandId).click();
 
-      // ShopItem brand name field should be empty
+      // Shopping brand name field should be empty
       cy.get("#" + shoppingBrandNameInputId)
         .as("itemName")
         .should("have.value", "")
@@ -102,7 +116,7 @@ context("Item", () => {
         cy.get("#" + brandNameInputDomId).should("not.exist");
       });
 
-      // ShopItem brandName should be brand name input
+      // Shopping brandName should be brand name input
       cy.get("@itemName").within(() => {
         cy.get("option:checked")
           .as("brandName1optionEl")
@@ -156,6 +170,34 @@ context("Item", () => {
             expect(e.text().trim()).to.eq(branchName);
           });
       });
+      // SHOPPING ITEM ///////////////////////////////////////////////////////
+      // When we click on 'Add' shopping item button
+      cy.get("#" + shoppingAddItemId).click();
+
+      // Shopping item field should be empty
+      cy.get("#" + shoppingItemInputId)
+        .as("item")
+        .should("have.value", "")
+        .within(() => {
+          cy.get("." + shoppingItemOptionSelector).should("have.length", 1);
+        });
+
+      cy.get("#" + shopItemDomId).within(() => {
+        cy.get("#" + shopItemSpecificNameInputDomId).type(itemSpecificName);
+        cy.get("#" + shopItemGenericNameInputDomId).type(itemGenericName);
+        cy.get("#" + shopItemTagsInputDomId).type(itemTags);
+        cy.get("#" + shopItemSubmitId).click();
+      });
+
+      // Shopping brandName should be brand name input
+      cy.get("@item").within(() => {
+        cy.get("option:checked")
+          .as("itemOptionEl")
+          .then((e) => {
+            expect(e.text().trim()).to.eq(itemSpecificName);
+          });
+      });
+      //
     });
   });
 });

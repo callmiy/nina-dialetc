@@ -16,7 +16,8 @@ export const branchSubmitVal1 = {
 
 export const shopItemVal = {
   id: "siId1",
-  name: "water",
+  specificName: "Penny rice",
+  genericName: "rice",
   tags: [
     {
       id: "siTId1",
@@ -25,6 +26,14 @@ export const shopItemVal = {
     {
       id: "siTId2",
       tag: "tg2",
+    },
+    {
+      id: "siTId3",
+      tag: "tg3",
+    },
+    {
+      id: "siTId4",
+      tag: "tg4",
     },
   ],
 };

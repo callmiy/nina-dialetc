@@ -34,7 +34,7 @@
   let notificationTextClass = "";
 
   /* PROPS */
-  export let isActive: Props["isActive"] = false;
+  export let isActive: Props["isActive"] = true;
   export let onSubmit: Props["onSubmit"];
 
   /* CALLBACKS */
@@ -53,7 +53,7 @@
   }
 
   function submitFormCb() {
-    const formEmpty = !specificName && !tags.length && !genericName;
+    const formEmpty = !specificName && !tagTexts.length && !genericName;
 
     if (formEmpty) {
       notificationText = NOTHING_TO_SAVE_WARNING_MESSAGE;
@@ -75,12 +75,19 @@
       return;
     }
 
+    const tagsTextsList = tagTexts ? tagTexts.split(/[\s,]/) : [];
+
     if (onSubmit) {
       onSubmit({
         id: newUlid(),
         specificName,
-        genericName,
-        tags,
+        genericName: genericName || null,
+        tags: tagsTextsList.map((t) => {
+          return {
+            id: newUlid(),
+            tag: t,
+          };
+        }),
       });
     }
   }
@@ -99,7 +106,13 @@
   }
 </style>
 
-<div id="{shopItemDomId}" class="modal is-active">
+<div
+  id="{shopItemDomId}"
+  class:modal="{true}"
+  class:shop-item="{true}"
+  class:is-active="{true}"
+  class:test-is-active="{isActive}"
+>
   <div class="modal-background"></div>
 
   <div class="modal-card">
@@ -168,7 +181,7 @@
         <div class="field tag-text-field">
           <label class="label" for="{shopItemTagsInputDomId}">
             Tag
-            <span>(comma separated)</span>
+            <span>(comma/space separated)</span>
             <span>e.g. "parboiled, discounted"</span>
           </label>
 
