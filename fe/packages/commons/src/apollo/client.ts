@@ -7,15 +7,11 @@ import fetch from "cross-fetch";
 import { GRAPHQL_PATH } from "../constants";
 import { API_URL } from "../envs";
 import { middlewareErrorLink, middlewareLoggerLink } from "./middlewares";
-import { listCountriesAndCurrenciesQuery } from "../gql/queries";
-import {
-  ListCountriesAndCurrencies,
-  ListCountriesAndCurrenciesVariables,
-} from "../gql/ops-types";
+import { Any } from "../types";
 
 const path = API_URL + GRAPHQL_PATH;
 
-let client = (undefined as unknown) as ApolloClient<unknown>;
+let client = (undefined as unknown) as ApolloClient<Any>;
 let cache = (undefined as unknown) as InMemoryCache;
 
 export function makeApolloClient(
@@ -48,28 +44,6 @@ export function makeApolloClient(
   });
 
   return client;
-}
-
-export async function getCountriesCurrencies() {
-  const client = makeApolloClient();
-
-  try {
-    const { data } = await client.query<
-      ListCountriesAndCurrencies,
-      ListCountriesAndCurrenciesVariables
-    >({
-      query: listCountriesAndCurrenciesQuery,
-      variables: {
-        countriesPaginationInput: {
-          first: 20,
-        },
-      },
-    });
-
-    return data || ({} as ListCountriesAndCurrencies);
-  } catch (error) {
-    return {} as ListCountriesAndCurrencies;
-  }
 }
 
 type MakeApolloClientArgs = {

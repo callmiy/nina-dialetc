@@ -1,4 +1,5 @@
 import { PaginationInput } from "../gql/schema-types";
+import { Any } from "../types";
 
 const maxFn = Math.max;
 
@@ -269,5 +270,3 @@ type Edge<T> = {
 };
 
 type EdgeWithOpts<T, Opts = Any> = Opts & Edge<T>;
-
-type Any = Record<string, unknown>;

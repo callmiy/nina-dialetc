@@ -20,24 +20,19 @@
     NOTHING_TO_SAVE_WARNING_MESSAGE,
     FORM_CONTAINS_ERRORS_MESSAGE,
   } from "@ta/cm/src/constants";
-  import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
-  import FormCtrlError from "../form-ctrl-error.svelte";
   import {
-    ListCountriesAndCurrencies,
-    CurrencyFragment,
-    CountryFragment,
-  } from "@ta/cm/src/gql/ops-types";
+    getCountriesCurrenciesStore,
+    currenciesStore,
+    countriesStore,
+  } from "../../stores/get-countries-and-currencies.store";
+  import FormCtrlError from "../form-ctrl-error.svelte";
+  import { CurrencyFragment, CountryFragment } from "@ta/cm/src/gql/ops-types";
   import Notification from "../notification.svelte";
-  import { CountryEdge } from "@ta/cm/src/gql/schema-types";
   import { newUlid } from "@ta/cm/src/db/ulid-uuid";
   import { Props } from "./brand-utils";
+  import { StateValue } from "@ta/cm/src/constants";
 
-  let countriesAndCurrencies: ListCountriesAndCurrencies;
-
-  const countriesCurrenciesPromise = getCountriesCurrencies().then((d) => {
-    countriesAndCurrencies = d;
-    return d;
-  });
+  getCountriesCurrenciesStore();
 
   /* FORM ATTRIBUTES AND ERROR VARIABLES */
   let name = "";
@@ -111,17 +106,12 @@
       return;
     }
 
-    const countryData = countriesAndCurrencies.listCountries.edges.find((e) => {
-      const edge = e as CountryEdge;
-      const node = edge.node as CountryFragment;
+    const countryData = $countriesStore.data.countries.find((e) => {
+      return e.id === country;
+    }) as CountryFragment;
 
-      return node.id === country;
-    })?.node as CountryFragment;
-
-    const currencyData = countriesAndCurrencies.listCurrencies.find((d) => {
-      const data = d as CurrencyFragment;
-
-      return data.id === currency;
+    const currencyData = $currenciesStore.data.currencies.find((c) => {
+      return c.id === currency;
     }) as CurrencyFragment;
 
     if (onSubmit) {
@@ -148,6 +138,8 @@
     @extend %modal;
   }
 </style>
+
+{JSON.stringify($countriesStore, null, 2)}
 
 <div class="a">
   <div id="{brandDomId}" class="modal is-active">
@@ -204,13 +196,13 @@
               <select id="{brandCountryInputDomId}" bind:value="{country}">
                 <option value="">----------</option>
 
-                {#await countriesCurrenciesPromise then { listCountries }}
-                  {#each (listCountries && listCountries.edges) || [] as { node: { id, countryName } } (id)}
+                {#if $countriesStore.value === StateValue.data}
+                  {#each $countriesStore.data.countries as { id, countryName } (id)}
                     <option value="{id}" class="{brandCountryOptionSelector}">
                       {countryName}
                     </option>
                   {/each}
-                {/await}
+                {/if}
               </select>
             </div>
 
@@ -231,14 +223,14 @@
               <select id="{brandCurrencyInputDomId}" bind:value="{currency}">
                 <option value="">----------</option>
 
-                {#await countriesCurrenciesPromise then { listCurrencies }}
-                  {#each listCurrencies || [] as { id, currencyName, currencyCode } (id)}
+                {#if $currenciesStore.value === StateValue.data}
+                  {#each $currenciesStore.data.currencies as { id, currencyName, currencyCode } (id)}
                     <option value="{id}" class="{brandCurrencyOptionSelector}">
                       {currencyName}:
                       {currencyCode}
                     </option>
                   {/each}
-                {/await}
+                {/if}
               </select>
             </div>
 

@@ -21,11 +21,13 @@ import {
   getById,
   fillFieldChange,
 } from "@ta/cm/src/__tests__/utils-dom";
-import { IS_ACTIVE_CLASS_NAME } from "@ta/cm/src/constants";
-import { getCountriesCurrencies } from "@ta/cm/src/apollo/client";
-import { ListCountriesAndCurrencies } from "@ta/cm/src/gql/ops-types";
+import { IS_ACTIVE_CLASS_NAME, StateValue } from "@ta/cm/src/constants";
+import {
+  getCountriesCurrencies,
+  GetCountriesCurrencies,
+} from "@ta/cm/src/apollo/apollo-utils";
 
-jest.mock("@ta/cm/src/apollo/client");
+jest.mock("@ta/cm/src/apollo/apollo-utils");
 const mockGetCountriesCurrencies = getCountriesCurrencies as jest.Mock;
 
 afterEach(() => {
@@ -36,34 +38,38 @@ afterEach(() => {
 describe("brand tests", () => {
   it(`reset form /
     submit empty form`, async () => {
-    mockGetCountriesCurrencies.mockResolvedValue({
-      listCountries: {
-        edges: [
-          {
-            node: {
+    mockGetCountriesCurrencies.mockResolvedValue([
+      {
+        value: StateValue.data,
+        data: {
+          countries: [
+            {
               id: "co1",
               countryName: "germany",
               countryCode: "de",
             },
-          },
 
-          {
-            node: {
+            {
               id: "co2",
               countryName: "france",
               countryCode: "fr",
             },
-          },
-        ],
-      },
-      listCurrencies: [
-        {
-          id: "cur1",
-          currencyName: "Euro",
-          currencyCode: "EUR",
+          ],
         },
-      ],
-    } as ListCountriesAndCurrencies);
+      },
+      {
+        value: StateValue.data,
+        data: {
+          currencies: [
+            {
+              id: "cur1",
+              currencyName: "Euro",
+              currencyCode: "EUR",
+            },
+          ],
+        },
+      },
+    ] as GetCountriesCurrencies);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug } = render(ShopBrand, {
@@ -82,6 +88,7 @@ describe("brand tests", () => {
     expect(nameInputEl.value).toBe("a");
 
     const countryInputEl = getById<HTMLInputElement>(brandCountryInputDomId);
+    await fillFieldChange(countryInputEl, "co1");
     await fillFieldChange(countryInputEl, "co1");
     expect(countryInputEl.value).toBe("co1");
 
@@ -124,7 +131,7 @@ describe("brand tests", () => {
       brand name too short /
       currency and country empty /
       close error notification`, async () => {
-    mockGetCountriesCurrencies.mockResolvedValue({});
+    mockGetCountriesCurrencies.mockReturnValue(new Promise(() => null));
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug } = render(ShopBrand, {
