@@ -36,7 +36,7 @@
     "sort-package-json": "1.48.0",
     "svelte": "3.29.7",
     "svelte-check": "1.0.0",
-    "svelte-jester": "https://github.com/kanmii/svelte-jester.git#svelte-config-path",
+    "svelte-jester": "1.3.0",
     "svelte-preprocess": "4.6.1",
     "tslib": "2.0.0",
     "typescript": "3.9.3"
