@@ -2,6 +2,8 @@
   import {
     formCtrlErrorSelector,
     formCtrlInfoSelector,
+    ERROR_NOTIFICATION_CLASS_NAME,
+    INFO_NOTIFICATION_CLASS_NAME,
   } from "@ta/cm/src/selectors";
 
   export let error = "";
@@ -11,9 +13,9 @@
   let className = "";
 
   if (error) {
-    className = `is-danger ${formCtrlErrorSelector}`;
+    className = `${ERROR_NOTIFICATION_CLASS_NAME} ${formCtrlErrorSelector}`;
   } else if (info) {
-    className = `is-info ${formCtrlInfoSelector}`;
+    className = `${INFO_NOTIFICATION_CLASS_NAME} ${formCtrlInfoSelector}`;
   }
 </script>
 

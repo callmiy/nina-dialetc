@@ -14,6 +14,8 @@
     brandNameErrorDomId,
     brandCountryMsgDomId,
     brandCurrencyMsgDomId,
+    WARNING_NOTIFICATION_CLASS_NAME,
+    ERROR_NOTIFICATION_CLASS_NAME,
   } from "@ta/cm/src/selectors";
   import {
     IS_ACTIVE_CLASS_NAME,
@@ -101,7 +103,7 @@
 
     if (formEmpty) {
       notificationText = NOTHING_TO_SAVE_WARNING_MESSAGE;
-      notificationTextClass = "is-warning";
+      notificationTextClass = WARNING_NOTIFICATION_CLASS_NAME;
 
       return;
     }
@@ -125,7 +127,7 @@
 
     if (hasError) {
       notificationText = FORM_CONTAINS_ERRORS_MESSAGE;
-      notificationTextClass = "is-danger";
+      notificationTextClass = ERROR_NOTIFICATION_CLASS_NAME;
       return;
     }
 
@@ -191,8 +193,8 @@
         {#if notificationText}
           <Notification
             closeId="{brandNotificationTextCloseId}"
-            isWarning="{notificationTextClass === 'is-warning'}"
-            isDanger="{notificationTextClass === 'is-danger'}"
+            isWarning="{notificationTextClass === WARNING_NOTIFICATION_CLASS_NAME}"
+            isDanger="{notificationTextClass === ERROR_NOTIFICATION_CLASS_NAME}"
             onClose="{clearSimpletextErrorCb}"
             text="{notificationText}"
           />
@@ -322,7 +324,7 @@
         </button>
 
         <button
-          class="button is-warning"
+          class="{`button ${WARNING_NOTIFICATION_CLASS_NAME}`}"
           id="{resetFormBtnId}"
           on:click|preventDefault="{resetFormCb}"
         >Reset</button>

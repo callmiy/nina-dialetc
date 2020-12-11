@@ -15,6 +15,8 @@ import {
   brandPhoneInputDomId,
   submitBrandId,
   brandNotificationTextCloseId,
+  WARNING_NOTIFICATION_CLASS_NAME,
+  ERROR_NOTIFICATION_CLASS_NAME,
 } from "@ta/cm/src/selectors";
 import {
   fillFieldInput,
@@ -48,40 +50,42 @@ afterEach(() => {
 });
 
 describe("brand tests", () => {
+  const countriesCurrencies = [
+    {
+      value: StateValue.data,
+      data: {
+        countries: [
+          {
+            id: "co1",
+            countryName: "germany",
+            countryCode: "de",
+          },
+
+          {
+            id: "co2",
+            countryName: "france",
+            countryCode: "fr",
+          },
+        ],
+      },
+    },
+    {
+      value: StateValue.data,
+      data: {
+        currencies: [
+          {
+            id: "cur1",
+            currencyName: "Euro",
+            currencyCode: "EUR",
+          },
+        ],
+      },
+    },
+  ] as GetCountriesCurrencies;
+
   it(`reset form /
     submit empty form`, async () => {
-    mockGetCountriesCurrencies.mockResolvedValue([
-      {
-        value: StateValue.data,
-        data: {
-          countries: [
-            {
-              id: "co1",
-              countryName: "germany",
-              countryCode: "de",
-            },
-
-            {
-              id: "co2",
-              countryName: "france",
-              countryCode: "fr",
-            },
-          ],
-        },
-      },
-      {
-        value: StateValue.data,
-        data: {
-          currencies: [
-            {
-              id: "cur1",
-              currencyName: "Euro",
-              currencyCode: "EUR",
-            },
-          ],
-        },
-      },
-    ] as GetCountriesCurrencies);
+    mockGetCountriesCurrencies.mockResolvedValue(countriesCurrencies);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug, container } = render(ShopBrand, {
@@ -92,15 +96,15 @@ describe("brand tests", () => {
     });
 
     // Wait for countries and currencies data to resolve
-    await waitFor(() => true);
+    await waitFor(() => true); // not enough, see below!!
 
     // When form is completed
     const nameInputEl = getById<HTMLInputElement>(brandNameInputDomId);
+    await fillFieldInput(nameInputEl, ""); // just to let fetched data resolve
     await fillFieldInput(nameInputEl, "a");
     expect(nameInputEl.value).toBe("a");
 
     const countryInputEl = getById<HTMLInputElement>(brandCountryInputDomId);
-    await fillFieldChange(countryInputEl, "co1");
     await fillFieldChange(countryInputEl, "co1");
     expect(countryInputEl.value).toBe("co1");
 
@@ -130,7 +134,14 @@ describe("brand tests", () => {
     await submitEl.click();
 
     // Warning notification is visible
-    expect(getById(brandNotificationTextCloseId)).not.toBeNull();
+    const closeNotificationEl = getById(brandNotificationTextCloseId);
+    const closeParentEl = closeNotificationEl.closest(
+      `.${WARNING_NOTIFICATION_CLASS_NAME}`
+    ) as HTMLElement;
+
+    expect(closeParentEl.classList).not.toContain(
+      ERROR_NOTIFICATION_CLASS_NAME
+    );
 
     // When reset button is clicked
     await resetEl.click();
@@ -171,11 +182,10 @@ describe("brand tests", () => {
     expect(fieldsetEl.disabled).toBe(true);
   });
 
-  xit(`country-currency fetch fails /
-      brand name too short /
+  it(`brand name too short /
       currency and country empty /
       close error notification`, async () => {
-    mockGetCountriesCurrencies.mockReturnValue(new Promise(() => null));
+    mockGetCountriesCurrencies.mockResolvedValue(countriesCurrencies);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug } = render(ShopBrand, {
@@ -193,6 +203,7 @@ describe("brand tests", () => {
 
     // When we fill shop brand name incorrectly (too short)
     const nameInputEl = getById<HTMLInputElement>(brandNameInputDomId);
+    await fillFieldInput(nameInputEl, ""); // just to let fetched data resolve
     await fillFieldInput(nameInputEl, "a");
 
     // Brand name field error should not be visible
@@ -207,6 +218,7 @@ describe("brand tests", () => {
     // General form error should not be visible
     expect(getById(brandNotificationTextCloseId)).toBeNull();
 
+    // When we submit form
     const submitEl = getById(submitBrandId);
     await submitEl.click();
 
@@ -218,5 +230,21 @@ describe("brand tests", () => {
 
     // Currency field error should be visible (empty)
     expect(getById(brandCurrencyMsgDomId)).not.toBeNull();
+
+    // General form error should be visible
+    const closeNotificationEl = getById(brandNotificationTextCloseId);
+    const closeParentEl = closeNotificationEl.closest(
+      `.${ERROR_NOTIFICATION_CLASS_NAME}`
+    ) as HTMLElement;
+
+    expect(closeParentEl.classList).not.toContain(
+      WARNING_NOTIFICATION_CLASS_NAME
+    );
+
+    // When notification is closed
+    await closeNotificationEl.click();
+
+    // General form error should not be visible
+    expect(getById(brandNotificationTextCloseId)).toBeNull();
   });
 });

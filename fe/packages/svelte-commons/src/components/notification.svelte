@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { notificationSelector } from "@ta/cm/src/selectors";
+  import {
+    notificationSelector,
+    WARNING_NOTIFICATION_CLASS_NAME,
+    ERROR_NOTIFICATION_CLASS_NAME,
+  } from "@ta/cm/src/selectors";
 
   /// PROPS /////////////////////////////////
   export let text: string = "";
@@ -13,9 +17,9 @@
 
   $: {
     if (isWarning) {
-      notificationTypeClassName = "is-warning";
+      notificationTypeClassName = WARNING_NOTIFICATION_CLASS_NAME;
     } else if (isDanger) {
-      notificationTypeClassName = "is-danger";
+      notificationTypeClassName = ERROR_NOTIFICATION_CLASS_NAME;
     }
   }
 </script>

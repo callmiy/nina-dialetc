@@ -53,3 +53,7 @@ export const branchPhoneInputId = `${branchDomId}-phone-input`;
 export const branchSubmitId = `${branchDomId}-submit`;
 export const branchResetId = `${branchDomId}-reset-form`;
 export const branchNotificationTextCloseId = `${branchDomId}-close-notification`;
+
+export const WARNING_NOTIFICATION_CLASS_NAME = "is-warning";
+export const ERROR_NOTIFICATION_CLASS_NAME = "is-danger";
+export const INFO_NOTIFICATION_CLASS_NAME = "is-info";
