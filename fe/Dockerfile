@@ -3,7 +3,7 @@ FROM node:12.19.1-buster-slim AS web
 ARG NODE_ENV
 
 ENV BUILD_DEPS="build-essential" \
-  APP_DEPS="curl iputils-ping git ca-certificates" \
+  APP_DEPS="curl iputils-ping" \
   NODE_ENV=$NODE_ENV \
   HOST_APP_HOME="." \
   PACKAGES_PATH=${HOST_APP_HOME}/packages
