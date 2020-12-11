@@ -139,8 +139,6 @@
   }
 </style>
 
-{JSON.stringify($countriesStore, null, 2)}
-
 <div class="a">
   <div id="{brandDomId}" class="modal is-active">
     <div class="modal-background"></div>
