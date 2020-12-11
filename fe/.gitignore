@@ -1,0 +1,5 @@
+*node_modules*
+.env-*
+docker/
+*__logs__*
+*coverage*
