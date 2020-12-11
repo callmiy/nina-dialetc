@@ -2,7 +2,6 @@
   import {
     branchCityInputId,
     branchStreetInputId,
-    brandNameErrorDomId,
     closeBrandComponentId,
     branchResetId,
     branchDomId,
