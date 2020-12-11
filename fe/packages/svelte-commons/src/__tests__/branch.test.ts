@@ -30,6 +30,7 @@ jest.mock("@ta/cm/src/db/ulid-uuid", () => ({
 afterEach(() => {
   jest.clearAllMocks();
   cleanup();
+  mockId = 0;
 });
 
 describe("Shop branch", () => {
@@ -202,6 +203,40 @@ describe("Shop branch", () => {
     expect(mockOnSubmit).toBeCalledWith({
       ...branchSubmitVal1,
       id: 1,
+    });
+  });
+
+  it("phone and alias may be empty", async () => {
+    const mockOnSubmit = jest.fn();
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { debug } = render(Branch, {
+      props: {
+        onSubmit: mockOnSubmit,
+      },
+    });
+
+    // When post code field is completed with invalid input
+    const postCodeEl = getById<HTMLInputElement>(branchPostCodeInputId);
+    await fillFieldInput(postCodeEl, branchSubmitVal1.postCode);
+
+    // When city field is completed with invalid input
+    const cityEl = getById<HTMLInputElement>(branchCityInputId);
+    await fillFieldInput(cityEl, branchSubmitVal1.city);
+
+    // When street field is completed with invalid input
+    const streetEl = getById<HTMLInputElement>(branchStreetInputId);
+    await fillFieldInput(streetEl, branchSubmitVal1.street);
+
+    // When form is submitted
+    await getById(branchSubmitId).click();
+
+    // Form data should be passed to parent
+    expect(mockOnSubmit).toBeCalledWith({
+      ...branchSubmitVal1,
+      id: 1,
+      phone: null,
+      branchAlias: null,
     });
   });
 });
