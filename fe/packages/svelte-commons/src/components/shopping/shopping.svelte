@@ -17,6 +17,10 @@
   import { Props as BrandProps, BrandValues } from "../brand/brand-utils";
   import { BranchValues } from "../branch/branch-utils";
   import {
+    Props as ShopItemProps,
+    ShopItemValues,
+  } from "../shop-item/shop-item.utils";
+  import {
     getBranchDisplayName,
     ADD_SHOP_BRAND_LABEL_TEXT,
     ADD_SHOP_BRAND_LABEL_HELP_TEXT,
@@ -111,27 +115,40 @@
     branchOptions = options;
   }
 
-  function onSubmitItem() {
-    itemIsActive = false;
-  }
-
   // SHOPPING ITEM ////////////////////////////////////////////////////////////
   let itemIsActive = false;
   let itemId = "";
-  let itemOptions = []; // type
+  let itemOptions: ShopItemValues[] = [];
 
   let itemLabelText = ADD_SHOPPING_ITEM_LABEL_TEXT;
   let itemLabelHelp = ADD_SHOPPING_ITEM_LABEL_HELP_TEXT;
 
   $: {
     if (itemId) {
-      itemLabelHelp = EDIT_SHOP_BRANCH_LABEL_HELP_TEXT;
-      itemLabelText = EDIT_SHOP_BRANCH_LABEL_TEXT;
+      itemLabelHelp = EDIT_SHOPPING_ITEM_LABEL_HELP_TEXT;
+      itemLabelText = EDIT_SHOPPING_ITEM_LABEL_TEXT;
     } else {
       itemLabelHelp = ADD_SHOPPING_ITEM_LABEL_HELP_TEXT;
       itemLabelText = ADD_SHOPPING_ITEM_LABEL_TEXT;
     }
   }
+
+  const onSubmitItem: ShopItemProps["onSubmit"] = (values) => {
+    itemIsActive = false;
+
+    const { id: maybeNewId } = values;
+    itemId = maybeNewId;
+
+    const options: ShopItemValues[] = [values];
+
+    itemOptions.forEach((i) => {
+      if (i.id !== maybeNewId) {
+        options.push(i);
+      }
+    });
+
+    itemOptions = options;
+  };
 
   // CALLBACKS /////////////////////////////////////////////////////////////////
 
@@ -311,9 +328,9 @@
               ---------
             </option>
 
-            {#each itemOptions as { id, displayName } (id)}
+            {#each itemOptions as { id, specificName } (id)}
               <option class="{shoppingItemOptionSelector}" value="{id}">
-                {displayName}
+                {specificName}
               </option>
             {/each}
           </select>

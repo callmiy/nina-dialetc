@@ -1,14 +1,16 @@
-import { CurrencyFragment, CountryFragment } from "@ta/cm/src/gql/ops-types";
-
-export type BrandValues = {
+export type ShopItemValues = {
   id: string;
-  name: string;
-  country: CountryFragment;
-  currency: CurrencyFragment;
-  phone?: string | null;
+  specificName: string;
+  genericName?: string | null;
+  tags: ShopItemTag[]
 };
 
 export type Props = {
   isActive: boolean;
-  onSubmit?: (values: BrandValues) => void;
+  onSubmit?: (values: ShopItemValues) => void;
+};
+
+type ShopItemTag = {
+  id: string;
+  tag: string;
 };

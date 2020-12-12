@@ -10,6 +10,9 @@ import {
   shoppingAddBranchLabelHelpId,
   shoppingBrandNameInputId,
   shoppingBranchInputId,
+  shoppingAddItemId,
+  shoppingAddItemLabelHelpId,
+  shoppingItemInputId,
 } from "@ta/cm/src/selectors";
 import { getById } from "@ta/cm/src/__tests__/utils-dom";
 import mockBrand from "./mocks/brand.mock.svelte";
@@ -24,8 +27,16 @@ import {
   ADD_SHOP_BRANCH_LABEL_HELP_TEXT,
   EDIT_SHOP_BRANCH_LABEL_TEXT,
   EDIT_SHOP_BRANCH_LABEL_HELP_TEXT,
+  ADD_SHOPPING_ITEM_LABEL_TEXT,
+  ADD_SHOPPING_ITEM_LABEL_HELP_TEXT,
+  EDIT_SHOPPING_ITEM_LABEL_TEXT,
+  EDIT_SHOPPING_ITEM_LABEL_HELP_TEXT
 } from "../components/shopping/shopping-utils";
-import { brandSubmitValue1, branchSubmitVal1 } from "./mocks/mock-utils";
+import {
+  brandSubmitValue1,
+  branchSubmitVal1,
+  shopItemVal,
+} from "./mocks/mock-utils";
 
 jest.mock("../components/lazies/brand.lazy", () => {
   return {
@@ -45,7 +56,7 @@ jest.mock("../components/lazies/branch.lazy", () => {
 
 jest.mock("../components/lazies/shop-item.lazy", () => {
   return {
-    getBrandComponent: () => {
+    getShopItemComponent: () => {
       return mockShopItem;
     },
   };
@@ -124,5 +135,40 @@ describe("Shopping", () => {
     // Add brand button's label have text 'edit'
     expect(addBranchEl.textContent).toEqual(EDIT_SHOP_BRANCH_LABEL_TEXT);
     expect(addBranchHelpEl.textContent).toBe(EDIT_SHOP_BRANCH_LABEL_HELP_TEXT);
+  });
+
+  it("changes shopping item buttons labels and help texts", async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { debug } = render(Shopping);
+    // Add brand button label should have text 'Add'
+    const addEl = getById(shoppingAddItemId);
+    const addHelpEl = getById(shoppingAddItemLabelHelpId);
+    expect(addEl.textContent).toEqual(ADD_SHOPPING_ITEM_LABEL_TEXT);
+    expect(addHelpEl.textContent).toBe(ADD_SHOPPING_ITEM_LABEL_HELP_TEXT);
+
+    // When add brand button is clicked
+    await addEl.click();
+
+    // No brand should have been selected
+    const itemInputEl = getById<HTMLSelectElement>(shoppingItemInputId);
+    expect(itemInputEl.value).toBe("");
+
+    // When an item is submitted
+    const itemEl = getById("item-submit-1");
+    await itemEl.click();
+
+    // Submitted brand should be selected
+    expect(itemInputEl.value).toBe(shopItemVal.id);
+
+    // Thee should be two brand name options to select from
+    const optionsEls = itemInputEl.querySelectorAll("option");
+    expect(optionsEls.length).toBe(2);
+
+    // First brand option should be empty
+    expect((optionsEls.item(0) as HTMLOptionElement).value).toBe("");
+
+    // Brand button's label have text 'edit'
+    expect(addEl.textContent).toEqual(EDIT_SHOPPING_ITEM_LABEL_TEXT);
+    expect(addHelpEl.textContent).toBe(EDIT_SHOPPING_ITEM_LABEL_HELP_TEXT);
   });
 });

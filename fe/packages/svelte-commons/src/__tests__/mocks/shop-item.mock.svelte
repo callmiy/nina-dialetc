@@ -5,9 +5,9 @@
   export let onSubmit;
 </script>
 
-<div id="brand-mock" class:active="{isActive}">
+<div id="item-mock" class:active="{isActive}">
   <span
-    id="brand-submit-1"
+    id="item-submit-1"
     on:click="{() => {
       onSubmit(shopItemVal);
     }}"

@@ -1,3 +1,5 @@
+import {ShopItemValues} from "../../components/shop-item/shop-item.utils";
+
 export const brandSubmitValue1 = {
   id: "bdId1",
   name: "bdN1",
@@ -14,7 +16,7 @@ export const branchSubmitVal1 = {
   phone: "p",
 };
 
-export const shopItemVal = {
+export const shopItemVal: ShopItemValues = {
   id: "siId1",
   specificName: "Penny rice",
   genericName: "rice",
