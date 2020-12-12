@@ -188,147 +188,148 @@
       ></button>
     </header>
 
-    <fieldset disabled="{fetchErrorFlag || fetchLoadingFlag}">
-      <section class="modal-card-body">
-        {#if notificationText}
-          <Notification
-            closeId="{brandNotificationTextCloseId}"
-            isWarning="{notificationTextClass === WARNING_NOTIFICATION_CLASS_NAME}"
-            isDanger="{notificationTextClass === ERROR_NOTIFICATION_CLASS_NAME}"
-            onClose="{clearSimpletextErrorCb}"
-            text="{notificationText}"
+    <fieldset
+      class="modal-card-body"
+      disabled="{fetchErrorFlag || fetchLoadingFlag}"
+    >
+      {#if notificationText}
+        <Notification
+          closeId="{brandNotificationTextCloseId}"
+          isWarning="{notificationTextClass === WARNING_NOTIFICATION_CLASS_NAME}"
+          isDanger="{notificationTextClass === ERROR_NOTIFICATION_CLASS_NAME}"
+          onClose="{clearSimpletextErrorCb}"
+          text="{notificationText}"
+        />
+      {/if}
+
+      <div class="field">
+        <label class="label" for="{brandNameInputDomId}">
+          Shop brand name
+          <span>e.g. "edeka"</span>
+        </label>
+
+        <div class="control">
+          <input
+            id="{brandNameInputDomId}"
+            class="input"
+            type="text"
+            bind:value="{name}"
           />
-        {/if}
-
-        <div class="field">
-          <label class="label" for="{brandNameInputDomId}">
-            Shop brand name
-            <span>e.g. "edeka"</span>
-          </label>
-
-          <div class="control">
-            <input
-              id="{brandNameInputDomId}"
-              class="input"
-              type="text"
-              bind:value="{name}"
-            />
-          </div>
-
-          {#if nameError}
-            <FormCtrlMsg error="{nameError}" id="{brandNameErrorDomId}" />
-          {/if}
         </div>
 
-        <div class="field country-field">
-          <label class="label" for="{brandCountryInputDomId}">Country</label>
+        {#if nameError}
+          <FormCtrlMsg error="{nameError}" id="{brandNameErrorDomId}" />
+        {/if}
+      </div>
 
-          <div class="control">
-            <div class="select is-fullwidth">
-              <select id="{brandCountryInputDomId}" bind:value="{country}">
-                <option value="">----------</option>
+      <div class="field country-field">
+        <label class="label" for="{brandCountryInputDomId}">Country</label>
 
-                {#if $countriesStore.value === StateValue.data}
-                  {#each $countriesStore.data.countries as { id, countryName } (id)}
-                    <option value="{id}" class="{brandCountryOptionSelector}">
-                      {countryName}
-                    </option>
-                  {/each}
-                {/if}
-              </select>
-            </div>
+        <div class="control">
+          <div class="select is-fullwidth">
+            <select id="{brandCountryInputDomId}" bind:value="{country}">
+              <option value="">----------</option>
 
-            {#if countryError}
-              <FormCtrlMsg error="{countryError}" id="{brandCountryMsgDomId}" />
-            {:else if $countriesStore.value === StateValue.loading}
-              <div class="brand-loading-container">
-                <FormCtrlMsg
-                  info="{$countriesStore.msg}"
-                  id="{brandCountryMsgDomId}"
-                />
+              {#if $countriesStore.value === StateValue.data}
+                {#each $countriesStore.data.countries as { id, countryName } (id)}
+                  <option value="{id}" class="{brandCountryOptionSelector}">
+                    {countryName}
+                  </option>
+                {/each}
+              {/if}
+            </select>
+          </div>
 
-                <Spinner class="brand-spinner" />
-              </div>
-            {:else if $countriesStore.value === StateValue.error}
+          {#if countryError}
+            <FormCtrlMsg error="{countryError}" id="{brandCountryMsgDomId}" />
+          {:else if $countriesStore.value === StateValue.loading}
+            <div class="brand-loading-container">
               <FormCtrlMsg
-                error="{$countriesStore.error}"
+                info="{$countriesStore.msg}"
                 id="{brandCountryMsgDomId}"
               />
-            {/if}
-          </div>
-        </div>
 
-        <div class="field currency-field">
-          <label class="label" for="{brandCurrencyInputDomId}">Currency</label>
-
-          <div class="control">
-            <div class="select is-fullwidth">
-              <select id="{brandCurrencyInputDomId}" bind:value="{currency}">
-                <option value="">----------</option>
-
-                {#if $currenciesStore.value === StateValue.data}
-                  {#each $currenciesStore.data.currencies as { id, currencyName, currencyCode } (id)}
-                    <option value="{id}" class="{brandCurrencyOptionSelector}">
-                      {currencyName}:
-                      {currencyCode}
-                    </option>
-                  {/each}
-                {/if}
-              </select>
+              <Spinner class="brand-spinner" />
             </div>
-
-            {#if currencyError}
-              <FormCtrlMsg
-                error="{currencyError}"
-                id="{brandCurrencyMsgDomId}"
-              />
-            {:else if $currenciesStore.value === StateValue.loading}
-              <div class="brand-loading-container">
-                <FormCtrlMsg
-                  info="{$currenciesStore.msg}"
-                  id="{brandCurrencyMsgDomId}"
-                />
-
-                <Spinner class="brand-spinner" />
-              </div>
-            {:else if $currenciesStore.value === StateValue.error}
-              <FormCtrlMsg
-                error="{$currenciesStore.error}"
-                id="{brandCurrencyMsgDomId}"
-              />
-            {/if}
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="label" for="{brandPhoneInputDomId}"> Telephone </label>
-
-          <div class="control">
-            <input
-              id="{brandPhoneInputDomId}"
-              class="input"
-              type="text"
-              bind:value="{phone}"
+          {:else if $countriesStore.value === StateValue.error}
+            <FormCtrlMsg
+              error="{$countriesStore.error}"
+              id="{brandCountryMsgDomId}"
             />
-          </div>
+          {/if}
         </div>
-      </section>
+      </div>
 
-      <footer class="modal-card-foot">
-        <button
-          id="{submitBrandId}"
-          class="button is-success"
-          on:click|preventDefault="{submitFormCb}"
-        >
-          Save changes
-        </button>
+      <div class="field currency-field">
+        <label class="label" for="{brandCurrencyInputDomId}">Currency</label>
 
-        <button
-          class="{`button ${WARNING_NOTIFICATION_CLASS_NAME}`}"
-          id="{resetFormBtnId}"
-          on:click|preventDefault="{resetFormCb}"
-        >Reset</button>
-      </footer>
+        <div class="control">
+          <div class="select is-fullwidth">
+            <select id="{brandCurrencyInputDomId}" bind:value="{currency}">
+              <option value="">----------</option>
+
+              {#if $currenciesStore.value === StateValue.data}
+                {#each $currenciesStore.data.currencies as { id, currencyName, currencyCode } (id)}
+                  <option value="{id}" class="{brandCurrencyOptionSelector}">
+                    {currencyName}:
+                    {currencyCode}
+                  </option>
+                {/each}
+              {/if}
+            </select>
+          </div>
+
+          {#if currencyError}
+            <FormCtrlMsg error="{currencyError}" id="{brandCurrencyMsgDomId}" />
+          {:else if $currenciesStore.value === StateValue.loading}
+            <div class="brand-loading-container">
+              <FormCtrlMsg
+                info="{$currenciesStore.msg}"
+                id="{brandCurrencyMsgDomId}"
+              />
+
+              <Spinner class="brand-spinner" />
+            </div>
+          {:else if $currenciesStore.value === StateValue.error}
+            <FormCtrlMsg
+              error="{$currenciesStore.error}"
+              id="{brandCurrencyMsgDomId}"
+            />
+          {/if}
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label" for="{brandPhoneInputDomId}"> Telephone </label>
+
+        <div class="control">
+          <input
+            id="{brandPhoneInputDomId}"
+            class="input"
+            type="text"
+            bind:value="{phone}"
+          />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset
+      class="modal-card-foot"
+      disabled="{fetchErrorFlag || fetchLoadingFlag}"
+    >
+      <button
+        id="{submitBrandId}"
+        class="button is-success"
+        on:click|preventDefault="{submitFormCb}"
+      >
+        Save changes
+      </button>
+
+      <button
+        class="{`button ${WARNING_NOTIFICATION_CLASS_NAME}`}"
+        id="{resetFormBtnId}"
+        on:click|preventDefault="{resetFormCb}"
+      >Reset</button>
     </fieldset>
   </div>
 </div>

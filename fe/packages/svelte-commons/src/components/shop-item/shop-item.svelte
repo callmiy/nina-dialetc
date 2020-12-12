@@ -127,90 +127,88 @@
       ></button>
     </header>
 
-    <fieldset>
-      <section class="modal-card-body">
-        {#if notificationText}
-          <Notification
-            closeId="{shopItemCloseNotificationId}"
-            isWarning="{notificationTextClass === WARNING_NOTIFICATION_CLASS_NAME}"
-            isDanger="{notificationTextClass === ERROR_NOTIFICATION_CLASS_NAME}"
-            onClose="{clearSimpletextErrorCb}"
-            text="{notificationText}"
+    <section class="modal-card-body">
+      {#if notificationText}
+        <Notification
+          closeId="{shopItemCloseNotificationId}"
+          isWarning="{notificationTextClass === WARNING_NOTIFICATION_CLASS_NAME}"
+          isDanger="{notificationTextClass === ERROR_NOTIFICATION_CLASS_NAME}"
+          onClose="{clearSimpletextErrorCb}"
+          text="{notificationText}"
+        />
+      {/if}
+
+      <div class="field specific-name-field">
+        <label class="label" for="{shopItemSpecificNameInputDomId}">
+          Specific name
+          <span>e.g. "Penny rice"</span>
+        </label>
+
+        <div class="control">
+          <input
+            id="{shopItemSpecificNameInputDomId}"
+            class="input"
+            type="text"
+            bind:value="{specificName}"
+          />
+        </div>
+
+        {#if specifiNameError}
+          <FormCtrlMsg
+            error="{specifiNameError}"
+            id="{shopItemSpecificNameErrorId}"
           />
         {/if}
+      </div>
 
-        <div class="field specific-name-field">
-          <label class="label" for="{shopItemSpecificNameInputDomId}">
-            Specific name
-            <span>e.g. "Penny rice"</span>
-          </label>
+      <div class="field generic-name-field">
+        <label class="label" for="{shopItemGenericNameInputDomId}">
+          Generic name
+          <span>e.g. "Rice"</span>
+        </label>
 
-          <div class="control">
-            <input
-              id="{shopItemSpecificNameInputDomId}"
-              class="input"
-              type="text"
-              bind:value="{specificName}"
-            />
-          </div>
-
-          {#if specifiNameError}
-            <FormCtrlMsg
-              error="{specifiNameError}"
-              id="{shopItemSpecificNameErrorId}"
-            />
-          {/if}
+        <div class="control">
+          <input
+            id="{shopItemGenericNameInputDomId}"
+            class="input"
+            type="text"
+            bind:value="{genericName}"
+          />
         </div>
+      </div>
 
-        <div class="field generic-name-field">
-          <label class="label" for="{shopItemGenericNameInputDomId}">
-            Generic name
-            <span>e.g. "Rice"</span>
-          </label>
+      <div class="field tag-text-field">
+        <label class="label" for="{shopItemTagsInputDomId}">
+          Tag
+          <span>(comma/space separated)</span>
+          <span>e.g. "parboiled, discounted"</span>
+        </label>
 
-          <div class="control">
-            <input
-              id="{shopItemGenericNameInputDomId}"
-              class="input"
-              type="text"
-              bind:value="{genericName}"
-            />
-          </div>
+        <div class="control">
+          <input
+            id="{shopItemTagsInputDomId}"
+            class="input"
+            type="text"
+            bind:value="{tagTexts}"
+          />
         </div>
+      </div>
+    </section>
 
-        <div class="field tag-text-field">
-          <label class="label" for="{shopItemTagsInputDomId}">
-            Tag
-            <span>(comma/space separated)</span>
-            <span>e.g. "parboiled, discounted"</span>
-          </label>
+    <footer class="modal-card-foot">
+      <button
+        id="{shopItemSubmitId}"
+        class="button is-success"
+        on:click|preventDefault="{submitFormCb}"
+      >
+        Save changes
+      </button>
 
-          <div class="control">
-            <input
-              id="{shopItemTagsInputDomId}"
-              class="input"
-              type="text"
-              bind:value="{tagTexts}"
-            />
-          </div>
-        </div>
-      </section>
-
-      <footer class="modal-card-foot">
-        <button
-          id="{shopItemSubmitId}"
-          class="button is-success"
-          on:click|preventDefault="{submitFormCb}"
-        >
-          Save changes
-        </button>
-
-        <button
-          class="{`button ${WARNING_NOTIFICATION_CLASS_NAME}`}"
-          id="{shopItemResetId}"
-          on:click|preventDefault="{resetFormCb}"
-        >Reset</button>
-      </footer>
-    </fieldset>
+      <button
+        class="{`button ${WARNING_NOTIFICATION_CLASS_NAME}`}"
+        id="{shopItemResetId}"
+        on:click|preventDefault="{resetFormCb}"
+      >Reset</button>
+    </footer>
   </div>
 </div>
