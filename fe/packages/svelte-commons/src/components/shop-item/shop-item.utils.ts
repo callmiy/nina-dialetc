@@ -10,7 +10,7 @@ export type Props = {
   onSubmit?: (values: ShopItemValues) => void;
 };
 
-type ShopItemTag = {
+export type ShopItemTag = {
   id: string;
-  tag: string;
+  text: string;
 };

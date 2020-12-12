@@ -23,19 +23,19 @@ export const shopItemVal: ShopItemValues = {
   tags: [
     {
       id: "siTId1",
-      tag: "tg1",
+      text: "tg1",
     },
     {
       id: "siTId2",
-      tag: "tg2",
+      text: "tg2",
     },
     {
       id: "siTId3",
-      tag: "tg3",
+      text: "tg3",
     },
     {
       id: "siTId4",
-      tag: "tg4",
+      text: "tg4",
     },
   ],
 };

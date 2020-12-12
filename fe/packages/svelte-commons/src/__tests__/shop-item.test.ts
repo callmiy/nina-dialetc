@@ -17,10 +17,11 @@ import {
 } from "@ta/cm/src/selectors";
 import { fillFieldInput, getById } from "@ta/cm/src/__tests__/utils-dom";
 import { shopItemVal } from "./mocks/mock-utils";
+import { ShopItemTag } from "../components/shop-item/shop-item.utils";
 
 let mockId = 0;
 jest.mock("@ta/cm/src/db/ulid-uuid", () => ({
-  newUlid: () => ++mockId,
+  newUlid: () => ++mockId + "",
 }));
 
 afterEach(() => {
@@ -30,14 +31,18 @@ afterEach(() => {
 });
 
 describe("Shopping Item", () => {
-  const allTags = shopItemVal.tags.map((t) => t.tag);
-  const tagTexts =
-    allTags.slice(0, 2).join(",") + " " + allTags.slice(2, 4).join(" ");
+  let tagTexts = "";
+  const { tags } = shopItemVal;
+  const len = tags.length - 1;
 
-  const tags = shopItemVal.tags.map((d, i) => {
+  const tagsList: ShopItemTag[] = shopItemVal.tags.map((d, i) => {
+    const { text } = d;
+
+    tagTexts += text + (i === len ? "" : ",");
+
     return {
-      tag: d.tag,
-      id: i + 2,
+      text,
+      id: i + 2 + "",
     };
   });
 
@@ -177,7 +182,7 @@ describe("Shopping Item", () => {
     const genericNameEl = getById<HTMLInputElement>(
       shopItemGenericNameInputDomId
     );
-    await fillFieldInput(genericNameEl, shopItemVal.genericName);
+    await fillFieldInput(genericNameEl, shopItemVal.genericName as string);
 
     // When tags field is completed
     const tagsEl = getById<HTMLInputElement>(shopItemTagsInputDomId);
@@ -191,8 +196,8 @@ describe("Shopping Item", () => {
     // Form data should be passed to parent
     expect(mockOnSubmit).toBeCalledWith({
       ...shopItemVal,
-      id: 1,
-      tags,
+      id: "1",
+      tags: tagsList,
     });
   });
 
@@ -218,7 +223,7 @@ describe("Shopping Item", () => {
     // Form data should be passed to parent, with generic name and tags empty
     expect(mockOnSubmit).toBeCalledWith({
       ...shopItemVal,
-      id: 1,
+      id: "1",
       genericName: null,
       tags: [],
     });

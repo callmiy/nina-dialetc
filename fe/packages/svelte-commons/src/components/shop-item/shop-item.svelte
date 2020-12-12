@@ -82,10 +82,10 @@
         id: newUlid(),
         specificName,
         genericName: genericName || null,
-        tags: tagsTextsList.map((t) => {
+        tags: tagsTextsList.map((text) => {
           return {
             id: newUlid(),
-            tag: t,
+            text,
           };
         }),
       });
