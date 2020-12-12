@@ -1,9 +1,5 @@
-const { typescript, replace } = require("svelte-preprocess");
+const preprocess = require("svelte-preprocess");
 
 module.exports = {
-  preprocess: [
-    // strip style tag
-    replace([[/<!--[^]*?-->|<style(\s[^]*?)?(?:>([^]*?)<\/style>|\/>)/gi, ""]]),
-    typescript(),
-  ],
+  preprocess: preprocess(),
 };
