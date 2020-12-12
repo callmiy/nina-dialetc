@@ -2,7 +2,7 @@ import {
   shoppingBranchNameOptionSelector,
   shoppingBranchInputId,
   shoppingAddBrandId,
-  shoppingBrandNameInputId,
+  shoppingBrandInputId,
   shoppingBrandNameOptionSelector,
 
   // BRAND FORM ////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ context("Item", () => {
       cy.get("#" + shoppingAddBrandId).click();
 
       // Shopping brand name field should be empty
-      cy.get("#" + shoppingBrandNameInputId)
+      cy.get("#" + shoppingBrandInputId)
         .as("itemName")
         .should("have.value", "")
         .within(() => {

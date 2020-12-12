@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    shoppingBrandNameInputId,
+    shoppingBrandInputId,
     shoppingBrandNameOptionSelector,
     shoppingAddBrandId,
     shoppingBranchInputId,
@@ -220,7 +220,7 @@
   {/if}
 
   <div class="field-container brand">
-    <label class="label" for="{shoppingBrandNameInputId}">
+    <label class="label" for="{shoppingBrandInputId}">
       Shop Brand
 
       {#if !brandId}<span class="label-example">e.g. Edeka</span>{/if}
@@ -235,7 +235,7 @@
       <div class="control is-expanded">
         <div class="select is-fullwidth">
           <select
-            id="{shoppingBrandNameInputId}"
+            id="{shoppingBrandInputId}"
             class="input"
             type="text"
             bind:value="{brandId}"

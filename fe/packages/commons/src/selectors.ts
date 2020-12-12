@@ -6,7 +6,7 @@ export const notificationSelector = "js-notification";
 
 const shoppingPrefix = "components__shopping";
 
-export const shoppingBrandNameInputId = `${shoppingPrefix}-brand-name-input`;
+export const shoppingBrandInputId = `${shoppingPrefix}-brand-input`;
 export const shoppingBranchInputId = `${shoppingPrefix}-branch-input`;
 export const shoppingItemInputId = `${shoppingPrefix}-item-input`;
 export const shoppingBrandNameOptionSelector = `js-${shoppingPrefix}-brandoption`;
