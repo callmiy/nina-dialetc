@@ -1,9 +1,9 @@
 import {
-  shoppingBranchNameOptionSelector,
+  shoppingBranchOptionSelector,
   shoppingBranchInputId,
   shoppingAddBrandId,
   shoppingBrandInputId,
-  shoppingBrandNameOptionSelector,
+  shoppingBrandOptionSelector,
 
   // BRAND FORM ////////////////////////////////////////////////////////////
   brandNameInputDomId,
@@ -25,19 +25,19 @@ import {
   branchSubmitId,
   branchPhoneInputId,
 
-  // SHOP ITEM //////////////////////////////////////////////////////////////
-  shopItemDomId,
-  shoppingAddItemId,
-  shoppingItemInputId,
-  shoppingItemOptionSelector,
-  shopItemSpecificNameInputDomId,
-  shopItemGenericNameInputDomId,
-  shopItemTagsInputDomId,
-  shopItemSubmitId,
+  // ARTICLE //////////////////////////////////////////////////////////////
+  articleDomId,
+  shoppingAddArticleId,
+  shoppingArticleInputId,
+  shoppingArticleOptionSelector,
+  articleSpecificNameInputDomId,
+  articleGenericNameInputDomId,
+  articleTagsInputDomId,
+  articleSubmitId,
 } from "@ta/cm/src/selectors";
 import { getBranchDisplayName } from "@ta/sc/src/components/shopping/shopping-utils";
 
-context("Item", () => {
+context("Shopping", () => {
   beforeEach(() => {
     cy.checkoutSession();
   });
@@ -50,16 +50,16 @@ context("Item", () => {
   const alias1 = "könig";
   const branchPhone1 = "844940";
 
-  const itemSpecificName = "Penny rice";
-  const itemGenericName = "rice";
-  const itemTags = "rice,cheap penny chemnitz";
+  const articleSpecificName = "Penny rice";
+  const articleGenericName = "rice";
+  const articleTags = "rice,cheap penny chemnitz";
 
-  describe("create item", () => {
+  describe("create shopping", () => {
     it("success", () => {
       // When we visit the home page
       cy.visit("/");
 
-      // When we click the button to create new item
+      // When we click the button to create new shopping
 
       // BRAND ///////////////////////////////////////////////////////////////
 
@@ -68,10 +68,10 @@ context("Item", () => {
 
       // Shopping brand name field should be empty
       cy.get("#" + shoppingBrandInputId)
-        .as("itemName")
+        .as("brandInput")
         .should("have.value", "")
         .within(() => {
-          cy.get("." + shoppingBrandNameOptionSelector).should(
+          cy.get("." + shoppingBrandOptionSelector).should(
             "have.length",
             1
           );
@@ -117,7 +117,7 @@ context("Item", () => {
       });
 
       // Shopping brandName should be brand name input
-      cy.get("@itemName").within(() => {
+      cy.get("@brandInput").within(() => {
         cy.get("option:checked")
           .as("brandName1optionEl")
           .then((e) => {
@@ -130,12 +130,12 @@ context("Item", () => {
       // When we click on 'Add new branch' button
       cy.get("#" + shoppingAddBranchId).click();
 
-      // ShopItem branch field should be empty
+      // Shopping branch field should be empty
       cy.get("#" + shoppingBranchInputId)
         .as("shopBranchEl")
         .should("have.value", "")
         .within(() => {
-          cy.get("." + shoppingBranchNameOptionSelector).should(
+          cy.get("." + shoppingBranchOptionSelector).should(
             "have.length",
             1
           );
@@ -156,7 +156,7 @@ context("Item", () => {
         cy.get("#" + branchPostCodeInputId).should("not.exist");
       });
 
-      // ShopItem branch name should be branch street, city and post code
+      // Shopping branch name should be branch street, city and post code
       const branchName = getBranchDisplayName({
         postCode: postCode1,
         street: street1,
@@ -170,31 +170,30 @@ context("Item", () => {
             expect(e.text().trim()).to.eq(branchName);
           });
       });
-      // SHOPPING ITEM ///////////////////////////////////////////////////////
-      // When we click on 'Add' shopping item button
-      cy.get("#" + shoppingAddItemId).click();
+      // ARTICLE ///////////////////////////////////////////////////////
+      // When we click on 'Add' article button
+      cy.get("#" + shoppingAddArticleId).click();
 
-      // Shopping item field should be empty
-      cy.get("#" + shoppingItemInputId)
-        .as("item")
+      // Article field should be empty
+      cy.get("#" + shoppingArticleInputId)
+        .as("articleInputEl")
         .should("have.value", "")
         .within(() => {
-          cy.get("." + shoppingItemOptionSelector).should("have.length", 1);
+          cy.get("." + shoppingArticleOptionSelector).should("have.length", 1);
         });
 
-      cy.get("#" + shopItemDomId).within(() => {
-        cy.get("#" + shopItemSpecificNameInputDomId).type(itemSpecificName);
-        cy.get("#" + shopItemGenericNameInputDomId).type(itemGenericName);
-        cy.get("#" + shopItemTagsInputDomId).type(itemTags);
-        cy.get("#" + shopItemSubmitId).click();
+      cy.get("#" + articleDomId).within(() => {
+        cy.get("#" + articleSpecificNameInputDomId).type(articleSpecificName);
+        cy.get("#" + articleGenericNameInputDomId).type(articleGenericName);
+        cy.get("#" + articleTagsInputDomId).type(articleTags);
+        cy.get("#" + articleSubmitId).click();
       });
 
-      // Shopping brandName should be brand name input
-      cy.get("@item").within(() => {
+      // Article value should be article element input
+      cy.get("@articleInputEl").within(() => {
         cy.get("option:checked")
-          .as("itemOptionEl")
           .then((e) => {
-            expect(e.text().trim()).to.eq(itemSpecificName);
+            expect(e.text().trim()).to.eq(articleSpecificName);
           });
       });
       //

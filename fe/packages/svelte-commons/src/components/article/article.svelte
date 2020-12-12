@@ -1,27 +1,26 @@
 <script lang="ts">
   import {
-    shopItemDomId,
-    closeShopItemComponent,
-    shopItemCloseNotificationId,
+    articleDomId,
+    closeArticleComponent,
+    articleCloseNotificationId,
     WARNING_NOTIFICATION_CLASS_NAME,
     ERROR_NOTIFICATION_CLASS_NAME,
-    shopItemSpecificNameInputDomId,
-    shopItemSpecificNameErrorId,
-    shopItemSubmitId,
-    shopItemResetId,
-    shopItemTagsInputDomId,
-    shopItemGenericNameInputDomId,
+    articleSpecificNameInputDomId,
+    articleSpecificNameErrorId,
+    articleSubmitId,
+    articleResetId,
+    articleTagsInputDomId,
+    articleGenericNameInputDomId,
   } from "@ta/cm/src/selectors";
   import {
     IS_ACTIVE_CLASS_NAME,
     NOTHING_TO_SAVE_WARNING_MESSAGE,
     FORM_CONTAINS_ERRORS_MESSAGE,
   } from "@ta/cm/src/constants";
-  import {} from "../../stores/get-countries-and-currencies.store";
   import FormCtrlMsg from "../form-ctrl-msg.svelte";
   import Notification from "../notification.svelte";
   import { newUlid } from "@ta/cm/src/db/ulid-uuid";
-  import { Props } from "./shop-item.utils";
+  import { Props } from "./article.utils";
 
   /* FORM ATTRIBUTES AND ERROR VARIABLES */
   let specificName = "";
@@ -65,7 +64,7 @@
     let hasError = false;
 
     if (specificName.length < 3) {
-      specifiNameError = "Item name is a required field";
+      specifiNameError = "Specific name is a required field";
       hasError = true;
     }
 
@@ -107,9 +106,9 @@
 </style>
 
 <div
-  id="{shopItemDomId}"
+  id="{articleDomId}"
   class:modal="{true}"
-  class:shop-item="{true}"
+  class:article="{true}"
   class:is-active="{true}"
   class:test-is-active="{isActive}"
 >
@@ -117,12 +116,12 @@
 
   <div class="modal-card">
     <header class="modal-card-head">
-      <p class="modal-card-title">New Shopping Item</p>
+      <p class="modal-card-title">New Article</p>
 
       <button
         class="delete"
         aria-label="close"
-        id="{closeShopItemComponent}"
+        id="{closeArticleComponent}"
         on:click|preventDefault="{closeComponentCb}"
       ></button>
     </header>
@@ -130,7 +129,7 @@
     <section class="modal-card-body">
       {#if notificationText}
         <Notification
-          closeId="{shopItemCloseNotificationId}"
+          closeId="{articleCloseNotificationId}"
           isWarning="{notificationTextClass === WARNING_NOTIFICATION_CLASS_NAME}"
           isDanger="{notificationTextClass === ERROR_NOTIFICATION_CLASS_NAME}"
           onClose="{clearSimpletextErrorCb}"
@@ -139,14 +138,14 @@
       {/if}
 
       <div class="field specific-name-field">
-        <label class="label" for="{shopItemSpecificNameInputDomId}">
+        <label class="label" for="{articleSpecificNameInputDomId}">
           Specific name
           <span>e.g. "Penny rice"</span>
         </label>
 
         <div class="control">
           <input
-            id="{shopItemSpecificNameInputDomId}"
+            id="{articleSpecificNameInputDomId}"
             class="input"
             type="text"
             bind:value="{specificName}"
@@ -156,20 +155,20 @@
         {#if specifiNameError}
           <FormCtrlMsg
             error="{specifiNameError}"
-            id="{shopItemSpecificNameErrorId}"
+            id="{articleSpecificNameErrorId}"
           />
         {/if}
       </div>
 
       <div class="field generic-name-field">
-        <label class="label" for="{shopItemGenericNameInputDomId}">
+        <label class="label" for="{articleGenericNameInputDomId}">
           Generic name
           <span>e.g. "Rice"</span>
         </label>
 
         <div class="control">
           <input
-            id="{shopItemGenericNameInputDomId}"
+            id="{articleGenericNameInputDomId}"
             class="input"
             type="text"
             bind:value="{genericName}"
@@ -178,7 +177,7 @@
       </div>
 
       <div class="field tag-text-field">
-        <label class="label" for="{shopItemTagsInputDomId}">
+        <label class="label" for="{articleTagsInputDomId}">
           Tag
           <span>(comma/space separated)</span>
           <span>e.g. "parboiled, discounted"</span>
@@ -186,7 +185,7 @@
 
         <div class="control">
           <input
-            id="{shopItemTagsInputDomId}"
+            id="{articleTagsInputDomId}"
             class="input"
             type="text"
             bind:value="{tagTexts}"
@@ -197,7 +196,7 @@
 
     <footer class="modal-card-foot">
       <button
-        id="{shopItemSubmitId}"
+        id="{articleSubmitId}"
         class="button is-success"
         on:click|preventDefault="{submitFormCb}"
       >
@@ -206,7 +205,7 @@
 
       <button
         class="{`button ${WARNING_NOTIFICATION_CLASS_NAME}`}"
-        id="{shopItemResetId}"
+        id="{articleResetId}"
         on:click|preventDefault="{resetFormCb}"
       >Reset</button>
     </footer>

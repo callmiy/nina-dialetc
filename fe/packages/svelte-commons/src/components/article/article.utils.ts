@@ -1,16 +1,16 @@
-export type ShopItemValues = {
+export type ArticleValues = {
   id: string;
   specificName: string;
   genericName?: string | null;
-  tags: ShopItemTag[]
+  tags: ArticleTag[]
 };
 
 export type Props = {
   isActive: boolean;
-  onSubmit?: (values: ShopItemValues) => void;
+  onSubmit?: (values: ArticleValues) => void;
 };
 
-export type ShopItemTag = {
+export type ArticleTag = {
   id: string;
   text: string;
 };

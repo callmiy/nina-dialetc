@@ -2,22 +2,22 @@
  * @jest-environment jest-environment-jsdom-sixteen
  */
 import { render, cleanup } from "@testing-library/svelte";
-import ShopItem from "../components/shop-item/shop-item.svelte";
+import Article from "../components/article/article.svelte";
 import {
   WARNING_NOTIFICATION_CLASS_NAME,
   ERROR_NOTIFICATION_CLASS_NAME,
-  closeShopItemComponent,
-  shopItemCloseNotificationId,
-  shopItemSubmitId,
-  shopItemSpecificNameInputDomId,
-  shopItemGenericNameInputDomId,
-  shopItemTagsInputDomId,
-  shopItemSpecificNameErrorId,
-  shopItemResetId,
+  closeArticleComponent,
+  articleCloseNotificationId,
+  articleSubmitId,
+  articleSpecificNameInputDomId,
+  articleGenericNameInputDomId,
+  articleTagsInputDomId,
+  articleSpecificNameErrorId,
+  articleResetId,
 } from "@ta/cm/src/selectors";
 import { fillFieldInput, getById } from "@ta/cm/src/__tests__/utils-dom";
-import { shopItemVal } from "./mocks/mock-utils";
-import { ShopItemTag } from "../components/shop-item/shop-item.utils";
+import { articleVal } from "./mocks/mock-utils";
+import { ArticleTag } from "../components/article/article.utils";
 
 let mockId = 0;
 jest.mock("@ta/cm/src/db/ulid-uuid", () => ({
@@ -30,12 +30,12 @@ afterEach(() => {
   mockId = 0;
 });
 
-describe("Shopping Item", () => {
+describe("Article", () => {
   let tagTexts = "";
-  const { tags } = shopItemVal;
+  const { tags } = articleVal;
   const len = tags.length - 1;
 
-  const tagsList: ShopItemTag[] = shopItemVal.tags.map((d, i) => {
+  const tagsList: ArticleTag[] = articleVal.tags.map((d, i) => {
     const { text } = d;
 
     tagTexts += text + (i === len ? "" : ",");
@@ -48,14 +48,14 @@ describe("Shopping Item", () => {
 
   it("closes component", async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { debug } = render(ShopItem, {
+    const { debug } = render(Article, {
       props: {
         onSubmit: undefined,
       },
     });
 
     // Component should be active
-    const closeEl = getById(closeShopItemComponent);
+    const closeEl = getById(closeArticleComponent);
     expect(closeEl.closest(".test-is-active")).not.toBeNull();
 
     // When we close component
@@ -67,20 +67,20 @@ describe("Shopping Item", () => {
 
   it("warns on submission of empty form", async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { debug } = render(ShopItem, {
+    const { debug } = render(Article, {
       props: {
         onSubmit: undefined,
       },
     });
 
     // There should be no notification UI
-    expect(getById(shopItemCloseNotificationId)).toBeNull();
+    expect(getById(articleCloseNotificationId)).toBeNull();
 
     // When form is submitted
-    await getById(shopItemSubmitId).click();
+    await getById(articleSubmitId).click();
 
     // There should be warning notification
-    const notificationEl = getById(shopItemCloseNotificationId);
+    const notificationEl = getById(articleCloseNotificationId);
     expect(
       notificationEl.closest(`.${WARNING_NOTIFICATION_CLASS_NAME}`)
     ).not.toBeNull();
@@ -94,12 +94,12 @@ describe("Shopping Item", () => {
     await notificationEl.click();
 
     // Notification should not be visible
-    expect(getById(shopItemCloseNotificationId)).toBeNull();
+    expect(getById(articleCloseNotificationId)).toBeNull();
   });
 
   it("errors on form input errors", async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { debug } = render(ShopItem, {
+    const { debug } = render(Article, {
       props: {
         onSubmit: undefined,
       },
@@ -107,34 +107,34 @@ describe("Shopping Item", () => {
 
     // When specific name field is completed with invalid input
     const specificNameEl = getById<HTMLInputElement>(
-      shopItemSpecificNameInputDomId
+      articleSpecificNameInputDomId
     );
     await fillFieldInput(specificNameEl, "a");
     expect(specificNameEl.value).toBe("a");
 
     // When generic name field is completed
     const genericNameEl = getById<HTMLInputElement>(
-      shopItemGenericNameInputDomId
+      articleGenericNameInputDomId
     );
     await fillFieldInput(genericNameEl, "a");
     expect(genericNameEl.value).toBe("a");
 
     // When tags field is completed
-    const tagsEl = getById<HTMLInputElement>(shopItemTagsInputDomId);
+    const tagsEl = getById<HTMLInputElement>(articleTagsInputDomId);
     await fillFieldInput(tagsEl, "a");
     expect(tagsEl.value).toBe("a");
 
     // There should not be any form fields errors
-    expect(getById(shopItemSpecificNameErrorId)).toBeNull();
+    expect(getById(articleSpecificNameErrorId)).toBeNull();
 
     // There should not be any notification
-    expect(getById(shopItemCloseNotificationId)).toBeNull();
+    expect(getById(articleCloseNotificationId)).toBeNull();
 
     // When form is submitted
-    await getById(shopItemSubmitId).click();
+    await getById(articleSubmitId).click();
 
     // There should be error notification
-    const notificationEl = getById(shopItemCloseNotificationId);
+    const notificationEl = getById(articleCloseNotificationId);
     expect(
       notificationEl.closest(`.${ERROR_NOTIFICATION_CLASS_NAME}`)
     ).not.toBeNull();
@@ -145,10 +145,10 @@ describe("Shopping Item", () => {
     ).toBeNull();
 
     // There should be form field errors
-    expect(getById(shopItemSpecificNameErrorId)).not.toBeNull();
+    expect(getById(articleSpecificNameErrorId)).not.toBeNull();
 
     // When form is reset
-    await getById(shopItemResetId).click();
+    await getById(articleResetId).click();
 
     // Form fields should be cleared
     expect(specificNameEl.value).toBe("");
@@ -156,17 +156,17 @@ describe("Shopping Item", () => {
     expect(tagsEl.value).toBe("");
 
     // There should not be form field errors
-    expect(getById(shopItemSpecificNameErrorId)).toBeNull();
+    expect(getById(articleSpecificNameErrorId)).toBeNull();
 
     // There should not be any notification
-    expect(getById(shopItemCloseNotificationId)).toBeNull();
+    expect(getById(articleCloseNotificationId)).toBeNull();
   });
 
   it("submits valid form", async () => {
     const mockOnSubmit = jest.fn();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { debug } = render(ShopItem, {
+    const { debug } = render(Article, {
       props: {
         onSubmit: mockOnSubmit,
       },
@@ -174,28 +174,28 @@ describe("Shopping Item", () => {
 
     // When specific name field is completed with valid input
     const specificNameEl = getById<HTMLInputElement>(
-      shopItemSpecificNameInputDomId
+      articleSpecificNameInputDomId
     );
-    await fillFieldInput(specificNameEl, shopItemVal.specificName);
+    await fillFieldInput(specificNameEl, articleVal.specificName);
 
     // When generic name field is completed
     const genericNameEl = getById<HTMLInputElement>(
-      shopItemGenericNameInputDomId
+      articleGenericNameInputDomId
     );
-    await fillFieldInput(genericNameEl, shopItemVal.genericName as string);
+    await fillFieldInput(genericNameEl, articleVal.genericName as string);
 
     // When tags field is completed
-    const tagsEl = getById<HTMLInputElement>(shopItemTagsInputDomId);
+    const tagsEl = getById<HTMLInputElement>(articleTagsInputDomId);
     await fillFieldInput(tagsEl, tagTexts);
 
     expect(mockOnSubmit).not.toBeCalled();
 
     // When form is submitted
-    await getById(shopItemSubmitId).click();
+    await getById(articleSubmitId).click();
 
     // Form data should be passed to parent
     expect(mockOnSubmit).toBeCalledWith({
-      ...shopItemVal,
+      ...articleVal,
       id: "1",
       tags: tagsList,
     });
@@ -205,7 +205,7 @@ describe("Shopping Item", () => {
     const mockOnSubmit = jest.fn();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { debug } = render(ShopItem, {
+    const { debug } = render(Article, {
       props: {
         onSubmit: mockOnSubmit,
       },
@@ -213,16 +213,16 @@ describe("Shopping Item", () => {
 
     // When specific name field is completed
     const specificNameEl = getById<HTMLInputElement>(
-      shopItemSpecificNameInputDomId
+      articleSpecificNameInputDomId
     );
-    await fillFieldInput(specificNameEl, shopItemVal.specificName);
+    await fillFieldInput(specificNameEl, articleVal.specificName);
 
     // When form is submitted
-    await getById(shopItemSubmitId).click();
+    await getById(articleSubmitId).click();
 
     // Form data should be passed to parent, with generic name and tags empty
     expect(mockOnSubmit).toBeCalledWith({
-      ...shopItemVal,
+      ...articleVal,
       id: "1",
       genericName: null,
       tags: [],

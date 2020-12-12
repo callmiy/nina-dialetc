@@ -1,25 +1,25 @@
 <script lang="ts">
   import {
     shoppingBrandInputId,
-    shoppingBrandNameOptionSelector,
+    shoppingBrandOptionSelector,
     shoppingAddBrandId,
     shoppingBranchInputId,
-    shoppingBranchNameOptionSelector,
+    shoppingBranchOptionSelector,
     shoppingAddBranchId,
     shoppingAddBrandLabelHelpId,
     shoppingAddBranchLabelHelpId,
-    shoppingAddItemId,
-    shoppingItemInputId,
-    shoppingAddItemLabelHelpId,
-    shoppingItemOptionSelector,
+    shoppingAddArticleId,
+    shoppingArticleInputId,
+    shoppingAddArticleLabelHelpId,
+    shoppingArticleOptionSelector,
   } from "@ta/cm/src/selectors";
 
   import { Props as BrandProps, BrandValues } from "../brand/brand-utils";
   import { BranchValues } from "../branch/branch-utils";
   import {
-    Props as ShopItemProps,
-    ShopItemValues,
-  } from "../shop-item/shop-item.utils";
+    Props as ArticleProps,
+    ArticleValues,
+  } from "../article/article.utils";
   import {
     getBranchDisplayName,
     ADD_SHOP_BRAND_LABEL_TEXT,
@@ -30,14 +30,14 @@
     ADD_SHOP_BRANCH_LABEL_HELP_TEXT,
     EDIT_SHOP_BRANCH_LABEL_TEXT,
     EDIT_SHOP_BRANCH_LABEL_HELP_TEXT,
-    ADD_SHOPPING_ITEM_LABEL_TEXT,
-    ADD_SHOPPING_ITEM_LABEL_HELP_TEXT,
-    EDIT_SHOPPING_ITEM_LABEL_TEXT,
-    EDIT_SHOPPING_ITEM_LABEL_HELP_TEXT,
+    ADD_ARTICLE_LABEL_TEXT,
+    ADD_ARTICLE_LABEL_HELP_TEXT,
+    EDIT_ARTICLE_LABEL_TEXT,
+    EDIT_ARTICLE_LABEL_HELP_TEXT,
   } from "./shopping-utils";
   import { getBrandComponent } from "../lazies/brand.lazy";
   import { getBranchComponent } from "../lazies/branch.lazy";
-  import { getShopItemComponent } from "../lazies/shop-item.lazy";
+  import { getArticleComponent } from "../lazies/article.lazy";
 
   // BRAND ///////////////////////////////////////////////////////////////////////
 
@@ -115,39 +115,39 @@
     branchOptions = options;
   }
 
-  // SHOPPING ITEM ////////////////////////////////////////////////////////////
-  let itemIsActive = false;
-  let itemId = "";
-  let itemOptions: ShopItemValues[] = [];
+  // ARTICLE ////////////////////////////////////////////////////////////
+  let articleIsActive = false;
+  let articleId = "";
+  let articleOptions: ArticleValues[] = [];
 
-  let itemLabelText = ADD_SHOPPING_ITEM_LABEL_TEXT;
-  let itemLabelHelp = ADD_SHOPPING_ITEM_LABEL_HELP_TEXT;
+  let articleLabelText = ADD_ARTICLE_LABEL_TEXT;
+  let articleLabelHelp = ADD_ARTICLE_LABEL_HELP_TEXT;
 
   $: {
-    if (itemId) {
-      itemLabelHelp = EDIT_SHOPPING_ITEM_LABEL_HELP_TEXT;
-      itemLabelText = EDIT_SHOPPING_ITEM_LABEL_TEXT;
+    if (articleId) {
+      articleLabelHelp = EDIT_ARTICLE_LABEL_HELP_TEXT;
+      articleLabelText = EDIT_ARTICLE_LABEL_TEXT;
     } else {
-      itemLabelHelp = ADD_SHOPPING_ITEM_LABEL_HELP_TEXT;
-      itemLabelText = ADD_SHOPPING_ITEM_LABEL_TEXT;
+      articleLabelHelp = ADD_ARTICLE_LABEL_HELP_TEXT;
+      articleLabelText = ADD_ARTICLE_LABEL_TEXT;
     }
   }
 
-  const onSubmitItem: ShopItemProps["onSubmit"] = (values) => {
-    itemIsActive = false;
+  const onSubmitArticle: ArticleProps["onSubmit"] = (values) => {
+    articleIsActive = false;
 
     const { id: maybeNewId } = values;
-    itemId = maybeNewId;
+    articleId = maybeNewId;
 
-    const options: ShopItemValues[] = [values];
+    const options: ArticleValues[] = [values];
 
-    itemOptions.forEach((i) => {
+    articleOptions.forEach((i) => {
       if (i.id !== maybeNewId) {
         options.push(i);
       }
     });
 
-    itemOptions = options;
+    articleOptions = options;
   };
 
   // CALLBACKS /////////////////////////////////////////////////////////////////
@@ -155,17 +155,17 @@
   function activateBrandCb() {
     brandIsActive = true;
     branchIsActive = false;
-    itemIsActive = false;
+    articleIsActive = false;
   }
 
   function activateBranchCb() {
     brandIsActive = false;
     branchIsActive = true;
-    itemIsActive = false;
+    articleIsActive = false;
   }
 
-  function activateItemCb() {
-    itemIsActive = true;
+  function activateArticleCb() {
+    articleIsActive = true;
     brandIsActive = false;
     branchIsActive = false;
   }
@@ -209,12 +209,12 @@
         onSubmit="{onSubmitBranch}"
       />
     {/await}
-  {:else if itemIsActive}
-    {#await getShopItemComponent() then c}
+  {:else if articleIsActive}
+    {#await getArticleComponent() then c}
       <svelte:component
         this="{c}"
-        bind:isActive="{itemIsActive}"
-        onSubmit="{onSubmitItem}"
+        bind:isActive="{articleIsActive}"
+        onSubmit="{onSubmitArticle}"
       />
     {/await}
   {/if}
@@ -240,12 +240,12 @@
             type="text"
             bind:value="{brandId}"
           >
-            <option value="" class="{shoppingBrandNameOptionSelector}">
+            <option value="" class="{shoppingBrandOptionSelector}">
               ---------
             </option>
 
             {#each brandOptions as { name: nameOption, id } (id)}
-              <option class="{shoppingBrandNameOptionSelector}" value="{id}">
+              <option class="{shoppingBrandOptionSelector}" value="{id}">
                 {nameOption}
               </option>
             {/each}
@@ -282,12 +282,12 @@
             type="text"
             bind:value="{branchId}"
           >
-            <option value="" class="{shoppingBranchNameOptionSelector}">
+            <option value="" class="{shoppingBranchOptionSelector}">
               ---------
             </option>
 
             {#each branchOptions as { id, displayName } (id)}
-              <option class="{shoppingBranchNameOptionSelector}" value="{id}">
+              <option class="{shoppingBranchOptionSelector}" value="{id}">
                 {displayName}
               </option>
             {/each}
@@ -303,33 +303,33 @@
     </div>
   </div>
 
-  <div class="field-container shopping-item">
-    <label class="label" for="{shoppingItemInputId}">
-      Shopping Item
+  <div class="field-container article">
+    <label class="label" for="{shoppingArticleInputId}">
+      Article
 
-      {#if itemId}<span>e.g. Penny rice</span>{/if}
+      {#if articleId}<span>e.g. Penny rice</span>{/if}
 
       <span
         class="label-help-text"
-        id="{shoppingAddItemLabelHelpId}"
-      >{itemLabelHelp}</span>
+        id="{shoppingAddArticleLabelHelpId}"
+      >{articleLabelHelp}</span>
     </label>
 
     <div class="field has-addons">
       <div class="control is-expanded">
         <div class="select is-fullwidth">
           <select
-            id="{shoppingItemInputId}"
+            id="{shoppingArticleInputId}"
             class="input"
             type="text"
-            bind:value="{itemId}"
+            bind:value="{articleId}"
           >
-            <option value="" class="{shoppingItemOptionSelector}">
+            <option value="" class="{shoppingArticleOptionSelector}">
               ---------
             </option>
 
-            {#each itemOptions as { id, specificName } (id)}
-              <option class="{shoppingItemOptionSelector}" value="{id}">
+            {#each articleOptions as { id, specificName } (id)}
+              <option class="{shoppingArticleOptionSelector}" value="{id}">
                 {specificName}
               </option>
             {/each}
@@ -337,9 +337,9 @@
         </div>
       </div>
 
-      <div class="control" on:click|preventDefault="{activateItemCb}">
-        <button class="button is-info" id="{shoppingAddItemId}">
-          {itemLabelText}
+      <div class="control" on:click|preventDefault="{activateArticleCb}">
+        <button class="button is-info" id="{shoppingAddArticleId}">
+          {articleLabelText}
         </button>
       </div>
     </div>

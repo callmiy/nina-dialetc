@@ -29,10 +29,10 @@ export const EDIT_SHOP_BRANCH_LABEL_HELP_TEXT = `Click on '${EDIT_SHOP_BRANCH_LA
 
 
 
-export const ADD_SHOPPING_ITEM_LABEL_TEXT = "Add";
+export const ADD_ARTICLE_LABEL_TEXT = "Add";
 
-export const ADD_SHOPPING_ITEM_LABEL_HELP_TEXT = `Select from the dropdown list or click '${ADD_SHOPPING_ITEM_LABEL_TEXT}' to create new shopping item`;
+export const ADD_ARTICLE_LABEL_HELP_TEXT = `Select from the dropdown list or click '${ADD_ARTICLE_LABEL_TEXT}' to create new article`;
 
-export const EDIT_SHOPPING_ITEM_LABEL_TEXT = "Edit";
+export const EDIT_ARTICLE_LABEL_TEXT = "Edit";
 
-export const EDIT_SHOPPING_ITEM_LABEL_HELP_TEXT = `Click on '${EDIT_SHOPPING_ITEM_LABEL_TEXT}' button to modify currently selected shopping item`;
+export const EDIT_ARTICLE_LABEL_HELP_TEXT = `Click on '${EDIT_ARTICLE_LABEL_TEXT}' button to modify currently selected article`;
