@@ -163,7 +163,7 @@
       ></button>
     </header>
 
-    <fieldset autocomplete="off" class="modal-card-body">
+    <fieldset class="modal-card-body">
       {#if notificationText}
         <Notification
           closeId="{branchNotificationTextCloseId}"
@@ -254,7 +254,7 @@
       </div>
     </fieldset>
 
-    <footer class="modal-card-foot">
+    <fieldset class="modal-card-foot">
       <button
         id="{branchSubmitId}"
         class="button is-success"
@@ -268,6 +268,6 @@
         id="{branchResetId}"
         on:click|preventDefault="{resetFormCb}"
       >Reset</button>
-    </footer>
+    </fieldset>
   </div>
 </div>

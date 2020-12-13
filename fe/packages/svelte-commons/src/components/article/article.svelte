@@ -126,7 +126,7 @@
       ></button>
     </header>
 
-    <section class="modal-card-body">
+    <fieldset class="modal-card-body">
       {#if notificationText}
         <Notification
           closeId="{articleCloseNotificationId}"
@@ -192,9 +192,9 @@
           />
         </div>
       </div>
-    </section>
+    </fieldset>
 
-    <footer class="modal-card-foot">
+    <fieldset class="modal-card-foot">
       <button
         id="{articleSubmitId}"
         class="button is-success"
@@ -208,6 +208,6 @@
         id="{articleResetId}"
         on:click|preventDefault="{resetFormCb}"
       >Reset</button>
-    </footer>
+    </fieldset>
   </div>
 </div>
