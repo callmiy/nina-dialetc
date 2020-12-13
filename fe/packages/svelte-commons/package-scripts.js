@@ -1,4 +1,4 @@
-const commonScripts = require("../../package-commons-scripts");
+const commonScripts = require("../../_package-scripts");
 
 module.exports = {
   scripts: {

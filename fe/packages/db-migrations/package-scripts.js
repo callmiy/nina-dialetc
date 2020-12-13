@@ -1,5 +1,5 @@
 const child_process = require("child_process");
-const commonScripts = require("../../package-commons-scripts");
+const commonScripts = require("../../_package-scripts");
 
 const { DATABASE_URL: dbUrl } = process.env;
 

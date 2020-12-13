@@ -1,5 +1,5 @@
 const path = require("path");
-const commonScripts = require("../../package-commons-scripts");
+const commonScripts = require("../../_package-scripts");
 
 const exts = ".ts,.js";
 const babelExts = ` --extensions ${exts} `;
