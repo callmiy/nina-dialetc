@@ -150,10 +150,9 @@ describe("brand tests", () => {
     expect(getById(brandNotificationTextCloseId)).toBeNull();
 
     // The form should not be disabled
-    const fieldsetEl = container.querySelector(
-      "fieldset"
-    ) as HTMLFieldSetElement;
-    expect(fieldsetEl.disabled).toBe(false);
+    container.querySelectorAll("fieldset").forEach((f) => {
+      expect((f as HTMLFieldSetElement).disabled).toBe(false);
+    });
   });
 
   it(`currencies and countries loading`, async () => {
@@ -176,10 +175,9 @@ describe("brand tests", () => {
     expect(currencyLoadingEl.textContent).toBe(CURRENCIES_LOADING_MSG);
 
     // The form should be disabled
-    const fieldsetEl = container.querySelector(
-      "fieldset"
-    ) as HTMLFieldSetElement;
-    expect(fieldsetEl.disabled).toBe(true);
+    container.querySelectorAll("fieldset").forEach((f) => {
+      expect((f as HTMLFieldSetElement).disabled).toBe(true);
+    });
   });
 
   it(`brand name too short /

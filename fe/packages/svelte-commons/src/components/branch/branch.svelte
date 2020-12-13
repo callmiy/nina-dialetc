@@ -163,7 +163,7 @@
       ></button>
     </header>
 
-    <section class="modal-card-body">
+    <fieldset autocomplete="off" class="modal-card-body">
       {#if notificationText}
         <Notification
           closeId="{branchNotificationTextCloseId}"
@@ -252,7 +252,7 @@
           />
         </div>
       </div>
-    </section>
+    </fieldset>
 
     <footer class="modal-card-foot">
       <button

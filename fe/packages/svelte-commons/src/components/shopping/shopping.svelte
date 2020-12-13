@@ -192,7 +192,7 @@
   }
 </style>
 
-<form>
+<form autocomplete="off">
   {#if brandIsActive}
     {#await getBrandComponent() then c}
       <svelte:component

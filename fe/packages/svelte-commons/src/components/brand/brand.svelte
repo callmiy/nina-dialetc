@@ -54,6 +54,7 @@
 
   let fetchLoadingFlag = false;
   let fetchErrorFlag = false;
+  let disableForm = false;
 
   $: {
     if (
@@ -72,6 +73,8 @@
       fetchLoadingFlag = false;
       fetchErrorFlag = false;
     }
+
+    disableForm = fetchErrorFlag || fetchLoadingFlag;
   }
 
   /* PROPS */
@@ -188,10 +191,7 @@
       ></button>
     </header>
 
-    <fieldset
-      class="modal-card-body"
-      disabled="{fetchErrorFlag || fetchLoadingFlag}"
-    >
+    <fieldset class="modal-card-body" disabled="{disableForm}">
       {#if notificationText}
         <Notification
           closeId="{brandNotificationTextCloseId}"
@@ -313,10 +313,7 @@
       </div>
     </fieldset>
 
-    <fieldset
-      class="modal-card-foot"
-      disabled="{fetchErrorFlag || fetchLoadingFlag}"
-    >
+    <fieldset class="modal-card-foot" disabled="{disableForm}">
       <button
         id="{submitBrandId}"
         class="button is-success"
