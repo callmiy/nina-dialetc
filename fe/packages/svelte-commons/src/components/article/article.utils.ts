@@ -2,7 +2,7 @@ export type ArticleValues = {
   id: string;
   specificName: string;
   genericName?: string | null;
-  tags: ArticleTag[]
+  tags: ArticleTag[];
 };
 
 export type Props = {

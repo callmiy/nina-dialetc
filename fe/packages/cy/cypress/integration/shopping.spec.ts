@@ -71,10 +71,7 @@ context("Shopping", () => {
         .as("brandInput")
         .should("have.value", "")
         .within(() => {
-          cy.get("." + shoppingBrandOptionSelector).should(
-            "have.length",
-            1
-          );
+          cy.get("." + shoppingBrandOptionSelector).should("have.length", 1);
         });
 
       cy.get("#" + brandDomId).within(() => {
@@ -135,10 +132,7 @@ context("Shopping", () => {
         .as("shopBranchEl")
         .should("have.value", "")
         .within(() => {
-          cy.get("." + shoppingBranchOptionSelector).should(
-            "have.length",
-            1
-          );
+          cy.get("." + shoppingBranchOptionSelector).should("have.length", 1);
         });
 
       cy.get("#" + branchDomId).within(() => {
@@ -191,10 +185,9 @@ context("Shopping", () => {
 
       // Article value should be article element input
       cy.get("@articleInputEl").within(() => {
-        cy.get("option:checked")
-          .then((e) => {
-            expect(e.text().trim()).to.eq(articleSpecificName);
-          });
+        cy.get("option:checked").then((e) => {
+          expect(e.text().trim()).to.eq(articleSpecificName);
+        });
       });
       //
     });

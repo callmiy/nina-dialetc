@@ -25,10 +25,6 @@ export const EDIT_SHOP_BRANCH_LABEL_TEXT = "Edit";
 
 export const EDIT_SHOP_BRANCH_LABEL_HELP_TEXT = `Click on '${EDIT_SHOP_BRANCH_LABEL_TEXT}' button to modify currently selected branch`;
 
-
-
-
-
 export const ADD_ARTICLE_LABEL_TEXT = "Add";
 
 export const ADD_ARTICLE_LABEL_HELP_TEXT = `Select from the dropdown list or click '${ADD_ARTICLE_LABEL_TEXT}' to create new article`;

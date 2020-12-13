@@ -82,9 +82,7 @@ describe("Shopping", () => {
     await addEl.click();
 
     // No brand should have been selected
-    const inputEl = getById<HTMLSelectElement>(
-      shoppingBrandInputId
-    );
+    const inputEl = getById<HTMLSelectElement>(shoppingBrandInputId);
     expect(inputEl.value).toBe("");
 
     // When a brand is submitted

@@ -59,7 +59,7 @@ const config = {
             loader: MiniCssExtractPlugin.loader,
             options: {
               hmr: !prod,
-              sourceMap: !prod ||  sourceMapsInProduction,
+              sourceMap: !prod || sourceMapsInProduction,
             },
           },
           // prod ? MiniCssExtractPlugin.loader : "style-loader",

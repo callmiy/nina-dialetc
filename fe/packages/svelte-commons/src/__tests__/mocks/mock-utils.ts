@@ -1,4 +1,4 @@
-import {ArticleValues} from "../../components/article/article.utils";
+import { ArticleValues } from "../../components/article/article.utils";
 
 export const brandSubmitValue1 = {
   id: "bdId1",
