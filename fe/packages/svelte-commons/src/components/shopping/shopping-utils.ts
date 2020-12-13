@@ -32,3 +32,25 @@ export const ADD_ARTICLE_LABEL_HELP_TEXT = `Select from the dropdown list or cli
 export const EDIT_ARTICLE_LABEL_TEXT = "Edit";
 
 export const EDIT_ARTICLE_LABEL_HELP_TEXT = `Click on '${EDIT_ARTICLE_LABEL_TEXT}' button to modify currently selected article`;
+
+export function getTotalPrice(
+  unitPrice: string | number,
+  quantity: string | number
+) {
+  const totalPrice = +((+unitPrice || 0) * (+quantity || 0) || "");
+
+  if (totalPrice) {
+    return new Intl.NumberFormat(
+      // "en-US",
+      undefined,
+      {
+        // style: "currency",
+        // currency: "USD",
+        maximumFractionDigits: 2,
+        // minimumFractionDigits: 2,
+      }
+    ).format(totalPrice);
+  }
+
+  return "";
+}

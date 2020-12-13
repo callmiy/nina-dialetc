@@ -18,6 +18,7 @@ export const shoppingAddArticleLabelHelpId = `js-${shoppingPrefix}-add-article-l
 export const shoppingAddBrandId = `${shoppingPrefix}-add-brand`;
 export const shoppingAddBranchId = `${shoppingPrefix}-add-branch`;
 export const shoppingAddArticleId = `${shoppingPrefix}-add-article`;
+export const shoppingUnitId = `${shoppingPrefix}-unit`;
 
 // SHOP BRAND /////////////////////////////////////////////////////////////////
 

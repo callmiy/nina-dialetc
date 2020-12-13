@@ -12,6 +12,7 @@
     shoppingArticleInputId,
     shoppingAddArticleLabelHelpId,
     shoppingArticleOptionSelector,
+    shoppingUnitId,
   } from "@ta/cm/src/selectors";
 
   import { Props as BrandProps, BrandValues } from "../brand/brand-utils";
@@ -34,6 +35,7 @@
     ADD_ARTICLE_LABEL_HELP_TEXT,
     EDIT_ARTICLE_LABEL_TEXT,
     EDIT_ARTICLE_LABEL_HELP_TEXT,
+    getTotalPrice,
   } from "./shopping-utils";
   import { getBrandComponent } from "../lazies/brand.lazy";
   import { getBranchComponent } from "../lazies/branch.lazy";
@@ -119,6 +121,14 @@
   let articleIsActive = false;
   let articleId = "";
   let articleOptions: ArticleValues[] = [];
+  let unit = "";
+  let unitPrice = "";
+  let totalPrice = "";
+  let quantity = "";
+
+  $: {
+    totalPrice = getTotalPrice(unitPrice, quantity);
+  }
 
   let articleLabelText = ADD_ARTICLE_LABEL_TEXT;
   let articleLabelHelp = ADD_ARTICLE_LABEL_HELP_TEXT;
@@ -343,5 +353,79 @@
         </button>
       </div>
     </div>
+
+    <div class="field price-per-unit-field">
+      <label class="label" for="{shoppingUnitId}">
+        Unit
+        <span>e.g. kg/litre</span>
+      </label>
+
+      <div class="control">
+        <input
+          id="{shoppingUnitId}"
+          class="input"
+          type="text"
+          bind:value="{unit}"
+        />
+      </div>
+    </div>
+
+    <div class="field unit-price-field">
+      <label class="label" for="{shoppingUnitId}"> Quantity </label>
+
+      <div class="control">
+        <input
+          id="{shoppingUnitId}"
+          class="input"
+          type="number"
+          bind:value="{quantity}"
+        />
+      </div>
+    </div>
+
+    <div class="field unit-price-field">
+      <label class="label" for="{shoppingUnitId}"> Unit price </label>
+
+      <div style="display:flex" class="control has-icons-left">
+        <button
+          style="width:initial;position:relative;border-top-right-radius:0;border-bottom-right-radius:0;color:initial"
+          class="button icon is-left"
+          id="{shoppingAddArticleId}"
+          disabled
+        >
+          EURO
+        </button>
+
+        <input
+          style="flex:1;order-top-left-radius: 0;border-bottom-left-radius: 0;padding-left: calc(0.75em - 5px);"
+          id="{shoppingUnitId}"
+          class="input"
+          type="number"
+          bind:value="{unitPrice}"
+        />
+      </div>
+    </div>
+
+    <fieldset disabled class="field unit-price-field">
+      <label class="label" for="{shoppingUnitId}"> Total price </label>
+
+      <div style="display:flex" class="control has-icons-left">
+        <button
+          style="width:initial;position:relative;border-top-right-radius:0;border-bottom-right-radius:0;color:initial"
+          class="button icon is-left"
+          id="{shoppingAddArticleId}"
+        >
+          EURO
+        </button>
+
+        <input
+          style="flex:1;order-top-left-radius: 0;border-bottom-left-radius: 0;padding-left: calc(0.75em - 5px);"
+          id="{shoppingUnitId}"
+          class="input"
+          type="text"
+          value="{totalPrice}"
+        />
+      </div>
+    </fieldset>
   </div>
 </form>
