@@ -6,9 +6,19 @@ const { DefinePlugin } = require("webpack");
 const mode = process.env.NODE_ENV || "development";
 const prod = mode === "production";
 
-module.exports = {
+/**
+ * Should source maps be generated alongside your production bundle? This will expose your raw source code, so it's
+ * disabled by default.
+ */
+const sourceMapsInProduction = false;
+
+const config = {
   entry: {
-    bundle: ["./src/main.ts"],
+    bundle: [
+      "./src/main.ts",
+      // "../../node_modules/bulma/bulma.sass",
+      "../commons/src/styles/globals.scss",
+    ],
   },
   resolve: {
     alias: {
@@ -42,13 +52,33 @@ module.exports = {
         },
       },
       {
+        test: /\.(scss|sass)$/,
+        use: [
+          // slow recompilation: will enable when hrm lands in svelte-loader
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: !prod,
+              sourceMap: !prod ||  sourceMapsInProduction,
+            },
+          },
+          // prod ? MiniCssExtractPlugin.loader : "style-loader",
+          "css-loader",
+          "sass-loader",
+        ],
+      },
+      {
         test: /\.css$/,
         use: [
-          /**
-           * MiniCssExtractPlugin doesn't support HMR.
-           * For developing, use 'style-loader' instead.
-           * */
-          prod ? MiniCssExtractPlugin.loader : "style-loader",
+          // slow recompilation: will enable when hrm lands in svelte-loader
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: !prod,
+              sourceMap: !prod || sourceMapsInProduction,
+            },
+          },
+          // prod ? MiniCssExtractPlugin.loader : "style-loader",
           "css-loader",
         ],
       },
@@ -97,3 +127,5 @@ module.exports = {
   ],
   devtool: prod ? false : "source-map",
 };
+
+module.exports = config;
