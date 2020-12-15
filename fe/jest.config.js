@@ -8,7 +8,7 @@ const appsMap = {
 
 const projects = [];
 
-test_apps.split(",").forEach((app) => {
+test_apps.split(/[,.]/).forEach((app) => {
   projects.push(appsMap[app]);
 });
 
