@@ -1,19 +1,19 @@
 version: "3.4"
 services:
   db:
-    image: postgres:12.2
+    image: postgres:13.1
     ports:
       - "${DOCKER_HOST_DATABASE_PORT}:5432"
     # restart: always
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: "${DATABASE_NAME}"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
+    # healthcheck:
+    #   test: ["CMD-SHELL", "pg_isready -U postgres"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+    #   start_period: 10s
     volumes:
       - "./docker/data/postgres-${COMPOSE_PROJECT_NAME}:/var/lib/postgresql/data"
 
@@ -24,7 +24,7 @@ services:
         NODE_ENV: "${NODE_ENV}"
     # without this, react scripts 3.4.1 will not attach to tty
     stdin_open: true
-    image: "talat-fe-${NODE_ENV}"
+    image: "nina-fe-${NODE_ENV}"
     entrypoint: ["/usr/local/bin/entrypoint.sh"]
     # depends_on:
     #   - "api"

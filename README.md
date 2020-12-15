@@ -1,1 +1,1 @@
-# The talat application
+# The Nina application

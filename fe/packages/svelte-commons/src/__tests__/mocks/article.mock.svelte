@@ -1,8 +1,8 @@
 <script lang="ts">
   import { articleVal } from "./mock-utils";
 
-  export let isActive;
-  export let onSubmit;
+  export let isActive: boolean;
+  export let onSubmit: any;
 </script>
 
 <div id="article-mock" class:active="{isActive}">

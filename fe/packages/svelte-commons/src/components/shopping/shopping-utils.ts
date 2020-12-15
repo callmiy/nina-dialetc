@@ -1,5 +1,5 @@
-import { BranchValues } from "../branch/branch-utils";
-import { Omit } from "@ta/cm/src/types";
+import {BranchValues} from "../branch/branch-utils";
+import {Omit} from "@ta/cm/src/types";
 
 export function getBranchDisplayName({
   postCode,
@@ -37,7 +37,12 @@ export function getTotalPrice(
   unitPrice: string | number,
   quantity: string | number
 ) {
-  const totalPrice = +((+unitPrice || 0) * (+quantity || 0) || "");
+  let u = +unitPrice;
+  u = isNaN(u) ? 0 : u;
+
+  let q = +quantity
+  q = isNaN(q) ? 0 : q;
+  const totalPrice = (u) * (q);
 
   if (totalPrice) {
     return new Intl.NumberFormat(

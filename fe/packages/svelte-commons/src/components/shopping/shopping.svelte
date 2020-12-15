@@ -41,7 +41,7 @@
   import { getBranchComponent } from "../lazies/branch.lazy";
   import { getArticleComponent } from "../lazies/article.lazy";
 
-  // BRAND ///////////////////////////////////////////////////////////////////////
+  // BRAND /////////////////////////////////////////////////////////////////
 
   let brandId = "";
   let brandOptions: BrandValues[] = [];
@@ -76,7 +76,7 @@
     brandOptions = options;
   };
 
-  // BRANCH ///////////////////////////////////////////////////////////////////////
+  // BRANCH /////////////////////////////////////////////////////////////////
 
   let branchIsActive = false;
   let branchOptions: BranchValuesWithDisplayName[] = [];
@@ -204,25 +204,25 @@
 
 <form autocomplete="off">
   {#if brandIsActive}
-    {#await getBrandComponent() then c}
+    {#await getBrandComponent() then _c}
       <svelte:component
-        this="{c}"
+        this="{_c}"
         bind:isActive="{brandIsActive}"
         onSubmit="{onSubmitBrand}"
       />
     {/await}
   {:else if branchIsActive}
-    {#await getBranchComponent() then c}
+    {#await getBranchComponent() then _c}
       <svelte:component
-        this="{c}"
+        this="{_c}"
         bind:isActive="{branchIsActive}"
         onSubmit="{onSubmitBranch}"
       />
     {/await}
   {:else if articleIsActive}
-    {#await getArticleComponent() then c}
+    {#await getArticleComponent() then _c}
       <svelte:component
-        this="{c}"
+        this="{_c}"
         bind:isActive="{articleIsActive}"
         onSubmit="{onSubmitArticle}"
       />
