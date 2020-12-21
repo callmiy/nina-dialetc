@@ -8,7 +8,6 @@
     branchPostCodeInputId,
     branchAliasInputId,
     branchSubmitId,
-    branchPostCodeOptionSelector,
     branchNotificationTextCloseId,
     branchPostCodeErrorId,
     branchCityErrorId,
@@ -18,7 +17,6 @@
     WARNING_NOTIFICATION_CLASS_NAME,
   } from "@ta/cm/src/selectors";
   import {
-    IS_ACTIVE_CLASS_NAME,
     NOTHING_TO_SAVE_WARNING_MESSAGE,
     FORM_CONTAINS_ERRORS_MESSAGE,
   } from "@ta/cm/src/constants";
@@ -27,7 +25,7 @@
   import FormCtrlMsg from "../form-ctrl-msg.svelte";
   import Notification from "../notification.svelte";
 
-  import { BranchValues } from "@ta/cm/src/components/branch-utils";
+  import { Props } from "@ta/cm/src/components/branch-utils";
 
   /* FORM ATTRIBUTES AND ERROR VARIABLES */
   let postCode = "";
@@ -128,10 +126,6 @@
     notificationTextClass = "";
   }
 
-  export type Props = {
-    isActive: boolean;
-    onSubmit?: (values: BranchValues) => void;
-  };
 </script>
 
 <style lang="scss">

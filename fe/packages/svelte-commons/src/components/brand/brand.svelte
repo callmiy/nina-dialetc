@@ -18,7 +18,6 @@
     ERROR_NOTIFICATION_CLASS_NAME,
   } from "@ta/cm/src/selectors";
   import {
-    IS_ACTIVE_CLASS_NAME,
     NOTHING_TO_SAVE_WARNING_MESSAGE,
     FORM_CONTAINS_ERRORS_MESSAGE,
   } from "@ta/cm/src/constants";

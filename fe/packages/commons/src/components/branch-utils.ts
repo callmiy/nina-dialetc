@@ -6,3 +6,8 @@ export type BranchValues = {
   branchAlias?: string | null;
   phone?: string | null;
 };
+
+export type Props = {
+  isActive: boolean;
+  onSubmit?: (values: BranchValues) => void;
+};

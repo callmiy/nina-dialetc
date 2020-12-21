@@ -47,7 +47,6 @@ export const branchDomId = "components__shop-branch";
 
 export const branchPostCodeInputId = `${branchDomId}-post-code`;
 export const branchPostCodeErrorId = `${branchDomId}-post-code-error`;
-export const branchPostCodeOptionSelector = `js-${branchDomId}-post-code-option`;
 
 export const branchCityInputId = `${branchDomId}-city-input`;
 export const branchCityErrorId = `${branchDomId}-city-error`;
