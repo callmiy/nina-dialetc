@@ -1,5 +1,5 @@
-import { BranchValues } from "@ta/cm/src/components/branch-utils";
-import { Omit } from "@ta/cm/src/types";
+import { BranchValues } from "./branch-utils";
+import { Omit } from "../types";
 
 export function getBranchDisplayName({
   postCode,

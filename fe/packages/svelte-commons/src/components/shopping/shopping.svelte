@@ -41,7 +41,7 @@
     ADD_ARTICLE_LABEL_HELP_TEXT,
     EDIT_ARTICLE_LABEL_TEXT,
     EDIT_ARTICLE_LABEL_HELP_TEXT,
-  } from "./shopping-utils";
+  } from "@ta/cm/src/components/shopping-utils";
   import { getBrandComponent } from "../lazies/brand.lazy";
   import { getBranchComponent } from "../lazies/branch.lazy";
   import { getArticleComponent } from "../lazies/article.lazy";

@@ -31,7 +31,7 @@ import {
   ADD_ARTICLE_LABEL_HELP_TEXT,
   EDIT_ARTICLE_LABEL_TEXT,
   EDIT_ARTICLE_LABEL_HELP_TEXT,
-} from "../components/shopping/shopping-utils";
+} from "@ta/cm/src/components/shopping-utils";
 import {
   brandSubmitValue1,
   branchSubmitVal1,
