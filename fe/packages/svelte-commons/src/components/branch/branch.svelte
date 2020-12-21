@@ -27,7 +27,7 @@
   import FormCtrlMsg from "../form-ctrl-msg.svelte";
   import Notification from "../notification.svelte";
 
-  import { BranchValues } from "./branch-utils";
+  import { BranchValues } from "@ta/cm/src/components/branch-utils";
 
   /* FORM ATTRIBUTES AND ERROR VARIABLES */
   let postCode = "";

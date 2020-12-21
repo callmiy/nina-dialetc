@@ -19,7 +19,7 @@
   } from "@ta/cm/src/selectors";
 
   import { Props as BrandProps, BrandValues } from "../brand/brand-utils";
-  import { BranchValues } from "../branch/branch-utils";
+  import { BranchValues } from "@ta/cm/src/components/branch-utils";
   import {
     Props as ArticleProps,
     ArticleValues,

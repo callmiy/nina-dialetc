@@ -1,4 +1,4 @@
-import { BranchValues } from "../branch/branch-utils";
+import { BranchValues } from "@ta/cm/src/components/branch-utils";
 import { Omit } from "@ta/cm/src/types";
 
 export function getBranchDisplayName({
