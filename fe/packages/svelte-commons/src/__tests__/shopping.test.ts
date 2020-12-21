@@ -67,7 +67,7 @@ beforeEach(() => {
   cleanup();
 });
 
-describe("Shopping", () => {
+describe("Component", () => {
   it(`changes brand/branch buttons labels and help texts`, async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug } = render(Shopping);

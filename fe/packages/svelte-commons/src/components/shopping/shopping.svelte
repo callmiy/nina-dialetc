@@ -12,7 +12,10 @@
     shoppingArticleInputId,
     shoppingAddArticleLabelHelpId,
     shoppingArticleOptionSelector,
-    shoppingUnitId,
+    shoppingUnitPriceId,
+    shoppingUnitOfMeasureId,
+    shoppingQuantityId,
+    shoppingTotalPriceId,
   } from "@ta/cm/src/selectors";
 
   import { Props as BrandProps, BrandValues } from "../brand/brand-utils";
@@ -35,11 +38,11 @@
     ADD_ARTICLE_LABEL_HELP_TEXT,
     EDIT_ARTICLE_LABEL_TEXT,
     EDIT_ARTICLE_LABEL_HELP_TEXT,
-    getTotalPrice,
   } from "./shopping-utils";
   import { getBrandComponent } from "../lazies/brand.lazy";
   import { getBranchComponent } from "../lazies/branch.lazy";
   import { getArticleComponent } from "../lazies/article.lazy";
+  import { getTotalPrice } from "@ta/cm/src/utils/get-total-price";
 
   // BRAND /////////////////////////////////////////////////////////////////
 
@@ -200,6 +203,14 @@
     font-weight: 300;
     font-size: 0.9em;
   }
+
+  .currency-button {
+    width: initial;
+    position: relative;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    color: initial;
+  }
 </style>
 
 <form autocomplete="off">
@@ -354,15 +365,15 @@
       </div>
     </div>
 
-    <div class="field price-per-unit-field">
-      <label class="label" for="{shoppingUnitId}">
-        Unit
+    <div class="field unit-of-measure">
+      <label class="label" for="{shoppingUnitOfMeasureId}">
+        Unit of measure
         <span>e.g. kg/litre</span>
       </label>
 
       <div class="control">
         <input
-          id="{shoppingUnitId}"
+          id="{shoppingUnitOfMeasureId}"
           class="input"
           type="text"
           bind:value="{unit}"
@@ -370,12 +381,12 @@
       </div>
     </div>
 
-    <div class="field unit-price-field">
-      <label class="label" for="{shoppingUnitId}"> Quantity </label>
+    <div class="field quantity-field">
+      <label class="label" for="{shoppingQuantityId}"> Quantity </label>
 
       <div class="control">
         <input
-          id="{shoppingUnitId}"
+          id="{shoppingQuantityId}"
           class="input"
           type="number"
           bind:value="{quantity}"
@@ -384,12 +395,11 @@
     </div>
 
     <div class="field unit-price-field">
-      <label class="label" for="{shoppingUnitId}"> Unit price </label>
+      <label class="label" for="{shoppingUnitPriceId}"> Unit price </label>
 
       <div style="display:flex" class="control has-icons-left">
         <button
-          style="width:initial;position:relative;border-top-right-radius:0;border-bottom-right-radius:0;color:initial"
-          class="button icon is-left"
+          class="button icon is-left currency-button"
           id="{shoppingAddArticleId}"
           disabled
         >
@@ -398,7 +408,7 @@
 
         <input
           style="flex:1;order-top-left-radius: 0;border-bottom-left-radius: 0;padding-left: calc(0.75em - 5px);"
-          id="{shoppingUnitId}"
+          id="{shoppingUnitPriceId}"
           class="input"
           type="number"
           bind:value="{unitPrice}"
@@ -406,13 +416,12 @@
       </div>
     </div>
 
-    <fieldset disabled class="field unit-price-field">
-      <label class="label" for="{shoppingUnitId}"> Total price </label>
+    <fieldset disabled class="field total-price-field">
+      <label class="label" for="{shoppingTotalPriceId}"> Total price </label>
 
       <div style="display:flex" class="control has-icons-left">
         <button
-          style="width:initial;position:relative;border-top-right-radius:0;border-bottom-right-radius:0;color:initial"
-          class="button icon is-left"
+          class="button icon is-left currency-button"
           id="{shoppingAddArticleId}"
         >
           EURO
@@ -420,7 +429,7 @@
 
         <input
           style="flex:1;order-top-left-radius: 0;border-bottom-left-radius: 0;padding-left: calc(0.75em - 5px);"
-          id="{shoppingUnitId}"
+          id="{shoppingTotalPriceId}"
           class="input"
           type="text"
           value="{totalPrice}"

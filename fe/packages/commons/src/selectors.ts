@@ -15,10 +15,13 @@ export const shoppingArticleOptionSelector = `js-${shoppingPrefix}-article-optio
 export const shoppingAddBrandLabelHelpId = `js-${shoppingPrefix}-add-brand-label-help`;
 export const shoppingAddBranchLabelHelpId = `js-${shoppingPrefix}-add-branch-label-help`;
 export const shoppingAddArticleLabelHelpId = `js-${shoppingPrefix}-add-article-label-help`;
-export const shoppingAddBrandId = `${shoppingPrefix}-add-brand`;
-export const shoppingAddBranchId = `${shoppingPrefix}-add-branch`;
-export const shoppingAddArticleId = `${shoppingPrefix}-add-article`;
-export const shoppingUnitId = `${shoppingPrefix}-unit`;
+export const shoppingAddBrandId = `${shoppingPrefix}-add-brand-id`;
+export const shoppingAddBranchId = `${shoppingPrefix}-add-branch-id`;
+export const shoppingAddArticleId = `${shoppingPrefix}-add-article-id`;
+export const shoppingUnitOfMeasureId = `${shoppingPrefix}-unit-of-measure-id`;
+export const shoppingUnitPriceId = `${shoppingPrefix}-unit-price-id`;
+export const shoppingQuantityId = `${shoppingPrefix}-quantity-id`;
+export const shoppingTotalPriceId = `${shoppingPrefix}-total-price-id`;
 
 // SHOP BRAND /////////////////////////////////////////////////////////////////
 

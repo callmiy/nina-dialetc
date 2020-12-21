@@ -1,8 +1,8 @@
 <script lang="ts">
   import { branchSubmitVal1 } from "./mock-utils";
 
-  export let isActive;
-  export let onSubmit;
+  export let isActive: any;
+  export let onSubmit: any;
 </script>
 
 <div id="branch-mock" class:active="{isActive}">
