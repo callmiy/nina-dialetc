@@ -35,7 +35,7 @@ import {
   articleTagsInputDomId,
   articleSubmitId,
 } from "@ta/cm/src/selectors";
-import { getBranchDisplayName } from "@ta/sc/src/components/shopping/shopping-utils";
+import { getBranchDisplayName } from "@ta/cm/src/components/shopping-utils";
 
 context("Shopping", () => {
   beforeEach(() => {
