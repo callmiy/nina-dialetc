@@ -207,7 +207,7 @@
     font-size: 0.9em;
   }
 
-  .currency-button {
+  .button.currency-button {
     width: initial;
     position: relative;
     border-top-right-radius: 0;
