@@ -18,7 +18,10 @@
     shoppingTotalPriceId,
   } from "@ta/cm/src/selectors";
 
-  import { Props as BrandProps, BrandValues } from "../brand/brand-utils";
+  import {
+    Props as BrandProps,
+    BrandValues,
+  } from "@ta/cm/src/components/brand-utils";
   import { BranchValues } from "@ta/cm/src/components/branch-utils";
   import {
     Props as ArticleProps,

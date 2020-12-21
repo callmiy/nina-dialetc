@@ -32,7 +32,7 @@
   import Notification from "../notification.svelte";
   import Spinner from "../spinner.svelte";
   import { newUlid } from "@ta/cm/src/db/ulid-uuid";
-  import { Props } from "./brand-utils";
+  import { Props } from "@ta/cm/src/components/brand-utils";
   import { StateValue } from "@ta/cm/src/constants";
 
   getCountriesCurrenciesStore();
