@@ -15,9 +15,6 @@ import {
   shoppingArticleInputId,
 } from "@ta/cm/src/selectors";
 import { getById } from "@ta/cm/src/__tests__/utils-dom";
-import mockBrand from "./mocks/brand.mock.svelte";
-import mockBranch from "./mocks/branch.mock.svelte";
-import mockArticle from "./mocks/article.mock.svelte";
 import {
   ADD_SHOP_BRAND_LABEL_TEXT,
   ADD_SHOP_BRAND_LABEL_HELP_TEXT,
@@ -38,6 +35,9 @@ import {
   articleVal,
 } from "./mocks/mock-utils";
 
+import mockBrand from "./mocks/brand.mock.svelte";
+import mockBranch from "./mocks/branch.mock.svelte";
+import mockArticle from "./mocks/article.mock.svelte";
 jest.mock("../components/lazies/brand.lazy", () => {
   return {
     getBrandComponent: () => {
@@ -45,7 +45,6 @@ jest.mock("../components/lazies/brand.lazy", () => {
     },
   };
 });
-
 jest.mock("../components/lazies/branch.lazy", () => {
   return {
     getBranchComponent: () => {
@@ -53,7 +52,6 @@ jest.mock("../components/lazies/branch.lazy", () => {
     },
   };
 });
-
 jest.mock("../components/lazies/article.lazy", () => {
   return {
     getArticleComponent: () => {
@@ -62,12 +60,12 @@ jest.mock("../components/lazies/article.lazy", () => {
   };
 });
 
-beforeEach(() => {
-  jest.clearAllMocks();
-  cleanup();
-});
+describe("Shopping svelte", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    cleanup();
+  });
 
-describe("Component", () => {
   it(`changes brand/branch buttons labels and help texts`, async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug } = render(Shopping);

@@ -17,20 +17,20 @@ import {
 } from "@ta/cm/src/selectors";
 import { fillFieldInput, getById } from "@ta/cm/src/__tests__/utils-dom";
 import { articleVal } from "./mocks/mock-utils";
-import { ArticleTag } from "../components/article/article.utils";
+import { ArticleTag } from "@ta/cm/src/components/article.utils";
 
 let mockId = 0;
 jest.mock("@ta/cm/src/db/ulid-uuid", () => ({
   newUlid: () => ++mockId + "",
 }));
 
-afterEach(() => {
-  jest.clearAllMocks();
-  cleanup();
-  mockId = 0;
-});
+describe("Article Svelte", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    cleanup();
+    mockId = 0;
+  });
 
-describe("Article", () => {
   let tagTexts = "";
   const { tags } = articleVal;
   const len = tags.length - 1;

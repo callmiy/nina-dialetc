@@ -21,19 +21,17 @@ import {
 } from "@ta/cm/src/selectors";
 import { fillFieldInput, getById } from "@ta/cm/src/__tests__/utils-dom";
 import { branchSubmitVal1 } from "./mocks/mock-utils";
+import { newUlid } from "@ta/cm/src/db/ulid-uuid";
 
-let mockId = 0;
-jest.mock("@ta/cm/src/db/ulid-uuid", () => ({
-  newUlid: () => ++mockId,
-}));
+jest.mock("@ta/cm/src/db/ulid-uuid");
+const mockNewUlid = newUlid as jest.Mock;
 
-afterEach(() => {
-  jest.clearAllMocks();
-  cleanup();
-  mockId = 0;
-});
+describe("Shop branch svelte", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    cleanup();
+  });
 
-describe("Shop branch", () => {
   it("closes component", async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug } = render(Branch, {
@@ -165,6 +163,7 @@ describe("Shop branch", () => {
   });
 
   it("submits valid form", async () => {
+    mockNewUlid.mockReturnValue("1");
     const mockOnSubmit = jest.fn();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -202,12 +201,13 @@ describe("Shop branch", () => {
     // Form data should be passed to parent
     expect(mockOnSubmit).toBeCalledWith({
       ...branchSubmitVal1,
-      id: 1,
+      id: "1",
     });
   });
 
   it("phone and alias may be empty", async () => {
     const mockOnSubmit = jest.fn();
+    mockNewUlid.mockReturnValue("a");
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug } = render(Branch, {
@@ -234,7 +234,7 @@ describe("Shop branch", () => {
     // Form data should be passed to parent
     expect(mockOnSubmit).toBeCalledWith({
       ...branchSubmitVal1,
-      id: 1,
+      id: "a",
       phone: null,
       branchAlias: null,
     });

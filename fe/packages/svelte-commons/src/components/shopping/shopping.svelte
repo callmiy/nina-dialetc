@@ -26,7 +26,7 @@
   import {
     Props as ArticleProps,
     ArticleValues,
-  } from "../article/article.utils";
+  } from "@ta/cm/src/components/article.utils";
   import {
     getBranchDisplayName,
     ADD_SHOP_BRAND_LABEL_TEXT,
@@ -264,9 +264,7 @@
             type="text"
             bind:value="{brandId}"
           >
-            <option value="" class="{shoppingBrandOptionSelector}">
-              ---------
-            </option>
+            <option value="" class="{shoppingBrandOptionSelector}"></option>
 
             {#each brandOptions as { name: nameOption, id } (id)}
               <option class="{shoppingBrandOptionSelector}" value="{id}">
@@ -306,9 +304,7 @@
             type="text"
             bind:value="{branchId}"
           >
-            <option value="" class="{shoppingBranchOptionSelector}">
-              ---------
-            </option>
+            <option value="" class="{shoppingBranchOptionSelector}"></option>
 
             {#each branchOptions as { id, displayName } (id)}
               <option class="{shoppingBranchOptionSelector}" value="{id}">
@@ -348,9 +344,7 @@
             type="text"
             bind:value="{articleId}"
           >
-            <option value="" class="{shoppingArticleOptionSelector}">
-              ---------
-            </option>
+            <option value="" class="{shoppingArticleOptionSelector}"></option>
 
             {#each articleOptions as { id, specificName } (id)}
               <option class="{shoppingArticleOptionSelector}" value="{id}">
@@ -406,7 +400,7 @@
           id="{shoppingAddArticleId}"
           disabled
         >
-          EURO
+          EUR
         </button>
 
         <input
@@ -427,7 +421,7 @@
           class="button icon is-left currency-button"
           id="{shoppingAddArticleId}"
         >
-          EURO
+          EUR
         </button>
 
         <input

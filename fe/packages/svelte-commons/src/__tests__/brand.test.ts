@@ -43,13 +43,13 @@ jest.mock("@ta/cm/src/db/ulid-uuid", () => ({
 jest.mock("@ta/cm/src/apollo/apollo-utils");
 const mockGetCountriesCurrencies = getCountriesCurrencies as jest.Mock;
 
-afterEach(() => {
-  jest.clearAllMocks();
-  cleanup();
-  resetCountriesCurrenciesStore();
-});
+describe("Brand svelte", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    cleanup();
+    resetCountriesCurrenciesStore();
+  });
 
-describe("brand tests", () => {
   const countriesCurrencies = [
     {
       value: StateValue.data,

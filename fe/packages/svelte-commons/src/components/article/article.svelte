@@ -20,7 +20,7 @@
   import FormCtrlMsg from "../form-ctrl-msg.svelte";
   import Notification from "../notification.svelte";
   import { newUlid } from "@ta/cm/src/db/ulid-uuid";
-  import { Props } from "./article.utils";
+  import { Props } from "@ta/cm/src/components/article.utils";
 
   /* FORM ATTRIBUTES AND ERROR VARIABLES */
   let specificName = "";

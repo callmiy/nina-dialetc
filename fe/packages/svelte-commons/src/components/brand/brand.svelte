@@ -34,6 +34,7 @@
   import { Props } from "@ta/cm/src/components/brand-utils";
   import { StateValue } from "@ta/cm/src/constants";
 
+  // Fetch data and initiate store
   getCountriesCurrenciesStore();
 
   /* FORM ATTRIBUTES AND ERROR VARIABLES */
