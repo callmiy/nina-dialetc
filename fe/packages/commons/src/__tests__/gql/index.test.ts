@@ -11,7 +11,7 @@ import {
   insertEuroValueSql,
 } from "@ta/cm/src/__tests__/utils";
 import { Connection } from "@ta/cm/src/types/db";
-import { cleanUpDbAfterTest, resetDbForTest } from "../../api/utils";
+import { cleanUpDbAfterTest, resetDbForTest } from "..//utils";
 import { listCountriesAndCurrenciesQuery } from "@ta/cm/src/gql/queries";
 import {
   ListCountriesAndCurrenciesVariables,

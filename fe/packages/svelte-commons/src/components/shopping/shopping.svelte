@@ -213,10 +213,15 @@
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     color: initial;
+    font-weight: 900;
+  }
+
+  .shopping {
+    max-width: 500px;
   }
 </style>
 
-<form autocomplete="off">
+<form autocomplete="off" class="shopping">
   {#if brandIsActive}
     {#await getBrandComponent() then _c}
       <svelte:component

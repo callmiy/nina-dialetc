@@ -1,7 +1,11 @@
 import { createTestClient } from "apollo-server-testing";
 import { makeApolloServer } from "../apollo/server";
+
 import { DbArg } from "../types/db";
+// DB THINGS /////////////////////////////////////////////////////
+
 import { makeDb } from "@ta/pp/src/db/db";
+export { cleanUpDbAfterTest, resetDbForTest } from "@ta/pp/src/api/utils";
 
 // DB CONNECTION FOR TEST /////////////////////////////////////////////////////
 

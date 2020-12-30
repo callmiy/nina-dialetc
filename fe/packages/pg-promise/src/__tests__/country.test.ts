@@ -21,7 +21,7 @@ afterEach(async () => {
 });
 
 describe("", () => {
-  fit("lists countries", async () => {
+  it("lists countries", async () => {
     const countries = await listCountries(conn);
     expect(countries).toEqual([]);
 

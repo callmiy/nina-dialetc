@@ -14,7 +14,7 @@ describe("pagination tests", () => {
   describe("list data", () => {
     const data = [1, 2, 3];
 
-    it(`no cursors should throw`, () => {
+    it(`throws when no cursor`, () => {
       expect(() => {
         relayConnectionFromList(data, {});
       }).toThrow(FIRST_LAST_UNDEFINED_ERROR);
@@ -22,7 +22,9 @@ describe("pagination tests", () => {
 
     it(`paginate forward
       empty data`, () => {
-      const result = relayConnectionFromList([], { first: 1 });
+      const result = relayConnectionFromList([], {
+        first: 1,
+      });
 
       expect(result).toEqual({
         pageInfo: {
