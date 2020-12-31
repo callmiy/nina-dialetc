@@ -34,7 +34,7 @@ const appsMap = {
 // Read environment variables
 const {
   CLIENT_APP: clientApp = "svelte",
-  API_APP: apiApp = "svelte",
+  API_APP: apiApp = "hapi",
   WEB_URL: webUrl,
   IS_E2E,
 } = process.env;
@@ -122,12 +122,13 @@ module.exports = {
       default: {
         script: `NODE_ENV=test jest --watchAll --runInBand`,
         description: `Run jest tests for one or more packages, using that
-          package's "jest.config.js". The environment variable "TEST_APPS"
-          must be specified and must contain comma delimited string of package
+          package's "jest.config.js". The environment variable "test"
+          must be specified and must contain ,/. delimited string of package
           aliases to be tested. E.g.
-            "TEST_APPS=cm,pp yarn start tests"
-          will run tests for the 'commons' and 'pg-promise' packages
-            "TEST_APPS=sv yarn start tests"
+            "tests=cm,pp.sc yarn start tests"
+          will run tests for the 'commons', 'pg-promise' and svelte-commons
+          packages
+            "tests=sv yarn start tests"
           will run tests for the 'svelte' package
         `,
       },

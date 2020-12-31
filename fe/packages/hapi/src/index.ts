@@ -34,7 +34,7 @@ const init = async () => {
   await appServer.start();
 
   console.log(
-    "\n\nServer running on %s",
+    "\n\nBackend server running on %s",
     appServer.info.uri + API_HOST_PATH,
     "\n\n"
   );
