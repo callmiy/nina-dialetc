@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import {
   ApolloClient,
   createHttpLink,
@@ -5,11 +6,11 @@ import {
 } from "@apollo/client/core";
 import fetch from "cross-fetch";
 import { GRAPHQL_PATH } from "../constants";
-import { API_URL } from "../envs";
+import { API_URL_ALTERNATE } from "../envs";
 import { middlewareErrorLink, middlewareLoggerLink } from "./middlewares";
 import { Any } from "../types";
 
-const path = API_URL + GRAPHQL_PATH;
+const path = API_URL_ALTERNATE + GRAPHQL_PATH;
 
 let client = (undefined as unknown) as ApolloClient<Any>;
 let cache = (undefined as unknown) as InMemoryCache;

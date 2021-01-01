@@ -119,6 +119,7 @@ const config = {
         "IS_E2E",
         "DATABASE_URL",
         "API_URL",
+        "API_URL_ALTERNATE",
       ].reduce((acc, d) => {
         acc[d] = JSON.stringify(process.env[d] || "");
         return acc;
