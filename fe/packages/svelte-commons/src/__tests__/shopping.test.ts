@@ -1,43 +1,43 @@
 /**
  * @jest-environment jest-environment-jsdom-sixteen
  */
-import { render, cleanup } from "@testing-library/svelte";
-import Shopping from "../components/shopping/shopping.svelte";
 import {
-  shoppingAddBrandLabelHelpId,
-  shoppingAddBrandId,
-  shoppingAddBranchId,
-  shoppingAddBranchLabelHelpId,
-  shoppingBrandInputId,
-  shoppingBranchInputId,
-  shoppingAddArticleId,
-  shoppingAddArticleLabelHelpId,
-  shoppingArticleInputId,
-} from "@ta/cm/src/selectors";
-import { getById } from "@ta/cm/src/__tests__/utils-dom";
-import {
-  ADD_SHOP_BRAND_LABEL_TEXT,
-  ADD_SHOP_BRAND_LABEL_HELP_TEXT,
-  EDIT_SHOP_BRAND_LABEL_TEXT,
-  EDIT_SHOP_BRAND_LABEL_HELP_TEXT,
-  ADD_SHOP_BRANCH_LABEL_TEXT,
-  ADD_SHOP_BRANCH_LABEL_HELP_TEXT,
-  EDIT_SHOP_BRANCH_LABEL_TEXT,
-  EDIT_SHOP_BRANCH_LABEL_HELP_TEXT,
-  ADD_ARTICLE_LABEL_TEXT,
   ADD_ARTICLE_LABEL_HELP_TEXT,
-  EDIT_ARTICLE_LABEL_TEXT,
+  ADD_ARTICLE_LABEL_TEXT,
+  ADD_SHOP_BRANCH_LABEL_HELP_TEXT,
+  ADD_SHOP_BRANCH_LABEL_TEXT,
+  ADD_SHOP_BRAND_LABEL_HELP_TEXT,
+  ADD_SHOP_BRAND_LABEL_TEXT,
   EDIT_ARTICLE_LABEL_HELP_TEXT,
+  EDIT_ARTICLE_LABEL_TEXT,
+  EDIT_SHOP_BRANCH_LABEL_HELP_TEXT,
+  EDIT_SHOP_BRANCH_LABEL_TEXT,
+  EDIT_SHOP_BRAND_LABEL_HELP_TEXT,
+  EDIT_SHOP_BRAND_LABEL_TEXT,
 } from "@ta/cm/src/components/shopping-utils";
 import {
-  brandSubmitValue1,
-  branchSubmitVal1,
+  shoppingAddArticleId,
+  shoppingAddArticleLabelHelpId,
+  shoppingAddBranchId,
+  shoppingAddBranchLabelHelpId,
+  shoppingAddBrandId,
+  shoppingAddBrandLabelHelpId,
+  shoppingArticleInputId,
+  shoppingBranchInputId,
+  shoppingBrandInputId,
+} from "@ta/cm/src/selectors";
+import { getById } from "@ta/cm/src/__tests__/utils-dom";
+import { cleanup, render } from "@testing-library/svelte";
+import Shopping from "../components/shopping/shopping.svelte";
+import mockArticle from "./mocks/article.mock.svelte";
+import mockBranch from "./mocks/branch.mock.svelte";
+import mockBrand from "./mocks/brand.mock.svelte";
+import {
   articleVal,
+  branchSubmitVal1,
+  brandSubmitValue1,
 } from "./mocks/mock-utils";
 
-import mockBrand from "./mocks/brand.mock.svelte";
-import mockBranch from "./mocks/branch.mock.svelte";
-import mockArticle from "./mocks/article.mock.svelte";
 jest.mock("../components/lazies/brand.lazy", () => {
   return {
     getBrandComponent: () => {

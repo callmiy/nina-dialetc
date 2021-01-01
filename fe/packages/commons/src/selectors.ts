@@ -38,7 +38,7 @@ export const brandCurrencyMsgDomId = `${brandDomId}-currency-error`;
 export const brandPhoneInputDomId = `${brandDomId}-phone-input`;
 export const closeBrandComponentId = `${brandDomId}-close-component`;
 export const resetFormBtnId = `${brandDomId}-reset-form`;
-export const submitBrandId = `${brandDomId}-submit`;
+export const brandSubmitId = `${brandDomId}-submit`;
 export const brandNotificationTextCloseId = `${brandDomId}-close-notification`;
 
 // SHOP BRANCH /////////////////////////////////////////////////////////////////

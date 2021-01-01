@@ -1,51 +1,50 @@
 <script lang="ts">
   import {
-    shoppingBrandInputId,
-    shoppingBrandOptionSelector,
-    shoppingAddBrandId,
-    shoppingBranchInputId,
-    shoppingBranchOptionSelector,
-    shoppingAddBranchId,
-    shoppingAddBrandLabelHelpId,
-    shoppingAddBranchLabelHelpId,
-    shoppingAddArticleId,
-    shoppingArticleInputId,
-    shoppingAddArticleLabelHelpId,
-    shoppingArticleOptionSelector,
-    shoppingUnitPriceId,
-    shoppingUnitOfMeasureId,
-    shoppingQuantityId,
-    shoppingTotalPriceId,
-  } from "@ta/cm/src/selectors";
-
-  import {
-    Props as BrandProps,
-    BrandValues,
-  } from "@ta/cm/src/components/brand-utils";
+    ArticleValues,
+    Props as ArticleProps,
+  } from "@ta/cm/src/components/article.utils";
   import { BranchValues } from "@ta/cm/src/components/branch-utils";
   import {
-    Props as ArticleProps,
-    ArticleValues,
-  } from "@ta/cm/src/components/article.utils";
+    BrandValues,
+    Props as BrandProps,
+  } from "@ta/cm/src/components/brand-utils";
   import {
-    getBranchDisplayName,
-    ADD_SHOP_BRAND_LABEL_TEXT,
-    ADD_SHOP_BRAND_LABEL_HELP_TEXT,
-    EDIT_SHOP_BRAND_LABEL_TEXT,
-    EDIT_SHOP_BRAND_LABEL_HELP_TEXT,
-    ADD_SHOP_BRANCH_LABEL_TEXT,
-    ADD_SHOP_BRANCH_LABEL_HELP_TEXT,
-    EDIT_SHOP_BRANCH_LABEL_TEXT,
-    EDIT_SHOP_BRANCH_LABEL_HELP_TEXT,
-    ADD_ARTICLE_LABEL_TEXT,
     ADD_ARTICLE_LABEL_HELP_TEXT,
-    EDIT_ARTICLE_LABEL_TEXT,
+    ADD_ARTICLE_LABEL_TEXT,
+    ADD_SHOP_BRANCH_LABEL_HELP_TEXT,
+    ADD_SHOP_BRANCH_LABEL_TEXT,
+    ADD_SHOP_BRAND_LABEL_HELP_TEXT,
+    ADD_SHOP_BRAND_LABEL_TEXT,
     EDIT_ARTICLE_LABEL_HELP_TEXT,
+    EDIT_ARTICLE_LABEL_TEXT,
+    EDIT_SHOP_BRANCH_LABEL_HELP_TEXT,
+    EDIT_SHOP_BRANCH_LABEL_TEXT,
+    EDIT_SHOP_BRAND_LABEL_HELP_TEXT,
+    EDIT_SHOP_BRAND_LABEL_TEXT,
+    getBranchDisplayName,
   } from "@ta/cm/src/components/shopping-utils";
-  import { getBrandComponent } from "../lazies/brand.lazy";
-  import { getBranchComponent } from "../lazies/branch.lazy";
-  import { getArticleComponent } from "../lazies/article.lazy";
+  import {
+    shoppingAddArticleId,
+    shoppingAddArticleLabelHelpId,
+    shoppingAddBranchId,
+    shoppingAddBranchLabelHelpId,
+    shoppingAddBrandId,
+    shoppingAddBrandLabelHelpId,
+    shoppingArticleInputId,
+    shoppingArticleOptionSelector,
+    shoppingBranchInputId,
+    shoppingBranchOptionSelector,
+    shoppingBrandInputId,
+    shoppingBrandOptionSelector,
+    shoppingQuantityId,
+    shoppingTotalPriceId,
+    shoppingUnitOfMeasureId,
+    shoppingUnitPriceId,
+  } from "@ta/cm/src/selectors";
   import { getTotalPrice } from "@ta/cm/src/utils/get-total-price";
+  import { getArticleComponent } from "../lazies/article.lazy";
+  import { getBranchComponent } from "../lazies/branch.lazy";
+  import { getBrandComponent } from "../lazies/brand.lazy";
 
   // BRAND /////////////////////////////////////////////////////////////////
 

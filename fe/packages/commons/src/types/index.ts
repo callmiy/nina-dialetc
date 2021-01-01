@@ -36,7 +36,7 @@ export type CurrenciesResolvedData = {
 
 export type CountriesState = CountryStateData | LoadingState | StringErrorState;
 
-type CountryStateData = {
+export type CountryStateData = {
   value: DataVal;
   data: CountriesResolvedData;
 };
@@ -46,7 +46,7 @@ export type CurrenciesState =
   | LoadingState
   | StringErrorState;
 
-type CurrencyStateData = {
+export type CurrencyStateData = {
   value: DataVal;
   data: CurrenciesResolvedData;
 };

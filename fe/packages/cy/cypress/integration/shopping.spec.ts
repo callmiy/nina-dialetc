@@ -12,7 +12,7 @@ import {
   brandCurrencyOptionSelector,
   brandCurrencyInputDomId,
   brandPhoneInputDomId,
-  submitBrandId,
+  brandSubmitId,
   brandDomId,
 
   // BRANCH /////////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ context("Shopping", () => {
           .type("012345677");
 
         // When we click submit button on valid brand form
-        cy.get("#" + submitBrandId).click();
+        cy.get("#" + brandSubmitId).click();
 
         // New ShopBrand UI should not be visible
         cy.get("#" + brandNameInputDomId).should("not.exist");

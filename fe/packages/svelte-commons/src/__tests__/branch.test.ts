@@ -1,27 +1,27 @@
 /**
  * @jest-environment jest-environment-jsdom-sixteen
  */
-import { render, cleanup } from "@testing-library/svelte";
-import Branch from "../components/branch/branch.svelte";
+import { newUlid } from "@ta/cm/src/db/ulid-uuid";
 import {
-  closeBrandComponentId,
-  branchNotificationTextCloseId,
-  branchSubmitId,
-  WARNING_NOTIFICATION_CLASS_NAME,
-  ERROR_NOTIFICATION_CLASS_NAME,
-  branchCityInputId,
-  branchStreetInputId,
-  branchPostCodeInputId,
   branchAliasInputId,
-  branchPostCodeErrorId,
   branchCityErrorId,
-  branchStreetErrorId,
+  branchCityInputId,
+  branchNotificationTextCloseId,
   branchPhoneInputId,
+  branchPostCodeErrorId,
+  branchPostCodeInputId,
   branchResetId,
+  branchStreetErrorId,
+  branchStreetInputId,
+  branchSubmitId,
+  closeBrandComponentId,
+  ERROR_NOTIFICATION_CLASS_NAME,
+  WARNING_NOTIFICATION_CLASS_NAME,
 } from "@ta/cm/src/selectors";
 import { fillFieldInput, getById } from "@ta/cm/src/__tests__/utils-dom";
+import { cleanup, render } from "@testing-library/svelte";
+import Branch from "../components/branch/branch.svelte";
 import { branchSubmitVal1 } from "./mocks/mock-utils";
-import { newUlid } from "@ta/cm/src/db/ulid-uuid";
 
 jest.mock("@ta/cm/src/db/ulid-uuid");
 const mockNewUlid = newUlid as jest.Mock;

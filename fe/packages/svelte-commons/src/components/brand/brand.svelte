@@ -1,38 +1,44 @@
 <script lang="ts">
+  import { Props } from "@ta/cm/src/components/brand-utils";
   import {
-    brandNameInputDomId,
-    closeBrandComponentId,
-    resetFormBtnId,
-    brandDomId,
+    FORM_CONTAINS_ERRORS_MESSAGE,
+    NOTHING_TO_SAVE_WARNING_MESSAGE,
+    StateValue,
+  } from "@ta/cm/src/constants";
+  import { newUlid } from "@ta/cm/src/db/ulid-uuid";
+  import { CountryFragment, CurrencyFragment } from "@ta/cm/src/gql/ops-types";
+  import {
     brandCountryInputDomId,
-    brandCurrencyInputDomId,
-    brandPhoneInputDomId,
-    submitBrandId,
-    brandCountryOptionSelector,
-    brandCurrencyOptionSelector,
-    brandNotificationTextCloseId,
-    brandNameErrorDomId,
     brandCountryMsgDomId,
+    brandCountryOptionSelector,
+    brandCurrencyInputDomId,
     brandCurrencyMsgDomId,
-    WARNING_NOTIFICATION_CLASS_NAME,
+    brandCurrencyOptionSelector,
+    brandDomId,
+    brandNameErrorDomId,
+    brandNameInputDomId,
+    brandNotificationTextCloseId,
+    brandPhoneInputDomId,
+    brandSubmitId,
+    closeBrandComponentId,
     ERROR_NOTIFICATION_CLASS_NAME,
+    resetFormBtnId,
+    WARNING_NOTIFICATION_CLASS_NAME,
   } from "@ta/cm/src/selectors";
   import {
-    NOTHING_TO_SAVE_WARNING_MESSAGE,
-    FORM_CONTAINS_ERRORS_MESSAGE,
-  } from "@ta/cm/src/constants";
-  import {
-    getCountriesCurrenciesStore,
-    currenciesStore,
     countriesStore,
+    countriesStoreData,
+    countriesStoreError,
+    countriesStoreLoading,
+    currenciesStore,
+    currenciesStoreData,
+    currenciesStoreError,
+    currenciesStoreLoading,
+    getCountriesCurrenciesStore,
   } from "../../stores/get-countries-and-currencies.store";
   import FormCtrlMsg from "../form-ctrl-msg.svelte";
-  import { CurrencyFragment, CountryFragment } from "@ta/cm/src/gql/ops-types";
   import Notification from "../notification.svelte";
   import Spinner from "../spinner.svelte";
-  import { newUlid } from "@ta/cm/src/db/ulid-uuid";
-  import { Props } from "@ta/cm/src/components/brand-utils";
-  import { StateValue } from "@ta/cm/src/constants";
 
   // Fetch data and initiate store
   getCountriesCurrenciesStore();
@@ -134,11 +140,11 @@
       return;
     }
 
-    const countryData = $countriesStore.data.countries.find((e) => {
+    const countryData = $countriesStoreData.data.countries.find((e) => {
       return e.id === country;
     }) as CountryFragment;
 
-    const currencyData = $currenciesStore.data.currencies.find((c) => {
+    const currencyData = $currenciesStoreData.data.currencies.find((c) => {
       return c.id === currency;
     }) as CurrencyFragment;
 
@@ -231,7 +237,7 @@
               <option value="">----------</option>
 
               {#if $countriesStore.value === StateValue.data}
-                {#each $countriesStore.data.countries as { id, countryName } (id)}
+                {#each $countriesStoreData.data.countries as { id, countryName } (id)}
                   <option value="{id}" class="{brandCountryOptionSelector}">
                     {countryName}
                   </option>
@@ -245,15 +251,15 @@
           {:else if $countriesStore.value === StateValue.loading}
             <div class="brand-loading-container">
               <FormCtrlMsg
-                info="{$countriesStore.msg}"
+                info="{$countriesStoreLoading.msg}"
                 id="{brandCountryMsgDomId}"
               />
 
               <Spinner class="brand-spinner" />
             </div>
-          {:else if $countriesStore.value === StateValue.error}
+          {:else if $countriesStore.value === StateValue.errors}
             <FormCtrlMsg
-              error="{$countriesStore.error}"
+              error="{$countriesStoreError.error}"
               id="{brandCountryMsgDomId}"
             />
           {/if}
@@ -269,7 +275,7 @@
               <option value="">----------</option>
 
               {#if $currenciesStore.value === StateValue.data}
-                {#each $currenciesStore.data.currencies as { id, currencyName, currencyCode } (id)}
+                {#each $currenciesStoreData.data.currencies as { id, currencyName, currencyCode } (id)}
                   <option value="{id}" class="{brandCurrencyOptionSelector}">
                     {currencyName}:
                     {currencyCode}
@@ -284,15 +290,15 @@
           {:else if $currenciesStore.value === StateValue.loading}
             <div class="brand-loading-container">
               <FormCtrlMsg
-                info="{$currenciesStore.msg}"
+                info="{$currenciesStoreLoading.msg}"
                 id="{brandCurrencyMsgDomId}"
               />
 
               <Spinner class="brand-spinner" />
             </div>
-          {:else if $currenciesStore.value === StateValue.error}
+          {:else if $currenciesStore.value === StateValue.errors}
             <FormCtrlMsg
-              error="{$currenciesStore.error}"
+              error="{$currenciesStoreError.error}"
               id="{brandCurrencyMsgDomId}"
             />
           {/if}
@@ -315,7 +321,7 @@
 
     <fieldset class="modal-card-foot" disabled="{disableForm}">
       <button
-        id="{submitBrandId}"
+        id="{brandSubmitId}"
         class="button is-success"
         on:click|preventDefault="{submitFormCb}"
       >

@@ -1,38 +1,38 @@
 /**
  * @jest-environment jest-environment-jsdom-sixteen
  */
-import { render, waitFor, cleanup } from "@testing-library/svelte";
-import Brand from "../components/brand/brand.svelte";
-import {
-  brandNameInputDomId,
-  brandNameErrorDomId,
-  brandDomId,
-  resetFormBtnId,
-  brandCountryInputDomId,
-  brandCountryMsgDomId,
-  brandCurrencyInputDomId,
-  brandCurrencyMsgDomId,
-  brandPhoneInputDomId,
-  submitBrandId,
-  brandNotificationTextCloseId,
-  WARNING_NOTIFICATION_CLASS_NAME,
-  ERROR_NOTIFICATION_CLASS_NAME,
-} from "@ta/cm/src/selectors";
-import {
-  fillFieldInput,
-  getById,
-  fillFieldChange,
-} from "@ta/cm/src/__tests__/utils-dom";
-import {
-  IS_ACTIVE_CLASS_NAME,
-  StateValue,
-  CURRENCIES_LOADING_MSG,
-  COUNTRIES_LOADING_MSG,
-} from "@ta/cm/src/constants";
 import {
   getCountriesCurrencies,
   GetCountriesCurrencies,
 } from "@ta/cm/src/apollo/apollo-utils";
+import {
+  COUNTRIES_LOADING_MSG,
+  CURRENCIES_LOADING_MSG,
+  IS_ACTIVE_CLASS_NAME,
+  StateValue,
+} from "@ta/cm/src/constants";
+import {
+  brandCountryInputDomId,
+  brandCountryMsgDomId,
+  brandCurrencyInputDomId,
+  brandCurrencyMsgDomId,
+  brandDomId,
+  brandNameErrorDomId,
+  brandNameInputDomId,
+  brandNotificationTextCloseId,
+  brandPhoneInputDomId,
+  ERROR_NOTIFICATION_CLASS_NAME,
+  resetFormBtnId,
+  brandSubmitId,
+  WARNING_NOTIFICATION_CLASS_NAME,
+} from "@ta/cm/src/selectors";
+import {
+  fillFieldChange,
+  fillFieldInput,
+  getById,
+} from "@ta/cm/src/__tests__/utils-dom";
+import { cleanup, render, waitFor } from "@testing-library/svelte";
+import Brand from "../components/brand/brand.svelte";
 import { resetCountriesCurrenciesStore } from "../stores/get-countries-and-currencies.store";
 
 let mockId = 0;
@@ -130,7 +130,7 @@ describe("Brand svelte", () => {
     expect(getById(brandNotificationTextCloseId)).toBeNull();
 
     // When empty form is submitted
-    const submitEl = getById(submitBrandId);
+    const submitEl = getById(brandSubmitId);
     await submitEl.click();
 
     // Warning notification is visible
@@ -217,7 +217,7 @@ describe("Brand svelte", () => {
     expect(getById(brandNotificationTextCloseId)).toBeNull();
 
     // When we submit form
-    const submitEl = getById(submitBrandId);
+    const submitEl = getById(brandSubmitId);
     await submitEl.click();
 
     // Brand name field error should be visible (too short)

@@ -1,11 +1,18 @@
-import { writable } from "svelte/store";
 import { getCountriesCurrencies } from "@ta/cm/src/apollo/apollo-utils";
-import { CountriesState, CurrenciesState } from "@ta/cm/src/types";
 import {
-  LOADING_STATE,
-  CURRENCIES_LOADING_MSG,
   COUNTRIES_LOADING_MSG,
+  CURRENCIES_LOADING_MSG,
+  LOADING_STATE,
 } from "@ta/cm/src/constants";
+import {
+  CountriesState,
+  CountryStateData,
+  CurrenciesState,
+  CurrencyStateData,
+  LoadingState,
+  StringErrorState,
+} from "@ta/cm/src/types";
+import { writable, Writable } from "svelte/store";
 
 const initialCountriesState = {
   ...LOADING_STATE,
@@ -13,6 +20,9 @@ const initialCountriesState = {
 };
 
 export const countriesStore = writable<CountriesState>(initialCountriesState);
+export const countriesStoreData = countriesStore as Writable<CountryStateData>;
+export const countriesStoreLoading = countriesStore as Writable<LoadingState>;
+export const countriesStoreError = countriesStore as Writable<StringErrorState>;
 
 const initialCurrenciesState = {
   ...LOADING_STATE,
@@ -22,6 +32,13 @@ const initialCurrenciesState = {
 export const currenciesStore = writable<CurrenciesState>(
   initialCurrenciesState
 );
+export const currenciesStoreData = currenciesStore as Writable<
+  CurrencyStateData
+>;
+export const currenciesStoreLoading = currenciesStore as Writable<LoadingState>;
+export const currenciesStoreError = currenciesStore as Writable<
+  StringErrorState
+>;
 
 export async function getCountriesCurrenciesStore() {
   const result = await getCountriesCurrencies();
