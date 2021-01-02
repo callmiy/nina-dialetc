@@ -1,5 +1,5 @@
 const path = require("path");
-const _config = require("../../_jest.config");
+const _config = require("../../js-commons/_jest.config");
 
 const { debug } = process.env;
 
@@ -11,7 +11,7 @@ const config = {
 config.transform["^.+\\.svelte$"] = [
   "svelte-jester",
   {
-    preprocess: path.resolve(__dirname, "../../_svelte.config.js"),
+    preprocess: path.resolve(__dirname, "../../js-commons/_svelte.config.js"),
     debug: !!debug,
   },
 ];

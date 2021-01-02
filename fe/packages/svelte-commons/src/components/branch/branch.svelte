@@ -125,7 +125,6 @@
     notificationText = "";
     notificationTextClass = "";
   }
-
 </script>
 
 <style lang="scss">

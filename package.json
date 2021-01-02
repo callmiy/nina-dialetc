@@ -1,0 +1,14 @@
+{
+  "name": "nina-proj",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A",
+  "repository": "https://github.com/kanmii/nina.git",
+  "license": "MIT",
+  "author": "Kanmii <maneptha@gmail.com>",
+  "main": "index.js",
+  "devDependencies": {
+    "js-yaml": "^3.14.1",
+    "sort-package-json": "^1.48.0"
+  }
+}

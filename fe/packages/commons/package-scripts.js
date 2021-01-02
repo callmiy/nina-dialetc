@@ -1,4 +1,4 @@
-const commonScripts = require("../../_package-scripts");
+const commonScripts = require("../../js-commons/_package-scripts");
 
 const tsConfig = `TS_NODE_COMPILER_OPTIONS='{"module":"commonjs", "isolatedModules": false}'`;
 

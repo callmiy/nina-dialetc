@@ -2,34 +2,7 @@ const path = require("path");
 const shelljs = require("shelljs");
 const { includePackage } = require("nps-utils");
 
-// Dictionary of appFolder to appAlias
-const appsMap = {
-  commons: {
-    alias: "cm",
-  },
-  svelte: {
-    alias: "sv",
-  },
-  // sapper: {
-  //   alias: "sa",
-  // },
-  cy: {
-    alias: "cy",
-  },
-  hapi: {
-    alias: "hp",
-  },
-  "svelte-commons": {
-    alias: "sc",
-  },
-  "db-migrations": {
-    alias: "dm",
-    ntc: true, // no type check
-  },
-  "pg-promise": {
-    alias: "pp",
-  },
-};
+let devAppsCommands = "";
 
 // Read environment variables
 const {
@@ -37,18 +10,69 @@ const {
   API_APP: apiApp = "hapi",
   WEB_URL: webUrl,
   IS_E2E,
+  BACKEND_APP,
+  FRONTEND_APP,
 } = process.env;
 
-const clientAppAlias = appsMap[clientApp].alias;
-const isE2E = IS_E2E === "true";
+const appsMap = {
+  commons: {
+    alias: "cm",
+  },
+};
 
-let devAppsCommands = "";
+function backendApps() {
+  devAppsCommands += `"yarn start ${BACKEND_APP}.d" `;
 
-if (apiApp) {
-  devAppsCommands = `"yarn start ${appsMap[apiApp].alias}.d" `;
+  appsMap.hapi = {
+    alias: "hp",
+  };
+
+  appsMap["db-migrations"] = {
+    alias: "dm",
+    ntc: true, // no type check
+  };
+
+  appsMap["pg-promise"] = {
+    alias: "pp",
+  };
 }
 
-devAppsCommands += ` "yarn start ${clientAppAlias}.d" `;
+function frontendApp() {
+  devAppsCommands += ` "yarn start ${FRONTEND_APP}.d" `;
+
+  appsMap.svelte = {
+    alias: "sv",
+  };
+
+  appsMap.cy = {
+    alias: "cy",
+  };
+
+  appsMap["svelte-commons"] = {
+    alias: "sc",
+  };
+
+  // appsMap.sapper = {
+  //   alias: "sa",
+  // },
+}
+
+if (BACKEND_APP) {
+  backendApps();
+} else if (FRONTEND_APP) {
+  frontendApp();
+} else {
+  frontendApp();
+  backendApps();
+  const clientAppAlias = appsMap[clientApp].alias;
+  if (apiApp) {
+    devAppsCommands = `"yarn start ${appsMap[apiApp].alias}.d" `;
+  }
+
+  devAppsCommands += ` "yarn start ${clientAppAlias}.d" `;
+}
+
+const isE2E = IS_E2E === "true";
 
 const packagesPath = path.resolve(".", "packages");
 

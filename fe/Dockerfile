@@ -1,4 +1,4 @@
-FROM node:12.19.1-buster-slim AS web
+FROM node:14.15.3-buster-slim AS web
 
 ARG NODE_ENV
 
@@ -26,28 +26,29 @@ RUN apt-get update \
 
 USER node
 
-RUN mkdir -p /home/node/web/packages
+RUN mkdir -p /home/node/app/packages
 
-WORKDIR /home/node/web
+WORKDIR /home/node/app
 
-COPY --chown=node:node ${HOST_APP_HOME}/yarn.lock ${HOST_APP_HOME}/package.json ./
+COPY --chown=node:node ${HOST_APP_HOME}/yarn.lock ${HOST_APP_HOME}/.yarnrc ${HOST_APP_HOME}/package.json ./
 
-COPY --chown=node:node ${PACKAGES_PATH}/commons/package.json ./packages/commons
+COPY --chown=node:node ${PACKAGES_PATH}/commons/package.json ./packages/commons/
 
-COPY --chown=node:node ${PACKAGES_PATH}/cy/package.json ./packages/cy
+COPY --chown=node:node ${PACKAGES_PATH}/cy/package.json ./packages/cy/
 
-COPY --chown=node:node ${PACKAGES_PATH}/db-migrations/package.json ./packages/db-migrations
+COPY --chown=node:node ${PACKAGES_PATH}/db-migrations/package.json ./packages/db-migrations/
 
-COPY --chown=node:node ${PACKAGES_PATH}/hapi/package.json ./packages/hapi
+COPY --chown=node:node ${PACKAGES_PATH}/hapi/package.json ./packages/hapi/
 
-COPY --chown=node:node ${PACKAGES_PATH}/pg-promise/package.json ./packages/pg-promise
+COPY --chown=node:node ${PACKAGES_PATH}/pg-promise/package.json ./packages/pg-promise/
 
 # COPY --chown=node:node ${PACKAGES_PATH}/sapper/package.json ./packages/sapper
-COPY --chown=node:node ${PACKAGES_PATH}/svelte/package.json ./packages/svelte
+COPY --chown=node:node ${PACKAGES_PATH}/svelte/package.json ./packages/svelte/
 
-COPY --chown=node:node ${PACKAGES_PATH}/svelte-commons/package.json ./packages/svelte-commons
+COPY --chown=node:node ${PACKAGES_PATH}/svelte-commons/package.json ./packages/svelte-commons/
 
-RUN yarn --pure-lockfile
+RUN yarn install --frozen-lockfile
+
 COPY --chown=node:node ${HOST_APP_HOME} .
 
 CMD ["/bin/bash"]

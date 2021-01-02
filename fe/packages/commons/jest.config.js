@@ -2,7 +2,7 @@ const path = require("path");
 
 const jestBabelTransform = path.resolve(
   __dirname,
-  "../../jestBabelTransform.js"
+  "../../js-commons/jestBabelTransform.js"
 );
 
 module.exports = {

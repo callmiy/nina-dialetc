@@ -1,4 +1,4 @@
-const commonScripts = require("../../_package-scripts");
+const commonScripts = require("../../js-commons/_package-scripts");
 
 const webPort = process.env.WEB_PORT || "";
 

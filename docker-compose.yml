@@ -1,66 +1,151 @@
 version: "3.4"
 services:
   db:
-    image: postgres:13.1
+    image: "postgres:13.1"
     ports:
       - "${DOCKER_HOST_DATABASE_PORT}:5432"
-    # restart: always
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: "${DATABASE_NAME}"
-    # healthcheck:
-    #   test: ["CMD-SHELL", "pg_isready -U postgres"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
-    #   start_period: 10s
     volumes:
       - "./docker/data/postgres-${COMPOSE_PROJECT_NAME}:/var/lib/postgresql/data"
-
-  fe:
+  js-base:
     build:
       context: ./fe
       args:
         NODE_ENV: "${NODE_ENV}"
-    # without this, react scripts 3.4.1 will not attach to tty
-    stdin_open: true
-    image: "nina-fe-${NODE_ENV}"
-    entrypoint: ["/usr/local/bin/entrypoint.sh"]
-    # depends_on:
-    #   - "api"
+    image: nina-js-base
     env_file: "${DOCKER_ENV_FILE}"
-    user: "node"
+    user: node
+  js-commons:
+    build:
+      context: ./fe
+      dockerfile: Dockerfile.commons
+      args:
+        NODE_ENV: "${NODE_ENV}"
+    image: nina-js-commons
+    env_file: "${DOCKER_ENV_FILE}"
+    user: node
+  js-all:
+    stdin_open: true
+    image: nina-js-all
+    entrypoint:
+      - /usr/local/bin/entrypoint.sh
+    depends_on:
+      - db
+    env_file: "${DOCKER_ENV_FILE}"
+    user: node
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
       - "${API_PORT}:${API_PORT}"
-      - "${SAPPER_RELOAD_PORT}:10000"
     volumes:
-      - "./fe:/home/node/web"
-      - "nu_nm:/home/node/web/node_modules/"
-      - "nu_nt:/home/node/web/.netlify/"
-      - "nu_nm_cm:/home/node/web/packages/commons/node_modules/"
-      - "nu_nm_cy:/home/node/web/packages/cy/node_modules/"
-      - "nu_nm_dm:/home/node/web/packages/db-migrations/node_modules/"
-      - "nu_nm_hp:/home/node/web/packages/hapi/node_modules/"
-      - "nu_nm_pp:/home/node/web/packages/pg-promise/node_modules/"
-      # - "nu_nm_sa:/home/node/web/packages/sapper/node_modules/"
-      - "nu_nm_sv:/home/node/web/packages/svelte/node_modules/"
-      - "nu_co_sv:/home/node/web/packages/svelte/coverage/"
-      - "nu_bd_sv:/home/node/web/packages/svelte/build/"
-      - "nu_nm_sc:/home/node/web/packages/svelte-commons/node_modules/"
-      - "nu_co_sc:/home/node/web/packages/svelte-commons/coverage/"
-
+      - "./fe:/home/node/app"
+      - "not_used_node_modules:/home/node/app/node_modules/"
+      - "not_used_netlify:/home/node/app/.netlify/"
+      - "not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
+      - "not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
+      - "not_used_cy_node_modules:/home/node/app/packages/cy/node_modules/"
+      - "not_used_db-migrations_node_modules:/home/node/app/packages/db-migrations/node_modules/"
+      - "not_used_hapi_node_modules:/home/node/app/packages/hapi/node_modules/"
+      - "not_used_hapi_coverage:/home/node/app/packages/hapi/coverage/"
+      - "not_used_hapi_build:/home/node/app/packages/hapi/build/"
+      - "not_used_pg-promise_node_modules:/home/node/app/packages/pg-promise/node_modules/"
+      - "not_used_pg-promise_coverage:/home/node/app/packages/pg-promise/coverage/"
+      - "not_used_svelte-commons_node_modules:/home/node/app/packages/svelte-commons/node_modules/"
+      - "not_used_svelte-commons_coverage:/home/node/app/packages/svelte-commons/coverage/"
+      - "not_used_svelte_node_modules:/home/node/app/packages/svelte/node_modules/"
+      - "not_used_svelte_coverage:/home/node/app/packages/svelte/coverage/"
+      - "not_used_svelte_build:/home/node/app/packages/svelte/build/"
+  js-hapi:
+    build:
+      context: ./fe/packages/hapi
+      dockerfile: Dockerfile.hapi
+      args:
+        NODE_ENV: "${NODE_ENV}"
+    image: "nina-js-hapi-${NODE_ENV}"
+    entrypoint:
+      - /usr/local/bin/entrypoint.sh
+    depends_on:
+      - db
+    env_file: "${DOCKER_ENV_FILE}"
+    user: node
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    volumes:
+      - "./fe:/home/node/app"
+      - "not_used_node_modules:/home/node/app/node_modules/"
+      - "not_used_netlify:/home/node/app/.netlify/"
+      - "not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
+      - "not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
+      - "not_used_cy_node_modules:/home/node/app/packages/cy/node_modules/"
+      - "not_used_db-migrations_node_modules:/home/node/app/packages/db-migrations/node_modules/"
+      - "not_used_hapi_node_modules:/home/node/app/packages/hapi/node_modules/"
+      - "not_used_hapi_coverage:/home/node/app/packages/hapi/coverage/"
+      - "not_used_hapi_build:/home/node/app/packages/hapi/build/"
+      - "not_used_pg-promise_node_modules:/home/node/app/packages/pg-promise/node_modules/"
+      - "not_used_pg-promise_coverage:/home/node/app/packages/pg-promise/coverage/"
+      - "not_used_svelte-commons_node_modules:/home/node/app/packages/svelte-commons/node_modules/"
+      - "not_used_svelte-commons_coverage:/home/node/app/packages/svelte-commons/coverage/"
+      - "not_used_svelte_node_modules:/home/node/app/packages/svelte/node_modules/"
+      - "not_used_svelte_coverage:/home/node/app/packages/svelte/coverage/"
+      - "not_used_svelte_build:/home/node/app/packages/svelte/build/"
+      - "not_used_cy:/home/node/app/packages/cy/"
+      - "not_used_svelte-commons:/home/node/app/packages/svelte-commons/"
+      - "not_used_svelte:/home/node/app/packages/svelte/"
+  js-svelte:
+    build:
+      context: ./fe/packages/svelte
+      dockerfile: Dockerfile.svelte
+      args:
+        NODE_ENV: "${NODE_ENV}"
+    image: "nina-js-svelte-${NODE_ENV}"
+    entrypoint:
+      - /usr/local/bin/entrypoint.sh
+    env_file: "${DOCKER_ENV_FILE}"
+    user: node
+    ports:
+      - "${WEB_PORT}:${WEB_PORT}"
+    volumes:
+      - "./fe:/home/node/app"
+      - "not_used_node_modules:/home/node/app/node_modules/"
+      - "not_used_netlify:/home/node/app/.netlify/"
+      - "not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
+      - "not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
+      - "not_used_cy_node_modules:/home/node/app/packages/cy/node_modules/"
+      - "not_used_db-migrations_node_modules:/home/node/app/packages/db-migrations/node_modules/"
+      - "not_used_hapi_node_modules:/home/node/app/packages/hapi/node_modules/"
+      - "not_used_hapi_coverage:/home/node/app/packages/hapi/coverage/"
+      - "not_used_hapi_build:/home/node/app/packages/hapi/build/"
+      - "not_used_pg-promise_node_modules:/home/node/app/packages/pg-promise/node_modules/"
+      - "not_used_pg-promise_coverage:/home/node/app/packages/pg-promise/coverage/"
+      - "not_used_svelte-commons_node_modules:/home/node/app/packages/svelte-commons/node_modules/"
+      - "not_used_svelte-commons_coverage:/home/node/app/packages/svelte-commons/coverage/"
+      - "not_used_svelte_node_modules:/home/node/app/packages/svelte/node_modules/"
+      - "not_used_svelte_coverage:/home/node/app/packages/svelte/coverage/"
+      - "not_used_svelte_build:/home/node/app/packages/svelte/build/"
+      - "not_used_db-migrations:/home/node/app/packages/db-migrations/"
+      - "not_used_hapi:/home/node/app/packages/hapi/"
+      - "not_used_pg-promise:/home/node/app/packages/pg-promise/"
 volumes:
-  nu_nm:
-  nu_nt:
-  nu_nm_cm:
-  nu_nm_cy:
-  nu_nm_dm:
-  nu_nm_hp:
-  nu_nm_pp:
-  # nu_nm_sa:
-  nu_nm_sv:
-  nu_co_sv:
-  nu_bd_sv:
-  nu_nm_sc:
-  nu_co_sc:
+  not_used_node_modules:
+  not_used_netlify:
+  not_used_commons_node_modules:
+  not_used_commons_coverage:
+  not_used_cy_node_modules:
+  not_used_cy:
+  not_used_db-migrations_node_modules:
+  not_used_db-migrations:
+  not_used_hapi_node_modules:
+  not_used_hapi_coverage:
+  not_used_hapi_build:
+  not_used_hapi:
+  not_used_pg-promise_node_modules:
+  not_used_pg-promise_coverage:
+  not_used_pg-promise:
+  not_used_svelte-commons_node_modules:
+  not_used_svelte-commons_coverage:
+  not_used_svelte-commons:
+  not_used_svelte_node_modules:
+  not_used_svelte_coverage:
+  not_used_svelte_build:
+  not_used_svelte:

@@ -1,0 +1,54 @@
+FROM node:14.15.3-buster-slim
+
+ARG NODE_ENV
+
+ENV BUILD_DEPS="build-essential" \
+  APP_DEPS="curl iputils-ping" \
+  NODE_ENV=$NODE_ENV \
+  COPY_HOME="/home/node/app" \
+  COPY_PACKAGES="/home/node/app/packages"
+
+RUN \
+  mkdir -p /home/node/app/node_modules && \
+  mkdir -p /home/node/app/packages/commons/node_modules && \
+  mkdir -p /home/node/app/packages/cy/node_modules && \
+  mkdir -p /home/node/app/packages/db-migrations/node_modules && \
+  mkdir -p /home/node/app/packages/hapi/node_modules && \
+  mkdir -p /home/node/app/packages/pg-promise/node_modules && \
+  mkdir -p /home/node/app/packages/svelte-commons/node_modules && \
+  mkdir -p /home/node/app/packages/svelte/node_modules && \
+  chown -R node:node /home/node && \
+  apt-get update && \
+  apt-get install -y ${BUILD_DEPS} \
+  ${APP_DEPS} --no-install-recommends && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /usr/share/doc && rm -rf /usr/share/man && \
+  apt-get purge -y --auto-remove ${BUILD_DEPS} && \
+  apt-get clean
+
+COPY --from=nina-js-base --chmod=755 \
+  /usr/local/bin/entrypoint.sh \
+  /usr/local/bin/wait-until \
+  /usr/local/bin/
+
+USER node
+
+WORKDIR /home/node/app
+
+# ROOT FILES
+COPY --from=nina-js-base --chown=node:node \
+  ${COPY_HOME}/.yarnrc \
+  ${COPY_HOME}/jest.config.js \
+  ${COPY_HOME}/package-scripts.js \
+  ${COPY_HOME}/package.json \
+  ./
+
+COPY --from=nina-js-base --chown=node:node \
+  ${COPY_HOME}/js-commons \
+  ./js-commons
+
+COPY --from=nina-js-base --chown=node:node \
+  ${COPY_HOME}/node_modules \
+  ./node_modules
+
+CMD ["/bin/bash"]

@@ -1,4 +1,4 @@
-const _config = require("../../_jest.config");
+const _config = require("../../js-commons/_jest.config");
 
 const config = {
   ..._config,
