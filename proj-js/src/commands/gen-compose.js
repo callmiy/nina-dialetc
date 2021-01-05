@@ -1,9 +1,58 @@
-const { writeFileSync, mkdirSync } = require("fs");
+const { writeFileSync, mkdirSync } = require("../modules/fs");
 const { resolve: resolvePath } = require("path");
 const { dump } = require("js-yaml");
+const { Command, flags } = require("@oclif/command");
+const prettier = require("prettier");
+
+const fileName = resolvePath(__dirname, "../../../docker-compose.yml");
+
+class GenComposeCommand extends Command {
+  async run() {
+    try {
+      const yaml = genDockerCompose();
+      const {
+        flags: { verbose, output = fileName },
+      } = this.parse(GenComposeCommand);
+
+      if (verbose) {
+        this.log(yaml);
+      }
+
+      const formattedYaml = prettier.format(yaml, {
+        parser: "yaml",
+      });
+
+      writeFileSync(output, formattedYaml);
+      this.log(`Success: written to "${output}"`);
+    } catch (e) {
+      console.error(`Error: ${e.message}`);
+      this.exit(1);
+    }
+  }
+}
+
+GenComposeCommand.description = `Generate "docker-compose.yml" for project
+...
+Extra documentation goes here
+`;
+
+GenComposeCommand.flags = {
+  verbose: flags.boolean({
+    char: "v",
+    description: `Print out content of generated "docker-compose.yml" to stdout`,
+  }),
+
+  output: flags.string({
+    char: "o",
+    description: `Where to output the generated yaml file. Defaults to "${fileName}"`,
+  }),
+};
+
+module.exports = GenComposeCommand;
+exports.fileName = fileName;
 
 function genDockerCompose() {
-  fileName = "docker-compose.yml";
+  // const fileName = "docker-compose.yml";
 
   const SERVICES = {
     postgresDb: "db",
@@ -269,7 +318,7 @@ function genDockerCompose() {
   function getVolumes(vols) {
     const response = [];
 
-    for (vol of vols) {
+    for (const vol of vols) {
       if (Array.isArray(vol)) {
         vol.forEach((v) => {
           response.push(v);
@@ -297,9 +346,5 @@ function genDockerCompose() {
   });
 
   const yaml = dumpedYaml.replace(/'/g, `"`).replace(/V__/g, "");
-
-  console.log(yaml);
-  writeFileSync(fileName, yaml);
+  return yaml;
 }
-
-genDockerCompose();
