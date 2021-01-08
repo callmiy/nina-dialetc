@@ -18,4 +18,7 @@ config.transform["^.+\\.svelte$"] = [
 
 config.moduleFileExtensions.push("svelte");
 
-module.exports = config;
+module.exports = {
+  ...config,
+  setupFiles: ["react-app-polyfill/jsdom"],
+};

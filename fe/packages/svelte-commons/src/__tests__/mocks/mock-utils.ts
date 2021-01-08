@@ -8,6 +8,7 @@ export const brandSubmitValue1 = {
   currency: "bdCur1",
 };
 
+// TODO: delete, use from commons/__tests__
 export const branchSubmitVal1 = {
   id: "bcId1",
   street: "str1",

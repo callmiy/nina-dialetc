@@ -4,7 +4,8 @@ import {
   createHttpLink,
   InMemoryCache,
 } from "@apollo/client/core";
-import fetch from "cross-fetch";
+// failing in jest test with msw, so will use window.fetch
+// import crossFetch from "cross-fetch";
 import { GRAPHQL_PATH } from "../constants";
 import { API_URL_ALTERNATE } from "../envs";
 import { middlewareErrorLink, middlewareLoggerLink } from "./middlewares";
@@ -26,7 +27,7 @@ export function makeApolloClient(
 
   let link = createHttpLink({
     uri,
-    fetch,
+    fetch: (...args) => fetch(...args),
   });
 
   link = middlewareErrorLink(link);

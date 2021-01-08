@@ -2,6 +2,7 @@
  * @jest-environment jest-environment-jsdom-sixteen
  */
 import { newUlid } from "@ta/cm/src/db/ulid-uuid";
+import { mockBranchValue1 } from "@ta/cm/src/__tests__/mock-data";
 import {
   branchAliasInputId,
   branchCityErrorId,
@@ -21,7 +22,6 @@ import {
 import { fillFieldInput, getById } from "@ta/cm/src/__tests__/utils-dom";
 import { cleanup, render } from "@testing-library/svelte";
 import Branch from "../components/branch/branch.svelte";
-import { branchSubmitVal1 } from "./mocks/mock-utils";
 
 jest.mock("@ta/cm/src/db/ulid-uuid");
 const mockNewUlid = newUlid as jest.Mock;
@@ -176,23 +176,23 @@ describe("Shop branch svelte", () => {
 
       // When post code field is completed with invalid input
       const postCodeEl = getById<HTMLInputElement>(branchPostCodeInputId);
-      await fillFieldInput(postCodeEl, branchSubmitVal1.postCode);
+      await fillFieldInput(postCodeEl, mockBranchValue1.postCode);
 
       // When city field is completed with invalid input
       const cityEl = getById<HTMLInputElement>(branchCityInputId);
-      await fillFieldInput(cityEl, branchSubmitVal1.city);
+      await fillFieldInput(cityEl, mockBranchValue1.city);
 
       // When street field is completed with invalid input
       const streetEl = getById<HTMLInputElement>(branchStreetInputId);
-      await fillFieldInput(streetEl, branchSubmitVal1.street);
+      await fillFieldInput(streetEl, mockBranchValue1.street);
 
       // When alias field is completed
       const aliasEl = getById<HTMLInputElement>(branchAliasInputId);
-      await fillFieldInput(aliasEl, branchSubmitVal1.branchAlias);
+      await fillFieldInput(aliasEl, (mockBranchValue1 as any).branchAlias);
 
       // When phone field is completed
       const phoneEl = getById<HTMLInputElement>(branchPhoneInputId);
-      await fillFieldInput(phoneEl, branchSubmitVal1.phone);
+      await fillFieldInput(phoneEl, (mockBranchValue1 as any).phone);
 
       expect(mockOnSubmit).not.toBeCalled();
 
@@ -201,7 +201,7 @@ describe("Shop branch svelte", () => {
 
       // Form data should be passed to parent
       expect(mockOnSubmit).toBeCalledWith({
-        ...branchSubmitVal1,
+        ...mockBranchValue1,
         id: "1",
       });
     });
@@ -219,25 +219,36 @@ describe("Shop branch svelte", () => {
 
       // When post code field is completed with invalid input
       const postCodeEl = getById<HTMLInputElement>(branchPostCodeInputId);
-      await fillFieldInput(postCodeEl, branchSubmitVal1.postCode);
+      await fillFieldInput(postCodeEl, mockBranchValue1.postCode);
 
       // When city field is completed with invalid input
       const cityEl = getById<HTMLInputElement>(branchCityInputId);
-      await fillFieldInput(cityEl, branchSubmitVal1.city);
+      await fillFieldInput(cityEl, mockBranchValue1.city);
 
       // When street field is completed with invalid input
       const streetEl = getById<HTMLInputElement>(branchStreetInputId);
-      await fillFieldInput(streetEl, branchSubmitVal1.street);
+      await fillFieldInput(streetEl, mockBranchValue1.street);
 
       // When form is submitted
       await getById(branchSubmitId).click();
 
       // Form data should be passed to parent
       expect(mockOnSubmit).toBeCalledWith({
-        ...branchSubmitVal1,
+        ...mockBranchValue1,
         id: "a",
         phone: null,
         branchAlias: null,
+      });
+    });
+  });
+
+  describe("edit", () => {
+    it("a", async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { debug } = render(Branch, {
+        props: {
+          onSubmit: undefined,
+        },
       });
     });
   });

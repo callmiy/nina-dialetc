@@ -1,7 +1,6 @@
 /**
  * @jest-environment jest-environment-jsdom-sixteen
  */
-import { getBranches } from "@ta/cm/src/apollo/get-branches";
 import {
   ADD_ARTICLE_LABEL_HELP_TEXT,
   ADD_ARTICLE_LABEL_TEXT,
@@ -16,7 +15,7 @@ import {
   EDIT_SHOP_BRAND_LABEL_HELP_TEXT,
   EDIT_SHOP_BRAND_LABEL_TEXT,
 } from "@ta/cm/src/components/shopping-utils";
-import { StateValue } from "@ta/cm/src/constants";
+import { ListBranches_listBranches } from "@ta/cm/src/gql/ops-types";
 import {
   shoppingAddArticleId,
   shoppingAddArticleLabelHelpId,
@@ -28,18 +27,17 @@ import {
   shoppingBranchInputId,
   shoppingBrandInputId,
 } from "@ta/cm/src/selectors";
-import { BranchState } from "@ta/cm/src/types";
+import { mockBranchValue1 } from "@ta/cm/src/__tests__/mock-data";
+import { makeListBranchesHandler } from "@ta/cm/src/__tests__/msw-handlers";
+import { mswServer } from "@ta/cm/src/__tests__/msw-server";
 import { getById } from "@ta/cm/src/__tests__/utils-dom";
 import { cleanup, render, waitFor } from "@testing-library/svelte";
 import Shopping from "../components/shopping/shopping.svelte";
+import { resetBranchesStore } from "../stores/get-branches.store";
 import mockArticle from "./mocks/article.mock.svelte";
 import mockBranch from "./mocks/branch.mock.svelte";
 import mockBrand from "./mocks/brand.mock.svelte";
-import {
-  articleVal,
-  branchSubmitVal1,
-  brandSubmitValue1,
-} from "./mocks/mock-utils";
+import { articleVal, brandSubmitValue1 } from "./mocks/mock-utils";
 
 jest.mock("../components/lazies/brand.lazy", () => {
   return {
@@ -63,16 +61,32 @@ jest.mock("../components/lazies/article.lazy", () => {
   };
 });
 
-jest.mock("@ta/cm/src/apollo/get-branches");
-const mockGetBranches = getBranches as jest.Mock;
-
 describe("Shopping svelte", () => {
+  beforeAll(() => {
+    mswServer.listen();
+  });
+
   beforeEach(() => {
     jest.clearAllMocks();
     cleanup();
   });
 
+  afterEach(() => {
+    mswServer.resetHandlers();
+    resetBranchesStore();
+  });
+
+  afterAll(() => {
+    mswServer.close();
+  });
+
   it(`changes brand/branch buttons labels and help texts`, async () => {
+    mswServer.use(
+      makeListBranchesHandler({
+        edges: [] as any,
+      } as ListBranches_listBranches)
+    );
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug } = render(Shopping);
 
@@ -109,6 +123,12 @@ describe("Shopping svelte", () => {
   });
 
   it("changes branch button label and help text", async () => {
+    mswServer.use(
+      makeListBranchesHandler({
+        edges: [] as any,
+      } as ListBranches_listBranches)
+    );
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug } = render(Shopping);
 
@@ -130,7 +150,7 @@ describe("Shopping svelte", () => {
     await branchEl.click();
 
     // Submitted brand should be selected
-    expect(inputEl.value).toBe(branchSubmitVal1.id);
+    expect(inputEl.value).toBe(mockBranchValue1.id);
 
     // Thee should be two brand name options to select from
     const optionsEls = inputEl.querySelectorAll("option");
@@ -145,6 +165,12 @@ describe("Shopping svelte", () => {
   });
 
   it("changes article label and help texts", async () => {
+    mswServer.use(
+      makeListBranchesHandler({
+        edges: [] as any,
+      } as ListBranches_listBranches)
+    );
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug } = render(Shopping);
     // Add brand button label should have text 'Add'
@@ -179,39 +205,78 @@ describe("Shopping svelte", () => {
     expect(addHelpEl.textContent).toBe(EDIT_ARTICLE_LABEL_HELP_TEXT);
   });
 
-  fit("edits branch", async () => {
-    mockGetBranches.mockResolvedValue({
-      value: StateValue.data,
-      data: {
-        branches: [
+  it("edits branch", async () => {
+    mswServer.use(
+      makeListBranchesHandler({
+        edges: [
           {
-            id: "a",
-            postCode: "p",
-            city: "c",
-            street: "s",
+            node: mockBranchValue1,
           },
         ],
-      },
-    } as BranchState);
-
+      } as ListBranches_listBranches)
+    );
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug } = render(Shopping);
 
-    // Well it took this many await calls for the data to be resolved
-    await waitFor(() => true);
-
     // There should be two options for user to select from
-    const inputEl = await getById<HTMLSelectElement>(shoppingBranchInputId);
-    await waitFor(() => true);
-    await waitFor(() => true);
-    const optionsEls = inputEl.querySelectorAll("option");
+    const inputEl = getById<HTMLSelectElement>(shoppingBranchInputId);
 
+    const optionEl2 = await waitForCount(async () => {
+      return await waitFor(() => {
+        return inputEl.querySelector(
+          `option[value="${mockBranchValue1.id}"]`
+        ) as HTMLOptionElement;
+      });
+    }, 10);
+
+    const optionsEls = inputEl.querySelectorAll("option");
     expect(optionsEls.length).toBe(2);
 
     // First option must be the empty option
     expect((optionsEls.item(0) as HTMLOptionElement).value).toBe("");
 
     // Second option must be the fetched branch data
-    expect((optionsEls.item(1) as HTMLOptionElement).value).toBe("a");
+    expect(optionsEls.item(1)).toBe(optionEl2);
   });
 });
+
+function waitForCount<T>(
+  callbackfn: (t: any) => T | Promise<T>,
+  maxExecutionCount = 0,
+  timeout = 0,
+  ...callbackArgs: any
+): Promise<T> {
+  const p = deferred<T>();
+  let count = 0;
+
+  function execute() {
+    setTimeout(async () => {
+      const result = await callbackfn(callbackArgs);
+
+      if (result) {
+        p.resolve(result);
+        return;
+      }
+
+      if (++count <= maxExecutionCount) {
+        execute();
+      }
+    }, timeout);
+  }
+
+  execute();
+
+  return p.promise;
+}
+
+function deferred<T>() {
+  let resolve: any;
+  let reject: any;
+
+  const promise = new Promise<T>((res, rej) => {
+    resolve = res;
+    reject = rej;
+  });
+
+  return { promise, resolve, reject };
+}
