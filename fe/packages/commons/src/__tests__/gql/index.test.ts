@@ -14,7 +14,7 @@ import {
 } from "@ta/cm/src/__tests__/utils";
 import { Connection } from "@ta/cm/src/types/db";
 import { cleanUpDbAfterTest, resetDbForTest } from "../utils";
-import { listCountriesAndCurrenciesQuery } from "@ta/cm/src/gql/queries";
+import { listCountriesAndCurrenciesQuery } from "@ta/cm/src/gql/queries/countries-currencies.query";
 import {
   ListCountriesAndCurrenciesVariables,
   ListCountriesAndCurrencies,

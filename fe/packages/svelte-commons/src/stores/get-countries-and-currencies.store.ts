@@ -1,4 +1,4 @@
-import { getCountriesCurrencies } from "@ta/cm/src/apollo/apollo-utils";
+import { getCountriesCurrencies } from "@ta/cm/src/apollo/get-countries-currencies";
 import {
   COUNTRIES_LOADING_MSG,
   CURRENCIES_LOADING_MSG,

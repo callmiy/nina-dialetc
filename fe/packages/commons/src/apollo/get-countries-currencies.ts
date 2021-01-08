@@ -13,7 +13,7 @@ import {
   StringErrorState,
   Await,
 } from "../types";
-import { listCountriesAndCurrenciesQuery } from "../gql/queries";
+import { listCountriesAndCurrenciesQuery } from "../gql/queries/countries-currencies.query";
 import {
   COUNTRIES_FETCHING_FAILED,
   CURRENCIES_FETCHING_FAILED,

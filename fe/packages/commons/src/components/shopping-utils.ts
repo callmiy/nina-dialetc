@@ -1,11 +1,11 @@
-import { BranchValues } from "./branch-utils";
+import { BranchFragment } from "../gql/ops-types";
 import { Omit } from "../types";
 
 export function getBranchDisplayName({
   postCode,
   city,
   street,
-}: Omit<BranchValues, "id">) {
+}: Omit<BranchFragment, "id">) {
   return `${street}, ${postCode}, ${city}`;
 }
 

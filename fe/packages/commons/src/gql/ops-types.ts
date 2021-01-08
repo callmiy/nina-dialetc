@@ -4,6 +4,53 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: ListBranches
+// ====================================================
+
+export interface ListBranches_listBranches_edges_node {
+  __typename: "Branch";
+  id: string;
+  postCode: string;
+  street: string;
+  city: string;
+  branchAlias: string | null;
+  phone: string | null;
+}
+
+export interface ListBranches_listBranches_edges {
+  __typename: "BranchEdge";
+  node: ListBranches_listBranches_edges_node;
+  cursor: string;
+}
+
+export interface ListBranches_listBranches_pageInfo {
+  __typename: "PageInfo";
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+  endCursor: string | null;
+}
+
+export interface ListBranches_listBranches {
+  __typename: "BranchConnection";
+  edges: (ListBranches_listBranches_edges | null)[];
+  pageInfo: ListBranches_listBranches_pageInfo;
+}
+
+export interface ListBranches {
+  listBranches: ListBranches_listBranches;
+}
+
+export interface ListBranchesVariables {
+  paginationInput: PaginationInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: ListCountriesAndCurrencies
 // ====================================================
 
@@ -56,15 +103,17 @@ export interface ListCountriesAndCurrenciesVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: PageInfoFragment
+// GraphQL fragment: BranchFragment
 // ====================================================
 
-export interface PageInfoFragment {
-  __typename: "PageInfo";
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  startCursor: string | null;
-  endCursor: string | null;
+export interface BranchFragment {
+  __typename: "Branch";
+  id: string;
+  postCode: string;
+  street: string;
+  city: string;
+  branchAlias: string | null;
+  phone: string | null;
 }
 
 /* tslint:disable */
@@ -97,6 +146,23 @@ export interface CurrencyFragment {
   id: string;
   currencyName: string;
   currencyCode: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: PageInfoFragment
+// ====================================================
+
+export interface PageInfoFragment {
+  __typename: "PageInfo";
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+  endCursor: string | null;
 }
 
 /* tslint:disable */

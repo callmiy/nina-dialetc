@@ -1,4 +1,5 @@
 import { ArticleValues } from "@ta/cm/src/components/article.utils";
+import { BranchFragment } from "@ta/cm/src/gql/ops-types";
 
 export const brandSubmitValue1 = {
   id: "bdId1",
@@ -14,7 +15,7 @@ export const branchSubmitVal1 = {
   postCode: "pc1",
   branchAlias: "a",
   phone: "p",
-};
+} as BranchFragment;
 
 export const articleVal: ArticleValues = {
   id: "siId1",

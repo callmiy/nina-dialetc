@@ -1,9 +1,10 @@
 <script lang="ts">
+  import { BranchFragment } from "@ta/cm/src/gql/ops-types";
   import {
     ArticleValues,
     Props as ArticleProps,
   } from "@ta/cm/src/components/article.utils";
-  import { BranchValues } from "@ta/cm/src/components/branch-utils";
+  import { Props as BranchProps } from "@ta/cm/src/components/branch-utils";
   import {
     BrandValues,
     Props as BrandProps,
@@ -23,6 +24,7 @@
     EDIT_SHOP_BRAND_LABEL_TEXT,
     getBranchDisplayName,
   } from "@ta/cm/src/components/shopping-utils";
+  import { StateValue } from "@ta/cm/src/constants";
   import {
     shoppingAddArticleId,
     shoppingAddArticleLabelHelpId,
@@ -42,6 +44,11 @@
     shoppingUnitPriceId,
   } from "@ta/cm/src/selectors";
   import { getTotalPrice } from "@ta/cm/src/utils/get-total-price";
+  import {
+    branchesStore,
+    branchesStoreData,
+    getBranchesStore,
+  } from "../../stores/get-branches.store";
   import { getArticleComponent } from "../lazies/article.lazy";
   import { getBranchComponent } from "../lazies/branch.lazy";
   import { getBrandComponent } from "../lazies/brand.lazy";
@@ -81,11 +88,22 @@
     brandOptions = options;
   };
 
-  // BRANCH /////////////////////////////////////////////////////////////////
+  // START BRANCH /////////////////////////////////////////////////
+
+  getBranchesStore();
 
   let branchIsActive = false;
-  let branchOptions: BranchValuesWithDisplayName[] = [];
   let branchId = "";
+
+  let branchOptions: BranchFragment[] = [];
+
+  $: {
+    if ($branchesStore.value === StateValue.data) {
+      branchOptions = [...branchOptions, ...$branchesStoreData.data.branches];
+    }
+  }
+
+  let currentBranch: BranchFragment | undefined;
 
   let branchLabelText = ADD_SHOP_BRANCH_LABEL_TEXT;
   let branchLabelHelp = ADD_SHOP_BRANCH_LABEL_HELP_TEXT;
@@ -94,24 +112,21 @@
     if (branchId) {
       branchLabelHelp = EDIT_SHOP_BRANCH_LABEL_HELP_TEXT;
       branchLabelText = EDIT_SHOP_BRANCH_LABEL_TEXT;
+      currentBranch = branchOptions.find((b) => b.id === branchId);
     } else {
       branchLabelHelp = ADD_SHOP_BRANCH_LABEL_HELP_TEXT;
       branchLabelText = ADD_SHOP_BRANCH_LABEL_TEXT;
+      currentBranch = undefined;
     }
   }
 
-  function onSubmitBranch(data: BranchValues) {
+  const onSubmitBranch: BranchProps["onSubmit"] = (data) => {
     branchIsActive = false;
 
     const { id: maybeNewId } = data;
     branchId = maybeNewId;
-    (data as BranchValuesWithDisplayName).displayName = getBranchDisplayName(
-      data
-    );
 
-    const options: BranchValuesWithDisplayName[] = [
-      data as BranchValuesWithDisplayName,
-    ];
+    const options: BranchFragment[] = [data as BranchFragment];
 
     branchOptions.forEach((b) => {
       if (b.id !== maybeNewId) {
@@ -120,7 +135,7 @@
     });
 
     branchOptions = options;
-  }
+  };
 
   // ARTICLE ////////////////////////////////////////////////////////////
   let articleIsActive = false;
@@ -184,10 +199,6 @@
     brandIsActive = false;
     branchIsActive = false;
   }
-
-  type BranchValuesWithDisplayName = BranchValues & {
-    displayName: string;
-  };
 </script>
 
 <style lang="scss">
@@ -235,6 +246,7 @@
         this="{_c}"
         bind:isActive="{branchIsActive}"
         onSubmit="{onSubmitBranch}"
+        branch="{currentBranch ? { ...currentBranch } : currentBranch}"
       />
     {/await}
   {:else if articleIsActive}
@@ -308,11 +320,13 @@
             type="text"
             bind:value="{branchId}"
           >
-            <option value="" class="{shoppingBranchOptionSelector}"></option>
+            <option value="" class="{shoppingBranchOptionSelector}">
+              ----------
+            </option>
 
-            {#each branchOptions as { id, displayName } (id)}
-              <option class="{shoppingBranchOptionSelector}" value="{id}">
-                {displayName}
+            {#each branchOptions as { id, ...data } (id)}
+              <option value="{id}" class="{shoppingBranchOptionSelector}">
+                {getBranchDisplayName(data)}
               </option>
             {/each}
           </select>

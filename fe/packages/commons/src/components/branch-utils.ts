@@ -1,13 +1,11 @@
-export type BranchValues = {
-  id: string;
-  postCode: string;
-  street: string;
-  city: string;
-  branchAlias?: string | null;
-  phone?: string | null;
-};
+import { BranchFragment } from "../gql/ops-types";
 
 export type Props = {
   isActive: boolean;
-  onSubmit?: (values: BranchValues) => void;
+  onSubmit?: (values: BranchFragment) => void;
+  branch?: BranchFragment;
 };
+
+export const BRANCH_LOADING_MSG = "Loading branch data...";
+
+export const BRANCH_FETCHING_FAILED = `Attempt to fetch branches data failed`;

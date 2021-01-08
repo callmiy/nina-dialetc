@@ -4,7 +4,7 @@
 import {
   getCountriesCurrencies,
   GetCountriesCurrencies,
-} from "@ta/cm/src/apollo/apollo-utils";
+} from "@ta/cm/src/apollo/get-countries-currencies";
 import {
   COUNTRIES_LOADING_MSG,
   CURRENCIES_LOADING_MSG,
@@ -40,7 +40,7 @@ jest.mock("@ta/cm/src/db/ulid-uuid", () => ({
   newUlid: () => ++mockId,
 }));
 
-jest.mock("@ta/cm/src/apollo/apollo-utils");
+jest.mock("@ta/cm/src/apollo/get-countries-currencies.ts");
 const mockGetCountriesCurrencies = getCountriesCurrencies as jest.Mock;
 
 describe("Brand svelte", () => {

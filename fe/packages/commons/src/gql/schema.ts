@@ -20,6 +20,15 @@ export const typeDefs = gql`
     updatedAt: DateTime!
   }
 
+  type Branch {
+    id: ID!
+    postCode: String!
+    street: String!
+    city: String!
+    branchAlias: String
+    phone: String
+  }
+
   input PaginationInput {
     first: Int
     last: Int
@@ -44,8 +53,19 @@ export const typeDefs = gql`
     pageInfo: PageInfo!
   }
 
+  type BranchEdge {
+    node: Branch!
+    cursor: String!
+  }
+
+  type BranchConnection {
+    edges: [BranchEdge]!
+    pageInfo: PageInfo!
+  }
+
   type Query {
     listCountries(paginationInput: PaginationInput!): CountryConnection!
     listCurrencies: [Currency]!
+    listBranches(paginationInput: PaginationInput!): BranchConnection!
   }
 `;

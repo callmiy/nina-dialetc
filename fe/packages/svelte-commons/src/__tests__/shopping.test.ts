@@ -1,6 +1,7 @@
 /**
  * @jest-environment jest-environment-jsdom-sixteen
  */
+import { getBranches } from "@ta/cm/src/apollo/get-branches";
 import {
   ADD_ARTICLE_LABEL_HELP_TEXT,
   ADD_ARTICLE_LABEL_TEXT,
@@ -15,6 +16,7 @@ import {
   EDIT_SHOP_BRAND_LABEL_HELP_TEXT,
   EDIT_SHOP_BRAND_LABEL_TEXT,
 } from "@ta/cm/src/components/shopping-utils";
+import { StateValue } from "@ta/cm/src/constants";
 import {
   shoppingAddArticleId,
   shoppingAddArticleLabelHelpId,
@@ -26,8 +28,9 @@ import {
   shoppingBranchInputId,
   shoppingBrandInputId,
 } from "@ta/cm/src/selectors";
+import { BranchState } from "@ta/cm/src/types";
 import { getById } from "@ta/cm/src/__tests__/utils-dom";
-import { cleanup, render } from "@testing-library/svelte";
+import { cleanup, render, waitFor } from "@testing-library/svelte";
 import Shopping from "../components/shopping/shopping.svelte";
 import mockArticle from "./mocks/article.mock.svelte";
 import mockBranch from "./mocks/branch.mock.svelte";
@@ -59,6 +62,9 @@ jest.mock("../components/lazies/article.lazy", () => {
     },
   };
 });
+
+jest.mock("@ta/cm/src/apollo/get-branches");
+const mockGetBranches = getBranches as jest.Mock;
 
 describe("Shopping svelte", () => {
   beforeEach(() => {
@@ -171,5 +177,41 @@ describe("Shopping svelte", () => {
     // Brand button's label have text 'edit'
     expect(addEl.textContent).toEqual(EDIT_ARTICLE_LABEL_TEXT);
     expect(addHelpEl.textContent).toBe(EDIT_ARTICLE_LABEL_HELP_TEXT);
+  });
+
+  fit("edits branch", async () => {
+    mockGetBranches.mockResolvedValue({
+      value: StateValue.data,
+      data: {
+        branches: [
+          {
+            id: "a",
+            postCode: "p",
+            city: "c",
+            street: "s",
+          },
+        ],
+      },
+    } as BranchState);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { debug } = render(Shopping);
+
+    // Well it took this many await calls for the data to be resolved
+    await waitFor(() => true);
+
+    // There should be two options for user to select from
+    const inputEl = await getById<HTMLSelectElement>(shoppingBranchInputId);
+    await waitFor(() => true);
+    await waitFor(() => true);
+    const optionsEls = inputEl.querySelectorAll("option");
+
+    expect(optionsEls.length).toBe(2);
+
+    // First option must be the empty option
+    expect((optionsEls.item(0) as HTMLOptionElement).value).toBe("");
+
+    // Second option must be the fetched branch data
+    expect((optionsEls.item(1) as HTMLOptionElement).value).toBe("a");
   });
 });

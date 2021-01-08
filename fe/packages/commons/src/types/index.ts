@@ -1,5 +1,9 @@
 import { DataVal, ErrorsVal, LoadingVal } from "../constants";
-import { CountryFragment, CurrencyFragment } from "../gql/ops-types";
+import {
+  BranchFragment,
+  CountryFragment,
+  CurrencyFragment,
+} from "../gql/ops-types";
 import { PageInfo } from "../gql/schema-types";
 
 export type Await<T> = T extends PromiseLike<infer U> ? U : T;
@@ -59,4 +63,19 @@ export type StringErrorState = {
 export type LoadingState = {
   value: LoadingVal;
   msg: string;
+};
+
+// BRANCH //////////////////////////////////////////////////////////////
+
+export type BranchState = BranchStateData | LoadingState | StringErrorState;
+
+export type BranchStateData = {
+  value: DataVal;
+  data: BranchesResolvedData;
+};
+
+export type BranchesResolvedData = {
+  branches: BranchFragment[];
+  pageInfo: PageInfo;
+  error?: string;
 };
