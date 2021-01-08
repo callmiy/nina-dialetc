@@ -30,6 +30,7 @@ import {
 import { mockBranchValue1 } from "@ta/cm/src/__tests__/mock-data";
 import { makeListBranchesHandler } from "@ta/cm/src/__tests__/msw-handlers";
 import { mswServer } from "@ta/cm/src/__tests__/msw-server";
+import { waitForCount } from "@ta/cm/src/__tests__/pure-utils";
 import { getById } from "@ta/cm/src/__tests__/utils-dom";
 import { cleanup, render, waitFor } from "@testing-library/svelte";
 import Shopping from "../components/shopping/shopping.svelte";
@@ -239,44 +240,3 @@ describe("Shopping svelte", () => {
     expect(optionsEls.item(1)).toBe(optionEl2);
   });
 });
-
-function waitForCount<T>(
-  callbackfn: (t: any) => T | Promise<T>,
-  maxExecutionCount = 0,
-  timeout = 0,
-  ...callbackArgs: any
-): Promise<T> {
-  const p = deferred<T>();
-  let count = 0;
-
-  function execute() {
-    setTimeout(async () => {
-      const result = await callbackfn(callbackArgs);
-
-      if (result) {
-        p.resolve(result);
-        return;
-      }
-
-      if (++count <= maxExecutionCount) {
-        execute();
-      }
-    }, timeout);
-  }
-
-  execute();
-
-  return p.promise;
-}
-
-function deferred<T>() {
-  let resolve: any;
-  let reject: any;
-
-  const promise = new Promise<T>((res, rej) => {
-    resolve = res;
-    reject = rej;
-  });
-
-  return { promise, resolve, reject };
-}
