@@ -1,11 +1,10 @@
 import { BranchFragment } from "../gql/ops-types";
-import { Omit } from "../types";
 
 export function getBranchDisplayName({
   postCode,
   city,
   street,
-}: Omit<BranchFragment, "id">) {
+}: Pick<BranchFragment, "postCode" | "city" | "street">) {
   return `${street}, ${postCode}, ${city}`;
 }
 
