@@ -81,7 +81,7 @@ describe("Shopping svelte", () => {
     mswServer.close();
   });
 
-  it(`changes brand/branch buttons labels and help texts`, async () => {
+  it(`changes brand buttons labels and help texts`, async () => {
     mswServer.use(
       makeListBranchesHandler({
         edges: [] as any,
