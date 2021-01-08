@@ -98,10 +98,14 @@
   let branchId = "";
 
   let branchOptions: BranchFragment[] = [];
+  // ensure will only read branchesStore into branchOptions only once no
+  // matter how many times the following reactive block runs
+  let branchDataRead = false;
 
   $: {
-    if ($branchesStore.value === StateValue.data) {
+    if (!branchDataRead && $branchesStore.value === StateValue.data) {
       branchOptions = [...branchOptions, ...$branchesStoreData.data.branches];
+      branchDataRead = true;
     }
   }
 
@@ -331,7 +335,7 @@
               ----------
             </option>
 
-            {#each branchOptions as { id, ...data } (id)}
+            {#each branchOptions as { id, ...data }}
               <option value="{id}" class="{shoppingBranchOptionSelector}">
                 {getBranchDisplayName(data)}
               </option>

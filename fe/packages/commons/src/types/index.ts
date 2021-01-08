@@ -10,6 +10,16 @@ export type Await<T> = T extends PromiseLike<infer U> ? U : T;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type Any = Record<string, unknown>;
 
+export type NinaGlobals = {
+  logApolloQueries?: boolean;
+};
+
+declare global {
+  interface Window {
+    ____nina: NinaGlobals;
+  }
+}
+
 export type CountryEntity = {
   id: string;
   country_name: string;
@@ -65,7 +75,9 @@ export type LoadingState = {
   msg: string;
 };
 
-// BRANCH //////////////////////////////////////////////////////////////
+// ====================================================
+// BRANCH SECTION
+// ====================================================
 
 export type BranchState = BranchStateData | LoadingState | StringErrorState;
 
@@ -79,3 +91,7 @@ export type BranchesResolvedData = {
   pageInfo: PageInfo;
   error?: string;
 };
+
+// ====================================================
+// END BRANCH SECTION
+// ====================================================

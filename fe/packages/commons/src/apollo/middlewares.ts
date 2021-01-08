@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 import { ApolloLink } from "@apollo/client/core";
 import { onError } from "@apollo/client/link/error";
+import { doNotLog } from "./logging";
 
 export function middlewareLoggerLink(link: ApolloLink) {
   return new ApolloLink((operation, forward) => {
@@ -80,8 +81,4 @@ export function middlewareErrorLink(link: ApolloLink) {
 function getNow() {
   const n = new Date();
   return `${n.getHours()}:${n.getMinutes()}:${n.getSeconds()}:${n.getMilliseconds()}`;
-}
-
-function doNotLog() {
-  return false;
 }

@@ -10,3 +10,5 @@ export const DEBUG_PG_PROMISE = process.env.DEBUG_PG;
 
 export const IS_DEV = NODE_ENV === "development";
 export const IS_E2E_TEST = IS_E2E === "true";
+export const IS_PROD = NODE_ENV === "production";
+export const IS_TEST = NODE_ENV === "test";
