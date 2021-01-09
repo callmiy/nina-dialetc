@@ -59,9 +59,9 @@ context("Shopping", () => {
       // When we visit the home page
       cy.visit("/");
 
-      // When we click the button to create new shopping
-
-      // BRAND ///////////////////////////////////////////////////////////////
+      // ====================================================
+      // BRAND SECTION :TODO implement fetch
+      // ====================================================
 
       // When we click on 'Add new shop brand' button
       cy.get("#" + shoppingAddBrandId).click();
@@ -71,7 +71,8 @@ context("Shopping", () => {
         .as("brandInput")
         .should("have.value", "")
         .within(() => {
-          cy.get("." + shoppingBrandOptionSelector).should("have.length", 1);
+          // There should be two fetched brands and one empty value
+          cy.get("." + shoppingBrandOptionSelector).should("have.length", 3);
         });
 
       cy.get("#" + brandDomId).within(() => {
@@ -122,7 +123,9 @@ context("Shopping", () => {
           });
       });
 
-      // BRANCH ////////////////////////////////////////////////////////////////
+      // ====================================================
+      // BRANCH SECTION :TODO implement fetch
+      // ====================================================
 
       // When we click on 'Add new branch' button
       cy.get("#" + shoppingAddBranchId).click();
@@ -132,7 +135,8 @@ context("Shopping", () => {
         .as("shopBranchEl")
         .should("have.value", "")
         .within(() => {
-          cy.get("." + shoppingBranchOptionSelector).should("have.length", 1);
+          // There should be 2 fetched branches + the empty one
+          cy.get("." + shoppingBranchOptionSelector).should("have.length", 3);
         });
 
       cy.get("#" + branchDomId).within(() => {
@@ -164,6 +168,7 @@ context("Shopping", () => {
             expect(e.text().trim()).to.eq(branchName);
           });
       });
+
       // ARTICLE ///////////////////////////////////////////////////////
       // When we click on 'Add' article button
       cy.get("#" + shoppingAddArticleId).click();
