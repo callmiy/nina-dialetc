@@ -27,6 +27,8 @@ export const typeDefs = gql`
     city: String!
     branchAlias: String
     phone: String
+    insertedAt: DateTime!
+    updatedAt: DateTime!
   }
 
   input PaginationInput {
