@@ -1,18 +1,24 @@
-export function waitForCount<T>(
+export async function waitForCount<T>(
   callbackfn: (t: any) => T | Promise<T>,
-  maxExecutionCount = 0,
+  maxExecutionCount = 1,
   timeout = 0,
   ...callbackArgs: any
 ): Promise<T> {
-  const p = deferred<T>();
-  let count = 0;
+  const result = await callbackfn(callbackArgs);
+
+  if (result) {
+    return result;
+  }
+
+  const d = deferred<T>();
+  let count = 1;
 
   function execute() {
     setTimeout(async () => {
       const result = await callbackfn(callbackArgs);
 
       if (result) {
-        p.resolve(result);
+        d.resolve(result);
         return;
       }
 
@@ -24,7 +30,7 @@ export function waitForCount<T>(
 
   execute();
 
-  return p.promise;
+  return d.promise;
 }
 
 function deferred<T>() {
