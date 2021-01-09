@@ -1,8 +1,8 @@
 /**
  * @jest-environment jest-environment-jsdom-sixteen
  */
+import { Props } from "@ta/cm/src/components/branch-utils";
 import { newUlid } from "@ta/cm/src/db/ulid-uuid";
-import { mockBranchValue1 } from "@ta/cm/src/__tests__/mock-data";
 import {
   branchAliasInputId,
   branchCityErrorId,
@@ -19,6 +19,7 @@ import {
   ERROR_NOTIFICATION_CLASS_NAME,
   WARNING_NOTIFICATION_CLASS_NAME,
 } from "@ta/cm/src/selectors";
+import { mockBranchValue1 } from "@ta/cm/src/__tests__/mock-data";
 import { fillFieldInput, getById } from "@ta/cm/src/__tests__/utils-dom";
 import { cleanup, render } from "@testing-library/svelte";
 import Branch from "../components/branch/branch.svelte";
@@ -243,13 +244,74 @@ describe("Shop branch svelte", () => {
   });
 
   describe("edit", () => {
-    it("a", async () => {
+    it("warns if unedited form submitted", async () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { debug } = render(Branch, {
         props: {
           onSubmit: undefined,
-        },
+          branch: mockBranchValue1,
+        } as Props,
       });
+
+      // There should be no notification UI
+      expect(getById(branchNotificationTextCloseId)).toBeNull();
+
+      // When form is submitted
+      await getById(branchSubmitId).click();
+
+      // There should be warning notification
+      const notificationEl = getById(branchNotificationTextCloseId);
+      expect(
+        notificationEl.closest(`.${WARNING_NOTIFICATION_CLASS_NAME}`)
+      ).not.toBeNull();
+
+      // There should not be error notification
+      expect(
+        notificationEl.closest(`.${ERROR_NOTIFICATION_CLASS_NAME}`)
+      ).toBeNull();
+
+      // When notification is closed
+      await notificationEl.click();
+
+      // Notification should not be visible
+      expect(getById(branchNotificationTextCloseId)).toBeNull();
+    });
+
+    it("warns if unedited form submitted", async () => {
+      const mockOnSubmit = jest.fn();
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { debug } = render(Branch, {
+        props: {
+          onSubmit: mockOnSubmit as any,
+          branch: mockBranchValue1,
+        } as Props,
+      });
+
+      // There should be no notification UI
+      expect(getById(branchNotificationTextCloseId)).toBeNull();
+
+      // When form is submitted
+      await getById(branchSubmitId).click();
+
+      // There should be warning notification
+      const notificationEl = getById(branchNotificationTextCloseId);
+      expect(
+        notificationEl.closest(`.${WARNING_NOTIFICATION_CLASS_NAME}`)
+      ).not.toBeNull();
+
+      // There should not be error notification
+      expect(
+        notificationEl.closest(`.${ERROR_NOTIFICATION_CLASS_NAME}`)
+      ).toBeNull();
+
+      // When notification is closed
+      await notificationEl.click();
+
+      // Notification should not be visible
+      expect(getById(branchNotificationTextCloseId)).toBeNull();
+
+      //
     });
   });
 });

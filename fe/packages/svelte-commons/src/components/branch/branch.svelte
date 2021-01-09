@@ -1,44 +1,50 @@
 <script lang="ts">
   import {
-    branchCityInputId,
-    branchStreetInputId,
-    closeBrandComponentId,
-    branchResetId,
-    branchDomId,
-    branchPostCodeInputId,
+    BranchFormValue,
+    EMPTY_BRANCH,
+    Props,
+  } from "@ta/cm/src/components/branch-utils";
+  import {
+    FORM_CONTAINS_ERRORS_MESSAGE,
+    NOTHING_TO_SAVE_WARNING_MESSAGE,
+  } from "@ta/cm/src/constants";
+  import { newUlid } from "@ta/cm/src/db/ulid-uuid";
+  import {
     branchAliasInputId,
-    branchSubmitId,
-    branchNotificationTextCloseId,
-    branchPostCodeErrorId,
     branchCityErrorId,
-    branchStreetErrorId,
+    branchCityInputId,
+    branchDomId,
+    branchNotificationTextCloseId,
     branchPhoneInputId,
+    branchPostCodeErrorId,
+    branchPostCodeInputId,
+    branchResetId,
+    branchStreetErrorId,
+    branchStreetInputId,
+    branchSubmitId,
+    closeBrandComponentId,
     ERROR_NOTIFICATION_CLASS_NAME,
     WARNING_NOTIFICATION_CLASS_NAME,
   } from "@ta/cm/src/selectors";
-  import {
-    NOTHING_TO_SAVE_WARNING_MESSAGE,
-    FORM_CONTAINS_ERRORS_MESSAGE,
-  } from "@ta/cm/src/constants";
-  import { newUlid } from "@ta/cm/src/db/ulid-uuid";
-
   import FormCtrlMsg from "../form-ctrl-msg.svelte";
   import Notification from "../notification.svelte";
 
-  import { Props } from "@ta/cm/src/components/branch-utils";
+  export let branch = (null as unknown) as Props["branch"];
 
-  /* FORM ATTRIBUTES AND ERROR VARIABLES */
-  let postCode = "";
+  let formValues = (branch || {
+    ...EMPTY_BRANCH,
+  }) as BranchFormValue;
+
+  // null values
+
+  const untouchedFormValues = {
+    ...formValues,
+  } as BranchFormValue;
+
+  /* FORM ERROR VARIABLES */
   let postCodeError: string;
-
-  let city = "";
   let cityError: string;
-
-  let street = "";
   let streetError: string;
-
-  let branchAlias = "";
-  let phone = "";
 
   let notificationText = "";
   let notificationTextClass = "";
@@ -54,28 +60,26 @@
   }
 
   function resetFormCb() {
-    street = "";
+    formValues = branch ? formValues : untouchedFormValues;
     streetError = "";
-
-    city = "";
     cityError = "";
-
-    postCode = "";
     postCodeError = "";
-
-    branchAlias = "";
-    phone = "";
     clearSimpletextErrorCb();
   }
 
   function submitFormCb() {
-    postCode = postCode.trim();
-    street = street.trim();
-    city = city.trim();
-    branchAlias = branchAlias.trim();
-    phone = phone.trim();
+    const postCode = formValues.postCode.trim();
+    const street = formValues.street.trim();
+    const city = formValues.city.trim();
+    const branchAlias = formValues.branchAlias.trim();
+    const phone = formValues.phone.trim();
 
-    const formEmpty = !street && !city && !postCode && !branchAlias && !phone;
+    const formEmpty =
+      street === untouchedFormValues.street &&
+      city === untouchedFormValues.city &&
+      postCode === untouchedFormValues.postCode &&
+      branchAlias === untouchedFormValues.branchAlias &&
+      phone === untouchedFormValues.phone;
 
     if (formEmpty) {
       notificationText = NOTHING_TO_SAVE_WARNING_MESSAGE;
@@ -109,9 +113,12 @@
       return;
     }
 
+    const id = formValues.id || newUlid();
+
     if (onSubmit) {
       onSubmit({
-        id: newUlid(),
+        ...formValues,
+        id,
         street,
         city,
         postCode,
@@ -175,7 +182,7 @@
             id="{branchPostCodeInputId}"
             class="input"
             type="text"
-            bind:value="{postCode}"
+            bind:value="{formValues.postCode}"
           />
         </div>
 
@@ -192,7 +199,7 @@
             id="{branchCityInputId}"
             class="input"
             type="text"
-            bind:value="{city}"
+            bind:value="{formValues.city}"
           />
         </div>
 
@@ -211,7 +218,7 @@
             id="{branchStreetInputId}"
             class="input"
             type="text"
-            bind:value="{street}"
+            bind:value="{formValues.street}"
           />
         </div>
 
@@ -228,7 +235,7 @@
             id="{branchAliasInputId}"
             class="input"
             type="text"
-            bind:value="{branchAlias}"
+            bind:value="{formValues.branchAlias}"
           />
         </div>
       </div>
@@ -241,7 +248,7 @@
             id="{branchPhoneInputId}"
             class="input"
             type="text"
-            bind:value="{phone}"
+            bind:value="{formValues.phone}"
           />
         </div>
       </div>
