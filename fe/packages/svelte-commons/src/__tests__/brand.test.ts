@@ -11,6 +11,7 @@ import {
   IS_ACTIVE_CLASS_NAME,
   StateValue,
 } from "@ta/cm/src/constants";
+import { newUlid } from "@ta/cm/src/db/ulid-uuid";
 import {
   brandCountryInputDomId,
   brandCountryMsgDomId,
@@ -26,19 +27,24 @@ import {
   brandSubmitId,
   WARNING_NOTIFICATION_CLASS_NAME,
 } from "@ta/cm/src/selectors";
+import { waitForCount } from "@ta/cm/src/__tests__/pure-utils";
 import {
   fillFieldChange,
   fillFieldInput,
   getById,
 } from "@ta/cm/src/__tests__/utils-dom";
-import { cleanup, render, waitFor } from "@testing-library/svelte";
+import {
+  cleanup,
+  render,
+  waitFor,
+  waitForElementToBeRemoved,
+} from "@testing-library/svelte";
 import Brand from "../components/brand/brand.svelte";
 import { resetCountriesCurrenciesStore } from "../stores/get-countries-and-currencies.store";
 
-let mockId = 0;
-jest.mock("@ta/cm/src/db/ulid-uuid", () => ({
-  newUlid: () => ++mockId,
-}));
+jest.mock("@ta/cm/src/db/ulid-uuid");
+
+const mockNewUlid = newUlid as jest.Mock;
 
 jest.mock("@ta/cm/src/apollo/get-countries-currencies.ts");
 const mockGetCountriesCurrencies = getCountriesCurrencies as jest.Mock;
@@ -50,16 +56,27 @@ describe("Brand svelte", () => {
     resetCountriesCurrenciesStore();
   });
 
+  const validName = "Edeka";
+  const phoneNum = "123";
+
+  const germanyCountry = {
+    id: "co1",
+    countryName: "germany",
+    countryCode: "de",
+  };
+
+  const eurCcy = {
+    id: "cur1",
+    currencyName: "Euro",
+    currencyCode: "EUR",
+  };
+
   const countriesCurrencies = [
     {
       value: StateValue.data,
       data: {
         countries: [
-          {
-            id: "co1",
-            countryName: "germany",
-            countryCode: "de",
-          },
+          germanyCountry,
 
           {
             id: "co2",
@@ -72,13 +89,7 @@ describe("Brand svelte", () => {
     {
       value: StateValue.data,
       data: {
-        currencies: [
-          {
-            id: "cur1",
-            currencyName: "Euro",
-            currencyCode: "EUR",
-          },
-        ],
+        currencies: [eurCcy],
       },
     },
   ] as GetCountriesCurrencies;
@@ -244,5 +255,89 @@ describe("Brand svelte", () => {
 
     // General form error should not be visible
     expect(getById(brandNotificationTextCloseId)).toBeNull();
+  });
+
+  it(`submits correct form data /
+      nullable fields returned as null when cleared`, async () => {
+    mockGetCountriesCurrencies.mockResolvedValue(countriesCurrencies);
+    mockNewUlid.mockReturnValue(1);
+    const mockOnSubmit = jest.fn();
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { debug } = render(Brand, {
+      props: {
+        onSubmit: mockOnSubmit as any,
+      },
+    });
+
+    // Wait for countries and currencies data to resolve
+    const countryInputEl = getById<HTMLInputElement>(brandCountryInputDomId);
+
+    const germanyEl = await waitForCount(async () => {
+      return await waitFor(() => {
+        const x = countryInputEl.querySelector(
+          `option[value="${germanyCountry.id}"]`
+        );
+
+        return x;
+      });
+    }, 10);
+
+    expect(germanyEl).not.toBeNull();
+    await fillFieldChange(countryInputEl, germanyCountry.id);
+
+    // When form is completed with valid data
+    const nameInputEl = getById<HTMLInputElement>(brandNameInputDomId);
+    await fillFieldInput(nameInputEl, validName);
+
+    const currencyInputEl = getById<HTMLInputElement>(brandCurrencyInputDomId);
+    await fillFieldChange(currencyInputEl, eurCcy.id);
+
+    const phoneInputEl = getById<HTMLInputElement>(brandPhoneInputDomId);
+    await fillFieldInput(phoneInputEl, phoneNum);
+
+    // submit should not have been called
+    expect(mockOnSubmit).not.toBeCalled();
+
+    // When we submit form
+    const submitEl = getById(brandSubmitId);
+    await submitEl.click();
+
+    // Brand name field error should not be visible
+    expect(getById(brandNameErrorDomId)).toBeNull();
+
+    // Country field error should not be visible
+    expect(getById(brandCountryMsgDomId)).toBeNull();
+
+    // Currency field error should not be visible
+    expect(getById(brandCurrencyMsgDomId)).toBeNull();
+
+    // General form error should not be visible
+    expect(getById(brandNotificationTextCloseId)).toBeNull();
+
+    // form data should be passed to parent
+    expect(mockOnSubmit).toBeCalledWith({
+      id: 1,
+      name: validName,
+      country: germanyCountry,
+      currency: eurCcy,
+      phone: phoneNum,
+    });
+
+    // when phone number field is cleared
+    await fillFieldInput(phoneInputEl, "");
+
+    // when form is submitted
+    mockOnSubmit.mockReset();
+    await submitEl.click();
+
+    // form data should be passed to parent with nullable fields set to null
+    expect(mockOnSubmit).toBeCalledWith({
+      id: 1,
+      name: validName,
+      country: germanyCountry,
+      currency: eurCcy,
+      phone: null,
+    });
   });
 });
