@@ -51,6 +51,52 @@ export interface ListBranchesVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: ListBrands
+// ====================================================
+
+export interface ListBrands_listBrands_edges_node {
+  __typename: "Brand";
+  id: string;
+  name: string;
+  countryId: string;
+  currencyId: string;
+  phone: string | null;
+}
+
+export interface ListBrands_listBrands_edges {
+  __typename: "BrandEdge";
+  node: ListBrands_listBrands_edges_node;
+  cursor: string;
+}
+
+export interface ListBrands_listBrands_pageInfo {
+  __typename: "PageInfo";
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+  endCursor: string | null;
+}
+
+export interface ListBrands_listBrands {
+  __typename: "BrandConnection";
+  edges: (ListBrands_listBrands_edges | null)[];
+  pageInfo: ListBrands_listBrands_pageInfo;
+}
+
+export interface ListBrands {
+  listBrands: ListBrands_listBrands;
+}
+
+export interface ListBrandsVariables {
+  paginationInput: PaginationInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: ListCountriesAndCurrencies
 // ====================================================
 
@@ -113,6 +159,24 @@ export interface BranchFragment {
   street: string;
   city: string;
   branchAlias: string | null;
+  phone: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: BrandFragment
+// ====================================================
+
+export interface BrandFragment {
+  __typename: "Brand";
+  id: string;
+  name: string;
+  countryId: string;
+  currencyId: string;
   phone: string | null;
 }
 

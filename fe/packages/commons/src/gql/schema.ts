@@ -31,6 +31,18 @@ export const typeDefs = gql`
     updatedAt: DateTime!
   }
 
+  type Brand {
+    id: ID!
+    name: String!
+    countryId: ID!
+    country: Country!
+    currencyId: ID!
+    currency: Currency!
+    phone: String
+    insertedAt: DateTime!
+    updatedAt: DateTime!
+  }
+
   input PaginationInput {
     first: Int
     last: Int
@@ -65,9 +77,20 @@ export const typeDefs = gql`
     pageInfo: PageInfo!
   }
 
+  type BrandEdge {
+    node: Brand!
+    cursor: String!
+  }
+
+  type BrandConnection {
+    edges: [BrandEdge]!
+    pageInfo: PageInfo!
+  }
+
   type Query {
     listCountries(paginationInput: PaginationInput!): CountryConnection!
     listCurrencies: [Currency]!
     listBranches(paginationInput: PaginationInput!): BranchConnection!
+    listBrands(paginationInput: PaginationInput!): BrandConnection!
   }
 `;
