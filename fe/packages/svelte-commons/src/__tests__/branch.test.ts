@@ -277,7 +277,9 @@ describe("Shop branch svelte", () => {
       expect(getById(branchNotificationTextCloseId)).toBeNull();
     });
 
-    it("warns if unedited form submitted", async () => {
+    it(`submits correctly edited data
+        returns "null" for nullable fields when empty`, async () => {
+      mockNewUlid.mockReturnValue("1");
       const mockOnSubmit = jest.fn();
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -288,30 +290,67 @@ describe("Shop branch svelte", () => {
         } as Props,
       });
 
-      // There should be no notification UI
-      expect(getById(branchNotificationTextCloseId)).toBeNull();
+      const t = "5   ";
+
+      const newPostCode = mockBranchValue1.postCode + t;
+      const newCity = mockBranchValue1.city + t;
+      const newStreet = mockBranchValue1.street + t;
+      const newAlias = (mockBranchValue1 as any).branchAlias + t;
+      const newPhone = (mockBranchValue1 as any).phone + t;
+
+      // When post code field is completed with valid input
+      const postCodeEl = getById<HTMLInputElement>(branchPostCodeInputId);
+      await fillFieldInput(postCodeEl, newPostCode);
+
+      // When city field is completed with valid input
+      const cityEl = getById<HTMLInputElement>(branchCityInputId);
+      await fillFieldInput(cityEl, newCity);
+
+      // When street field is completed with valid input
+      const streetEl = getById<HTMLInputElement>(branchStreetInputId);
+      await fillFieldInput(streetEl, newStreet);
+
+      // When alias field is completed
+      const aliasEl = getById<HTMLInputElement>(branchAliasInputId);
+      await fillFieldInput(aliasEl, newAlias);
+
+      // When phone field is completed
+      const phoneEl = getById<HTMLInputElement>(branchPhoneInputId);
+      await fillFieldInput(phoneEl, newPhone);
+
+      expect(mockOnSubmit).not.toBeCalled();
 
       // When form is submitted
       await getById(branchSubmitId).click();
 
-      // There should be warning notification
-      const notificationEl = getById(branchNotificationTextCloseId);
-      expect(
-        notificationEl.closest(`.${WARNING_NOTIFICATION_CLASS_NAME}`)
-      ).not.toBeNull();
+      // Form data should be passed to parent
+      const submittedData = {
+        ...mockBranchValue1,
+        postCode: newPostCode.trim(),
+        city: newCity.trim(),
+        street: newStreet.trim(),
+        branchAlias: newAlias.trim(),
+        phone: newPhone.trim(),
+      };
+      expect(mockOnSubmit).toBeCalledWith(submittedData);
 
-      // There should not be error notification
-      expect(
-        notificationEl.closest(`.${ERROR_NOTIFICATION_CLASS_NAME}`)
-      ).toBeNull();
+      mockOnSubmit.mockReset();
 
-      // When notification is closed
-      await notificationEl.click();
+      // When alias field is cleared
+      await fillFieldInput(aliasEl, "");
 
-      // Notification should not be visible
-      expect(getById(branchNotificationTextCloseId)).toBeNull();
+      // When phone field is cleared
+      await fillFieldInput(phoneEl, "");
 
-      //
+      // When form is submitted
+      await getById(branchSubmitId).click();
+
+      // Form data should be passed to parent with nullable fields set to null
+      expect(mockOnSubmit).toBeCalledWith({
+        ...submittedData,
+        phone: null,
+        branchAlias: null,
+      });
     });
   });
 });
