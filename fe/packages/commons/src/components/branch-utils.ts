@@ -14,7 +14,7 @@ export type BranchFormValue = BranchFragment & {
 export const EMPTY_BRANCH = {
   postCode: "",
   street: "",
-  city: '',
+  city: "",
   phone: "",
   branchAlias: "",
 } as BranchFormValue;
