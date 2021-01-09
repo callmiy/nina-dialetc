@@ -107,10 +107,14 @@ describe("Shopping.svelte edit", () => {
     // And shop branch input must have empty value
     expect(inputEl.value).toBe("");
 
+    // add/edit branch element must have empty value
+    expect(inputEl.value).toBe("");
+
     // Second option must be the fetched branch data
     expect(optionsEls.item(1)).toBe(optionEl2);
 
-    expect(inputEl.value).toBe("");
+    // and must have city of fetched data as part of it's text
+    expect(optionEl2.textContent).toContain(mockCity);
 
     // Add branch button label should have text 'Add'
     const addOrEditEl = getById(shoppingAddBranchId);
@@ -121,7 +125,7 @@ describe("Shopping.svelte edit", () => {
     // When we select data from dropdown
     await fillFieldChange(inputEl, mockId);
 
-    // shop branch input must not have empty value
+    // shop branch input should be fetch data
     expect(inputEl.value).toBe(mockId);
 
     // and we should not see branch UI
@@ -140,19 +144,24 @@ describe("Shopping.svelte edit", () => {
     // branch UI city value should be fetched data
     expect(branchCityInput.value).toBe(mockCity);
 
-    const city1 = "new";
-    expect(mockCity).not.toBe(city1);
+    const updatedCity = "new";
 
     // When we update city
-    await fillFieldInput(branchCityInput, city1);
+    await fillFieldInput(branchCityInput, updatedCity);
 
     // branch UI city value should be updated
-    expect(branchCityInput.value).toBe(city1);
+    expect(branchCityInput.value).toBe(updatedCity);
 
     // when updated branch data is submitted
     await getById(mockBranchSubmitId).click();
 
     // Submitted branch should be selected
     expect(inputEl.value).toBe(mockBranchValue1.id);
+
+    // and selected option text must not contain city of fetched data
+    expect(optionEl2.textContent).not.toContain(mockCity);
+
+    // but must contain updated city
+    expect(optionEl2.textContent).toContain(updatedCity);
   });
 });
