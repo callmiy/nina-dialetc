@@ -3,9 +3,10 @@ import { graphql } from "msw";
 import {
   ListBranches,
   ListBranchesVariables,
-  // ListBranches_listBranches,
+  ListBrands,
+  ListBrandsVariables,
 } from "../gql/ops-types";
-import { mockBranchValue1 } from "./mock-data";
+import { mockBranchValue1, mockBrandValue1 } from "./mock-data";
 
 const handlers = [
   graphql.query<ListBranches, ListBranchesVariables>(
@@ -17,6 +18,23 @@ const handlers = [
             edges: [
               {
                 node: mockBranchValue1,
+              },
+            ],
+          },
+        })
+      );
+    }
+  ),
+
+  graphql.query<ListBrands, ListBrandsVariables>(
+    "ListBrands",
+    (req, res, ctx) => {
+      return res(
+        ctx.data({
+          listBrands: {
+            edges: [
+              {
+                node: mockBrandValue1,
               },
             ],
           },

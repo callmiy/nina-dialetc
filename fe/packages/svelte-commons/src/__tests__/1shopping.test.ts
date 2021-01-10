@@ -29,7 +29,10 @@ import {
   shoppingBrandInputId,
 } from "@ta/cm/src/selectors";
 import { BranchState } from "@ta/cm/src/types";
-import { mockBranchValue1 } from "@ta/cm/src/__tests__/mock-data";
+import {
+  mockBranchValue1,
+  mockBrandValue1,
+} from "@ta/cm/src/__tests__/mock-data";
 import { getById } from "@ta/cm/src/__tests__/utils-dom";
 import { cleanup, render } from "@testing-library/svelte";
 import Shopping from "../components/shopping/shopping.svelte";
@@ -37,8 +40,8 @@ import { resetBranchesStore } from "../stores/get-branches.store";
 import mockArticle from "./mocks/article.mock.svelte";
 import mockBranch from "./mocks/branch.mock.svelte";
 import mockBrand from "./mocks/brand.mock.svelte";
-import { articleVal, brandSubmitValue1 } from "./mocks/mock-utils";
-import { mockBranchSubmitId } from "./mocks/selectors";
+import { articleVal } from "./mocks/mock-utils";
+import { mockBranchSubmitId, mockBrandSubmitId } from "./mocks/selectors";
 
 jest.mock("../components/lazies/brand.lazy", () => {
   return {
@@ -97,11 +100,11 @@ describe("Shopping.svelte simple", () => {
     expect(inputEl.value).toBe("");
 
     // When a brand is submitted
-    const brandEl = getById("brand-submit-1");
+    const brandEl = getById(mockBrandSubmitId);
     await brandEl.click();
 
     // Submitted brand should be selected
-    expect(inputEl.value).toBe(brandSubmitValue1.id);
+    expect(inputEl.value).toBe(mockBrandValue1.id);
 
     // Thee should be two brand name options to select from
     const optionsEls = inputEl.querySelectorAll("option");

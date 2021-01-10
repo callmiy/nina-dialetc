@@ -1,15 +1,20 @@
 <script lang="ts">
-  import { brandSubmitValue1 } from "./mock-utils";
+  import { Props } from "@ta/cm/src/components/brand-utils";
+  import { mockBrandValue1 } from "@ta/cm/src/__tests__/mock-data";
+  import { mockBrandSubmitId, mockBrandNameInput } from "./selectors";
 
   export let isActive: any;
   export let onSubmit: any;
+  export let brand: Props["brand"] = mockBrandValue1;
 </script>
 
 <div id="brand-mock" class:active="{isActive}">
   <span
-    id="brand-submit-1"
+    id="{mockBrandSubmitId}"
     on:click="{() => {
-      onSubmit(brandSubmitValue1);
+      onSubmit(brand || mockBrandValue1);
     }}"
   >1</span>
+
+  <input id="{mockBrandNameInput}" bind:value="{brand.name}" />
 </div>

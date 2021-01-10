@@ -1,14 +1,11 @@
 <script lang="ts">
-  import { BranchFragment } from "@ta/cm/src/gql/ops-types";
+  import { BranchFragment, BrandFragment } from "@ta/cm/src/gql/ops-types";
   import {
     ArticleValues,
     Props as ArticleProps,
   } from "@ta/cm/src/components/article.utils";
   import { Props as BranchProps } from "@ta/cm/src/components/branch-utils";
-  import {
-    BrandValues,
-    Props as BrandProps,
-  } from "@ta/cm/src/components/brand-utils";
+  import { Props as BrandProps } from "@ta/cm/src/components/brand-utils";
   import {
     ADD_ARTICLE_LABEL_HELP_TEXT,
     ADD_ARTICLE_LABEL_TEXT,
@@ -52,12 +49,32 @@
   import { getArticleComponent } from "../lazies/article.lazy";
   import { getBranchComponent } from "../lazies/branch.lazy";
   import { getBrandComponent } from "../lazies/brand.lazy";
+  import {
+    getBrandsStore,
+    brandStore,
+    brandStoreData,
+  } from "../../stores/get-brands.store";
 
-  // BRAND /////////////////////////////////////////////////////////////////
+  // ====================================================
+  // START BRAND SECTION
+  // ====================================================
+  getBrandsStore();
 
   let brandId = "";
-  let brandOptions: BrandValues[] = [];
   let brandIsActive = false;
+
+  let brandOptions: BrandFragment[] = [];
+  let brandDataRead = false;
+
+  $: {
+    if (!brandDataRead && $brandStore.value === StateValue.data) {
+      brandOptions = [...brandOptions, ...$brandStoreData.data.brands];
+      brandDataRead = true;
+    }
+  }
+
+  let currentBrand: BrandFragment | undefined;
+
   let brandLabelText = ADD_SHOP_BRAND_LABEL_TEXT;
   let brandLabelHelp = ADD_SHOP_BRAND_LABEL_HELP_TEXT;
 
@@ -65,9 +82,11 @@
     if (brandId) {
       brandLabelHelp = EDIT_SHOP_BRAND_LABEL_HELP_TEXT;
       brandLabelText = EDIT_SHOP_BRAND_LABEL_TEXT;
+      currentBrand = brandOptions.find((b) => b.id === brandId);
     } else {
       brandLabelHelp = ADD_SHOP_BRAND_LABEL_HELP_TEXT;
       brandLabelText = ADD_SHOP_BRAND_LABEL_TEXT;
+      currentBrand = undefined;
     }
   }
 
@@ -77,7 +96,7 @@
     const { id: maybeNewId } = values;
     brandId = maybeNewId;
 
-    const options: BrandValues[] = [values];
+    const options: BrandFragment[] = [values];
 
     brandOptions.forEach((b) => {
       if (b.id !== maybeNewId) {
@@ -85,8 +104,12 @@
       }
     });
 
+    currentBrand = values;
     brandOptions = options;
   };
+  // ====================================================
+  // END BRAND SECTION
+  // ====================================================
 
   // ====================================================
   // BRANCH SECTION
@@ -249,6 +272,7 @@
         this="{_c}"
         bind:isActive="{brandIsActive}"
         onSubmit="{onSubmitBrand}"
+        brand="{currentBrand ? { ...currentBrand } : currentBrand}"
       />
     {/await}
   {:else if branchIsActive}

@@ -1,6 +1,7 @@
 import { DataVal, ErrorsVal, LoadingVal } from "../constants";
 import {
   BranchFragment,
+  BrandFragment,
   CountryFragment,
   CurrencyFragment,
 } from "../gql/ops-types";
@@ -94,4 +95,23 @@ export type BranchesResolvedData = {
 
 // ====================================================
 // END BRANCH SECTION
+// ====================================================
+
+// ====================================================
+// BRAND SECTION
+// ====================================================
+export type BrandState = BrandStateData | LoadingState | StringErrorState;
+
+export type BrandStateData = {
+  value: DataVal;
+  data: BrandResolvedData;
+};
+
+export type BrandResolvedData = {
+  brands: BrandFragment[];
+  pageInfo: PageInfo;
+  error?: string;
+};
+// ====================================================
+// END BRAND SECTION
 // ====================================================
