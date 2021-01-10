@@ -74,15 +74,15 @@ describe("Shopping.svelte edit", () => {
   it("edits branch", async () => {
     const { id: mockId, city: mockCity } = mockBranchValue1;
 
-    mswServer.use(
-      makeListBranchesHandler({
-        edges: [
-          {
-            node: mockBranchValue1,
-          },
-        ],
-      } as ListBranches_listBranches)
-    );
+    // mswServer.use(
+    //   makeListBranchesHandler({
+    //     edges: [
+    //       {
+    //         node: mockBranchValue1,
+    //       },
+    //     ],
+    //   } as ListBranches_listBranches)
+    // );
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { debug } = render(Shopping);
