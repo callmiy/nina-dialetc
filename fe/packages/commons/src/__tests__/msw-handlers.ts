@@ -4,8 +4,16 @@ import {
   ListBranchesVariables,
   ListBrands,
   ListBrandsVariables,
+  ListCountriesAndCurrencies,
+  ListCountriesAndCurrenciesVariables,
 } from "../gql/ops-types";
-import { mockBranchValue1, mockBrandValue1 } from "./mock-data";
+import {
+  eurCcy1,
+  franceCountry1,
+  germanyCountry1,
+  mockBranchValue1,
+  mockBrandValue1,
+} from "./mock-data";
 
 export const handlers = [
   graphql.query<ListBranches, ListBranchesVariables>(
@@ -41,4 +49,25 @@ export const handlers = [
       );
     }
   ),
+
+  graphql.query<
+    ListCountriesAndCurrencies,
+    ListCountriesAndCurrenciesVariables
+  >("ListCountriesAndCurrencies", (req, res, ctx) => {
+    return res(
+      ctx.data({
+        listCountries: {
+          edges: [
+            {
+              node: germanyCountry1,
+            },
+            {
+              node: franceCountry1,
+            },
+          ],
+        },
+        listCurrencies: [eurCcy1],
+      })
+    );
+  }),
 ];

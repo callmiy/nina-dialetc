@@ -1,7 +1,6 @@
 /**
  * @jest-environment jest-environment-jsdom-sixteen
  */
-import { getCountriesCurrencies } from "@ta/cm/src/apollo/get-countries-currencies";
 import { Props } from "@ta/cm/src/components/brand-utils";
 import {
   COUNTRIES_LOADING_MSG,
@@ -29,8 +28,8 @@ import {
   franceCountry1,
   germanyCountry1,
   mockBrandValue1,
-  countriesCurrencies,
 } from "@ta/cm/src/__tests__/mock-data";
+import { mswServer } from "@ta/cm/src/__tests__/msw-server";
 import { waitForCount } from "@ta/cm/src/__tests__/pure-utils";
 import {
   fillFieldChange,
@@ -42,17 +41,26 @@ import Brand from "../components/brand/brand.svelte";
 import { resetCountriesCurrenciesStore } from "../stores/get-countries-and-currencies.store";
 
 jest.mock("@ta/cm/src/db/ulid-uuid");
-
 const mockNewUlid = newUlid as jest.Mock;
 
-jest.mock("@ta/cm/src/apollo/get-countries-currencies.ts");
-const mockGetCountriesCurrencies = getCountriesCurrencies as jest.Mock;
-
 describe("Brand svelte", () => {
+  beforeAll(() => {
+    mswServer.listen();
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
+    mswServer.resetHandlers();
     cleanup();
     resetCountriesCurrenciesStore();
+  });
+
+  afterAll(() => {
+    mswServer.close();
   });
 
   const validName = "Edeka";
@@ -61,8 +69,6 @@ describe("Brand svelte", () => {
   describe("create", () => {
     it(`reset form /
     submit empty form`, async () => {
-      mockGetCountriesCurrencies.mockResolvedValue(countriesCurrencies);
-
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { debug, container } = render(Brand, {
         props: {
@@ -71,8 +77,7 @@ describe("Brand svelte", () => {
         },
       });
 
-      // Wait for countries and currencies data to resolve
-      await waitFor(() => true); // not enough, see below!!
+      const [countryInputEl] = await waitForData();
 
       // When form is completed
       const nameInputEl = getById<HTMLInputElement>(brandNameInputDomId);
@@ -80,7 +85,6 @@ describe("Brand svelte", () => {
       await fillFieldInput(nameInputEl, "a");
       expect(nameInputEl.value).toBe("a");
 
-      const countryInputEl = getById<HTMLInputElement>(brandCountryInputDomId);
       await fillFieldChange(countryInputEl, "co1");
       expect(countryInputEl.value).toBe("co1");
 
@@ -141,9 +145,6 @@ describe("Brand svelte", () => {
         },
       });
 
-      // Wait for countries and currencies data to resolve
-      await waitFor(() => true);
-
       // Country field should indicate loading
       const countryLoadingEl = getById(brandCountryMsgDomId);
       expect(countryLoadingEl.textContent).toBe(COUNTRIES_LOADING_MSG);
@@ -161,8 +162,6 @@ describe("Brand svelte", () => {
     it(`brand name too short /
       currency and country empty /
       close error notification`, async () => {
-      mockGetCountriesCurrencies.mockResolvedValue(countriesCurrencies);
-
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { debug } = render(Brand, {
         props: {
@@ -170,8 +169,7 @@ describe("Brand svelte", () => {
         },
       });
 
-      // Wait for countries and currencies data to resolve
-      await waitFor(() => true);
+      await waitForData();
 
       // Component should always be active
       const componentEl = getById(brandDomId);
@@ -226,7 +224,6 @@ describe("Brand svelte", () => {
 
     it(`submits correct form data /
       nullable fields returned as null when cleared`, async () => {
-      mockGetCountriesCurrencies.mockResolvedValue(countriesCurrencies);
       mockNewUlid.mockReturnValue(1);
       const mockOnSubmit = jest.fn();
 
@@ -237,18 +234,7 @@ describe("Brand svelte", () => {
         },
       });
 
-      // Wait for countries and currencies data to resolve
-      const countryInputEl = getById<HTMLInputElement>(brandCountryInputDomId);
-
-      const germanyEl = await waitForCount(async () => {
-        return await waitFor(() => {
-          const x = countryInputEl.querySelector(
-            `option[value="${germanyCountry1.id}"]`
-          );
-
-          return x;
-        });
-      }, 10);
+      const [countryInputEl, germanyEl] = await waitForData();
 
       expect(germanyEl).not.toBeNull();
       await fillFieldChange(countryInputEl, germanyCountry1.id);
@@ -315,7 +301,6 @@ describe("Brand svelte", () => {
   describe("edit", () => {
     it(`warns if unedited form is submitted /
         ensures form is pre-populated with data to edit`, async () => {
-      mockGetCountriesCurrencies.mockResolvedValue(countriesCurrencies);
       const mockOnSubmit = jest.fn();
 
       const name = mockBrandValue1.name + "   ";
@@ -330,16 +315,7 @@ describe("Brand svelte", () => {
         } as Props,
       });
 
-      // Wait for countries and currencies data to resolve
-      const countryInputEl = getById<HTMLInputElement>(brandCountryInputDomId);
-
-      await waitForCount(async () => {
-        return await waitFor(() => {
-          return countryInputEl.querySelector(
-            `option[value="${germanyCountry1.id}"]`
-          );
-        });
-      }, 10);
+      const [countryInputEl] = await waitForData();
 
       // country input's value should equal data we are editing
       expect(countryInputEl.value).toBe(mockBrandValue1.countryId);
@@ -374,7 +350,6 @@ describe("Brand svelte", () => {
 
     it(`submits valid form /
         returns null for nullable fields when cleared`, async () => {
-      mockGetCountriesCurrencies.mockResolvedValue(countriesCurrencies);
       const mockOnSubmit = jest.fn();
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -386,16 +361,7 @@ describe("Brand svelte", () => {
         } as Props,
       });
 
-      // Wait for countries and currencies data to resolve
-      const countryInputEl = getById<HTMLInputElement>(brandCountryInputDomId);
-
-      await waitForCount(async () => {
-        return await waitFor(() => {
-          return countryInputEl.querySelector(
-            `option[value="${germanyCountry1.id}"]`
-          );
-        });
-      }, 10);
+      const [countryInputEl] = await waitForData();
 
       // when form is updated
       await fillFieldChange(countryInputEl, franceCountry1.id);
@@ -437,3 +403,17 @@ describe("Brand svelte", () => {
     });
   });
 });
+
+async function waitForData(): Promise<[HTMLSelectElement, HTMLOptionElement]> {
+  const countryInputEl = getById<HTMLSelectElement>(brandCountryInputDomId);
+
+  const countryOption = await waitForCount(async () => {
+    return await waitFor(() => {
+      return countryInputEl.querySelector(
+        `option[value="${germanyCountry1.id}"]`
+      ) as HTMLOptionElement;
+    });
+  }, 10);
+
+  return [countryInputEl, countryOption];
+}
