@@ -1,15 +1,12 @@
 /**
  * @jest-environment jest-environment-jsdom-sixteen
  */
-import {
-  getCountriesCurrencies,
-  GetCountriesCurrencies,
-} from "@ta/cm/src/apollo/get-countries-currencies";
+import { getCountriesCurrencies } from "@ta/cm/src/apollo/get-countries-currencies";
+import { Props } from "@ta/cm/src/components/brand-utils";
 import {
   COUNTRIES_LOADING_MSG,
   CURRENCIES_LOADING_MSG,
   IS_ACTIVE_CLASS_NAME,
-  StateValue,
 } from "@ta/cm/src/constants";
 import { newUlid } from "@ta/cm/src/db/ulid-uuid";
 import {
@@ -22,11 +19,18 @@ import {
   brandNameInputDomId,
   brandNotificationTextCloseId,
   brandPhoneInputDomId,
+  brandSubmitId,
   ERROR_NOTIFICATION_CLASS_NAME,
   resetFormBtnId,
-  brandSubmitId,
   WARNING_NOTIFICATION_CLASS_NAME,
 } from "@ta/cm/src/selectors";
+import {
+  eurCcy1,
+  franceCountry1,
+  germanyCountry1,
+  mockBrandValue1,
+  countriesCurrencies,
+} from "@ta/cm/src/__tests__/mock-data";
 import { waitForCount } from "@ta/cm/src/__tests__/pure-utils";
 import {
   fillFieldChange,
@@ -36,12 +40,6 @@ import {
 import { cleanup, render, waitFor } from "@testing-library/svelte";
 import Brand from "../components/brand/brand.svelte";
 import { resetCountriesCurrenciesStore } from "../stores/get-countries-and-currencies.store";
-import {
-  mockBrandValue1,
-  germanyCountry1,
-  eurCcy1,
-} from "@ta/cm/src/__tests__/mock-data";
-import { Props } from "@ta/cm/src/components/brand-utils";
 
 jest.mock("@ta/cm/src/db/ulid-uuid");
 
@@ -59,29 +57,6 @@ describe("Brand svelte", () => {
 
   const validName = "Edeka";
   const phoneNum = "123";
-
-  const countriesCurrencies = [
-    {
-      value: StateValue.data,
-      data: {
-        countries: [
-          germanyCountry1,
-
-          {
-            id: "co2",
-            countryName: "france",
-            countryCode: "fr",
-          },
-        ],
-      },
-    },
-    {
-      value: StateValue.data,
-      data: {
-        currencies: [eurCcy1],
-      },
-    },
-  ] as GetCountriesCurrencies;
 
   describe("create", () => {
     it(`reset form /
@@ -395,6 +370,70 @@ describe("Brand svelte", () => {
 
       // There should be notification UI
       expect(getById(brandNotificationTextCloseId)).not.toBeNull();
+    });
+
+    it(`submits valid form /
+        returns null for nullable fields when cleared`, async () => {
+      mockGetCountriesCurrencies.mockResolvedValue(countriesCurrencies);
+      const mockOnSubmit = jest.fn();
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { debug, container } = render(Brand, {
+        props: {
+          isActive: true,
+          onSubmit: mockOnSubmit as any,
+          brand: mockBrandValue1,
+        } as Props,
+      });
+
+      // Wait for countries and currencies data to resolve
+      const countryInputEl = getById<HTMLInputElement>(brandCountryInputDomId);
+
+      await waitForCount(async () => {
+        return await waitFor(() => {
+          return countryInputEl.querySelector(
+            `option[value="${germanyCountry1.id}"]`
+          );
+        });
+      }, 10);
+
+      // when form is updated
+      await fillFieldChange(countryInputEl, franceCountry1.id);
+
+      const nameInputEl = getById<HTMLInputElement>(brandNameInputDomId);
+      await fillFieldInput(nameInputEl, validName);
+
+      const phoneInputEl = getById<HTMLInputElement>(brandPhoneInputDomId);
+      fillFieldInput(phoneInputEl, phoneNum);
+
+      // when form submitted
+      const submitEl = getById(brandSubmitId);
+      expect(mockOnSubmit).not.toBeCalled();
+      await submitEl.click();
+
+      // form data should be passed to parent
+      const submittedData = {
+        ...mockBrandValue1,
+        name: validName,
+        countryId: franceCountry1.id,
+        currencyId: eurCcy1.id,
+        phone: phoneNum,
+      };
+
+      expect(mockOnSubmit).toBeCalledWith(submittedData);
+
+      // when phone number field is cleared
+      await fillFieldInput(phoneInputEl, "");
+
+      // when form is submitted
+      mockOnSubmit.mockReset();
+      await submitEl.click();
+
+      // form data should be passed to parent with nullable fields set to null
+      expect(mockOnSubmit).toBeCalledWith({
+        ...submittedData,
+        phone: null,
+      });
     });
   });
 });

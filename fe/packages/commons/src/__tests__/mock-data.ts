@@ -1,3 +1,5 @@
+import { GetCountriesCurrencies } from "../apollo/get-countries-currencies";
+import { StateValue } from "../constants";
 import { BranchFragment, BrandFragment } from "../gql/ops-types";
 
 export const germanyCountry1 = {
@@ -6,11 +8,32 @@ export const germanyCountry1 = {
   countryCode: "de",
 };
 
+export const franceCountry1 = {
+  id: "co2",
+  countryName: "france",
+  countryCode: "fr",
+};
+
 export const eurCcy1 = {
   id: "cur1",
   currencyName: "Euro",
   currencyCode: "EUR",
 };
+
+export const countriesCurrencies = [
+  {
+    value: StateValue.data,
+    data: {
+      countries: [germanyCountry1, franceCountry1],
+    },
+  },
+  {
+    value: StateValue.data,
+    data: {
+      currencies: [eurCcy1],
+    },
+  },
+] as GetCountriesCurrencies;
 
 export const mockBranchValue1 = {
   id: "bcId1",
