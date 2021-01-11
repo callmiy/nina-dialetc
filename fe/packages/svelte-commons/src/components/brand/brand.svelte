@@ -1,12 +1,15 @@
 <script lang="ts">
-  import { Props } from "@ta/cm/src/components/brand-utils";
+  import {
+    BrandFormValue,
+    EMPTY_BRAND_FORM,
+    Props,
+  } from "@ta/cm/src/components/brand-utils";
   import {
     FORM_CONTAINS_ERRORS_MESSAGE,
     NOTHING_TO_SAVE_WARNING_MESSAGE,
     StateValue,
   } from "@ta/cm/src/constants";
   import { newUlid } from "@ta/cm/src/db/ulid-uuid";
-  import { CountryFragment, CurrencyFragment } from "@ta/cm/src/gql/ops-types";
   import {
     brandCountryInputDomId,
     brandCountryMsgDomId,
@@ -43,17 +46,20 @@
   // Fetch data and initiate store
   getCountriesCurrenciesStore();
 
-  /* FORM ATTRIBUTES AND ERROR VARIABLES */
-  let name = "";
+  export let brand = (null as unknown) as Props["brand"];
+
+  let formValues = (brand || {
+    ...EMPTY_BRAND_FORM,
+  }) as BrandFormValue;
+
+  const untouchedFormValues = {
+    ...formValues,
+  };
+
+  /* FORM ERROR VARIABLES */
   let nameError: string;
-
-  let country = "";
   let countryError: string;
-
-  let currency = "";
   let currencyError: string;
-
-  let phone = "";
 
   let notificationText = "";
   let notificationTextClass = "";
@@ -94,21 +100,24 @@
   }
 
   function resetFormCb() {
-    name = "";
+    formValues = brand ? formValues : untouchedFormValues;
     nameError = "";
-
-    country = "";
     countryError = "";
-
-    currency = "";
     currencyError = "";
-
-    phone = "";
     clearSimpletextErrorCb();
   }
 
   function submitFormCb() {
-    const formEmpty = !name && !country && !currency && !phone;
+    const name = formValues.name.trim();
+    const countryId = formValues.countryId.trim();
+    const currencyId = formValues.currencyId.trim();
+    const phone = formValues.phone.trim();
+
+    const formEmpty =
+      name === untouchedFormValues.name &&
+      countryId === untouchedFormValues.countryId &&
+      currencyId === untouchedFormValues.currencyId &&
+      phone === untouchedFormValues.phone;
 
     if (formEmpty) {
       notificationText = NOTHING_TO_SAVE_WARNING_MESSAGE;
@@ -124,12 +133,12 @@
       hasError = true;
     }
 
-    if (country.length === 0) {
+    if (countryId.length === 0) {
       countryError = "Pick a country from the dropdown";
       hasError = true;
     }
 
-    if (currency.length === 0) {
+    if (currencyId.length === 0) {
       currencyError = "Pick a currency from the dropdown";
       hasError = true;
     }
@@ -140,20 +149,15 @@
       return;
     }
 
-    const countryData = $countriesStoreData.data.countries.find((e) => {
-      return e.id === country;
-    }) as CountryFragment;
-
-    const currencyData = $currenciesStoreData.data.currencies.find((c) => {
-      return c.id === currency;
-    }) as CurrencyFragment;
+    const id = formValues.id || newUlid();
 
     if (onSubmit) {
       onSubmit({
-        id: newUlid(),
+        ...formValues,
+        id,
         name,
-        country: countryData,
-        currency: currencyData,
+        countryId,
+        currencyId,
         phone: phone || null,
       });
     }
@@ -219,7 +223,7 @@
             id="{brandNameInputDomId}"
             class="input"
             type="text"
-            bind:value="{name}"
+            bind:value="{formValues.name}"
           />
         </div>
 
@@ -233,7 +237,10 @@
 
         <div class="control">
           <div class="select is-fullwidth">
-            <select id="{brandCountryInputDomId}" bind:value="{country}">
+            <select
+              id="{brandCountryInputDomId}"
+              bind:value="{formValues.countryId}"
+            >
               <option value="">----------</option>
 
               {#if $countriesStore.value === StateValue.data}
@@ -271,7 +278,10 @@
 
         <div class="control">
           <div class="select is-fullwidth">
-            <select id="{brandCurrencyInputDomId}" bind:value="{currency}">
+            <select
+              id="{brandCurrencyInputDomId}"
+              bind:value="{formValues.currencyId}"
+            >
               <option value="">----------</option>
 
               {#if $currenciesStore.value === StateValue.data}
@@ -313,7 +323,7 @@
             id="{brandPhoneInputDomId}"
             class="input"
             type="text"
-            bind:value="{phone}"
+            bind:value="{formValues.phone}"
           />
         </div>
       </div>

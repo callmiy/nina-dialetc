@@ -33,11 +33,7 @@ import {
   fillFieldInput,
   getById,
 } from "@ta/cm/src/__tests__/utils-dom";
-import {
-  cleanup,
-  render,
-  waitFor,
-} from "@testing-library/svelte";
+import { cleanup, render, waitFor } from "@testing-library/svelte";
 import Brand from "../components/brand/brand.svelte";
 import { resetCountriesCurrenciesStore } from "../stores/get-countries-and-currencies.store";
 
@@ -290,7 +286,8 @@ describe("Brand svelte", () => {
 
       // When form is completed with valid data
       const nameInputEl = getById<HTMLInputElement>(brandNameInputDomId);
-      await fillFieldInput(nameInputEl, validName);
+      const untrimmedName = validName + "   ";
+      await fillFieldInput(nameInputEl, untrimmedName);
 
       const currencyInputEl = getById<HTMLInputElement>(
         brandCurrencyInputDomId
@@ -298,7 +295,8 @@ describe("Brand svelte", () => {
       await fillFieldChange(currencyInputEl, eurCcy.id);
 
       const phoneInputEl = getById<HTMLInputElement>(brandPhoneInputDomId);
-      await fillFieldInput(phoneInputEl, phoneNum);
+      const untrimmedPhone = phoneNum + "    ";
+      await fillFieldInput(phoneInputEl, untrimmedPhone);
 
       // submit should not have been called
       expect(mockOnSubmit).not.toBeCalled();
@@ -320,13 +318,15 @@ describe("Brand svelte", () => {
       expect(getById(brandNotificationTextCloseId)).toBeNull();
 
       // form data should be passed to parent
-      expect(mockOnSubmit).toBeCalledWith({
+      const submittedData = {
         id: 1,
         name: validName,
-        country: germanyCountry,
-        currency: eurCcy,
+        countryId: germanyCountry.id,
+        currencyId: eurCcy.id,
         phone: phoneNum,
-      });
+      };
+
+      expect(mockOnSubmit).toBeCalledWith(submittedData);
 
       // when phone number field is cleared
       await fillFieldInput(phoneInputEl, "");
@@ -337,10 +337,7 @@ describe("Brand svelte", () => {
 
       // form data should be passed to parent with nullable fields set to null
       expect(mockOnSubmit).toBeCalledWith({
-        id: 1,
-        name: validName,
-        country: germanyCountry,
-        currency: eurCcy,
+        ...submittedData,
         phone: null,
       });
     });
