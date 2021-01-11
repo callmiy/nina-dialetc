@@ -36,6 +36,12 @@ import {
 import { cleanup, render, waitFor } from "@testing-library/svelte";
 import Brand from "../components/brand/brand.svelte";
 import { resetCountriesCurrenciesStore } from "../stores/get-countries-and-currencies.store";
+import {
+  mockBrandValue1,
+  germanyCountry1,
+  eurCcy1,
+} from "@ta/cm/src/__tests__/mock-data";
+import { Props } from "@ta/cm/src/components/brand-utils";
 
 jest.mock("@ta/cm/src/db/ulid-uuid");
 
@@ -54,24 +60,12 @@ describe("Brand svelte", () => {
   const validName = "Edeka";
   const phoneNum = "123";
 
-  const germanyCountry = {
-    id: "co1",
-    countryName: "germany",
-    countryCode: "de",
-  };
-
-  const eurCcy = {
-    id: "cur1",
-    currencyName: "Euro",
-    currencyCode: "EUR",
-  };
-
   const countriesCurrencies = [
     {
       value: StateValue.data,
       data: {
         countries: [
-          germanyCountry,
+          germanyCountry1,
 
           {
             id: "co2",
@@ -84,7 +78,7 @@ describe("Brand svelte", () => {
     {
       value: StateValue.data,
       data: {
-        currencies: [eurCcy],
+        currencies: [eurCcy1],
       },
     },
   ] as GetCountriesCurrencies;
@@ -274,7 +268,7 @@ describe("Brand svelte", () => {
       const germanyEl = await waitForCount(async () => {
         return await waitFor(() => {
           const x = countryInputEl.querySelector(
-            `option[value="${germanyCountry.id}"]`
+            `option[value="${germanyCountry1.id}"]`
           );
 
           return x;
@@ -282,7 +276,7 @@ describe("Brand svelte", () => {
       }, 10);
 
       expect(germanyEl).not.toBeNull();
-      await fillFieldChange(countryInputEl, germanyCountry.id);
+      await fillFieldChange(countryInputEl, germanyCountry1.id);
 
       // When form is completed with valid data
       const nameInputEl = getById<HTMLInputElement>(brandNameInputDomId);
@@ -292,7 +286,7 @@ describe("Brand svelte", () => {
       const currencyInputEl = getById<HTMLInputElement>(
         brandCurrencyInputDomId
       );
-      await fillFieldChange(currencyInputEl, eurCcy.id);
+      await fillFieldChange(currencyInputEl, eurCcy1.id);
 
       const phoneInputEl = getById<HTMLInputElement>(brandPhoneInputDomId);
       const untrimmedPhone = phoneNum + "    ";
@@ -321,8 +315,8 @@ describe("Brand svelte", () => {
       const submittedData = {
         id: 1,
         name: validName,
-        countryId: germanyCountry.id,
-        currencyId: eurCcy.id,
+        countryId: germanyCountry1.id,
+        currencyId: eurCcy1.id,
         phone: phoneNum,
       };
 
@@ -340,6 +334,67 @@ describe("Brand svelte", () => {
         ...submittedData,
         phone: null,
       });
+    });
+  });
+
+  describe("edit", () => {
+    it(`warns if unedited form is submitted /
+        ensures form is pre-populated with data to edit`, async () => {
+      mockGetCountriesCurrencies.mockResolvedValue(countriesCurrencies);
+      const mockOnSubmit = jest.fn();
+
+      const name = mockBrandValue1.name + "   ";
+      const phone = mockBrandValue1.phone + "  ";
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { debug, container } = render(Brand, {
+        props: {
+          isActive: true,
+          onSubmit: mockOnSubmit as any,
+          brand: mockBrandValue1,
+        } as Props,
+      });
+
+      // Wait for countries and currencies data to resolve
+      const countryInputEl = getById<HTMLInputElement>(brandCountryInputDomId);
+
+      await waitForCount(async () => {
+        return await waitFor(() => {
+          return countryInputEl.querySelector(
+            `option[value="${germanyCountry1.id}"]`
+          );
+        });
+      }, 10);
+
+      // country input's value should equal data we are editing
+      expect(countryInputEl.value).toBe(mockBrandValue1.countryId);
+
+      // There should be no notification UI
+      expect(getById(brandNotificationTextCloseId)).toBeNull();
+
+      // name input's value should equal data we are editing
+      const nameInputEl = getById<HTMLInputElement>(brandNameInputDomId);
+      expect(nameInputEl.value).toBe(mockBrandValue1.name);
+      await fillFieldInput(nameInputEl, name);
+
+      // currency input's value should equal data we are editing
+      const currencyInputEl = getById<HTMLSelectElement>(
+        brandCurrencyInputDomId
+      );
+      expect(currencyInputEl.value).toBe(eurCcy1.id);
+
+      // phone input's value should equal data we are editing
+      const phoneInputEl = getById<HTMLInputElement>(brandPhoneInputDomId);
+      expect(phoneInputEl.value).toBe(mockBrandValue1.phone);
+      fillFieldInput(phoneInputEl, phone);
+
+      // when form submitted
+      const submitEl = getById(brandSubmitId);
+      expect(mockOnSubmit).not.toBeCalled();
+      await submitEl.click();
+
+      // There should be notification UI
+      expect(getById(brandNotificationTextCloseId)).not.toBeNull();
     });
   });
 });
