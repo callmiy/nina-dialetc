@@ -3,12 +3,13 @@ const {
   API_URL: apiUrl,
   WEB_HOST: webHost,
   WEB_PORT: webPort,
+  USE_MSW: useMws,
 } = process.env;
 
 const webUrl = `${webHost}:${webPort}`;
 const browserOpt = browser ? ` --browser ${browser}` : "";
 const cypressPreEnv = `CYPRESS_BASE_URL=${webUrl}`;
-const cypressPostEnv = `--env API_URL=${apiUrl}`;
+const cypressPostEnv = `--env API_URL=${apiUrl},USE_MSW=${useMws}`;
 const cypressPostEnvOpen = `${cypressPostEnv} ${browserOpt}`;
 
 module.exports = {

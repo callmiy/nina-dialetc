@@ -72,7 +72,7 @@ context("Shopping", () => {
         .should("have.value", "")
         .within(() => {
           // There should be two fetched brands and one empty value
-          cy.get("." + shoppingBrandOptionSelector).should("have.length", 3);
+          cy.get("." + shoppingBrandOptionSelector).should("have.length", 1);
         });
 
       cy.get("#" + brandDomId).within(() => {
@@ -136,7 +136,7 @@ context("Shopping", () => {
         .should("have.value", "")
         .within(() => {
           // There should be 2 fetched branches + the empty one
-          cy.get("." + shoppingBranchOptionSelector).should("have.length", 3);
+          cy.get("." + shoppingBranchOptionSelector).should("have.length", 2);
         });
 
       cy.get("#" + branchDomId).within(() => {

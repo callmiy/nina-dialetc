@@ -120,6 +120,9 @@ const config = {
         "DATABASE_URL",
         "API_URL",
         "API_URL_ALTERNATE",
+        "WEB_HOST",
+        "WEB_PORT",
+        "USE_MSW",
       ].reduce((acc, d) => {
         acc[d] = JSON.stringify(process.env[d] || "");
         return acc;
