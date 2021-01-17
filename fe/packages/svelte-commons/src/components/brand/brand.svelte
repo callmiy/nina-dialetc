@@ -101,7 +101,10 @@
   }
 
   function resetFormCb() {
-    formValues = brand ? formValues : untouchedFormValues;
+    formValues = {
+      ...untouchedFormValues,
+    };
+
     nameError = "";
     countryError = "";
     currencyError = "";

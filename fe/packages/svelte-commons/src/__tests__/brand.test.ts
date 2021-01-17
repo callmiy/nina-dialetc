@@ -396,7 +396,9 @@ describe("Brand svelte", () => {
         props: {
           isActive: true,
           onSubmit: mockOnSubmit as any,
-          brand: mockBrandValue1,
+          brand: {
+            ...mockBrandValue1,
+          },
         } as Props,
       });
 
@@ -435,7 +437,8 @@ describe("Brand svelte", () => {
     });
 
     it(`submits valid form /
-        returns null for nullable fields when cleared`, async () => {
+        returns null for nullable fields when cleared /
+        resets form`, async () => {
       mswServer.use(
         getMswListCountriesAndCurrencies({
           listCountries: {
@@ -459,7 +462,9 @@ describe("Brand svelte", () => {
         props: {
           isActive: true,
           onSubmit: mockOnSubmit as any,
-          brand: mockBrandValue1,
+          brand: {
+            ...mockBrandValue1,
+          },
         } as Props,
       });
 
@@ -503,6 +508,35 @@ describe("Brand svelte", () => {
         ...submittedData,
         phone: null,
       });
+
+      // ====================================================
+      // RESET
+      // ====================================================
+
+      expect(nameInputEl.value).not.toBe(mockBrandValue1.name);
+      expect(phoneInputEl.value).not.toBe(mockBrandValue1.phone);
+      expect(countryInputEl.value).not.toBe(mockBrandValue1.countryId);
+
+      // When reset button is clicked
+      mockOnSubmit.mockReset();
+      await getById(resetFormBtnId).click();
+
+      // There should be no notification UI
+      expect(getById(brandNotificationTextCloseId)).toBeNull();
+
+      // When form submitted
+      await submitEl.click();
+
+      // There should be notification UI
+      expect(getById(brandNotificationTextCloseId)).not.toBeNull();
+
+      // Form should not be submitted because of errors
+      expect(mockOnSubmit).not.toBeCalled();
+
+      // Form should be reset
+      expect(nameInputEl.value).toBe(mockBrandValue1.name);
+      expect(phoneInputEl.value).toBe(mockBrandValue1.phone);
+      expect(countryInputEl.value).toBe(mockBrandValue1.countryId);
     });
   });
 });
