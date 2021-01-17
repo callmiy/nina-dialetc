@@ -12,6 +12,7 @@
   import { newUlid } from "@ta/cm/src/db/ulid-uuid";
   import {
     brandCountryInputDomId,
+    brandCountryInputFieldId,
     brandCountryMsgDomId,
     brandCountryOptionSelector,
     brandCurrencyInputDomId,
@@ -232,7 +233,7 @@
         {/if}
       </div>
 
-      <div class="field country-field">
+      <div class="field country-field" id="{brandCountryInputFieldId}">
         <label class="label" for="{brandCountryInputDomId}">Country</label>
 
         <div class="control">

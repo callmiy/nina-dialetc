@@ -32,13 +32,9 @@ const initialCurrenciesState = {
 export const currenciesStore = writable<CurrenciesState>(
   initialCurrenciesState
 );
-export const currenciesStoreData = currenciesStore as Writable<
-  CurrencyStateData
->;
+export const currenciesStoreData = currenciesStore as Writable<CurrencyStateData>;
 export const currenciesStoreLoading = currenciesStore as Writable<LoadingState>;
-export const currenciesStoreError = currenciesStore as Writable<
-  StringErrorState
->;
+export const currenciesStoreError = currenciesStore as Writable<StringErrorState>;
 
 export async function getCountriesCurrenciesStore() {
   const result = await getCountriesCurrencies();

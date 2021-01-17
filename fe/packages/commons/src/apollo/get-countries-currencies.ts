@@ -25,7 +25,7 @@ import { PageInfo } from "../gql/schema-types";
 export async function getCountriesCurrencies(): Promise<
   [CountriesState, CurrenciesState] | StringErrorState
 > {
-  const client = makeApolloClient();
+  const { client } = makeApolloClient();
 
   try {
     const { data } = await client.query<

@@ -200,11 +200,15 @@ describe("Shop branch svelte", () => {
       // When form is submitted
       await getById(branchSubmitId).click();
 
-      // Form data should be passed to parent
-      expect(mockOnSubmit).toBeCalledWith({
+      const result = {
         ...mockBranchValue1,
         id: "1",
-      });
+      } as any;
+
+      delete result.__typename;
+
+      // Form data should be passed to parent
+      expect(mockOnSubmit).toBeCalledWith(result);
     });
 
     it("phone and alias may be empty", async () => {
@@ -233,13 +237,17 @@ describe("Shop branch svelte", () => {
       // When form is submitted
       await getById(branchSubmitId).click();
 
-      // Form data should be passed to parent
-      expect(mockOnSubmit).toBeCalledWith({
+      const result = {
         ...mockBranchValue1,
         id: "a",
         phone: null,
         branchAlias: null,
-      });
+      } as any;
+
+      delete result.__typename;
+
+      // Form data should be passed to parent
+      expect(mockOnSubmit).toBeCalledWith(result);
     });
   });
 

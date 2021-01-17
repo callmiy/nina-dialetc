@@ -7,67 +7,32 @@ import {
   ListCountriesAndCurrencies,
   ListCountriesAndCurrenciesVariables,
 } from "../gql/ops-types";
-import {
-  eurCcy1,
-  franceCountry1,
-  germanyCountry1,
-  mockBranchValue1,
-  mockBrandValue1,
-} from "./mock-data";
 
-export const handlers = [
-  graphql.query<ListBranches, ListBranchesVariables>(
+export function getMswListBranchesGql(data: ListBranches) {
+  return graphql.query<ListBranches, ListBranchesVariables>(
     "ListBranches",
     (req, res, ctx) => {
-      return res(
-        ctx.data({
-          listBranches: {
-            edges: [
-              {
-                node: mockBranchValue1,
-              },
-            ],
-          },
-        })
-      );
+      return res(ctx.data(data));
     }
-  ),
+  );
+}
 
-  graphql.query<ListBrands, ListBrandsVariables>(
+export function getMswListBrandsGql(data: ListBrands) {
+  return graphql.query<ListBrands, ListBrandsVariables>(
     "ListBrands",
     (req, res, ctx) => {
-      return res(
-        ctx.data({
-          listBrands: {
-            edges: [
-              {
-                node: mockBrandValue1,
-              },
-            ],
-          },
-        })
-      );
+      return res(ctx.data(data));
     }
-  ),
+  );
+}
 
-  graphql.query<
+export function getMswListCountriesAndCurrencies(
+  data: ListCountriesAndCurrencies
+) {
+  return graphql.query<
     ListCountriesAndCurrencies,
     ListCountriesAndCurrenciesVariables
   >("ListCountriesAndCurrencies", (req, res, ctx) => {
-    return res(
-      ctx.data({
-        listCountries: {
-          edges: [
-            {
-              node: germanyCountry1,
-            },
-            {
-              node: franceCountry1,
-            },
-          ],
-        },
-        listCurrencies: [eurCcy1],
-      })
-    );
-  }),
-];
+    return res(ctx.data(data));
+  });
+}

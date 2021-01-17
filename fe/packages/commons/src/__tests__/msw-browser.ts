@@ -1,4 +1,4 @@
-import { setupWorker } from "msw";
-import { handlers } from "./msw-handlers";
+import { setupWorker, graphql } from "msw";
 
-export const mswBrowserWorker = setupWorker(...handlers);
+export const mswGraphql = graphql;
+export const mswBrowserWorker = setupWorker();

@@ -7,27 +7,46 @@ import {
 // failing in jest test with msw, so will use window.fetch
 // import crossFetch from "cross-fetch";
 import { GRAPHQL_PATH } from "../constants";
-import { API_URL_ALTERNATE } from "../envs";
-import { middlewareErrorLink, middlewareLoggerLink } from "./middlewares";
+import { API_URL_ALTERNATE, isBrowser } from "../envs";
 import { Any } from "../types";
+import { middlewareErrorLink, middlewareLoggerLink } from "./middlewares";
 
 const path = API_URL_ALTERNATE + GRAPHQL_PATH;
-
-let client = (undefined as unknown) as ApolloClient<Any>;
-let cache = (undefined as unknown) as InMemoryCache;
 
 export function makeApolloClient(
   { uri }: MakeApolloClientArgs = { uri: path }
 ) {
-  if (client) {
-    return client;
+  let client = (undefined as unknown) as ApolloClient<Any>;
+  let cache = (undefined as unknown) as InMemoryCache;
+  let ssrMode = true;
+  const isBrowserStatic = isBrowser();
+
+  if (isBrowserStatic) {
+    ssrMode = false;
+    const { cache: windowCache, client: windowClient } = window.____nina || {};
+
+    if (windowClient) {
+      client = windowClient;
+    }
+
+    if (windowCache) {
+      cache = windowCache;
+    }
   }
 
-  cache = new InMemoryCache();
+  if (client && cache) {
+    return { client, cache };
+  }
+
+  if (!cache) {
+    cache = new InMemoryCache();
+  }
 
   let link = createHttpLink({
     uri,
-    fetch: (...args) => fetch(...args),
+    fetch: (...args) => {
+      return fetch(...args);
+    },
   });
 
   link = middlewareErrorLink(link);
@@ -37,7 +56,7 @@ export function makeApolloClient(
     cache,
     link,
     queryDeduplication: false,
-    ssrMode: typeof window === "undefined" ? true : false,
+    ssrMode,
     defaultOptions: {
       watchQuery: {
         fetchPolicy: "cache-and-network",
@@ -45,7 +64,13 @@ export function makeApolloClient(
     },
   });
 
-  return client;
+  if (isBrowserStatic) {
+    const nina = window.____nina || {};
+    nina.client = client;
+    nina.cache = cache;
+  }
+
+  return { client, cache };
 }
 
 type MakeApolloClientArgs = {

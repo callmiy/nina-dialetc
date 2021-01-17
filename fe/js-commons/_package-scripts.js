@@ -1,3 +1,7 @@
+const { resolve: pathResoleModule } = require("path");
+
+const prettierIgnoreFile = pathResoleModule(__dirname, "../.prettierignore");
+
 module.exports = {
   scripts: {
     tc: {
@@ -13,7 +17,10 @@ module.exports = {
       description: "eslint lint this project",
     },
     p: {
-      script: `prettier --write .`,
+      script: `prettier \
+        --ignore-path ${prettierIgnoreFile} \
+        --write \
+        .`,
       description: "prettify",
     },
     s: {

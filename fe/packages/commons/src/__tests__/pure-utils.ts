@@ -1,7 +1,7 @@
 export async function waitForCount<T>(
   callbackfn: (t: any) => T | Promise<T>,
-  maxExecutionCount = 1,
-  timeout = 0,
+  maxExecutionCount = 10,
+  timeout = 50,
   ...callbackArgs: any
 ): Promise<T> {
   const result = await callbackfn(callbackArgs);

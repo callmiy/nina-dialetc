@@ -11,6 +11,7 @@ import {
   EDIT_SHOP_BRAND_LABEL_HELP_TEXT,
   EDIT_SHOP_BRAND_LABEL_TEXT,
 } from "@ta/cm/src/components/shopping-utils";
+import { ListBranches, ListBrands } from "@ta/cm/src/gql/ops-types";
 import {
   shoppingAddBranchId,
   shoppingAddBranchLabelHelpId,
@@ -23,6 +24,10 @@ import {
   mockBranchValue1,
   mockBrandValue1,
 } from "@ta/cm/src/__tests__/mock-data";
+import {
+  getMswListBranchesGql,
+  getMswListBrandsGql,
+} from "@ta/cm/src/__tests__/msw-handlers";
 import { mswServer } from "@ta/cm/src/__tests__/msw-server";
 import { waitForCount } from "@ta/cm/src/__tests__/pure-utils";
 import {
@@ -88,6 +93,28 @@ describe("Shopping.svelte edit", () => {
        submit unedited form
        submit valid form
        make nullable fields null`, async () => {
+    mswServer.use(
+      getMswListBranchesGql({
+        listBranches: {
+          edges: [
+            {
+              node: mockBranchValue1,
+            },
+          ],
+        },
+      } as ListBranches),
+
+      getMswListBrandsGql({
+        listBrands: {
+          edges: [
+            {
+              node: mockBrandValue1,
+            },
+          ],
+        },
+      } as ListBrands)
+    );
+
     const { id: mockId, name: mockName } = mockBrandValue1;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -102,7 +129,7 @@ describe("Shopping.svelte edit", () => {
           `option[value="${mockId}"]`
         ) as HTMLOptionElement;
       });
-    }, 10);
+    });
 
     const optionsEls = inputEl.querySelectorAll("option");
     expect(optionsEls.length).toBe(2);
@@ -169,6 +196,28 @@ describe("Shopping.svelte edit", () => {
   });
 
   it("edits branch", async () => {
+    mswServer.use(
+      getMswListBranchesGql({
+        listBranches: {
+          edges: [
+            {
+              node: mockBranchValue1,
+            },
+          ],
+        },
+      } as ListBranches),
+
+      getMswListBrandsGql({
+        listBrands: {
+          edges: [
+            {
+              node: mockBrandValue1,
+            },
+          ],
+        },
+      } as ListBrands)
+    );
+
     const { id: mockId, city: mockCity } = mockBranchValue1;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -183,7 +232,7 @@ describe("Shopping.svelte edit", () => {
           `option[value="${mockId}"]`
         ) as HTMLOptionElement;
       });
-    }, 10);
+    });
 
     const optionsEls = inputEl.querySelectorAll("option");
     expect(optionsEls.length).toBe(2);

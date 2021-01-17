@@ -10,7 +10,7 @@ import { BrandState, StringErrorState } from "../types";
 import { makeApolloClient } from "./client";
 
 export async function getBrands(): Promise<BrandState | StringErrorState> {
-  const client = makeApolloClient();
+  const { client } = makeApolloClient();
 
   const { data } = await client.query<ListBrands, ListBrandsVariables>({
     query: listBrandsQuery,

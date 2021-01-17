@@ -23,7 +23,9 @@ export const shoppingUnitPriceId = `${shoppingPrefix}-unit-price-id`;
 export const shoppingQuantityId = `${shoppingPrefix}-quantity-id`;
 export const shoppingTotalPriceId = `${shoppingPrefix}-total-price-id`;
 
-// SHOP BRAND /////////////////////////////////////////////////////////////////
+// ====================================================
+// BRAND
+// ====================================================
 
 export const brandDomId = "components__shop-brand";
 export const brandNameInputDomId = `${brandDomId}-name-input`;
@@ -40,6 +42,7 @@ export const closeBrandComponentId = `${brandDomId}-close-component`;
 export const resetFormBtnId = `${brandDomId}-reset-form`;
 export const brandSubmitId = `${brandDomId}-submit`;
 export const brandNotificationTextCloseId = `${brandDomId}-close-notification`;
+export const brandCountryInputFieldId = `${brandDomId}-country-input-field`;
 
 // SHOP BRANCH /////////////////////////////////////////////////////////////////
 

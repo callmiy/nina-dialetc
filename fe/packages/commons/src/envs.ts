@@ -22,3 +22,7 @@ export const SHOULD_USE_MSW = USE_MSW === "yes";
 export function shouldUseMsw(useMsw: string) {
   return useMsw === "yes";
 }
+
+export function isBrowser() {
+  return typeof window !== "undefined";
+}

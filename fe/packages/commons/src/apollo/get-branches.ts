@@ -10,7 +10,7 @@ import { BranchState, StringErrorState } from "../types";
 import { makeApolloClient } from "./client";
 
 export async function getBranches(): Promise<BranchState | StringErrorState> {
-  const client = makeApolloClient();
+  const { client } = makeApolloClient();
 
   const { data } = await client.query<ListBranches, ListBranchesVariables>({
     query: listBranchesQuery,

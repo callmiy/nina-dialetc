@@ -1,3 +1,5 @@
+import { graphql, SetupWorkerApi } from "msw";
+import { InMemoryCache, ApolloClient } from "@apollo/client/core";
 import { DataVal, ErrorsVal, LoadingVal } from "../constants";
 import {
   BranchFragment,
@@ -6,20 +8,45 @@ import {
   CurrencyFragment,
 } from "../gql/ops-types";
 import { PageInfo } from "../gql/schema-types";
+// import {  } from "cypress/types/chai/index" ;
 
+// ====================================================
+// START UTILITY GENERIC TYPES
+// ====================================================
 export type Await<T> = T extends PromiseLike<infer U> ? U : T;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type Any = Record<string, unknown>;
+// ====================================================
+// END UTILITY GENERIC TYPES
+// ====================================================
+
+// ====================================================
+// START NINA
+// ====================================================
+export const CYPRESS_NINA_KEY = "@nina/cypress-key";
+
+export type MswGraphql = typeof graphql;
+export type MswSetupWorkerApi = SetupWorkerApi;
 
 export type NinaGlobals = {
   logApolloQueries?: boolean;
+  cache?: InMemoryCache;
+  client?: ApolloClient<Any>;
+  mswBrowserWorker?: MswSetupWorkerApi;
+  mswGraphql?: MswGraphql;
 };
 
 declare global {
   interface Window {
     ____nina: NinaGlobals;
+    Cypress: {
+      env: <T>(k?: string, v?: T) => void | T;
+    };
   }
 }
+// ====================================================
+// END NINA
+// ====================================================
 
 export type CountryEntity = {
   id: string;

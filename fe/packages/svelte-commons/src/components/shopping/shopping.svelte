@@ -55,10 +55,13 @@
     brandStoreData,
   } from "../../stores/get-brands.store";
 
+  // Fetch data
+  getBrandsStore();
+  getBranchesStore();
+
   // ====================================================
   // START BRAND SECTION
   // ====================================================
-  getBrandsStore();
 
   let brandId = "";
   let brandIsActive = false;
@@ -114,8 +117,6 @@
   // ====================================================
   // BRANCH SECTION
   // ====================================================
-
-  getBranchesStore();
 
   let branchIsActive = false;
   let branchId = "";
