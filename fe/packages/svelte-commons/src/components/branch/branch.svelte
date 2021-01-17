@@ -60,7 +60,9 @@
   }
 
   function resetFormCb() {
-    formValues = branch ? formValues : untouchedFormValues;
+    formValues = {
+      ...untouchedFormValues,
+    };
     streetError = "";
     cityError = "";
     postCodeError = "";

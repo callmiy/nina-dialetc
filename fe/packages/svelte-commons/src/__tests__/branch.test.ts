@@ -257,7 +257,9 @@ describe("Shop branch svelte", () => {
       const { debug } = render(Branch, {
         props: {
           onSubmit: undefined,
-          branch: mockBranchValue1,
+          branch: {
+            ...mockBranchValue1,
+          },
         } as Props,
       });
 
@@ -285,8 +287,9 @@ describe("Shop branch svelte", () => {
       expect(getById(branchNotificationTextCloseId)).toBeNull();
     });
 
-    it(`submits correctly edited data
-        returns "null" for nullable fields when empty`, async () => {
+    it(`submits correctly edited data \
+        returns "null" for nullable fields when empty \
+        resets form`, async () => {
       mockNewUlid.mockReturnValue("1");
       const mockOnSubmit = jest.fn();
 
@@ -294,7 +297,9 @@ describe("Shop branch svelte", () => {
       const { debug } = render(Branch, {
         props: {
           onSubmit: mockOnSubmit as any,
-          branch: mockBranchValue1,
+          branch: {
+            ...mockBranchValue1,
+          },
         } as Props,
       });
 
@@ -351,7 +356,8 @@ describe("Shop branch svelte", () => {
       await fillFieldInput(phoneEl, "");
 
       // When form is submitted
-      await getById(branchSubmitId).click();
+      const submitEl = getById(branchSubmitId);
+      await submitEl.click();
 
       // Form data should be passed to parent with nullable fields set to null
       expect(mockOnSubmit).toBeCalledWith({
@@ -359,6 +365,39 @@ describe("Shop branch svelte", () => {
         phone: null,
         branchAlias: null,
       });
+
+      // ====================================================
+      // RESET
+      // ====================================================
+
+      // form field values should differ from unedited field values
+      expect(postCodeEl.value).not.toBe(mockBranchValue1.postCode);
+      expect(cityEl.value).not.toBe(mockBranchValue1.city);
+      expect(streetEl.value).not.toBe(mockBranchValue1.street);
+      expect(aliasEl.value).not.toBe(mockBranchValue1.branchAlias);
+      expect(phoneEl.value).not.toBe(mockBranchValue1.phone);
+
+      // When form is reset
+      mockOnSubmit.mockReset();
+      await getById(branchResetId).click();
+
+      // Notification should not be visible
+      expect(getById(branchNotificationTextCloseId)).toBeNull();
+
+      // When form is submitted
+      await submitEl.click();
+
+      // Notification should be visible
+      expect(getById(branchNotificationTextCloseId)).not.toBeNull();
+
+      expect(mockOnSubmit).not.toBeCalled();
+
+      // Form should be reset
+      expect(postCodeEl.value).toBe(mockBranchValue1.postCode);
+      expect(cityEl.value).toBe(mockBranchValue1.city);
+      expect(streetEl.value).toBe(mockBranchValue1.street);
+      expect(aliasEl.value).toBe(mockBranchValue1.branchAlias);
+      expect(phoneEl.value).toBe(mockBranchValue1.phone);
     });
   });
 });
