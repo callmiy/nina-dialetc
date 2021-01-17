@@ -1,26 +1,25 @@
 <script lang="ts">
+  import { Props } from "@ta/cm/src/components/article.utils";
   import {
-    articleDomId,
-    closeArticleComponent,
-    articleCloseNotificationId,
-    WARNING_NOTIFICATION_CLASS_NAME,
-    ERROR_NOTIFICATION_CLASS_NAME,
-    articleSpecificNameInputDomId,
-    articleSpecificNameErrorId,
-    articleSubmitId,
-    articleResetId,
-    articleTagsInputDomId,
-    articleGenericNameInputDomId,
-  } from "@ta/cm/src/selectors";
-  import {
-    IS_ACTIVE_CLASS_NAME,
-    NOTHING_TO_SAVE_WARNING_MESSAGE,
     FORM_CONTAINS_ERRORS_MESSAGE,
+    NOTHING_TO_SAVE_WARNING_MESSAGE,
   } from "@ta/cm/src/constants";
+  import { newUlid } from "@ta/cm/src/db/ulid-uuid";
+  import {
+    articleCloseNotificationId,
+    articleDomId,
+    articleGenericNameInputDomId,
+    articleResetId,
+    articleSpecificNameErrorId,
+    articleSpecificNameInputDomId,
+    articleSubmitId,
+    articleTagsInputDomId,
+    closeArticleComponent,
+    ERROR_NOTIFICATION_CLASS_NAME,
+    WARNING_NOTIFICATION_CLASS_NAME,
+  } from "@ta/cm/src/selectors";
   import FormCtrlMsg from "../form-ctrl-msg.svelte";
   import Notification from "../notification.svelte";
-  import { newUlid } from "@ta/cm/src/db/ulid-uuid";
-  import { Props } from "@ta/cm/src/components/article.utils";
 
   /* FORM ATTRIBUTES AND ERROR VARIABLES */
   let specificName = "";
