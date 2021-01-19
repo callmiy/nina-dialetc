@@ -43,6 +43,38 @@ export const typeDefs = gql`
     updatedAt: DateTime!
   }
 
+  type Article {
+    id: ID!
+    specificName: String!
+    currentPrice: Float!
+    deleted: Boolean
+    insertedAt: DateTime!
+    updatedAt: DateTime!
+    unitOfMeasure: UnitOfMeasure!
+    tags: [Tag]!
+    branchInfo: [ArticleBranch]!
+  }
+
+  type UnitOfMeasure {
+    id: ID!
+    shortName: String!
+    longName: String!
+  }
+
+  type Tag {
+    id: ID!
+    name: String!
+  }
+
+  type ArticleBranch {
+    id: ID!
+    branchId: ID!
+    articleId: ID!
+    unitPrice: Float!
+    insertedAt: DateTime!
+    updatedAt: DateTime!
+  }
+
   input PaginationInput {
     first: Int
     last: Int

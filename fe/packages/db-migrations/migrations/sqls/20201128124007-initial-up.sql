@@ -7,6 +7,34 @@ END;
 $$ language 'plpgsql'
 ;
 
+--
+-- CREATE `owners` table
+--
+CREATE TABLE IF NOT EXISTS
+  owners (
+    owner_id UUID
+      NOT NULL
+    ,email CHARACTER VARYING(255)
+      NOT NULL
+          ,inserted_at timestamp(0) WITHOUT TIME ZONE
+      DEFAULT TIMEZONE(
+        'UTC'::TEXT
+        ,NOW()
+      )
+      NOT NULL
+    ,updated_at TIMESTAMP(0) WITHOUT TIME ZONE
+      DEFAULT TIMEZONE(
+        'UTC'::TEXT
+        ,NOW()
+      )
+      NOT NULL
+    ,CONSTRAINT owners_pkey
+      PRIMARY KEY (owner_id)
+    ,CONSTRAINT owners_email_index
+      UNIQUE (email)
+  )
+;
+
 -- CURRENCY
 
 CREATE TABLE IF NOT EXISTS
@@ -103,34 +131,6 @@ CREATE TABLE IF NOT EXISTS
         country_id
         ,currency_id
       )
-  )
-;
-
---
--- CREATE `owners` table
---
-CREATE TABLE IF NOT EXISTS
-  owners (
-    owner_id UUID
-      NOT NULL
-    ,email CHARACTER VARYING(255)
-      NOT NULL
-          ,inserted_at timestamp(0) WITHOUT TIME ZONE
-      DEFAULT TIMEZONE(
-        'UTC'::TEXT
-        ,NOW()
-      )
-      NOT NULL
-    ,updated_at TIMESTAMP(0) WITHOUT TIME ZONE
-      DEFAULT TIMEZONE(
-        'UTC'::TEXT
-        ,NOW()
-      )
-      NOT NULL
-    ,CONSTRAINT owners_pkey
-      PRIMARY KEY (owner_id)
-    ,CONSTRAINT owners_email_index
-      UNIQUE (email)
   )
 ;
 
