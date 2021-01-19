@@ -160,14 +160,14 @@ CREATE TABLE IF NOT EXISTS
       NOT NULL
       REFERENCES owners (owner_id)
       ON DELETE CASCADE
-    ,name CITEXT
+    ,text CITEXT
       NOT NULL
     ,CONSTRAINT tags_pkey
       PRIMARY KEY (id)
     ,CONSTRAINT tags_owner_id_name_index
       UNIQUE (
         owner_id
-        ,name
+        ,text
       )
   )
 ;
