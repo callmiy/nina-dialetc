@@ -27,6 +27,18 @@ export const typeDefs = gql`
     updatedAt: DateTime!
   }
 
+  type UnitOfMeasure {
+    id: ID!
+    ownerId: ID!
+    shortName: String!
+    longName: String
+  }
+
+  type UnitOfMeasureTag {
+    unitOfMeasureId: ID!
+    text: String!
+  }
+
   type Branch {
     id: ID!
     postCode: String!
