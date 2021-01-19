@@ -9,17 +9,32 @@ $$ language 'plpgsql'
 
 -- CURRENCY
 
-CREATE TABLE currencies (
-  id uuid NOT NULL
-  ,currency_name character varying(100) NOT NULL
-  ,currency_code character varying(3) NOT NULL
-  ,inserted_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
-  ,updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
-  ,CONSTRAINT currencies_pkey PRIMARY KEY (id)
-)
+CREATE TABLE IF NOT EXISTS
+  currencies (
+    id UUID
+      NOT NULL
+    ,currency_name CHARACTER VARYING(100)
+      NOT NULL
+    ,currency_code CHARACTER VARYING(3)
+      NOT NULL
+    ,inserted_at TIMESTAMP(0) WITHOUT TIME ZONE
+      DEFAULT TIMEZONE(
+        'UTC'::TEXT
+        ,NOW()
+      )
+      NOT NULL
+    ,updated_at TIMESTAMP(0) WITHOUT TIME ZONE
+      DEFAULT TIMEZONE(
+        'UTC'::TEXT
+        ,NOW()
+      )
+      NOT NULL
+    ,CONSTRAINT currencies_pkey
+      PRIMARY KEY (id)
+  )
 ;
 
-CREATE TRIGGER currencies_update_updated_at_timestamp_trigger
+CREATE TRIGGER currencies_set_updated_at_timestamp_trigger
   BEFORE UPDATE
   ON currencies
   FOR EACH ROW
@@ -31,19 +46,37 @@ CREATE TRIGGER currencies_update_updated_at_timestamp_trigger
 
 -- COUNTRY
 
-CREATE TABLE countries (
-  id uuid NOT NULL
-  ,country_name character varying(25) NOT NULL
-  ,country_code character varying(2) NOT NULL
-  ,inserted_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
-  ,updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
-  ,CONSTRAINT countries_pkey PRIMARY KEY (id)
-  ,CONSTRAINT countries_country_code_index UNIQUE (country_code)
-)
+CREATE TABLE IF NOT EXISTS
+  countries (
+    id UUID
+      NOT NULL
+    ,country_name CHARACTER VARYING(25)
+      NOT NULL
+    ,country_code CHARACTER VARYING(2)
+      NOT NULL
+    ,inserted_at timestamp(0) WITHOUT TIME ZONE
+      DEFAULT TIMEZONE(
+        'UTC'::TEXT
+        ,NOW()
+      )
+      NOT NULL
+    ,updated_at TIMESTAMP(0) WITHOUT TIME ZONE
+      DEFAULT TIMEZONE(
+        'UTC'::TEXT
+        ,NOW()
+      )
+      NOT NULL
+    ,CONSTRAINT countries_pkey
+      PRIMARY KEY (id)
+    ,CONSTRAINT countries_country_code_index
+      UNIQUE (
+        country_code
+      )
+  )
 ;
 
 
-CREATE TRIGGER countries_update_updated_at_timestamp_trigger
+CREATE TRIGGER countries_set_updated_at_timestamp_trigger
   BEFORE UPDATE
   ON countries
   FOR EACH ROW
@@ -55,24 +88,50 @@ CREATE TRIGGER countries_update_updated_at_timestamp_trigger
 
 -- CURRENCY + COUNTRY
 
-CREATE TABLE countries_currencies (
-  country_id  uuid REFERENCES countries (id) ON DELETE CASCADE
-  ,currency_id uuid REFERENCES currencies (id) ON DELETE CASCADE
-  ,CONSTRAINT countries_currencies_pkey PRIMARY KEY (country_id, currency_id)
-)
+CREATE TABLE IF NOT EXISTS
+  countries_currencies (
+    country_id  UUID
+      REFERENCES countries (id)
+      ON DELETE CASCADE
+      NOT NULL
+    ,currency_id UUID
+      REFERENCES currencies (id)
+      ON DELETE CASCADE
+      NOT NULL
+    ,CONSTRAINT countries_currencies_pkey
+      PRIMARY KEY (
+        country_id
+        ,currency_id
+      )
+  )
 ;
 
 --
 -- CREATE `owners` table
 --
-CREATE TABLE owners (
-  owner_id uuid NOT NULL
-  ,email character varying(255) NOT NULL
-  ,inserted_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
-  ,updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
-  ,CONSTRAINT owners_pkey PRIMARY KEY (owner_id)
-  ,CONSTRAINT owners_email_index UNIQUE (email)
-)
+CREATE TABLE IF NOT EXISTS
+  owners (
+    owner_id UUID
+      NOT NULL
+    ,email CHARACTER VARYING(255)
+      NOT NULL
+          ,inserted_at timestamp(0) WITHOUT TIME ZONE
+      DEFAULT TIMEZONE(
+        'UTC'::TEXT
+        ,NOW()
+      )
+      NOT NULL
+    ,updated_at TIMESTAMP(0) WITHOUT TIME ZONE
+      DEFAULT TIMEZONE(
+        'UTC'::TEXT
+        ,NOW()
+      )
+      NOT NULL
+    ,CONSTRAINT owners_pkey
+      PRIMARY KEY (owner_id)
+    ,CONSTRAINT owners_email_index
+      UNIQUE (email)
+  )
 ;
 
 --
