@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS
       NOT NULL
     ,email CHARACTER VARYING(255)
       NOT NULL
-          ,inserted_at timestamp(0) WITHOUT TIME ZONE
+    ,inserted_at timestamp(0) WITHOUT TIME ZONE
       DEFAULT TIMEZONE(
         'UTC'::TEXT
         ,NOW()
