@@ -4,6 +4,13 @@ export const typeDefs = gql`
   scalar Date
   scalar DateTime
 
+  type Owner {
+    ownerId: ID!
+    email: String!
+    insertedAt: DateTime!
+    updatedAt: DateTime!
+  }
+
   type Country {
     id: ID!
     countryName: String!
