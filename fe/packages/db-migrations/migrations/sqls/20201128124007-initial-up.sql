@@ -1,10 +1,11 @@
-CREATE OR REPLACE FUNCTION update_updated_at_timestamp()
+CREATE OR REPLACE FUNCTION commons_set_updated_at_timestamp_func()
 RETURNS TRIGGER AS $$
 BEGIN
   NEW.updated_at = timezone('utc'::text, now());
   RETURN NEW;
 END;
-$$ language 'plpgsql';
+$$ language 'plpgsql'
+;
 
 -- CURRENCY
 
@@ -15,7 +16,18 @@ CREATE TABLE currencies (
   ,inserted_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
   ,updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
   ,CONSTRAINT currencies_pkey PRIMARY KEY (id)
-);
+)
+;
+
+CREATE TRIGGER currencies_update_updated_at_timestamp_trigger
+  BEFORE UPDATE
+  ON currencies
+  FOR EACH ROW
+  WHEN (
+   NEW.updated_at = OLD.updated_at
+  )
+  EXECUTE PROCEDURE commons_set_updated_at_timestamp_func()
+;
 
 -- COUNTRY
 
@@ -27,17 +39,19 @@ CREATE TABLE countries (
   ,updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
   ,CONSTRAINT countries_pkey PRIMARY KEY (id)
   ,CONSTRAINT countries_country_code_index UNIQUE (country_code)
-);
+)
+;
 
 
-CREATE TRIGGER countries_update_updated_at_timestamp
+CREATE TRIGGER countries_update_updated_at_timestamp_trigger
   BEFORE UPDATE
   ON countries
   FOR EACH ROW
   WHEN (
    NEW.updated_at = OLD.updated_at
   )
-  EXECUTE PROCEDURE update_updated_at_timestamp();
+  EXECUTE PROCEDURE commons_set_updated_at_timestamp_func()
+;
 
 -- CURRENCY + COUNTRY
 
@@ -45,7 +59,8 @@ CREATE TABLE countries_currencies (
   country_id  uuid REFERENCES countries (id) ON DELETE CASCADE
   ,currency_id uuid REFERENCES currencies (id) ON DELETE CASCADE
   ,CONSTRAINT countries_currencies_pkey PRIMARY KEY (country_id, currency_id)
-);
+)
+;
 
 -- AUTHS
 
@@ -56,16 +71,18 @@ CREATE TABLE auths (
   ,updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
   ,CONSTRAINT auths_pkey PRIMARY KEY (id)
   ,CONSTRAINT auths_email_index UNIQUE (email)
-);
+)
+;
 
-CREATE TRIGGER auths_update_updated_at_timestamp
+CREATE TRIGGER auths_update_updated_at_timestamp_trigger
   BEFORE UPDATE
   ON auths
   FOR EACH ROW
   WHEN (
    NEW.updated_at = OLD.updated_at
   )
-  EXECUTE PROCEDURE update_updated_at_timestamp();
+  EXECUTE PROCEDURE commons_set_updated_at_timestamp_func()
+;
 
 INSERT INTO currencies
   (
