@@ -37,6 +37,19 @@ CREATE TABLE IF NOT EXISTS
   )
 ;
 
+--
+-- TRIGGER on `owners` table that sets value of the `updated_at` column
+--
+CREATE TRIGGER owners_set_updated_at_timestamp_trigger
+  BEFORE UPDATE
+  ON owners
+  FOR EACH ROW
+  WHEN (
+   NEW.updated_at = OLD.updated_at
+  )
+  EXECUTE PROCEDURE commons_set_updated_at_timestamp_func()
+;
+
 -- CURRENCY
 
 CREATE TABLE IF NOT EXISTS
@@ -134,19 +147,6 @@ CREATE TABLE IF NOT EXISTS
         ,currency_id
       )
   )
-;
-
---
--- TRIGGER on `owners` table that sets value of the `updated_at` column
---
-CREATE TRIGGER owners_set_updated_at_timestamp_trigger
-  BEFORE UPDATE
-  ON owners
-  FOR EACH ROW
-  WHEN (
-   NEW.updated_at = OLD.updated_at
-  )
-  EXECUTE PROCEDURE commons_set_updated_at_timestamp_func()
 ;
 
 --
