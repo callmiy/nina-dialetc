@@ -62,21 +62,25 @@ CREATE TABLE countries_currencies (
 )
 ;
 
--- AUTHS
-
-CREATE TABLE auths (
-  id uuid NOT NULL
+--
+-- CREATE `owners` table
+--
+CREATE TABLE owners (
+  owner_id uuid NOT NULL
   ,email character varying(255) NOT NULL
   ,inserted_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
   ,updated_at timestamp(0) without time zone DEFAULT timezone('utc'::text, now()) NOT NULL
-  ,CONSTRAINT auths_pkey PRIMARY KEY (id)
-  ,CONSTRAINT auths_email_index UNIQUE (email)
+  ,CONSTRAINT owners_pkey PRIMARY KEY (owner_id)
+  ,CONSTRAINT owners_email_index UNIQUE (email)
 )
 ;
 
-CREATE TRIGGER auths_update_updated_at_timestamp_trigger
+--
+-- TRIGGER on `owners` table that sets value of the `updated_at` column
+--
+CREATE TRIGGER owners_set_updated_at_timestamp_trigger
   BEFORE UPDATE
-  ON auths
+  ON owners
   FOR EACH ROW
   WHEN (
    NEW.updated_at = OLD.updated_at
