@@ -147,6 +147,10 @@ CREATE TRIGGER owners_set_updated_at_timestamp_trigger
   EXECUTE PROCEDURE commons_set_updated_at_timestamp_func()
 ;
 
+--
+-- INSERT DATA
+--
+
 INSERT INTO currencies
   (
     id
