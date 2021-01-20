@@ -78,3 +78,18 @@ export const articleSubmitId = `${articleDomId}-submit`;
 export const articleResetId = `${articleDomId}-reset`;
 export const articleGenericNameInputDomId = `${articleDomId}-generic-name-input`;
 export const articleTagsInputDomId = `${articleDomId}-tags-input`;
+
+// ====================================================
+// SIGN UP
+// ====================================================
+
+export const signupDomId = "component__signup";
+export const signupEmailInputId = `${signupDomId}-email-input`;
+export const signupPasswordInputId = `${signupDomId}-password-input`;
+export const signupRepeatPasswordInputId = `${signupDomId}-repeat-password-input`;
+export const signupSubmitId = `${signupDomId}-submit`;
+export const signupSubmitLabel = "Sign up now";
+export const signupErrorMsgSelector = `js-${signupDomId}-error-msg`;
+export const signupBlankEmailErrorMsg = "Email is blank";
+export const signupBlankPasswordErrorMsg = "Password is blank";
+export const signupBlankRepeatPasswordErrorMsg = "Repeat password is blank";

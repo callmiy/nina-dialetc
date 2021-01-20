@@ -149,6 +149,44 @@ export interface ListCountriesAndCurrenciesVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: Signup
+// ====================================================
+
+export interface Signup_signup_SignupSuccess_owner {
+  __typename: "Owner";
+  ownerId: string;
+  email: string;
+  jwt: string;
+}
+
+export interface Signup_signup_SignupSuccess {
+  __typename: "SignupSuccess";
+  owner: Signup_signup_SignupSuccess_owner;
+}
+
+export interface Signup_signup_SignupErrors {
+  __typename: "SignupErrors";
+  errors: string[];
+}
+
+export type Signup_signup =
+  | Signup_signup_SignupSuccess
+  | Signup_signup_SignupErrors;
+
+export interface Signup {
+  signup: Signup_signup | null;
+}
+
+export interface SignupVariables {
+  input: SignupInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: BranchFragment
 // ====================================================
 
@@ -234,6 +272,57 @@ export interface PageInfoFragment {
 // @generated
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL fragment: OwnerFragment
+// ====================================================
+
+export interface OwnerFragment {
+  __typename: "Owner";
+  ownerId: string;
+  email: string;
+  jwt: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: SignupSuccessFragment
+// ====================================================
+
+export interface SignupSuccessFragment_owner {
+  __typename: "Owner";
+  ownerId: string;
+  email: string;
+  jwt: string;
+}
+
+export interface SignupSuccessFragment {
+  __typename: "SignupSuccess";
+  owner: SignupSuccessFragment_owner;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: SignupErrorsFragment
+// ====================================================
+
+export interface SignupErrorsFragment {
+  __typename: "SignupErrors";
+  errors: string[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
@@ -243,6 +332,12 @@ export interface PaginationInput {
   last?: number | null;
   before?: string | null;
   after?: string | null;
+}
+
+export interface SignupInput {
+  email: string;
+  password: string;
+  repeatPassword: string;
 }
 
 //==============================================================

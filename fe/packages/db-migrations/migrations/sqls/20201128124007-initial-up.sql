@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS
       NOT NULL
     ,email CHARACTER VARYING(255)
       NOT NULL
+    ,token CHARACTER VARYING(255)
+      NOT NULL
     ,inserted_at timestamp(0) WITHOUT TIME ZONE
       DEFAULT TIMEZONE(
         'UTC'::TEXT
@@ -34,6 +36,8 @@ CREATE TABLE IF NOT EXISTS
       PRIMARY KEY (owner_id)
     ,CONSTRAINT owners_email_index
       UNIQUE (email)
+    ,CONSTRAINT owners_token_index
+      UNIQUE (token)
   )
 ;
 

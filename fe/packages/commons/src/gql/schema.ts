@@ -7,6 +7,7 @@ export const typeDefs = gql`
   type Owner {
     ownerId: ID!
     email: String!
+    jwt: String!
     insertedAt: DateTime!
     updatedAt: DateTime!
   }
@@ -74,12 +75,6 @@ export const typeDefs = gql`
     branchInfo: [ArticleBranch]!
   }
 
-  type UnitOfMeasure {
-    id: ID!
-    shortName: String!
-    longName: String!
-  }
-
   type Tag {
     id: ID!
     name: String!
@@ -92,13 +87,6 @@ export const typeDefs = gql`
     unitPrice: Float!
     insertedAt: DateTime!
     updatedAt: DateTime!
-  }
-
-  input PaginationInput {
-    first: Int
-    last: Int
-    before: String
-    after: String
   }
 
   type PageInfo {
@@ -138,10 +126,41 @@ export const typeDefs = gql`
     pageInfo: PageInfo!
   }
 
+  # ====================================================
+  # Signup Mutation
+  # ====================================================
+
+  union SignupUnion = SignupSuccess | SignupErrors
+
+  type SignupSuccess {
+    owner: Owner!
+  }
+
+  type SignupErrors {
+    errors: [String!]!
+  }
+
+  input SignupInput {
+    email: String!
+    password: String!
+    repeatPassword: String!
+  }
+
+  input PaginationInput {
+    first: Int
+    last: Int
+    before: String
+    after: String
+  }
+
   type Query {
     listCountries(paginationInput: PaginationInput!): CountryConnection!
     listCurrencies: [Currency]!
     listBranches(paginationInput: PaginationInput!): BranchConnection!
     listBrands(paginationInput: PaginationInput!): BrandConnection!
+  }
+
+  type Mutation {
+    signup(input: SignupInput!): SignupUnion
   }
 `;

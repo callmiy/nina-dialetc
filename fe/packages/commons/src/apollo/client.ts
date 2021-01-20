@@ -39,7 +39,7 @@ export function makeApolloClient(
   }
 
   if (!cache) {
-    cache = new InMemoryCache();
+    cache = makeCache();
   }
 
   let link = createHttpLink({
@@ -71,6 +71,18 @@ export function makeApolloClient(
   }
 
   return { client, cache };
+}
+
+export function makeCache() {
+  const cache = new InMemoryCache({
+    typePolicies: {
+      Owner: {
+        keyFields: ["ownerId"],
+      },
+    },
+  });
+
+  return cache;
 }
 
 type MakeApolloClientArgs = {

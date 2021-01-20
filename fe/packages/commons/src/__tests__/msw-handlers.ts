@@ -1,3 +1,4 @@
+import { ApolloError } from "@apollo/client/core";
 import { graphql } from "msw";
 import {
   ListBranches,
@@ -6,6 +7,8 @@ import {
   ListBrandsVariables,
   ListCountriesAndCurrencies,
   ListCountriesAndCurrenciesVariables,
+  Signup,
+  SignupVariables,
 } from "../gql/ops-types";
 
 export function getMswListBranchesGql(data: ListBranches) {
@@ -35,4 +38,25 @@ export function getMswListCountriesAndCurrencies(
   >("ListCountriesAndCurrencies", (req, res, ctx) => {
     return res(ctx.data(data));
   });
+}
+
+export function signupMswMutation(data: ApolloError | Partial<Signup>) {
+  return graphql.mutation<Signup, SignupVariables>(
+    "Signup",
+    (req, res, ctx) => {
+      if (data instanceof ApolloError) {
+        const { graphQLErrors, networkError } = data;
+
+        if (graphQLErrors) {
+          return res(ctx.errors(graphQLErrors as any));
+        }
+
+        if (networkError) {
+          return res.networkError(networkError.message);
+        }
+      }
+
+      return res(ctx.data(data));
+    }
+  );
 }
