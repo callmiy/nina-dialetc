@@ -1,40 +1,47 @@
 import { gql } from "@apollo/client/core";
-import { PageInfoFragment } from ".";
+import {
+  // PageInfoFragment,
+  TagFragment,
+  CommentFragment,
+} from ".";
 
-
-const ArticleFragment = gql`
+export const ArticleFragment = gql`
   fragment ArticleFragment on Article {
     id
-    specificName
-    currentPrice
+    name
     unitOfMeasure {
       id
       shortName
       longName
     }
     tags {
-      id
-      name
+      ...TagFragment
     }
-  }
-`;
-
-export const listArticlesQuery = gql`
-  query ListArticles($paginationInput: PaginationInput!) {
-    listArticles(paginationInput: $paginationInput) {
-      edges {
-        node {
-          ...ArticleFragment
-        }
-        cursor
-      }
-
-      pageInfo {
-        ...PageInfoFragment
-      }
+    comments {
+      ...CommentFragment
     }
   }
 
-  ${ArticleFragment}
-  ${PageInfoFragment}
+  ${TagFragment}
+  ${CommentFragment}
 `;
+
+// export const listArticlesQuery = gql`
+//   query ListArticles($paginationInput: PaginationInput!) {
+//     listArticles(paginationInput: $paginationInput) {
+//       edges {
+//         node {
+//           ...ArticleFragment
+//         }
+//         cursor
+//       }
+
+//       pageInfo {
+//         ...PageInfoFragment
+//       }
+//     }
+//   }
+
+//   ${ArticleFragment}
+//   ${PageInfoFragment}
+// `;

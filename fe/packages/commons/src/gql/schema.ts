@@ -63,30 +63,36 @@ export const typeDefs = gql`
     updatedAt: DateTime!
   }
 
+  type ArticleInfo {
+    id: ID!
+    branchGroupId: ID!
+    unitPrice: Float!
+    discount: Float
+    insertedAt: DateTime!
+    updatedAt: DateTime!
+    tags: [Tag]!
+    comments: [Comment]!
+  }
+
   type Article {
     id: ID!
-    specificName: String!
-    currentPrice: Float!
-    deleted: Boolean
+    name: String!
     insertedAt: DateTime!
     updatedAt: DateTime!
     unitOfMeasure: UnitOfMeasure!
+    info: [ArticleInfo]!
     tags: [Tag]!
-    branchInfo: [ArticleBranch]!
+    comments: [Comment]!
   }
 
   type Tag {
     id: ID!
-    name: String!
+    text: String!
   }
 
-  type ArticleBranch {
+  type Comment {
     id: ID!
-    branchId: ID!
-    articleId: ID!
-    unitPrice: Float!
-    insertedAt: DateTime!
-    updatedAt: DateTime!
+    text: String!
   }
 
   type PageInfo {

@@ -3,7 +3,8 @@ FROM nina-js-commons
 ARG NODE_ENV
 
 ENV \
-  FRONTEND_APP="sv"
+FRONTEND_APP="sv" \
+  NODE_ENV=$NODE_ENV
 
 USER node
 
@@ -11,29 +12,29 @@ WORKDIR /home/node/app
 
 # COMMONS
 COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/commons/node_modules \
+  /home/node/app/packages/commons/node_modules \
   ./packages/commons/node_modules
 
 COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/commons \
+  /home/node/app/packages/commons \
   ./packages/commons
 
 # SVELTE-COMMONS
 COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/svelte-commons/node_modules \
+  /home/node/app/packages/svelte-commons/node_modules \
   ./packages/svelte-commons/node_modules
 
 COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/svelte-commons \
+  /home/node/app/packages/svelte-commons \
   ./packages/svelte-commons
 
 # SVELTE
 COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/svelte/node_modules \
+  /home/node/app/packages/svelte/node_modules \
   ./packages/svelte/node_modules
 
 COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/svelte \
+  /home/node/app/packages/svelte \
   ./packages/svelte
 
 CMD ["/bin/bash"]

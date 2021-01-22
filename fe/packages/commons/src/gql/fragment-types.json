@@ -1,2 +1,1 @@
-{}
-
+{ "SignupUnion": ["SignupSuccess", "SignupErrors"] }

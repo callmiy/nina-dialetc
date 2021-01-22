@@ -187,6 +187,43 @@ export interface SignupVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL fragment: ArticleFragment
+// ====================================================
+
+export interface ArticleFragment_unitOfMeasure {
+  __typename: "UnitOfMeasure";
+  id: string;
+  shortName: string;
+  longName: string | null;
+}
+
+export interface ArticleFragment_tags {
+  __typename: "Tag";
+  id: string;
+  text: string;
+}
+
+export interface ArticleFragment_comments {
+  __typename: "Comment";
+  id: string;
+  text: string;
+}
+
+export interface ArticleFragment {
+  __typename: "Article";
+  id: string;
+  name: string;
+  unitOfMeasure: ArticleFragment_unitOfMeasure;
+  tags: (ArticleFragment_tags | null)[];
+  comments: (ArticleFragment_comments | null)[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: BranchFragment
 // ====================================================
 
@@ -265,6 +302,36 @@ export interface PageInfoFragment {
   hasPreviousPage: boolean;
   startCursor: string | null;
   endCursor: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: TagFragment
+// ====================================================
+
+export interface TagFragment {
+  __typename: "Tag";
+  id: string;
+  text: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: CommentFragment
+// ====================================================
+
+export interface CommentFragment {
+  __typename: "Comment";
+  id: string;
+  text: string;
 }
 
 /* tslint:disable */

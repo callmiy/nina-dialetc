@@ -3,7 +3,8 @@ FROM nina-js-commons
 ARG NODE_ENV
 
 ENV \
-  BACKEND_APP="hp"
+BACKEND_APP="hp" \
+  NODE_ENV=$NODE_ENV
 
 USER node
 
@@ -11,38 +12,47 @@ WORKDIR /home/node/app
 
 # COMMONS
 COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/commons/node_modules \
+  /home/node/app/packages/commons/node_modules \
   ./packages/commons/node_modules
 
 COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/commons \
+  /home/node/app/packages/commons \
   ./packages/commons
 
-# HAPI
+# DATA
 COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/hapi/node_modules \
-  ./packages/hapi/node_modules
+  /home/node/app/packages/data/node_modules \
+  ./packages/data/node_modules
 
 COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/hapi \
-  ./packages/hapi
+  /home/node/app/packages/data \
+  ./packages/data
 
-# PG_PROMISE
+# DB-MIGRATIONS
 COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/pg-promise/node_modules \
-  ./packages/pg-promise/node_modules
-
-COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/pg-promise \
-  ./packages/pg-promise
-
-# DB_MIGRATIONS
-COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/db-migrations/node_modules \
+  /home/node/app/packages/db-migrations/node_modules \
   ./packages/db-migrations/node_modules
 
 COPY --from=nina-js-base --chown=node:node \
-  ${COPY_PACKAGES}/db-migrations \
+  /home/node/app/packages/db-migrations \
   ./packages/db-migrations
+
+# HAPI
+COPY --from=nina-js-base --chown=node:node \
+  /home/node/app/packages/hapi/node_modules \
+  ./packages/hapi/node_modules
+
+COPY --from=nina-js-base --chown=node:node \
+  /home/node/app/packages/hapi \
+  ./packages/hapi
+
+# PG-PROMISE
+COPY --from=nina-js-base --chown=node:node \
+  /home/node/app/packages/pg-promise/node_modules \
+  ./packages/pg-promise/node_modules
+
+COPY --from=nina-js-base --chown=node:node \
+  /home/node/app/packages/pg-promise \
+  ./packages/pg-promise
 
 CMD ["/bin/bash"]

@@ -20,7 +20,7 @@ import {
   DATA_FETCHING_FAILED,
   StateValue,
 } from "../constants";
-import { PageInfo } from "../gql/schema-types";
+import { PageInfoFragment } from "../gql/ops-types";
 
 export async function getCountriesCurrencies(): Promise<
   [CountriesState, CurrenciesState] | StringErrorState
@@ -77,7 +77,7 @@ export async function getCountriesCurrencies(): Promise<
           value: StateValue.data,
           data: {
             currencies: c,
-            pageInfo: {} as PageInfo,
+            pageInfo: {} as PageInfoFragment,
           },
         };
       } else {

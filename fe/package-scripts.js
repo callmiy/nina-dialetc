@@ -23,6 +23,10 @@ const appsMap = {
 function backendApps() {
   devAppsCommands += `"yarn start ${BACKEND_APP}.d" `;
 
+  appsMap.data = {
+    alias: "da",
+  };
+
   appsMap.hapi = {
     alias: "hp",
   };

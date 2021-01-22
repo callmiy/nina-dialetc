@@ -1,7 +1,7 @@
 import { createTestClient } from "apollo-server-testing";
 import { makeApolloServer } from "../apollo/server";
 
-import { DbArg } from "../types/db";
+import { DbArg } from "../types";
 // DB THINGS /////////////////////////////////////////////////////
 
 import { makeDb } from "@ta/pp/src/db/db";

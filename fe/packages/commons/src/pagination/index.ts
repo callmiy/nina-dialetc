@@ -1,4 +1,4 @@
-import { PaginationInput } from "../gql/schema-types";
+import { PaginationInput } from "../gql/ops-types";
 import { Any } from "../types";
 
 const maxFn = Math.max;

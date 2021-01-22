@@ -12,6 +12,7 @@ services:
   js-base:
     build:
       context: ./fe
+      dockerfile: Dockerfile.base
       args:
         NODE_ENV: "${NODE_ENV}"
     image: nina-js-base
@@ -46,6 +47,8 @@ services:
       - "not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
       - "not_used_cy_node_modules:/home/node/app/packages/cy/node_modules/"
       - "not_used_db-migrations_node_modules:/home/node/app/packages/db-migrations/node_modules/"
+      - "not_used_data_node_modules:/home/node/app/packages/data/node_modules/"
+      - "not_used_data_coverage:/home/node/app/packages/data/coverage/"
       - "not_used_hapi_node_modules:/home/node/app/packages/hapi/node_modules/"
       - "not_used_hapi_coverage:/home/node/app/packages/hapi/coverage/"
       - "not_used_hapi_build:/home/node/app/packages/hapi/build/"
@@ -79,6 +82,8 @@ services:
       - "not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
       - "not_used_cy_node_modules:/home/node/app/packages/cy/node_modules/"
       - "not_used_db-migrations_node_modules:/home/node/app/packages/db-migrations/node_modules/"
+      - "not_used_data_node_modules:/home/node/app/packages/data/node_modules/"
+      - "not_used_data_coverage:/home/node/app/packages/data/coverage/"
       - "not_used_hapi_node_modules:/home/node/app/packages/hapi/node_modules/"
       - "not_used_hapi_coverage:/home/node/app/packages/hapi/coverage/"
       - "not_used_hapi_build:/home/node/app/packages/hapi/build/"
@@ -113,6 +118,8 @@ services:
       - "not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
       - "not_used_cy_node_modules:/home/node/app/packages/cy/node_modules/"
       - "not_used_db-migrations_node_modules:/home/node/app/packages/db-migrations/node_modules/"
+      - "not_used_data_node_modules:/home/node/app/packages/data/node_modules/"
+      - "not_used_data_coverage:/home/node/app/packages/data/coverage/"
       - "not_used_hapi_node_modules:/home/node/app/packages/hapi/node_modules/"
       - "not_used_hapi_coverage:/home/node/app/packages/hapi/coverage/"
       - "not_used_hapi_build:/home/node/app/packages/hapi/build/"
@@ -124,6 +131,7 @@ services:
       - "not_used_svelte_coverage:/home/node/app/packages/svelte/coverage/"
       - "not_used_svelte_build:/home/node/app/packages/svelte/build/"
       - "not_used_db-migrations:/home/node/app/packages/db-migrations/"
+      - "not_used_data:/home/node/app/packages/data/"
       - "not_used_hapi:/home/node/app/packages/hapi/"
       - "not_used_pg-promise:/home/node/app/packages/pg-promise/"
 volumes:
@@ -135,6 +143,9 @@ volumes:
   not_used_cy:
   not_used_db-migrations_node_modules:
   not_used_db-migrations:
+  not_used_data_node_modules:
+  not_used_data_coverage:
+  not_used_data:
   not_used_hapi_node_modules:
   not_used_hapi_coverage:
   not_used_hapi_build:

@@ -1,22 +1,16 @@
+const { resolve: resolvePath } = require("path");
 const commonScripts = require("../../js-commons/_package-scripts");
 
-const tsConfig = `TS_NODE_COMPILER_OPTIONS='{"module":"commonjs", "isolatedModules": false}'`;
-
 const { API_URL: apiUrl } = process.env;
+
+const genClientOutput = resolvePath(__dirname, "./src/gql/ops-types.ts");
 
 module.exports = {
   scripts: {
     ...commonScripts.scripts,
-    cgi: {
-      script: `yarn graphql-codegen init`,
-      description: `Initialize graphql code generator`,
-    },
-    gs: {
-      script: `${tsConfig} graphql-codegen --config codegen.yml`,
-      description: `Generate schema graphql typescript types`,
-    },
     gc: {
-      script: `node -e 'require("./package-scripts").fetchGqlTypes()'`,
+      script: `node -e 'require("./package-scripts").fetchGqlTypes()' && \
+        yarn prettier --write ${genClientOutput}`,
       description: `Generate client graphql typescript types`,
     },
     test: {
@@ -40,7 +34,6 @@ module.exports = {
     const fs = require("fs");
     const shell = require("shelljs");
 
-    const outputFilename = `./src/gql/ops-types.ts`;
     const unionsOutputFilename = "./src/gql/fragment-types.json";
     const uri = `${apiUrl}/api/gql`;
 
@@ -58,7 +51,7 @@ module.exports = {
       }
     `;
 
-    shell.rm("-rf", "src/graphql/apollo-types");
+    shell.rm("-rf", genClientOutput);
 
     exec(
       `yarn apollo client:codegen \
@@ -66,7 +59,7 @@ module.exports = {
         --tagName=gql \
         --target=typescript \
         --includes=./src/gql/queries/**/*.ts \
-        --outputFlat=${outputFilename}
+        --outputFlat=${genClientOutput}
       `,
       (error, stdout, stderr) => {
         if (error) {

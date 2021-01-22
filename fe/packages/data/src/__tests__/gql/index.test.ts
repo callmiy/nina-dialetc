@@ -11,8 +11,8 @@ import {
   createCurrenciesInsertSql,
   currencyEuroData,
   insertEuroValueSql,
-} from "@ta/cm/src/__tests__/utils";
-import { Connection } from "@ta/cm/src/types/db";
+} from "../utils";
+import { Connection } from "../../types";
 import { cleanUpDbAfterTest, resetDbForTest } from "../utils";
 import { listCountriesAndCurrenciesQuery } from "@ta/cm/src/gql/queries/countries-currencies.query";
 import {

@@ -1,6 +1,6 @@
 import { listCountries } from "../db";
-import { Resolvers, ResolversTypes } from "../gql/schema-types";
-import { relayConnectionFromDataGetter } from "../pagination";
+import { Resolvers, ResolversTypes } from "../schema-types";
+import { relayConnectionFromDataGetter } from "@ta/cm/src/pagination";
 
 export const countryResolver: Resolvers = {
   Query: {

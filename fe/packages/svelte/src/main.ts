@@ -1,5 +1,5 @@
 import { SHOULD_USE_MSW } from "@ta/cm/src/envs";
-import App from "./components/app/app.svelte";
+import App from "./app.svelte";
 
 if (SHOULD_USE_MSW) {
   require("./should-use-msw");

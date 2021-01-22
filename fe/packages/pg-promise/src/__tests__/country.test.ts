@@ -6,7 +6,7 @@ import {
   createCountriesInsertSql,
   insertGermanyValueSql,
   insertFranceValueSql,
-} from "@ta/cm/src/__tests__/utils";
+} from "@ta/da/src/__tests__/utils";
 
 let conn: Connection;
 

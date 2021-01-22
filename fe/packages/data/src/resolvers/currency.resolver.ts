@@ -1,5 +1,5 @@
 import { listCurrencies } from "../db";
-import { Resolvers } from "../gql/schema-types";
+import { Resolvers } from "../schema-types";
 
 export const currencyResolver: Resolvers = {
   Query: {

@@ -3,16 +3,31 @@ const { resolve: resolvePath } = require("path");
 const { dump } = require("js-yaml");
 const { Command, flags } = require("@oclif/command");
 const prettier = require("prettier");
+const {
+  makeRelativeFromRoot,
+  makeAbsFromRoot,
+  images,
+  appName,
+} = require("../modules/utils");
 
-const fileName = resolvePath(__dirname, "../../../docker-compose.yml");
+const composeName = "docker-compose.yml";
+const composeRelative = makeRelativeFromRoot(composeName);
+const composeAbs = makeAbsFromRoot(composeName);
 
 class GenComposeCommand extends Command {
   async run() {
     try {
+      const { flags } = this.parse(GenComposeCommand);
+
       const yaml = genDockerCompose();
-      const {
-        flags: { verbose, output = fileName },
-      } = this.parse(GenComposeCommand);
+
+      const { verbose, output = composeAbs } = flags;
+      const dryRun = flags["dry-run"];
+
+      if (dryRun) {
+        this.log(yaml);
+        return;
+      }
 
       if (verbose) {
         this.log(yaml);
@@ -31,34 +46,12 @@ class GenComposeCommand extends Command {
   }
 }
 
-GenComposeCommand.description = `Generate "docker-compose.yml" for project
-...
-Extra documentation goes here
-`;
-
-GenComposeCommand.flags = {
-  verbose: flags.boolean({
-    char: "v",
-    description: `Print out content of generated "docker-compose.yml" to stdout`,
-  }),
-
-  output: flags.string({
-    char: "o",
-    description: `Where to output the generated yaml file. Defaults to "${fileName}"`,
-  }),
-};
-
-module.exports = GenComposeCommand;
-exports.fileName = fileName;
-
 function genDockerCompose() {
-  // const fileName = "docker-compose.yml";
-
   const SERVICES = {
     postgresDb: "db",
-    jsBase: "js-base",
-    jsCommons: "js-commons",
-    jsAll: "js-all",
+    jsBase: images["js"]["base"]["imageName"].replace(`${appName}-`, ""),
+    jsCommons: images["js"]["commons"]["imageName"].replace(`${appName}-`, ""),
+    jsAll: images["js"]["all"]["imageName"].replace(`${appName}-`, ""),
     jsHapi: "js-hapi",
     jsSvelte: "js-svelte",
   };
@@ -76,6 +69,7 @@ function genDockerCompose() {
   const pgPromiseName = "pg-promise";
   const svelteCommonsName = "svelte-commons";
   const svelteName = "svelte";
+  const dataName = "data";
 
   // VOLUMES ////////////////////////////
 
@@ -104,6 +98,12 @@ function genDockerCompose() {
 
   const dbMigrationsVolumesAll = [makeNodeVolume(dbMigrationName)];
   const dbMigrationVolumeRoot = makePackageRootVolume(dbMigrationName);
+
+  const dataVolumesAll = [
+    makeNodeVolume(dataName),
+    makeCoverageVolume(dataName),
+  ];
+  const dataVolumeRoot = makePackageRootVolume(dataName);
 
   const hapiVolumesAll = [
     makeNodeVolume(hapiName),
@@ -161,6 +161,7 @@ function genDockerCompose() {
   const jsBaseService = {
     build: {
       context: "./fe",
+      dockerfile: "Dockerfile.base",
       args: {
         NODE_ENV: "${NODE_ENV}",
       },
@@ -197,6 +198,7 @@ function genDockerCompose() {
     commonsVolumesAll,
     cypressVolumesAll,
     dbMigrationsVolumesAll,
+    dataVolumesAll,
     hapiVolumesAll,
     pgPromiseVolumesAll,
     svelteCommonsVolumesAll,
@@ -235,12 +237,7 @@ function genDockerCompose() {
     user: "node",
     ports: ["${API_PORT}:${API_PORT}"],
     volumes: allJsVolumes.concat(
-      getVolumes([
-        // baseNotUsedYarnLockVolume,
-        cypressVolumeRoot,
-        svelteCommonsVolumeRoot,
-        svelteVolumeRoot,
-      ])
+      getVolumes([cypressVolumeRoot, svelteCommonsVolumeRoot, svelteVolumeRoot])
     ),
   };
 
@@ -267,6 +264,7 @@ function genDockerCompose() {
       getVolumes([
         // baseNotUsedYarnLockVolume,
         dbMigrationVolumeRoot,
+        dataVolumeRoot,
         hapiVolumeRoot,
         pgPromiseVolumeRoot,
       ])
@@ -348,3 +346,27 @@ function genDockerCompose() {
   const yaml = dumpedYaml.replace(/'/g, `"`).replace(/V__/g, "");
   return yaml;
 }
+
+GenComposeCommand.description = `Generate "${composeName}" for project `;
+
+GenComposeCommand.flags = {
+  verbose: flags.boolean({
+    char: "v",
+    description: `Print out content of generated
+    "${composeName}" to stdout`,
+  }),
+
+  output: flags.string({
+    char: "o",
+    description: `Where to output the generated yaml file.
+    Defaults to "${composeRelative}"`,
+  }),
+
+  "dry-run": flags.boolean({
+    char: "d",
+    description: `Dry run. Do not write file, just print to stdout`,
+  }),
+};
+
+module.exports = GenComposeCommand;
+exports.fileName = composeAbs;

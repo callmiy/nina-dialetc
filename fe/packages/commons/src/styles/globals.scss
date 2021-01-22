@@ -1,6 +1,6 @@
 $white-ter: hsl(0, 0%, 96%) !default;
 $background: $white-ter !default;
 $modal-card-body-border-color: darken($background, 5%);
-$modal-background-background-color: rgba(0,0,0,0.5);
+$modal-background-background-color: rgba(0, 0, 0, 0.5);
 
 @import "../../../../node_modules/bulma/bulma.sass";

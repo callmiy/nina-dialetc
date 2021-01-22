@@ -1,12 +1,5 @@
 # nina
 
-Some
-
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/nina.svg)](https://npmjs.org/package/me)
-[![Downloads/week](https://img.shields.io/npm/dw/nina.svg)](https://npmjs.org/package/me)
-[![License](https://img.shields.io/npm/l/nina.svg)](https://github.com/ocli/me/blob/master/package.json)
-
 <!-- toc -->
 
 - [nina](#nina)
@@ -23,7 +16,7 @@ $ npm install -g @nina/proj-helper
 $ nina COMMAND
 running command...
 $ nina (-v|--version|version)
-@nina/proj-helper/0.0.0 linux-x64 node-v14.15.3
+@nina/proj-helper/0.0.0 linux-x64 node-v15.5.0
 $ nina --help [COMMAND]
 USAGE
   $ nina COMMAND
@@ -37,25 +30,51 @@ USAGE
 <!-- commands -->
 
 - [`nina gen-compose`](#nina-gen-compose)
+- [`nina gen-docker`](#nina-gen-docker)
 - [`nina help [COMMAND]`](#nina-help-command)
 
 ## `nina gen-compose`
 
-Describe the command here
+Generate "docker-compose.yml" for project
 
 ```
 USAGE
   $ nina gen-compose
 
 OPTIONS
-  -n, --name=name  name to print
+  -d, --dry-run        Dry run. Do not write file, just print to stdout
 
-DESCRIPTION
-  ...
-  Extra documentation goes here
+  -o, --output=output  Where to output the generated yaml file.
+                       Defaults to "../../../docker-compose.yml"
+
+  -v, --verbose        Print out content of generated
+                       "docker-compose.yml" to stdout
 ```
 
 _See code: [src/commands/gen-compose.js](https://github.com/kanmii/nina/blob/v0.0.0/src/commands/gen-compose.js)_
+
+## `nina gen-docker`
+
+Generate `Dockerfile` for the specified app/apps
+
+```
+USAGE
+  $ nina gen-docker
+
+OPTIONS
+  -a, --app=app    The "app" for which we wish to generate Dockerfile.
+  -d, --dry-run    Dry run. Do not write file, just print to stdout
+
+  -l, --lang=lang  The "language" of "app" for which we wish to generate
+                   Dockerfile.
+
+  -p, --apps=apps  Comma/period separated list of "apps" for which we wish
+                   to generate Dockerfile-s.
+
+  -v, --verbose    Print out content of generated "Dockerfile" to stdout
+```
+
+_See code: [src/commands/gen-docker.js](https://github.com/kanmii/nina/blob/v0.0.0/src/commands/gen-docker.js)_
 
 ## `nina help [COMMAND]`
 

@@ -7,7 +7,7 @@ import {
   CountryFragment,
   CurrencyFragment,
 } from "../gql/ops-types";
-import { PageInfo } from "../gql/schema-types";
+import { PageInfoFragment } from "../gql/ops-types";
 // import {  } from "cypress/types/chai/index" ;
 
 // ====================================================
@@ -66,13 +66,13 @@ export type CurrencyEntity = {
 
 export type CountriesResolvedData = {
   countries: CountryFragment[];
-  pageInfo: PageInfo;
+  pageInfo: PageInfoFragment;
   error?: string;
 };
 
 export type CurrenciesResolvedData = {
   currencies: CurrencyFragment[];
-  pageInfo: PageInfo;
+  pageInfo: PageInfoFragment;
   error?: string;
 };
 
@@ -116,7 +116,7 @@ export type BranchStateData = {
 
 export type BranchesResolvedData = {
   branches: BranchFragment[];
-  pageInfo: PageInfo;
+  pageInfo: PageInfoFragment;
   error?: string;
 };
 
@@ -136,7 +136,7 @@ export type BrandStateData = {
 
 export type BrandResolvedData = {
   brands: BrandFragment[];
-  pageInfo: PageInfo;
+  pageInfo: PageInfoFragment;
   error?: string;
 };
 // ====================================================

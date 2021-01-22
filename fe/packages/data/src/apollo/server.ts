@@ -1,9 +1,8 @@
 import { ApolloServer } from "apollo-server-hapi";
-import { typeDefs } from "../gql/schema";
+import { typeDefs } from "@ta/cm/src/gql/schema";
 import { resolvers } from "../resolvers/root";
-import { ServerContext } from "../types/db";
+import { ServerContext, DbArg } from "../types";
 // import dataLoaders from "../data-loaders";
-import { DbArg } from "../types/db";
 
 export function makeApolloServer({
   db,

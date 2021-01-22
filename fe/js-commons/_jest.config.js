@@ -5,7 +5,7 @@ const jestBabelTransform = path.resolve(__dirname, "./jestBabelTransform.js");
 module.exports = {
   collectCoverageFrom: ["src/**/*.(ts|svelte|js)", "!src/__tests__/**"],
   coverageDirectory: "coverage",
-  moduleFileExtensions: ["ts", "js", "tsx"],
+  moduleFileExtensions: ["ts", "js"],
   testEnvironment: "node",
   testRegex: "src/__tests__/.+?\\.test\\.[tj]sx?$",
   transform: {

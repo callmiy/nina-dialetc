@@ -8,7 +8,7 @@ import {
   CURRENCIES_LOADING_MSG,
   IS_ACTIVE_CLASS_NAME,
 } from "@ta/cm/src/constants";
-import { newUlid } from "@ta/cm/src/db/ulid-uuid";
+import { newUlid } from "@ta/cm/src/ulid-uuid";
 import { ListCountriesAndCurrencies } from "@ta/cm/src/gql/ops-types";
 import {
   brandCountryInputDomId,
@@ -51,7 +51,7 @@ const nina = {
 
 window.____nina = nina;
 
-jest.mock("@ta/cm/src/db/ulid-uuid");
+jest.mock("@ta/cm/src/ulid-uuid");
 const mockNewUlid = newUlid as jest.Mock;
 
 describe("Brand svelte", () => {

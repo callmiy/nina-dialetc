@@ -8,3 +8,17 @@ export const PageInfoFragment = gql`
     endCursor
   }
 `;
+
+export const TagFragment = gql`
+  fragment TagFragment on Tag {
+    id
+    text
+  }
+`;
+
+export const CommentFragment = gql`
+  fragment CommentFragment on Comment {
+    id
+    text
+  }
+`;

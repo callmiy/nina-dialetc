@@ -1,0 +1,75 @@
+FROM node:14.15.3-buster-slim AS web
+
+ARG NODE_ENV
+
+ENV BUILD_DEPS="build-essential" \
+  APP_DEPS="curl iputils-ping" \
+  NODE_ENV=$NODE_ENV
+
+COPY ./entrypoint.sh /usr/local/bin
+
+ADD \
+  https://raw.githubusercontent.com/humpangle/wait-until/v0.1.1/wait-until \
+  /usr/local/bin/
+
+RUN \
+  mkdir -p /home/node/app/packages &&  \
+  chown -R node:node /home/node/app &&  \
+  apt-get update &&  \
+  apt-get install -y --no-install-recommends ${BUILD_DEPS} &&  \
+  [ $NODE_ENV != "production" ] &&  \
+  apt-get install -y --no-install-recommends ${APP_DEPS} &&  \
+  rm -rf /var/lib/apt/lists/* &&  \
+  rm -rf /usr/share/doc && rm -rf /usr/share/man &&  \
+  apt-get purge -y --auto-remove ${BUILD_DEPS} &&  \
+  apt-get clean &&  \
+  chmod 755 /usr/local/bin/entrypoint.sh &&  \
+  chmod 755 /usr/local/bin/wait-until
+
+USER node
+
+WORKDIR /home/node/app
+
+COPY --chown=node:node \
+  ./yarn.lock \
+  ./.yarnrc \
+  ./package.json \
+  ./
+
+COPY --chown=node:node \
+  ./packages/commons/package.json \
+  ./packages/commons/
+
+COPY --chown=node:node \
+  ./packages/cy/package.json \
+  ./packages/cy/
+
+COPY --chown=node:node \
+  ./packages/data/package.json \
+  ./packages/data/
+
+COPY --chown=node:node \
+  ./packages/db-migrations/package.json \
+  ./packages/db-migrations/
+
+COPY --chown=node:node \
+  ./packages/hapi/package.json \
+  ./packages/hapi/
+
+COPY --chown=node:node \
+  ./packages/pg-promise/package.json \
+  ./packages/pg-promise/
+
+COPY --chown=node:node \
+  ./packages/svelte-commons/package.json \
+  ./packages/svelte-commons/
+
+COPY --chown=node:node \
+  ./packages/svelte/package.json \
+  ./packages/svelte/
+
+RUN yarn install --frozen-lockfile
+
+COPY --chown=node:node . .
+
+CMD ["/bin/bash"]

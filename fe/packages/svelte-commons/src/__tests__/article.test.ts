@@ -20,7 +20,7 @@ import { articleVal } from "./mocks/mock-utils";
 import { ArticleTag } from "@ta/cm/src/components/article.utils";
 
 let mockId = 0;
-jest.mock("@ta/cm/src/db/ulid-uuid", () => ({
+jest.mock("@ta/cm/src/ulid-uuid", () => ({
   newUlid: () => ++mockId + "",
 }));
 

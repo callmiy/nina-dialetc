@@ -18,7 +18,7 @@ describe("gen-compose", () => {
     jest.clearAllMocks();
   });
 
-  it("runs hello", async () => {
+  it("runs default args", async () => {
     await GenComposeCommand.run([]);
     expect(stdout.output).toContain("Success");
     expect(mockWriteFileSync.mock.calls[0][1]).toBe(fileName);

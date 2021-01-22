@@ -1,4 +1,4 @@
-import { listCurrencies } from "@ta/cm/src/db";
+import { listCurrencies } from "@ta/da/src/db";
 import { Connection } from "../db/types";
 import { resetDbForTest, cleanUpDbAfterTest } from "../api/utils";
 import {
@@ -6,7 +6,7 @@ import {
   createCurrenciesInsertSql,
   currencyEuroData,
   insertEuroValueSql,
-} from "@ta/cm/src/__tests__/utils";
+} from "@ta/da/src/__tests__/utils";
 
 let conn: Connection;
 

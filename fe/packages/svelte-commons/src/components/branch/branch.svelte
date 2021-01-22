@@ -8,7 +8,7 @@
     FORM_CONTAINS_ERRORS_MESSAGE,
     NOTHING_TO_SAVE_WARNING_MESSAGE,
   } from "@ta/cm/src/constants";
-  import { newUlid } from "@ta/cm/src/db/ulid-uuid";
+  import { newUlid } from "@ta/cm/src/ulid-uuid";
   import {
     branchAliasInputId,
     branchCityErrorId,

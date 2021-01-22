@@ -2,7 +2,7 @@
  * @jest-environment jest-environment-jsdom-sixteen
  */
 import { Props } from "@ta/cm/src/components/branch-utils";
-import { newUlid } from "@ta/cm/src/db/ulid-uuid";
+import { newUlid } from "@ta/cm/src/ulid-uuid";
 import {
   branchAliasInputId,
   branchCityErrorId,
@@ -24,7 +24,7 @@ import { fillFieldInput, getById } from "@ta/cm/src/__tests__/utils-dom";
 import { cleanup, render } from "@testing-library/svelte";
 import Branch from "../components/branch/branch.svelte";
 
-jest.mock("@ta/cm/src/db/ulid-uuid");
+jest.mock("@ta/cm/src/ulid-uuid");
 const mockNewUlid = newUlid as jest.Mock;
 
 describe("Shop branch svelte", () => {
