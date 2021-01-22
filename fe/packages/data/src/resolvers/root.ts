@@ -1,13 +1,20 @@
 import { DateResolver, DateTimeResolver } from "graphql-scalars";
+import { Resolvers } from "../schema-types";
 import { countryResolver } from "./country.resolver";
 import { currencyResolver } from "./currency.resolver";
+import { ownerResolver } from "./owner.resolver";
 
-export const rootResolvers = {
+export const rootResolvers: Resolvers = {
   Date: DateResolver,
   DateTime: DateTimeResolver,
 
   Query: {},
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-} as any;
+};
 
-export const resolvers = [rootResolvers, countryResolver, currencyResolver];
+export const resolvers = [
+  //
+  rootResolvers,
+  countryResolver,
+  currencyResolver,
+  ownerResolver,
+];
