@@ -1,9 +1,9 @@
 import { DbArg, Connection } from "../db/types";
-import { authsSqls } from "../sql";
+import { ownersSqls } from "../sql";
 import { testUtilsSqls } from "../sql";
 
-export async function emptyAuths(conn: DbArg) {
-  return await conn.none(authsSqls.empty);
+export async function emptyOwners(conn: DbArg) {
+  return await conn.none(ownersSqls.empty);
 }
 
 export async function resetDbForTest(conn: DbArg) {

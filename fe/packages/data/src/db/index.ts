@@ -1,4 +1,4 @@
-export { emptyAuths } from "@ta/pp/src/api/utils";
+export { emptyOwners } from "@ta/pp/src/api/utils";
 export {
   listCountries,
   listPostCodesFromCountriesIds,

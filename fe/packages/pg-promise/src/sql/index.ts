@@ -1,8 +1,8 @@
 import { QueryFile, IQueryFileOptions } from "pg-promise";
 import path from "path";
 
-export const authsSqls = {
-  empty: sql(`./empty-auths.sql`),
+export const ownersSqls = {
+  empty: sql(`./empty-owners.sql`),
 };
 
 export const countriesSql = {
