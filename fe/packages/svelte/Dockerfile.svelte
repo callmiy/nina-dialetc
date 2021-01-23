@@ -4,7 +4,8 @@ ARG NODE_ENV
 
 ENV \
 FRONTEND_APP="sv" \
-  NODE_ENV=$NODE_ENV
+  NODE_ENV=$NODE_ENV \
+  NINA_APP_NAME=svelte
 
 USER node
 

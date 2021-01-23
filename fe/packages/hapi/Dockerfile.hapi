@@ -4,7 +4,8 @@ ARG NODE_ENV
 
 ENV \
 BACKEND_APP="hp" \
-  NODE_ENV=$NODE_ENV
+  NODE_ENV=$NODE_ENV \
+  NINA_APP_NAME=hapi
 
 USER node
 

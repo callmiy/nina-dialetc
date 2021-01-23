@@ -61,7 +61,7 @@ function makePkgImage(imageName) {
       `ENV \\\n${envAlias}="${alias}"`,
       `  NODE_ENV=$NODE_ENV`,
       // `  INSTALL_NO_LOCK_FILE="yes"`,
-      `NINA_APP_NAME=${imageName}`,
+      `  NINA_APP_NAME=${imageName}`,
     ].join(joinSlashNewline),
 
     `USER node`,
