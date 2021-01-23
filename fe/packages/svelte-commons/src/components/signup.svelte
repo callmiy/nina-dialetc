@@ -40,67 +40,60 @@
 </style>
 
 <div id="{signupDomId}">
-  <div class="form-holder">
-    <form>
-      {#if errors}
-        {#each errors as error}
-          <div class="{`${signupErrorMsgSelector} error-msg`}">
-            <span> {error} </span>
-          </div>
-        {/each}
-      {/if}
-
-      <div class="field">
-        <label class="label" for="{signupEmailInputId}">
-          Shop brand name
-          <span>e.g. "edeka"</span>
-        </label>
-
-        <div class="control">
-          <input
-            id="{signupEmailInputId}"
-            class="input"
-            type="text"
-            bind:value="{email}"
-          />
-        </div>
+  {#if errors}
+    {#each errors as error}
+      <div class="{`${signupErrorMsgSelector} error-msg`}">
+        <span> {error} </span>
       </div>
+    {/each}
+  {/if}
 
-      <div class="field">
-        <label class="label" for="{signupPasswordInputId}"> Password </label>
+  <div class="field">
+    <label class="label" for="{signupEmailInputId}"> Email </label>
 
-        <div class="control">
-          <input
-            id="{signupPasswordInputId}"
-            class="input"
-            type="text"
-            bind:value="{password}"
-          />
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label" for="{signupRepeatPasswordInputId}">
-          Repeat Password
-        </label>
-
-        <div class="control">
-          <input
-            id="{signupRepeatPasswordInputId}"
-            class="input"
-            type="text"
-            bind:value="{repeatPassword}"
-          />
-        </div>
-      </div>
-
-      <button
-        id="{signupSubmitId}"
-        class="button is-success"
-        on:click|preventDefault="{submitFormCb}"
-      >
-        {signupSubmitLabel}
-      </button>
-    </form>
+    <div class="control">
+      <input
+        id="{signupEmailInputId}"
+        class="input"
+        type="text"
+        bind:value="{email}"
+      />
+    </div>
   </div>
+
+  <div class="field">
+    <label class="label" for="{signupPasswordInputId}"> Password </label>
+
+    <div class="control">
+      <input
+        id="{signupPasswordInputId}"
+        class="input"
+        type="text"
+        bind:value="{password}"
+      />
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label" for="{signupRepeatPasswordInputId}">
+      Repeat Password
+    </label>
+
+    <div class="control">
+      <input
+        id="{signupRepeatPasswordInputId}"
+        class="input"
+        type="text"
+        bind:value="{repeatPassword}"
+      />
+    </div>
+  </div>
+
+  <button
+    id="{signupSubmitId}"
+    class="button is-success"
+    on:click|preventDefault="{submitFormCb}"
+  >
+    {signupSubmitLabel}
+  </button>
 </div>
