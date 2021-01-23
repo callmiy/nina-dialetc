@@ -7,7 +7,7 @@ class GenDockerCommand extends Command {
   async run() {
     const { flags } = this.parse(GenDockerCommand);
 
-    const { verbose, app, apps, lang } = flags;
+    const { verbose, app, apps, lang = "js" } = flags;
     const dryRun = flags["dry-run"];
 
     const allApps = apps ? apps.split(/[,.]/) : [app];
