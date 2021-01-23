@@ -41,24 +41,23 @@ services:
       - "${API_PORT}:${API_PORT}"
     volumes:
       - "./fe:/home/node/app"
-      - "not_used_node_modules:/home/node/app/node_modules/"
-      - "not_used_netlify:/home/node/app/.netlify/"
-      - "not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
-      - "not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
-      - "not_used_cy_node_modules:/home/node/app/packages/cy/node_modules/"
-      - "not_used_db-migrations_node_modules:/home/node/app/packages/db-migrations/node_modules/"
-      - "not_used_data_node_modules:/home/node/app/packages/data/node_modules/"
-      - "not_used_data_coverage:/home/node/app/packages/data/coverage/"
-      - "not_used_hapi_node_modules:/home/node/app/packages/hapi/node_modules/"
-      - "not_used_hapi_coverage:/home/node/app/packages/hapi/coverage/"
-      - "not_used_hapi_build:/home/node/app/packages/hapi/build/"
-      - "not_used_pg-promise_node_modules:/home/node/app/packages/pg-promise/node_modules/"
-      - "not_used_pg-promise_coverage:/home/node/app/packages/pg-promise/coverage/"
-      - "not_used_svelte-commons_node_modules:/home/node/app/packages/svelte-commons/node_modules/"
-      - "not_used_svelte-commons_coverage:/home/node/app/packages/svelte-commons/coverage/"
-      - "not_used_svelte_node_modules:/home/node/app/packages/svelte/node_modules/"
-      - "not_used_svelte_coverage:/home/node/app/packages/svelte/coverage/"
-      - "not_used_svelte_build:/home/node/app/packages/svelte/build/"
+      - "all_not_used_node_modules:/home/node/app/node_modules/"
+      - "all_not_used_netlify:/home/node/app/.netlify/"
+      - "all_not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
+      - "all_not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
+      - "all_not_used_data_node_modules:/home/node/app/packages/data/node_modules/"
+      - "all_not_used_data_coverage:/home/node/app/packages/data/coverage/"
+      - "all_not_used_db-migrations_node_modules:/home/node/app/packages/db-migrations/node_modules/"
+      - "all_not_used_hapi_node_modules:/home/node/app/packages/hapi/node_modules/"
+      - "all_not_used_hapi_coverage:/home/node/app/packages/hapi/coverage/"
+      - "all_not_used_hapi_build:/home/node/app/packages/hapi/build/"
+      - "all_not_used_pg-promise_node_modules:/home/node/app/packages/pg-promise/node_modules/"
+      - "all_not_used_pg-promise_coverage:/home/node/app/packages/pg-promise/coverage/"
+      - "all_not_used_svelte-commons_node_modules:/home/node/app/packages/svelte-commons/node_modules/"
+      - "all_not_used_svelte-commons_coverage:/home/node/app/packages/svelte-commons/coverage/"
+      - "all_not_used_svelte_node_modules:/home/node/app/packages/svelte/node_modules/"
+      - "all_not_used_svelte_build:/home/node/app/packages/svelte/build/"
+      - "all_not_used_cy:/home/node/app/packages/cy/"
   js-hapi:
     build:
       context: ./fe/packages/hapi
@@ -76,27 +75,21 @@ services:
       - "${API_PORT}:${API_PORT}"
     volumes:
       - "./fe:/home/node/app"
-      - "not_used_node_modules:/home/node/app/node_modules/"
-      - "not_used_netlify:/home/node/app/.netlify/"
-      - "not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
-      - "not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
-      - "not_used_cy_node_modules:/home/node/app/packages/cy/node_modules/"
-      - "not_used_db-migrations_node_modules:/home/node/app/packages/db-migrations/node_modules/"
-      - "not_used_data_node_modules:/home/node/app/packages/data/node_modules/"
-      - "not_used_data_coverage:/home/node/app/packages/data/coverage/"
-      - "not_used_hapi_node_modules:/home/node/app/packages/hapi/node_modules/"
-      - "not_used_hapi_coverage:/home/node/app/packages/hapi/coverage/"
-      - "not_used_hapi_build:/home/node/app/packages/hapi/build/"
-      - "not_used_pg-promise_node_modules:/home/node/app/packages/pg-promise/node_modules/"
-      - "not_used_pg-promise_coverage:/home/node/app/packages/pg-promise/coverage/"
-      - "not_used_svelte-commons_node_modules:/home/node/app/packages/svelte-commons/node_modules/"
-      - "not_used_svelte-commons_coverage:/home/node/app/packages/svelte-commons/coverage/"
-      - "not_used_svelte_node_modules:/home/node/app/packages/svelte/node_modules/"
-      - "not_used_svelte_coverage:/home/node/app/packages/svelte/coverage/"
-      - "not_used_svelte_build:/home/node/app/packages/svelte/build/"
-      - "not_used_cy:/home/node/app/packages/cy/"
-      - "not_used_svelte-commons:/home/node/app/packages/svelte-commons/"
-      - "not_used_svelte:/home/node/app/packages/svelte/"
+      - "hapi_not_used_node_modules:/home/node/app/node_modules/"
+      - "hapi_not_used_netlify:/home/node/app/.netlify/"
+      - "hapi_not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
+      - "hapi_not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
+      - "hapi_not_used_data_node_modules:/home/node/app/packages/data/node_modules/"
+      - "hapi_not_used_data_coverage:/home/node/app/packages/data/coverage/"
+      - "hapi_not_used_db-migrations_node_modules:/home/node/app/packages/db-migrations/node_modules/"
+      - "hapi_not_used_hapi_node_modules:/home/node/app/packages/hapi/node_modules/"
+      - "hapi_not_used_hapi_coverage:/home/node/app/packages/hapi/coverage/"
+      - "hapi_not_used_hapi_build:/home/node/app/packages/hapi/build/"
+      - "hapi_not_used_pg-promise_node_modules:/home/node/app/packages/pg-promise/node_modules/"
+      - "hapi_not_used_pg-promise_coverage:/home/node/app/packages/pg-promise/coverage/"
+      - "hapi_not_used_cy:/home/node/app/packages/cy/"
+      - "hapi_not_used_svelte-commons:/home/node/app/packages/svelte-commons/"
+      - "hapi_not_used_svelte:/home/node/app/packages/svelte/"
   js-svelte:
     build:
       context: ./fe/packages/svelte
@@ -112,51 +105,62 @@ services:
       - "${WEB_PORT}:${WEB_PORT}"
     volumes:
       - "./fe:/home/node/app"
-      - "not_used_node_modules:/home/node/app/node_modules/"
-      - "not_used_netlify:/home/node/app/.netlify/"
-      - "not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
-      - "not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
-      - "not_used_cy_node_modules:/home/node/app/packages/cy/node_modules/"
-      - "not_used_db-migrations_node_modules:/home/node/app/packages/db-migrations/node_modules/"
-      - "not_used_data_node_modules:/home/node/app/packages/data/node_modules/"
-      - "not_used_data_coverage:/home/node/app/packages/data/coverage/"
-      - "not_used_hapi_node_modules:/home/node/app/packages/hapi/node_modules/"
-      - "not_used_hapi_coverage:/home/node/app/packages/hapi/coverage/"
-      - "not_used_hapi_build:/home/node/app/packages/hapi/build/"
-      - "not_used_pg-promise_node_modules:/home/node/app/packages/pg-promise/node_modules/"
-      - "not_used_pg-promise_coverage:/home/node/app/packages/pg-promise/coverage/"
-      - "not_used_svelte-commons_node_modules:/home/node/app/packages/svelte-commons/node_modules/"
-      - "not_used_svelte-commons_coverage:/home/node/app/packages/svelte-commons/coverage/"
-      - "not_used_svelte_node_modules:/home/node/app/packages/svelte/node_modules/"
-      - "not_used_svelte_coverage:/home/node/app/packages/svelte/coverage/"
-      - "not_used_svelte_build:/home/node/app/packages/svelte/build/"
-      - "not_used_db-migrations:/home/node/app/packages/db-migrations/"
-      - "not_used_data:/home/node/app/packages/data/"
-      - "not_used_hapi:/home/node/app/packages/hapi/"
-      - "not_used_pg-promise:/home/node/app/packages/pg-promise/"
+      - "svelte_not_used_node_modules:/home/node/app/node_modules/"
+      - "svelte_not_used_netlify:/home/node/app/.netlify/"
+      - "svelte_not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
+      - "svelte_not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
+      - "svelte_not_used_svelte-commons_node_modules:/home/node/app/packages/svelte-commons/node_modules/"
+      - "svelte_not_used_svelte-commons_coverage:/home/node/app/packages/svelte-commons/coverage/"
+      - "svelte_not_used_svelte_node_modules:/home/node/app/packages/svelte/node_modules/"
+      - "svelte_not_used_svelte_build:/home/node/app/packages/svelte/build/"
+      - "svelte_not_used_cy:/home/node/app/packages/cy/"
+      - "svelte_not_used_data:/home/node/app/packages/data/"
+      - "svelte_not_used_db-migrations:/home/node/app/packages/db-migrations/"
+      - "svelte_not_used_hapi:/home/node/app/packages/hapi/"
+      - "svelte_not_used_pg-promise:/home/node/app/packages/pg-promise/"
 volumes:
-  not_used_node_modules:
-  not_used_netlify:
-  not_used_commons_node_modules:
-  not_used_commons_coverage:
-  not_used_cy_node_modules:
-  not_used_cy:
-  not_used_db-migrations_node_modules:
-  not_used_db-migrations:
-  not_used_data_node_modules:
-  not_used_data_coverage:
-  not_used_data:
-  not_used_hapi_node_modules:
-  not_used_hapi_coverage:
-  not_used_hapi_build:
-  not_used_hapi:
-  not_used_pg-promise_node_modules:
-  not_used_pg-promise_coverage:
-  not_used_pg-promise:
-  not_used_svelte-commons_node_modules:
-  not_used_svelte-commons_coverage:
-  not_used_svelte-commons:
-  not_used_svelte_node_modules:
-  not_used_svelte_coverage:
-  not_used_svelte_build:
-  not_used_svelte:
+  all_not_used_node_modules:
+  all_not_used_netlify:
+  all_not_used_commons_node_modules:
+  all_not_used_commons_coverage:
+  all_not_used_data_node_modules:
+  all_not_used_data_coverage:
+  all_not_used_db-migrations_node_modules:
+  all_not_used_hapi_node_modules:
+  all_not_used_hapi_coverage:
+  all_not_used_hapi_build:
+  all_not_used_pg-promise_node_modules:
+  all_not_used_pg-promise_coverage:
+  all_not_used_svelte-commons_node_modules:
+  all_not_used_svelte-commons_coverage:
+  all_not_used_svelte_node_modules:
+  all_not_used_svelte_build:
+  all_not_used_cy:
+  hapi_not_used_node_modules:
+  hapi_not_used_netlify:
+  hapi_not_used_commons_node_modules:
+  hapi_not_used_commons_coverage:
+  hapi_not_used_data_node_modules:
+  hapi_not_used_data_coverage:
+  hapi_not_used_db-migrations_node_modules:
+  hapi_not_used_hapi_node_modules:
+  hapi_not_used_hapi_coverage:
+  hapi_not_used_hapi_build:
+  hapi_not_used_pg-promise_node_modules:
+  hapi_not_used_pg-promise_coverage:
+  hapi_not_used_cy:
+  hapi_not_used_svelte-commons:
+  hapi_not_used_svelte:
+  svelte_not_used_node_modules:
+  svelte_not_used_netlify:
+  svelte_not_used_commons_node_modules:
+  svelte_not_used_commons_coverage:
+  svelte_not_used_svelte-commons_node_modules:
+  svelte_not_used_svelte-commons_coverage:
+  svelte_not_used_svelte_node_modules:
+  svelte_not_used_svelte_build:
+  svelte_not_used_cy:
+  svelte_not_used_data:
+  svelte_not_used_db-migrations:
+  svelte_not_used_hapi:
+  svelte_not_used_pg-promise:

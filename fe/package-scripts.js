@@ -48,10 +48,6 @@ function frontendApp() {
     alias: "sv",
   };
 
-  appsMap.cy = {
-    alias: "cy",
-  };
-
   appsMap["svelte-commons"] = {
     alias: "sc",
   };
@@ -68,6 +64,11 @@ if (BACKEND_APP) {
 } else {
   frontendApp();
   backendApps();
+
+  appsMap.cy = {
+    alias: "cy",
+  };
+
   const clientAppAlias = appsMap[clientApp].alias;
   if (apiApp) {
     devAppsCommands = `"yarn start ${appsMap[apiApp].alias}.d" `;
