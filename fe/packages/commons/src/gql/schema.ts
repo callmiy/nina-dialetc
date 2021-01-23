@@ -160,10 +160,10 @@ export const typeDefs = gql`
   }
 
   type Query {
-    listCountries(paginationInput: PaginationInput!): CountryConnection!
+    listCountries(paginationInput: PaginationInput!): CountryConnection
     listCurrencies: [Currency]!
-    listBranches(paginationInput: PaginationInput!): BranchConnection!
-    listBrands(paginationInput: PaginationInput!): BrandConnection!
+    listBranches(paginationInput: PaginationInput!): BranchConnection
+    listBrands(paginationInput: PaginationInput!): BrandConnection
   }
 
   type Mutation {
