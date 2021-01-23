@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Shopping from "@ta/sc/src/components/shopping/shopping.svelte";
   import Router from "svelte-spa-router";
   import { routes } from "./routes";
 </script>
@@ -14,5 +13,4 @@
 
 <div class="main-layout">
   <Router routes="{routes}" />
-  <Shopping />
 </div>
