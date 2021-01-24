@@ -1,5 +1,7 @@
 const preprocess = require("svelte-preprocess");
 
 module.exports = {
-  preprocess: preprocess(),
+  preprocess: preprocess({
+    scss: false // svelte tests wouldn't run without this
+  }),
 };

@@ -10,7 +10,6 @@
     "start": "nps"
   },
   "dependencies": {
-    "bulma": "0.9.1",
     "cross-fetch": "3.0.6",
     "graphql-scalars": "1.5.0",
     "id128": "1.6.3"
@@ -19,11 +18,16 @@
     "@apollo/client": "3.2.9",
     "@testing-library/svelte": "3.0.0",
     "apollo": "2.31.1",
+    "autoprefixer": "10.2.3",
     "msw": "0.25.0",
     "nps": "5.10.0",
+    "postcss": "8.2.4",
+    "postcss-load-config": "3.0.0",
+    "postcss-loader": "4.2.0",
+    "postcss-nesting": "7.0.1",
     "prettier": "2.1.2",
-    "sass": "1.29.0",
     "shelljs": "0.8.4",
+    "tailwindcss": "2.0.2",
     "typescript": "4.0.5"
   }
 }

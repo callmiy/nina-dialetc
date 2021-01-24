@@ -3,11 +3,10 @@
   import { routes } from "./routes";
 </script>
 
-<style lang="scss" global>
-  @import "../../commons/src/styles/extensions";
-
+<style lang="postcss" global>
   .main-layout {
-    @extend %main-layout;
+    /* @extend %main-layout; */
+    display: block;
   }
 </style>
 

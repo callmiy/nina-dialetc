@@ -28,9 +28,7 @@
   }
 </script>
 
-<style lang="scss">
-  @import "../../../commons/src/styles/extensions";
-
+<style lang="postcss">
   .error-msg {
     display: flex;
     align-items: center;

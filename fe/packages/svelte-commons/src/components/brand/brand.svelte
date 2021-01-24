@@ -173,20 +173,19 @@
   }
 </script>
 
-<style lang="scss">
-  @import "../../../../commons/src/styles/extensions";
-
+<style lang="postcss">
   .modal {
-    @extend %modal;
+    display: block;
+    /* @extend %modal; */
   }
 
   .brand-loading-container {
     display: flex;
 
-    :global(.brand-spinner) {
-      top: -3px;
-      margin-left: 35px;
-    }
+    /* :global(.brand-spinner) { */
+    /*   top: -3px; */
+    /*   margin-left: 35px; */
+    /* } */
   }
 </style>
 

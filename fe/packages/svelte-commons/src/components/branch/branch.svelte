@@ -136,11 +136,10 @@
   }
 </script>
 
-<style lang="scss">
-  @import "../../../../commons/src/styles/extensions";
-
+<style lang="postcss">
   .modal {
-    @extend %modal;
+    display: block;
+    /* @extend %modal; */
   }
 </style>
 

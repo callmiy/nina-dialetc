@@ -1,6 +1,6 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const sveltePreprocess = require("svelte-preprocess");
+const sveltePreprocess = require("../../svelte.config");
 const { DefinePlugin } = require("webpack");
 
 const mode = process.env.NODE_ENV || "development";
@@ -15,9 +15,8 @@ const sourceMapsInProduction = false;
 const config = {
   entry: {
     bundle: [
+      "../commons/src/styles/globals.css",
       "./src/main.ts",
-      // "../../node_modules/bulma/bulma.sass",
-      "../commons/src/styles/globals.scss",
     ],
   },
   resolve: {
@@ -43,29 +42,9 @@ const config = {
           options: {
             emitCss: true,
             hotReload: true,
-            preprocess: sveltePreprocess({
-              defaults: {
-                style: "scss",
-              },
-            }),
+            preprocess: sveltePreprocess.preprocess,
           },
         },
-      },
-      {
-        test: /\.(scss|sass)$/,
-        use: [
-          // slow recompilation: will enable when hrm lands in svelte-loader
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: !prod,
-              sourceMap: !prod || sourceMapsInProduction,
-            },
-          },
-          // prod ? MiniCssExtractPlugin.loader : "style-loader",
-          "css-loader",
-          "sass-loader",
-        ],
       },
       {
         test: /\.css$/,
@@ -80,6 +59,7 @@ const config = {
           },
           // prod ? MiniCssExtractPlugin.loader : "style-loader",
           "css-loader",
+          "postcss-loader",
         ],
       },
       {
