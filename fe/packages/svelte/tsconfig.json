@@ -3,5 +3,5 @@
   "compilerOptions": {
     "types": ["svelte", "node"]
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "../commons/src/**/*", "../svelte-commons/src/**/*"]
 }

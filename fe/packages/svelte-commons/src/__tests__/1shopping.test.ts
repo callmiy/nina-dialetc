@@ -2,6 +2,7 @@
  * @jest-environment jest-environment-jsdom-sixteen
  */
 import { getBranches } from "@ta/cm/src/apollo/get-branches";
+import { getBrands } from "@ta/cm/src/apollo/get-brands";
 import {
   ADD_ARTICLE_LABEL_HELP_TEXT,
   ADD_ARTICLE_LABEL_TEXT,
@@ -66,20 +67,27 @@ jest.mock("../components/lazies/article.lazy", () => {
 });
 
 jest.mock("@ta/cm/src/apollo/get-branches");
+jest.mock("@ta/cm/src/apollo/get-brands");
 
+const mockGetBrands = getBrands as jest.Mock;
 const mockGetBranches = getBranches as jest.Mock;
 
 describe("Shopping.svelte simple", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+
+    mockGetBranches.mockResolvedValue({
+      value: StateValue.loading,
+    } as BranchState);
+
+    mockGetBrands.mockResolvedValue({
+      value: StateValue.loading,
+    } as BranchState);
   });
 
   afterEach(() => {
     cleanup();
     resetBranchesStore();
-    mockGetBranches.mockResolvedValue({
-      value: StateValue.loading,
-    } as BranchState);
   });
 
   it(`changes brand buttons labels and help texts`, async (done) => {

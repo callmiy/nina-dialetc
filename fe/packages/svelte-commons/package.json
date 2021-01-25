@@ -40,12 +40,12 @@
     "prettier-plugin-svelte": "1.4.0",
     "react-app-polyfill": "2.0.0",
     "sort-package-json": "1.48.0",
-    "svelte": "3.29.7",
-    "svelte-check": "1.0.0",
+    "svelte": "3.31.2",
+    "svelte-check": "1.1.28",
     "svelte-jester": "1.3.0",
-    "svelte-preprocess": "4.6.1",
+    "svelte-preprocess": "4.6.3",
     "tailwindcss": "2.0.2",
     "tslib": "2.0.0",
-    "typescript": "3.9.3"
+    "typescript": "4.1.3"
   }
 }

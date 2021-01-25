@@ -15,6 +15,7 @@ const sourceMapsInProduction = false;
 const config = {
   entry: {
     bundle: [
+      //
       "../commons/src/styles/globals.css",
       "./src/main.ts",
     ],
@@ -22,8 +23,6 @@ const config = {
   resolve: {
     alias: {
       svelte: path.resolve("../../node_modules", "svelte"),
-      "@ta/cm": path.resolve("../commons"),
-      "@ta/sc": path.resolve("../svelte-commons"),
     },
     extensions: [".mjs", ".js", ".svelte", ".ts"],
     mainFields: ["svelte", "browser", "module", "main"],
@@ -38,10 +37,17 @@ const config = {
       {
         test: /\.svelte$/,
         use: {
-          loader: "svelte-loader",
+          loader: "svelte-loader-hot",
           options: {
-            emitCss: true,
-            hotReload: true,
+            dev: !prod,
+            emitCss: prod,
+            hotReload: !prod,
+            hotOptions: {
+              // List of options and defaults:
+              // https://www.npmjs.com/package/svelte-loader-hot#usage
+              noPreserveState: false,
+              optimistic: true,
+            },
             preprocess: sveltePreprocess.preprocess,
           },
         },
@@ -57,7 +63,6 @@ const config = {
               sourceMap: !prod || sourceMapsInProduction,
             },
           },
-          // prod ? MiniCssExtractPlugin.loader : "style-loader",
           "css-loader",
           "postcss-loader",
         ],
@@ -110,6 +115,60 @@ const config = {
     }),
   ],
   devtool: prod ? false : "source-map",
+  devServer: {
+    hot: true,
+    stats: "minimal",
+    contentBase: "public",
+    watchContentBase: true,
+  },
+  optimization: {
+    minimizer: [],
+  },
 };
+
+if (prod) {
+  const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
+  const { TerserPlugin } = require(' "terser-webpack-plugin"');
+
+  const {
+    OptimizeCSSAssetsPlugin,
+  } = require("optimize-css-assets-webpack-plugin");
+
+  // Clean the build directory for production builds
+  config.plugins?.push(new CleanWebpackPlugin());
+
+  // Minify CSS
+  config.optimization?.minimizer?.push(
+    new OptimizeCSSAssetsPlugin({
+      cssProcessorOptions: {
+        map: sourceMapsInProduction
+          ? {
+              inline: false,
+              annotation: true,
+            }
+          : false,
+      },
+      cssProcessorPluginOptions: {
+        preset: [
+          "default",
+          {
+            discardComments: {
+              removeAll: !sourceMapsInProduction,
+            },
+          },
+        ],
+      },
+    })
+  );
+
+  // Minify and treeshake JS
+  config.optimization?.minimizer?.push(
+    new TerserPlugin({
+      sourceMap: sourceMapsInProduction,
+      extractComments: false,
+    })
+  );
+}
 
 module.exports = config;
