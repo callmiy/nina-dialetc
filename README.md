@@ -56,6 +56,7 @@ on the command line
 | commons        |  cm   |
 | cy             |  cy   |
 | db-migrations  |  dm   |
+| data           |  da   |
 | hapi           |  hp   |
 | pg-promise     |  pp   |
 | svelte-commons |  sc   |
@@ -69,7 +70,7 @@ yarn start sc.test
 
 ### Integration and unit tests
 
-It is most convenient to test `packages` (`pg-promise` and `commons`) that
+It is most convenient to test `packages` (`pg-promise` and `data`) that
 need the database inside docker
 
 Set up environment variables
@@ -87,13 +88,13 @@ docker-compose exec js-hapi bash
 Inside docker
 
 ```
-tests=cm.pp yarn start tests
+tests=da.pp yarn start tests
 ```
 
 However you may test all `packages` inside docker
 
 ```
-tests=cm.pp,sc yarn start tests
+tests=cm.pp,sc,da yarn start tests
 ```
 
 The `tests` environment variable determines tests for which packages will
