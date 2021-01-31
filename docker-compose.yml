@@ -5,42 +5,42 @@ services:
     ports:
       - "${DOCKER_HOST_DATABASE_PORT}:5432"
     environment:
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "${DATABASE_NAME}"
     volumes:
       - "./docker/data/postgres-${COMPOSE_PROJECT_NAME}:/var/lib/postgresql/data"
   js-base:
     build:
-      context: ./fe
-      dockerfile: Dockerfile.base
+      context: "./js"
+      dockerfile: "Dockerfile.base"
       args:
         NODE_ENV: "${NODE_ENV}"
-    image: nina-js-base
+    image: "nina-js-base"
     env_file: "${DOCKER_ENV_FILE}"
-    user: node
+    user: "node"
   js-commons:
     build:
-      context: ./fe
-      dockerfile: Dockerfile.commons
+      context: "./js"
+      dockerfile: "Dockerfile.commons"
       args:
         NODE_ENV: "${NODE_ENV}"
-    image: nina-js-commons
+    image: "nina-js-commons"
     env_file: "${DOCKER_ENV_FILE}"
-    user: node
+    user: "node"
   js-all:
     stdin_open: true
-    image: nina-js-all
+    image: "nina-js-all"
     entrypoint:
-      - /usr/local/bin/entrypoint.sh
+      - "/usr/local/bin/entrypoint.sh"
     depends_on:
-      - db
+      - "db"
     env_file: "${DOCKER_ENV_FILE}"
-    user: node
+    user: "node"
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
       - "${API_PORT}:${API_PORT}"
     volumes:
-      - "./fe:/home/node/app"
+      - "./js:/home/node/app"
       - "all_not_used_node_modules:/home/node/app/node_modules/"
       - "all_not_used_netlify:/home/node/app/.netlify/"
       - "all_not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
@@ -60,21 +60,21 @@ services:
       - "all_not_used_cy:/home/node/app/packages/cy/"
   js-hapi:
     build:
-      context: ./fe/packages/hapi
-      dockerfile: Dockerfile.hapi
+      context: "./js/packages/hapi"
+      dockerfile: "Dockerfile.hapi"
       args:
         NODE_ENV: "${NODE_ENV}"
     image: "nina-js-hapi-${NODE_ENV}"
     entrypoint:
-      - /usr/local/bin/entrypoint.sh
+      - "/usr/local/bin/entrypoint.sh"
     depends_on:
-      - db
+      - "db"
     env_file: "${DOCKER_ENV_FILE}"
-    user: node
+    user: "node"
     ports:
       - "${API_PORT}:${API_PORT}"
     volumes:
-      - "./fe:/home/node/app"
+      - "./js:/home/node/app"
       - "hapi_not_used_node_modules:/home/node/app/node_modules/"
       - "hapi_not_used_netlify:/home/node/app/.netlify/"
       - "hapi_not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
@@ -92,19 +92,19 @@ services:
       - "hapi_not_used_svelte:/home/node/app/packages/svelte/"
   js-svelte:
     build:
-      context: ./fe/packages/svelte
-      dockerfile: Dockerfile.svelte
+      context: "./js/packages/svelte"
+      dockerfile: "Dockerfile.svelte"
       args:
         NODE_ENV: "${NODE_ENV}"
     image: "nina-js-svelte-${NODE_ENV}"
     entrypoint:
-      - /usr/local/bin/entrypoint.sh
+      - "/usr/local/bin/entrypoint.sh"
     env_file: "${DOCKER_ENV_FILE}"
-    user: node
+    user: "node"
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
     volumes:
-      - "./fe:/home/node/app"
+      - "./js:/home/node/app"
       - "svelte_not_used_node_modules:/home/node/app/node_modules/"
       - "svelte_not_used_netlify:/home/node/app/.netlify/"
       - "svelte_not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
