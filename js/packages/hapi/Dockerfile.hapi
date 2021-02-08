@@ -1,59 +1,103 @@
-FROM nina-js-commons
+FROM node:14.15.3-buster-slim AS web
 
 ARG NODE_ENV
 
-ENV \
-BACKEND_APP="hp" \
+ENV BUILD_DEPS="build-essential" \
+  APP_DEPS="curl iputils-ping" \
   NODE_ENV=$NODE_ENV \
-  NINA_APP_NAME=hapi
+  NINA_APP_NAME=hapi \
+  BACKEND_APP="hp"
+
+COPY \
+  --from=nina-js-base --chown=node:node \
+  /nina-app/wait-until \
+  /usr/local/bin
+
+COPY \
+  --from=nina-js-base --chown=node:node \
+  /nina-app/entrypoint.sh \
+  /usr/local/bin
+
+RUN \
+  mkdir -p /home/node/app/node_modules &&  \
+  mkdir -p /home/node/app/packages/commons/node_modules &&  \
+  mkdir -p /home/node/app/packages/data/node_modules &&  \
+  mkdir -p /home/node/app/packages/db-migrations/node_modules &&  \
+  mkdir -p /home/node/app/packages/hapi/node_modules &&  \
+  mkdir -p /home/node/app/packages/pg-promise/node_modules &&  \
+  chown -R node:node /home/node/app && \
+  chmod 755 /usr/local/bin/entrypoint.sh && \
+  chmod 755 /usr/local/bin/wait-until && \
+  # Create react app inotify issue
+  [ $NODE_ENV != "production" ] && \
+    echo fs.inotify.max_user_watches=524288 \
+      | tee -a /etc/sysctl.conf && \
+  apt-get update &&  \
+  apt-get install -y --no-install-recommends ${BUILD_DEPS} &&  \
+  [ $NODE_ENV != "production" ] &&  \
+    apt-get install -y --no-install-recommends ${APP_DEPS} &&  \
+  rm -rf /var/lib/apt/lists/* &&  \
+  rm -rf /usr/share/doc && rm -rf /usr/share/man &&  \
+  apt-get purge -y --auto-remove ${BUILD_DEPS} &&  \
+  apt-get clean
 
 USER node
 
 WORKDIR /home/node/app
 
-# COMMONS
-COPY --from=nina-js-base --chown=node:node \
-  /home/node/app/packages/commons/node_modules \
-  ./packages/commons/node_modules
+######### ROOT FILES ##########
+COPY \
+  --from=nina-js-base --chown=node:node \
+  /nina-app/.yarnrc \
+  /nina-app/jest.config.js \
+  /nina-app/package-scripts.js \
+  /nina-app/package.json \
+  /nina-app/postcss.config.js \
+  /nina-app/svelte.config.js \
+  /nina-app/yarn.lock \
+  ./
 
-COPY --from=nina-js-base --chown=node:node \
-  /home/node/app/packages/commons \
-  ./packages/commons
+########## SHARED FOLDER 1 ##########
+COPY \
+  --from=nina-js-base --chown=node:node  \
+  /nina-app/js-commons \
+  ./js-commons/
 
-# DATA
-COPY --from=nina-js-base --chown=node:node \
-  /home/node/app/packages/data/node_modules \
-  ./packages/data/node_modules
+####### COMMONS #########
+COPY \
+  --from=nina-js-base --chown=node:node \
+  /nina-app/packages/commons \
+  ./packages/commons/
+######## END COMMONS ########
 
-COPY --from=nina-js-base --chown=node:node \
-  /home/node/app/packages/data \
-  ./packages/data
+####### DATA #########
+COPY \
+  --from=nina-js-base --chown=node:node \
+  /nina-app/packages/data \
+  ./packages/data/
+######## END DATA ########
 
-# DB-MIGRATIONS
-COPY --from=nina-js-base --chown=node:node \
-  /home/node/app/packages/db-migrations/node_modules \
-  ./packages/db-migrations/node_modules
+####### DB-MIGRATIONS #########
+COPY \
+  --from=nina-js-base --chown=node:node \
+  /nina-app/packages/db-migrations \
+  ./packages/db-migrations/
+######## END DB-MIGRATIONS ########
 
-COPY --from=nina-js-base --chown=node:node \
-  /home/node/app/packages/db-migrations \
-  ./packages/db-migrations
+####### HAPI #########
+COPY \
+  --from=nina-js-base --chown=node:node \
+  /nina-app/packages/hapi \
+  ./packages/hapi/
+######## END HAPI ########
 
-# HAPI
-COPY --from=nina-js-base --chown=node:node \
-  /home/node/app/packages/hapi/node_modules \
-  ./packages/hapi/node_modules
+####### PG-PROMISE #########
+COPY \
+  --from=nina-js-base --chown=node:node \
+  /nina-app/packages/pg-promise \
+  ./packages/pg-promise/
+######## END PG-PROMISE ########
 
-COPY --from=nina-js-base --chown=node:node \
-  /home/node/app/packages/hapi \
-  ./packages/hapi
-
-# PG-PROMISE
-COPY --from=nina-js-base --chown=node:node \
-  /home/node/app/packages/pg-promise/node_modules \
-  ./packages/pg-promise/node_modules
-
-COPY --from=nina-js-base --chown=node:node \
-  /home/node/app/packages/pg-promise \
-  ./packages/pg-promise
+RUN yarn install --frozen-lockfile
 
 CMD ["/bin/bash"]

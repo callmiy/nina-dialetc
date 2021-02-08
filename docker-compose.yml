@@ -13,51 +13,8 @@ services:
     build:
       context: "./js"
       dockerfile: "Dockerfile.base"
-      args:
-        NODE_ENV: "${NODE_ENV}"
     image: "nina-js-base"
     env_file: "${DOCKER_ENV_FILE}"
-    user: "node"
-  js-commons:
-    build:
-      context: "./js"
-      dockerfile: "Dockerfile.commons"
-      args:
-        NODE_ENV: "${NODE_ENV}"
-    image: "nina-js-commons"
-    env_file: "${DOCKER_ENV_FILE}"
-    user: "node"
-  js-all:
-    stdin_open: true
-    image: "nina-js-all"
-    entrypoint:
-      - "/usr/local/bin/entrypoint.sh"
-    depends_on:
-      - "db"
-    env_file: "${DOCKER_ENV_FILE}"
-    user: "node"
-    ports:
-      - "${WEB_PORT}:${WEB_PORT}"
-      - "${API_PORT}:${API_PORT}"
-    volumes:
-      - "./js:/home/node/app"
-      - "all_not_used_node_modules:/home/node/app/node_modules/"
-      - "all_not_used_netlify:/home/node/app/.netlify/"
-      - "all_not_used_commons_node_modules:/home/node/app/packages/commons/node_modules/"
-      - "all_not_used_commons_coverage:/home/node/app/packages/commons/coverage/"
-      - "all_not_used_data_node_modules:/home/node/app/packages/data/node_modules/"
-      - "all_not_used_data_coverage:/home/node/app/packages/data/coverage/"
-      - "all_not_used_db-migrations_node_modules:/home/node/app/packages/db-migrations/node_modules/"
-      - "all_not_used_hapi_node_modules:/home/node/app/packages/hapi/node_modules/"
-      - "all_not_used_hapi_coverage:/home/node/app/packages/hapi/coverage/"
-      - "all_not_used_hapi_build:/home/node/app/packages/hapi/build/"
-      - "all_not_used_pg-promise_node_modules:/home/node/app/packages/pg-promise/node_modules/"
-      - "all_not_used_pg-promise_coverage:/home/node/app/packages/pg-promise/coverage/"
-      - "all_not_used_svelte-commons_node_modules:/home/node/app/packages/svelte-commons/node_modules/"
-      - "all_not_used_svelte-commons_coverage:/home/node/app/packages/svelte-commons/coverage/"
-      - "all_not_used_svelte_node_modules:/home/node/app/packages/svelte/node_modules/"
-      - "all_not_used_svelte_build:/home/node/app/packages/svelte/build/"
-      - "all_not_used_cy:/home/node/app/packages/cy/"
   js-hapi:
     build:
       context: "./js/packages/hapi"
@@ -119,23 +76,6 @@ services:
       - "svelte_not_used_hapi:/home/node/app/packages/hapi/"
       - "svelte_not_used_pg-promise:/home/node/app/packages/pg-promise/"
 volumes:
-  all_not_used_node_modules:
-  all_not_used_netlify:
-  all_not_used_commons_node_modules:
-  all_not_used_commons_coverage:
-  all_not_used_data_node_modules:
-  all_not_used_data_coverage:
-  all_not_used_db-migrations_node_modules:
-  all_not_used_hapi_node_modules:
-  all_not_used_hapi_coverage:
-  all_not_used_hapi_build:
-  all_not_used_pg-promise_node_modules:
-  all_not_used_pg-promise_coverage:
-  all_not_used_svelte-commons_node_modules:
-  all_not_used_svelte-commons_coverage:
-  all_not_used_svelte_node_modules:
-  all_not_used_svelte_build:
-  all_not_used_cy:
   hapi_not_used_node_modules:
   hapi_not_used_netlify:
   hapi_not_used_commons_node_modules:

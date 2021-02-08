@@ -1,75 +1,134 @@
-FROM node:14.15.3-buster-slim AS web
+FROM busybox:1.33.0
 
-ARG NODE_ENV
-
-ENV BUILD_DEPS="build-essential" \
-  APP_DEPS="curl iputils-ping" \
-  NODE_ENV=$NODE_ENV
-
-COPY ./entrypoint.sh /usr/local/bin
+RUN \
+  mkdir -p /nina-app &&  \
+  mkdir -p /nina-app/js-commons &&  \
+  mkdir -p /nina-app/packages/commons &&  \
+  mkdir -p /nina-app/packages/cy &&  \
+  mkdir -p /nina-app/packages/data &&  \
+  mkdir -p /nina-app/packages/db-migrations &&  \
+  mkdir -p /nina-app/packages/hapi &&  \
+  mkdir -p /nina-app/packages/pg-promise &&  \
+  mkdir -p /nina-app/packages/svelte-commons &&  \
+  mkdir -p /nina-app/packages/svelte
 
 ADD \
   https://raw.githubusercontent.com/humpangle/wait-until/v0.1.1/wait-until \
-  /usr/local/bin/
+  /nina-app
 
-RUN \
-  mkdir -p /home/node/app/packages &&  \
-  chown -R node:node /home/node/app &&  \
-  apt-get update &&  \
-  apt-get install -y --no-install-recommends ${BUILD_DEPS} &&  \
-  [ $NODE_ENV != "production" ] &&  \
-  apt-get install -y --no-install-recommends ${APP_DEPS} &&  \
-  rm -rf /var/lib/apt/lists/* &&  \
-  rm -rf /usr/share/doc && rm -rf /usr/share/man &&  \
-  apt-get purge -y --auto-remove ${BUILD_DEPS} &&  \
-  apt-get clean &&  \
-  chmod 755 /usr/local/bin/entrypoint.sh &&  \
-  chmod 755 /usr/local/bin/wait-until
+COPY ./entrypoint.sh /nina-app
 
-USER node
+WORKDIR /nina-app
 
-WORKDIR /home/node/app
-
-COPY --chown=node:node \
-  ./yarn.lock \
+######### ROOT FILES ##########
+COPY  \
   ./.yarnrc \
+  ./jest.config.js \
+  ./package-scripts.js \
   ./package.json \
+  ./postcss.config.js \
+  ./svelte.config.js \
+  ./yarn.lock \
   ./
 
-COPY --chown=node:node \
+########## SHARED FOLDER 1 ##########
+COPY  \
+  ./js-commons \
+  ./js-commons/
+
+######## COMMONS ##########
+COPY  \
   ./packages/commons/package.json \
+  ./packages/commons/package-scripts.js \
+  ./packages/commons/tsconfig.json \
   ./packages/commons/
 
-COPY --chown=node:node \
+COPY  \
+  ./packages/commons \
+  ./packages/commons/
+######## END COMMONS ########
+
+######## CY ##########
+COPY  \
   ./packages/cy/package.json \
+  ./packages/cy/package-scripts.js \
+  ./packages/cy/tsconfig.json \
   ./packages/cy/
 
-COPY --chown=node:node \
+COPY  \
+  ./packages/cy \
+  ./packages/cy/
+######## END CY ########
+
+######## DATA ##########
+COPY  \
   ./packages/data/package.json \
+  ./packages/data/package-scripts.js \
+  ./packages/data/tsconfig.json \
   ./packages/data/
 
-COPY --chown=node:node \
+COPY  \
+  ./packages/data \
+  ./packages/data/
+######## END DATA ########
+
+######## DB-MIGRATIONS ##########
+COPY  \
   ./packages/db-migrations/package.json \
+  ./packages/db-migrations/package-scripts.js \
   ./packages/db-migrations/
 
-COPY --chown=node:node \
+COPY  \
+  ./packages/db-migrations \
+  ./packages/db-migrations/
+######## END DB-MIGRATIONS ########
+
+######## HAPI ##########
+COPY  \
   ./packages/hapi/package.json \
+  ./packages/hapi/package-scripts.js \
+  ./packages/hapi/tsconfig.json \
   ./packages/hapi/
 
-COPY --chown=node:node \
+COPY  \
+  ./packages/hapi \
+  ./packages/hapi/
+######## END HAPI ########
+
+######## PG-PROMISE ##########
+COPY  \
   ./packages/pg-promise/package.json \
+  ./packages/pg-promise/package-scripts.js \
+  ./packages/pg-promise/tsconfig.json \
   ./packages/pg-promise/
 
-COPY --chown=node:node \
+COPY  \
+  ./packages/pg-promise \
+  ./packages/pg-promise/
+######## END PG-PROMISE ########
+
+######## SVELTE-COMMONS ##########
+COPY  \
   ./packages/svelte-commons/package.json \
+  ./packages/svelte-commons/package-scripts.js \
+  ./packages/svelte-commons/tsconfig.json \
   ./packages/svelte-commons/
 
-COPY --chown=node:node \
+COPY  \
+  ./packages/svelte-commons \
+  ./packages/svelte-commons/
+######## END SVELTE-COMMONS ########
+
+######## SVELTE ##########
+COPY  \
   ./packages/svelte/package.json \
+  ./packages/svelte/package-scripts.js \
+  ./packages/svelte/tsconfig.json \
   ./packages/svelte/
 
-RUN yarn install --frozen-lockfile
+COPY  \
+  ./packages/svelte \
+  ./packages/svelte/
+######## END SVELTE ########
 
-COPY --chown=node:node . .
-
-CMD ["/bin/bash"]
+CMD ["/bin/sh"]
